@@ -917,3 +917,141 @@ begin
 	delete from NhaPhanPhois
 	where MaNhaPhanPhoi = @MaNhaPhanPhoi
 end
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_create_sanpham(
+@MaDanhMuc int,
+@Madanhmucuudai int,
+@TenSanPham nvarchar(150),
+@AnhDaiDien nvarchar(150),
+@Gia decimal(18, 0),
+@GiaGiam decimal(18, 0),
+@SoLuong int,
+@TrangThai bit,
+@LuotXem int,
+@DacBiet bit,
+@list_json_chitiet_sanpham NVARCHAR(MAX)
+)
+as
+BEGIN
+		DECLARE @MaSanPham INT;
+		BEGIN
+			INSERT INTO SanPhams
+					(MaDanhMuc, 
+					 Madanhmucuudai, 
+					 TenSanPham,
+					 AnhDaiDien,
+					 Gia,
+					 GiaGiam,
+					 SoLuong,
+					 TrangThai,
+					 LuotXem,
+					 DacBiet
+					)
+					VALUES
+					(@MaDanhMuc, 
+					 @Madanhmucuudai, 
+					 @TenSanPham,
+					 @AnhDaiDien,
+					 @Gia,
+					 @GiaGiam,
+					 @SoLuong,
+					 @TrangThai,
+					 @LuotXem,
+					 @DacBiet
+					);
+
+					SET @MaSanPham = (SELECT SCOPE_IDENTITY());
+					IF(@list_json_chitiet_sanpham IS NOT NULL)
+						BEGIN
+							INSERT INTO ChiTietSanPhams
+							 (
+							 MaSanPham,
+							 MaNhaSanXuat,
+							 MoTa,
+							 ChiTiet)
+						SELECT	@MaSanPham,
+								JSON_VALUE(y.value, '$.maNhaSanXuat') ,
+								JSON_VALUE(y.value, '$.moTa') ,
+								JSON_VALUE(y.value, '$.chiTiet') 
+						FROM OPENJSON(@list_json_chitiet_sanpham) AS y;
+						END;
+			END
+
+
+        SELECT '';
+    END;
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_update_sanpham(
+@MaSanPham int,
+@MaDanhMuc int,
+@Madanhmucuudai int,
+@TenSanPham nvarchar(150),
+@AnhDaiDien nvarchar(150),
+@Gia decimal(18, 0),
+@GiaGiam decimal(18, 0),
+@SoLuong int,
+@TrangThai bit,
+@LuotXem int,
+@DacBiet bit,
+@list_json_chitiet_sanpham NVARCHAR(MAX)
+)
+as
+BEGIN
+		update SanPhams
+		set MaDanhMuc = @MaDanhMuc,
+			Madanhmucuudai = @Madanhmucuudai,
+			TenSanPham = @TenSanPham,
+			AnhDaiDien = @AnhDaiDien,
+			Gia = @Gia,
+			GiaGiam = @GiaGiam,
+			SoLuong = @SoLuong,
+			TrangThai = @TrangThai,
+			LuotXem = @LuotXem,
+			DacBiet = @DacBiet
+		where MaSanPham =@MaSanPham
+		
+					IF(@list_json_chitiet_sanpham IS NOT NULL)
+						BEGIN
+							SELECT JSON_VALUE(p.value, '$.maChiTietSanPham') as MaChiTietSanPham,
+								JSON_VALUE(p.value, '$.maSanPham') as MaSanPham, 
+								JSON_VALUE(p.value, '$.maNhaSanXuat') as MaNhaSanXuat,
+								JSON_VALUE(p.value, '$.moTa') as MoTa,
+								JSON_VALUE(p.value, '$.chiTiet')as ChiTiet,
+								JSON_VALUE(p.value, '$.status') as Status
+								INTO #Result
+							FROM OPENJSON(@list_json_chitiet_sanpham) AS p;
+
+							--insert status =1
+							Insert into ChiTietSanPhams(MaSanPham,MaNhaSanXuat,MoTa,ChiTiet)
+							select @MaSanPham,
+									#Result.maNhaSanXuat,
+									#Result.moTa,
+									#Result.chiTiet
+							from #Result
+							where #Result.Status = 1
+
+							--update status =2 
+							Update ChiTietSanPhams
+							set MaNhaSanXuat= #Result.maNhaSanXuat,
+								MoTa = #Result.moTa,
+								ChiTiet = #Result.chiTiet
+							from #Result
+							where ChiTietSanPhams.MaChiTietSanPham=#Result.maChiTietSanPham and #Result.status = '2'
+
+							--delete status =3
+							delete c 
+							from ChiTietSanPhams c
+							inner join #Result r on c.maChiTietSanPham = r.maChiTietSanPham
+							where r.status = '3'
+							drop table #Result
+
+						END;
+			
+
+
+        SELECT '';
+    END;

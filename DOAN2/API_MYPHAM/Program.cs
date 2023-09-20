@@ -20,6 +20,7 @@ builder.Services.AddTransient<IDanhMucUuDaiBUS, DanhMucUuDaiBUS>();
 builder.Services.AddTransient<IDanhMucBUS, DanhMucBUS>();
 builder.Services.AddTransient<IHangSanXuatBUS, HangSanXuatBUS>();
 builder.Services.AddTransient<INhaPhanPhoiBUS, NhaPhanPhoiBUS>();
+builder.Services.AddTransient<ISanPhamBUS, SanPhamBUS>();
 builder.Services.AddTransient<IKhachHangResponsitory, KhachHangResponsitory>();
 builder.Services.AddTransient<IQuangCaoResponsitory, QuangCaoResponsitory>();
 builder.Services.AddTransient<ISlideDetailResponsitory, SlideDetailResponsitory>();
@@ -31,6 +32,7 @@ builder.Services.AddTransient<IDanhMucUuDaiResponsitory, DanhMucUuDaiResponsitor
 builder.Services.AddTransient<IDanhMucResponsitory, DanhMucResponsitory>();
 builder.Services.AddTransient<IHangSanXuatResponsitory, HangSanXuatResponsitory>();
 builder.Services.AddTransient<INhaPhanPhoiResponsitory, NhaPhanPhoiResponsitory>();
+builder.Services.AddTransient<ISanPhamResponsitory, SanPhamResponsitory>();
 // Add services to the container.
 
 builder.Services.AddControllers();
