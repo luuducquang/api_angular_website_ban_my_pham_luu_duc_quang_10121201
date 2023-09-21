@@ -1055,3 +1055,501 @@ BEGIN
 
         SELECT '';
     END;
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_sanpham_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenSanPham nvarchar(150))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY s.TenSanPham ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.MaDanhMuc,
+							  s.Madanhmucuudai,
+							  s.TenSanPham,
+							  s.AnhDaiDien,
+							  s.Gia,
+							  s.GiaGiam,
+							  s.SoLuong,
+							  s.TrangThai,
+							  s.LuotXem,
+							  s.DacBiet,
+							  c.MaNhaSanXuat,
+							  c.MoTa,
+							  c.ChiTiet
+                        INTO #Temp1
+                        FROM SanPhams AS s
+						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
+						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
+
+					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY s.TenSanPham ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.MaDanhMuc,
+							  s.Madanhmucuudai,
+							  s.TenSanPham,
+							  s.AnhDaiDien,
+							  s.Gia,
+							  s.GiaGiam,
+							  s.SoLuong,
+							  s.TrangThai,
+							  s.LuotXem,
+							  s.DacBiet,
+							  c.MaNhaSanXuat,
+							  c.MoTa,
+							  c.ChiTiet
+                        INTO #Temp2
+                        FROM SanPhams AS s
+						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
+						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
+
+					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp2; 
+        END;
+    END;
+
+exec sp_sanpham_search @page_index = 1, @page_size = 10, @TenSanPham = N'Sản phẩm 1'
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_create_hoadon(
+@TrangThai bit,
+@NgayTao datetime,
+@NgayDuyet datetime,
+@TongGia decimal(18,0),
+@TenKH nvarchar(50),
+@GioiTinh bit,
+@Diachi nvarchar(250),
+@Email nvarchar(50),
+@SDT nvarchar(50),
+@DiaChiGiaoHang nvarchar(350),
+@ThoiGianGiaoHang datetime,
+@list_json_chitiet_hoadon NVARCHAR(MAX)
+)
+as
+BEGIN
+		DECLARE @MaHoaDon INT;
+		BEGIN
+			INSERT INTO HoaDons
+					(TrangThai,
+					NgayTao ,
+					NgayDuyet ,
+					TongGia ,
+					TenKH ,
+					GioiTinh ,
+					Diachi ,
+					Email ,
+					SDT ,
+					DiaChiGiaoHang,
+					ThoiGianGiaoHang
+					)
+					VALUES
+					(@TrangThai,
+					@NgayTao ,
+					@NgayDuyet ,
+					@TongGia ,
+					@TenKH ,
+					@GioiTinh ,
+					@Diachi ,
+					@Email ,
+					@SDT ,
+					@DiaChiGiaoHang,
+					@ThoiGianGiaoHang
+					);
+
+					SET @MaHoaDon = (SELECT SCOPE_IDENTITY());
+					IF(@list_json_chitiet_hoadon IS NOT NULL)
+						BEGIN
+							INSERT INTO ChiTietHoaDons
+							 (
+							 MaHoaDon,
+							 MaSanPham,
+							 SoLuong,
+							 TongGia)
+							 
+						SELECT	@MaHoaDon,
+								JSON_VALUE(y.value, '$.maSanPham') ,
+								JSON_VALUE(y.value, '$.soLuong') ,
+								JSON_VALUE(y.value, '$.tongGia') 
+						FROM OPENJSON(@list_json_chitiet_hoadon) AS y;
+						END;
+			END
+
+
+        SELECT '';
+    END;
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_update_hoadon(
+@MaHoaDon int,
+@TrangThai bit,
+@NgayTao datetime,
+@NgayDuyet datetime,
+@TongGia decimal(18,0),
+@TenKH nvarchar(50),
+@GioiTinh bit,
+@Diachi nvarchar(250),
+@Email nvarchar(50),
+@SDT nvarchar(50),
+@DiaChiGiaoHang nvarchar(350),
+@ThoiGianGiaoHang datetime,
+@list_json_chitiet_hoadon NVARCHAR(MAX)
+)
+as
+BEGIN
+		update HoaDons
+		set TrangThai = @TrangThai,
+			NgayTao = @NgayTao ,
+			NgayDuyet = NgayDuyet ,
+			TongGia = @TongGia ,
+			TenKH = @TenKH,
+			GioiTinh = @GioiTinh ,
+			Diachi = @Diachi,
+			Email = @Email,
+			SDT = @SDT,
+			DiaChiGiaoHang = @DiaChiGiaoHang,
+			ThoiGianGiaoHang = @ThoiGianGiaoHang
+					
+		where MaHoaDon =@MaHoaDon
+		
+					IF(@list_json_chitiet_hoadon IS NOT NULL)
+						BEGIN
+							SELECT JSON_VALUE(p.value, '$.maChiTietHoaDon') as maChiTietHoaDon,
+								JSON_VALUE(p.value, '$.maHoaDon') as MaHoaDon, 
+								JSON_VALUE(p.value, '$.maSanPham') as MaSanPham,
+								JSON_VALUE(p.value, '$.soLuong') as soLuong,
+								JSON_VALUE(p.value, '$.tongGia')as tongGia,
+								JSON_VALUE(p.value, '$.status') as status
+								INTO #Result
+							FROM OPENJSON(@list_json_chitiet_hoadon) AS p;
+
+							--insert status =1
+							Insert into ChiTietHoaDons(MaHoaDon,MaSanPham,SoLuong,TongGia)
+							select @MaHoaDon,
+									#Result.maSanPham,
+									#Result.soLuong,
+									#Result.tongGia
+							from #Result
+							where #Result.Status = 1
+
+							--update status =2 
+							Update ChiTietHoaDons
+							set MaSanPham= #Result.MaSanPham,
+								SoLuong = #Result.soLuong,
+								TongGia = #Result.tongGia
+							from #Result
+							where ChiTietHoaDons.MaChiTietHoaDon=#Result.maChiTietHoaDon and #Result.status = '2'
+
+							--delete status =3
+							delete c 
+							from ChiTietHoaDons c
+							inner join #Result r on c.maChiTietHoaDon = r.maChiTietHoaDon
+							where r.status = '3'
+							drop table #Result
+
+						END;
+			
+
+
+        SELECT '';
+    END;
+
+	
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_thongketheokhach_hoadon_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenKH Nvarchar(50),
+									   @fr_NgayTao datetime,
+									   @to_NgayTao datetime)
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.TenSanPham,
+							  c.SoLuong,
+							  c.TongGia,
+							  h.NgayTao,
+							  h.TenKH,
+							  h.Diachi
+                        INTO #Results
+                        FROM HoaDons AS h
+						inner join ChiTietHoaDons c on c.MaHoaDon = h.MaHoaDon
+						inner join SanPhams s on s.MaSanPham = c.MaSanPham
+					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
+						and ((@fr_NgayTao is null and @to_NgayTao is null 
+								or (@fr_NgayTao is not null
+								and @to_NgayTao is null and
+								h.NgayTao >= @fr_NgayTao)
+								or @fr_NgayTao is null and @to_NgayTao is not null 
+								and h.NgayTao < @to_NgayTao
+								or h.NgayTao between @fr_NgayTao and @to_NgayTao))
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Results; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.TenSanPham,
+							  c.SoLuong,
+							  c.TongGia,
+							  h.NgayTao,
+							  h.TenKH,
+							  h.Diachi
+                        INTO #Results1
+                        FROM HoaDons AS h
+						inner join ChiTietHoaDons c on c.MaHoaDon = h.MaHoaDon
+						inner join SanPhams s on s.MaSanPham = c.MaSanPham
+					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
+						and ((@fr_NgayTao is null and @to_NgayTao is null 
+								or (@fr_NgayTao is not null
+								and @to_NgayTao is null and
+								h.NgayTao >= @fr_NgayTao)
+								or @fr_NgayTao is null and @to_NgayTao is not null 
+								and h.NgayTao < @to_NgayTao
+								or h.NgayTao between @fr_NgayTao and @to_NgayTao))
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2
+                        DROP TABLE #Results2; 
+        END;
+    END;
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_create_hoadon_nhap(
+@MaNhaPhanPhoi bit,
+@NgayTao datetime,
+@KieuThanhToan nvarchar(MAX),
+@MaTaiKhoan int,
+@list_json_chitiethoadonnhap NVARCHAR(MAX)
+)
+as
+BEGIN
+		DECLARE @MaHoaDon INT;
+		BEGIN
+			INSERT INTO HoaDonNhaps
+					(MaNhaPhanPhoi,
+					NgayTao ,
+					KieuThanhToan ,
+					MaTaiKhoan
+					)
+					VALUES
+					(@MaNhaPhanPhoi,
+					@NgayTao ,
+					@KieuThanhToan ,
+					@MaTaiKhoan
+					);
+
+					SET @MaHoaDon = (SELECT SCOPE_IDENTITY());
+					IF(@list_json_chitiethoadonnhap IS NOT NULL)
+						BEGIN
+							INSERT INTO ChiTietHoaDonNhaps
+							 (
+							 MaHoaDon,
+							 MaSanPham,
+							 SoLuong,
+							 DonViTinh,
+							 GiaNhap,
+							 TongTien)
+							 
+						SELECT	@MaHoaDon,
+								JSON_VALUE(y.value, '$.maSanPham') ,
+								JSON_VALUE(y.value, '$.soLuong') ,
+								JSON_VALUE(y.value, '$.donViTinh') ,
+								JSON_VALUE(y.value, '$.giaNhap') ,
+								JSON_VALUE(y.value, '$.tongTien') 
+						FROM OPENJSON(@list_json_chitiethoadonnhap) AS y;
+						END;
+			END
+
+
+        SELECT '';
+    END;
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_update_hoadon_nhap(
+@MaHoaDon int,
+@MaNhaPhanPhoi int,
+@NgayTao datetime,
+@KieuThanhToan nvarchar(MAX),
+@MaTaiKhoan int,
+@list_json_chitiethoadonnhap NVARCHAR(MAX)
+)
+as
+BEGIN
+		update HoaDonNhaps
+		set MaNhaPhanPhoi = @MaNhaPhanPhoi,
+			NgayTao = @NgayTao ,
+			KieuThanhToan = @KieuThanhToan ,
+			MaTaiKhoan = @MaTaiKhoan 
+					
+		where MaHoaDon =@MaHoaDon
+		
+					IF(@list_json_chitiethoadonnhap IS NOT NULL)
+						BEGIN
+							SELECT JSON_VALUE(p.value, '$.id') as Id,
+								JSON_VALUE(p.value, '$.maHoaDon') as MaHoaDon, 
+								JSON_VALUE(p.value, '$.maSanPham') as MaSanPham,
+								JSON_VALUE(p.value, '$.soLuong') as SoLuong,
+								JSON_VALUE(p.value, '$.donViTinh')as DonViTinh,
+								JSON_VALUE(p.value, '$.giaNhap') as GiaNhap,
+								JSON_VALUE(p.value, '$.tongTien') as TongTien,
+								JSON_VALUE(p.value, '$.status') as status
+								INTO #Result
+							FROM OPENJSON(@list_json_chitiethoadonnhap) AS p;
+
+							--insert status =1
+							Insert into ChiTietHoaDonNhaps(
+										 MaHoaDon,
+										 MaSanPham,
+										 SoLuong,
+										 DonViTinh,
+										 GiaNhap,
+										 TongTien)
+							select @MaHoaDon,
+									#Result.MaSanPham,
+									#Result.SoLuong,
+									#Result.DonViTinh,
+									#Result.GiaNhap,
+									#Result.TongTien
+							from #Result
+							where #Result.Status = 1
+
+							--update status =2 
+							Update ChiTietHoaDonNhaps
+							set MaSanPham= #Result.MaSanPham,
+								SoLuong = #Result.SoLuong,
+								DonViTinh = #Result.DonViTinh,
+								GiaNhap = #Result.GiaNhap,
+								TongTien = #Result.TongTien
+							from #Result
+							where ChiTietHoaDonNhaps.Id=#Result.Id and #Result.status = 2
+
+							--delete status =3
+							delete c 
+							from ChiTietHoaDonNhaps c
+							inner join #Result r on c.Id = r.Id
+							where r.status = 3
+							drop table #Result
+
+						END;
+			
+
+
+        SELECT '';
+    END;
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_thongketheongay_hoadonnhap_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenSanPham nvarchar(150),
+									   @NgayTao datetime)
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.TenSanPham,
+							  c.SoLuong,
+							  c.DonViTinh,
+							  c.GiaNhap,
+							  c.TongTien,
+							  h.NgayTao,
+							  h.KieuThanhToan,
+							  h.MaTaiKhoan
+                        INTO #Results
+                        FROM HoaDonNhaps AS h
+						inner join ChiTietHoaDonNhaps c on c.MaHoaDon = h.MaHoaDon
+						inner join SanPhams s on s.MaSanPham = c.MaSanPham
+					    WHERE 
+							(@TenSanPham = '' OR s.TenSanPham LIKE N'%' + @TenSanPham + '%')
+							AND (@NgayTao IS NULL OR h.NgayTao < @NgayTao);
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Results; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              s.MaSanPham,
+							  s.TenSanPham,
+							  c.SoLuong,
+							  c.DonViTinh,
+							  c.GiaNhap,
+							  c.TongTien,
+							  h.NgayTao,
+							  h.KieuThanhToan,
+							  h.MaTaiKhoan
+                        INTO #Results2
+                        FROM HoaDonNhaps AS h
+						inner join ChiTietHoaDonNhaps c on c.MaHoaDon = h.MaHoaDon
+						inner join SanPhams s on s.MaSanPham = c.MaSanPham
+					    WHERE 
+							(@TenSanPham = '' OR s.TenSanPham LIKE N'%' + @TenSanPham + '%')
+							AND (@NgayTao IS NULL OR h.NgayTao < @NgayTao);
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2
+                        DROP TABLE #Results2; 
+		END
+
+    END;
+
+exec sp_thongketheongay_hoadonnhap_search @page_index = 1, @page_size = 5, @TenSanPham = N'', @NgayTao = ''

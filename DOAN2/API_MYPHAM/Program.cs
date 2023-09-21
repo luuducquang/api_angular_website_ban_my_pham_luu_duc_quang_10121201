@@ -1,4 +1,4 @@
-using DataAccessLayer.Helper.Interfaces;
+﻿using DataAccessLayer.Helper.Interfaces;
 using DataAccessLayer.Helper;
 using BussinessLayer.Interfaces;
 using BussinessLayer;
@@ -21,6 +21,8 @@ builder.Services.AddTransient<IDanhMucBUS, DanhMucBUS>();
 builder.Services.AddTransient<IHangSanXuatBUS, HangSanXuatBUS>();
 builder.Services.AddTransient<INhaPhanPhoiBUS, NhaPhanPhoiBUS>();
 builder.Services.AddTransient<ISanPhamBUS, SanPhamBUS>();
+builder.Services.AddTransient<IHoaDonBUS, HoaDonBUS>();
+builder.Services.AddTransient<IHoaDonNhapBUS, HoaDonNhapBUS>();
 builder.Services.AddTransient<IKhachHangResponsitory, KhachHangResponsitory>();
 builder.Services.AddTransient<IQuangCaoResponsitory, QuangCaoResponsitory>();
 builder.Services.AddTransient<ISlideDetailResponsitory, SlideDetailResponsitory>();
@@ -33,12 +35,23 @@ builder.Services.AddTransient<IDanhMucResponsitory, DanhMucResponsitory>();
 builder.Services.AddTransient<IHangSanXuatResponsitory, HangSanXuatResponsitory>();
 builder.Services.AddTransient<INhaPhanPhoiResponsitory, NhaPhanPhoiResponsitory>();
 builder.Services.AddTransient<ISanPhamResponsitory, SanPhamResponsitory>();
+builder.Services.AddTransient<IHoaDonResponsitory, HoaDonResponsitory>();
+builder.Services.AddTransient<IHoaDonNhapResponsitory, HoaDonNhapResponsitory>();
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//builder.Services.AddCors(option=>
+//{
+//    option.AddDefaultPolicy(
+//        policy =>
+//        {
+//            policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+//        });
+//});
 
 var app = builder.Build();
 
@@ -56,3 +69,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//app.UseCors();
+
