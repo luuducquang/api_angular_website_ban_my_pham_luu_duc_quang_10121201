@@ -35,7 +35,8 @@ namespace DataAccessLayer
                     "@TrangThai", model.TrangThai,
                     "@LuotXem", model.LuotXem,
                     "@DacBiet", model.DacBiet,
-                    "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null);
+                    "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
+                    "@list_json_sanpham_nhaphanphoi", model.list_json_sanpham_nhaphanphoi != null ? MessageConvert.SerializeObject(model.list_json_sanpham_nhaphanphoi) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
                     throw new Exception(Convert.ToString(result) + msgError);
@@ -66,7 +67,8 @@ namespace DataAccessLayer
                     "@TrangThai", model.TrangThai,
                     "@LuotXem", model.LuotXem,
                     "@DacBiet", model.DacBiet,
-                    "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null);
+                    "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
+                    "@list_json_sanpham_nhaphanphoi", model.list_json_sanpham_nhaphanphoi != null ? MessageConvert.SerializeObject(model.list_json_sanpham_nhaphanphoi) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
                     throw new Exception(Convert.ToString(result) + msgError);

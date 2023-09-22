@@ -931,7 +931,8 @@ create proc sp_create_sanpham(
 @TrangThai bit,
 @LuotXem int,
 @DacBiet bit,
-@list_json_chitiet_sanpham NVARCHAR(MAX)
+@list_json_chitiet_sanpham NVARCHAR(MAX),
+@list_json_sanpham_nhaphanphoi NVARCHAR(MAX)
 )
 as
 BEGIN
@@ -977,6 +978,17 @@ BEGIN
 								JSON_VALUE(y.value, '$.chiTiet') 
 						FROM OPENJSON(@list_json_chitiet_sanpham) AS y;
 						END;
+
+					IF(@list_json_sanpham_nhaphanphoi IS NOT NULL)
+						BEGIN
+							INSERT INTO SanPhams_NhaPhanPhois
+							 (
+							 MaSanPham,
+							 MaNhaPhanPhoi)
+						SELECT	@MaSanPham,
+								JSON_VALUE(z.value, '$.maNhaPhanPhoi')
+						FROM OPENJSON(@list_json_sanpham_nhaphanphoi) AS z;
+						END;
 			END
 
 
@@ -997,7 +1009,8 @@ alter proc sp_update_sanpham(
 @TrangThai bit,
 @LuotXem int,
 @DacBiet bit,
-@list_json_chitiet_sanpham NVARCHAR(MAX)
+@list_json_chitiet_sanpham NVARCHAR(MAX),
+@list_json_sanpham_nhaphanphoi NVARCHAR(MAX)
 )
 as
 BEGIN
@@ -1050,6 +1063,37 @@ BEGIN
 							drop table #Result
 
 						END;
+
+						IF(@list_json_sanpham_nhaphanphoi IS NOT NULL)
+						BEGIN
+							SELECT JSON_VALUE(p.value, '$.maSanPham') as maSanPham, 
+								JSON_VALUE(p.value, '$.maNhaPhanPhoi') as maNhaPhanPhoi,
+								JSON_VALUE(p.value, '$.status') as Status
+								INTO #Result1
+							FROM OPENJSON(@list_json_sanpham_nhaphanphoi) AS p;
+
+							--insert status =1
+							--Insert into SanPhams_NhaPhanPhois(MaSanPham,MaNhaPhanPhoi)
+							--select @MaSanPham,
+							--		#Result1.maNhaPhanPhoi
+							--from #Result1
+							--where #Result1.Status = 1
+
+							--update status =2 
+							Update SanPhams_NhaPhanPhois
+							set 
+								MaNhaPhanPhoi = #Result1.maNhaPhanPhoi
+							from #Result1
+							where SanPhams_NhaPhanPhois.MaSanPham=#Result1.maSanPham and #Result1.status = '2'
+
+							--delete status =3
+							delete c 
+							from SanPhams_NhaPhanPhois c
+							inner join #Result1 r on c.MaSanPham = r.maSanPham
+							where r.status = '3'
+							drop table #Result1
+
+						END;
 			
 
 
@@ -1081,12 +1125,15 @@ AS
 							  s.LuotXem,
 							  s.DacBiet,
 							  c.MaNhaSanXuat,
+							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet
                         INTO #Temp1
                         FROM SanPhams AS s
 						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
 						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
+						inner join SanPhams_NhaPhanPhois sp on sp.MaSanPham = s.MaSanPham
+						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = sp.MaNhaPhanPhoi
 
 					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
 						
@@ -1116,12 +1163,15 @@ AS
 							  s.LuotXem,
 							  s.DacBiet,
 							  c.MaNhaSanXuat,
+							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet
                         INTO #Temp2
                         FROM SanPhams AS s
 						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
 						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
+						inner join SanPhams_NhaPhanPhois sp on sp.MaSanPham = s.MaSanPham
+						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = sp.MaNhaPhanPhoi
 
 					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
 						

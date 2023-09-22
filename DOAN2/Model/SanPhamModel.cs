@@ -20,6 +20,7 @@ namespace Model
         public int LuotXem { get; set; }
         public bool DacBiet { get; set; }
         public List<ChiTietSanPhamModel> list_json_chitiet_sanpham { get; set; }
+        public List<SanPham_NhaPhanPhoiModel> list_json_sanpham_nhaphanphoi { get; set; }
 
     }
 }
