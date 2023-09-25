@@ -7,6 +7,13 @@ using DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("MyCors", build =>
+    {
+        build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
 builder.Services.AddTransient<IKhachHangBUS, KhachHangBUS>();
@@ -44,15 +51,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddCors(option=>
-//{
-//    option.AddDefaultPolicy(
-//        policy =>
-//        {
-//            policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-//        });
-//});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -62,6 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("MyCors");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -70,5 +70,4 @@ app.MapControllers();
 
 app.Run();
 
-//app.UseCors();
 

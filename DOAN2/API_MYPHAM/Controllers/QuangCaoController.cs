@@ -24,7 +24,6 @@ namespace API_MYPHAM.Controllers
             return _quangCaoBUS.GetDataAll();
         }
 
-
         [Route("create-quang-cao")]
         [HttpPost]
         public IActionResult CreateQuangCao([FromBody]QuangCaoModel quangCao)

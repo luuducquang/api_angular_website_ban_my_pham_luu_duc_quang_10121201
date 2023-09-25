@@ -20,15 +20,6 @@ CREATE TABLE CaiDats(
     MatKhauMail NVARCHAR(50)
 );
 
-CREATE TABLE KhachHangs(
-    Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-    TenKH NVARCHAR(50),
-    GioiTinh BIT,
-    DiaChi NVARCHAR(MAX),
-    SDT NVARCHAR(50),
-    Email NVARCHAR(250)
-);
-
 
 CREATE TABLE QuangCaos(
     Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -90,6 +81,11 @@ CREATE TABLE SanPhams(
     DacBiet BIT
 );
 
+CREATE TABLE AnhSanPhams(
+	Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	MaSanPham INT foreign key (MaSanPham) references SanPhams(MaSanPham) on delete cascade on update cascade,
+	LinkAnh NVARCHAR(350)
+)
 
 CREATE TABLE SlideDetail(
     MaAnh INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -186,15 +182,6 @@ VALUES
 ('logo5.jpg', '8h', N'Giao hàng nhanh', N'Chính sách hoàn tiền', '0123456789', 'info@example.com', 'facebook.com/page5', NULL, NULL, NULL,NULL, 'google.com/maps', 'password5'),
 ('logo6.jpg', '8h', N'Giao hàng nhanh', N'Chính sách hoàn tiền', '0123456789', 'info@example.com', 'facebook.com/page6', NULL, NULL, NULL,NULL, 'google.com/maps', 'password6')
 
-
-INSERT INTO KhachHangs (TenKH, GioiTinh, DiaChi, SDT, Email)
-VALUES 
-(N'Nguyễn Văn A', 1, N'123 Đường ABC, Quận 1, TP.HCM', '0987654321', 'nguyenvana@example.com'),
-(N'Trần Thị B', 0, N'456 Đường XYZ, Quận 2, TP.HCM', '0123456789', 'tranthib@example.com'),
-(N'Lưu Đức Hải', 0, N'456 Đường XYZ, Quận 3, TP.HCM', '021466462', 'haiday@example.com'),
-(N'Lưu Mẫn Nhi', 0, N'456 Đường XYZ, Quận 4, TP.HCM', '0767572232', 'nhine@example.com'),
-(N'Nguyễn Thị Mai', 0, N'456 Đường XYZ, Quận 5, TP.HCM', '0757757522', 'maisino@example.com')
-
 INSERT INTO QuangCaos (AnhDaiDien, LinkQuangCao, MoTa)
 VALUES 
 ('quangcao1.jpg', 'link1.com', N'Mô tả quảng cáo 1'),
@@ -252,6 +239,15 @@ VALUES
 (3, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1),
 (4, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1),
 (5, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1)
+
+
+INSERT INTO AnhSanPhams(MaSanPham, LinkAnh)
+VALUES 
+(1,'document/product1.jpg' ),
+(2,'document/product2.jpg' ),
+(3,'document/product3.jpg' ),
+(4,'document/product4.jpg' ),
+(5,'document/product5.jpg' )
 
 
 
@@ -334,98 +330,6 @@ VALUES
 (2, 2, 50, N'Cái', 3000, 150000),
 (2, 2, 50, N'Cái', 3000, 150000),
 (2, 2, 50, N'Cái', 3000, 150000)
-
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_themkhachhang(
-@TenKH nvarchar(50),
-@GioiTinh bit,
-@DiaChi nvarchar(250),
-@SDT nvarchar(50),
-@Email nvarchar(250))
-as
-begin
-	insert into KhachHangs(TenKH,GioiTinh,DiaChi,SDT,Email)
-	values (@TenKH,@GioiTinh,@DiaChi,@SDT,@Email)
-end
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_suakhachhang(@Id int,@TenKH nvarchar(50),
-@GioiTinh bit,
-@DiaChi nvarchar(250),
-@SDT nvarchar(50),
-@Email nvarchar(250))
-as
-begin
-	update KhachHangs
-	set TenKH = @TenKH,GioiTinh = @GioiTinh,DiaChi = @DiaChi,SDT = @SDT,Email = @Email
-	where Id = @Id 
-end
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_xoakhachhang(@Id int)
-as
-begin
-	delete from KhachHangs where Id = @Id
-end
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_getallkhachhang
-as
-begin
-	select*from KhachHangs
-end
-
-
--------------------------------------------------------------------------------------------------------------------------------
-CREATE PROCEDURE sp_khach_hang_search (@page_index  INT, 
-                                       @page_size   INT,
-									   @TenKH Nvarchar(50),
-									   @DiaChi nvarchar(250))
-AS
-    BEGIN
-        DECLARE @RecordCount BIGINT;
-        IF(@page_size <> 0)
-            BEGIN
-                SET NOCOUNT ON;
-                        SELECT(ROW_NUMBER() OVER(
-                              ORDER BY TenKH ASC)) AS RowNumber, 
-                              K.Id, 
-                              K.TenKH,
-							  K.DiaChi
-                        INTO #Results1
-                        FROM KhachHangs AS K
-					    WHERE (@TenKH = '' or K.TenKH like N'%'+@TenKH +'%') and
-						(@DiaChi = '' or k.DiaChi like N'%'+@DiaChi +'%');
-                        SELECT @RecordCount = COUNT(*)
-                        FROM #Results1;
-                        SELECT *, 
-                               @RecordCount AS RecordCount
-                        FROM #Results1
-                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
-                              OR @page_index = -1;
-                        DROP TABLE #Results1; 
-            END;
-            ELSE
-            BEGIN
-                SET NOCOUNT ON;
-                        SELECT(ROW_NUMBER() OVER(
-                              ORDER BY TenKH ASC)) AS RowNumber, 
-                              K.Id, 
-                              K.TenKH,
-							  K.DiaChi
-                        INTO #Results2
-                        FROM KhachHangs AS K
-					    WHERE (@TenKH = '' or K.TenKH like N'%'+@TenKH +'%') and
-						(@DiaChi = '' or k.DiaChi like N'%'+@DiaChi +'%');
-                        SELECT @RecordCount = COUNT(*)
-                        FROM #Results2;
-                        SELECT *, 
-                               @RecordCount AS RecordCount
-                        FROM #Results2
-                        DROP TABLE #Results2; 
-        END;
-    END;
 
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -920,7 +824,7 @@ end
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_create_sanpham(
+alter proc sp_create_sanpham(
 @MaDanhMuc int,
 @Madanhmucuudai int,
 @TenSanPham nvarchar(150),
@@ -932,7 +836,8 @@ create proc sp_create_sanpham(
 @LuotXem int,
 @DacBiet bit,
 @list_json_chitiet_sanpham NVARCHAR(MAX),
-@list_json_sanpham_nhaphanphoi NVARCHAR(MAX)
+@list_json_sanpham_nhaphanphoi NVARCHAR(MAX),
+@list_json_anhsanpham NVARCHAR(MAX)
 )
 as
 BEGIN
@@ -989,6 +894,18 @@ BEGIN
 								JSON_VALUE(z.value, '$.maNhaPhanPhoi')
 						FROM OPENJSON(@list_json_sanpham_nhaphanphoi) AS z;
 						END;
+
+					IF(@list_json_anhsanpham IS NOT NULL)
+						BEGIN
+							INSERT INTO AnhSanPhams
+							 (
+							 MaSanPham,
+							 LinkAnh)
+						SELECT	@MaSanPham,
+								JSON_VALUE(z.value, '$.linkAnh')
+						FROM OPENJSON(@list_json_anhsanpham) AS z;
+						END;
+
 			END
 
 
@@ -1010,7 +927,8 @@ alter proc sp_update_sanpham(
 @LuotXem int,
 @DacBiet bit,
 @list_json_chitiet_sanpham NVARCHAR(MAX),
-@list_json_sanpham_nhaphanphoi NVARCHAR(MAX)
+@list_json_sanpham_nhaphanphoi NVARCHAR(MAX),
+@list_json_anhsanpham NVARCHAR(MAX)
 )
 as
 BEGIN
@@ -1061,7 +979,6 @@ BEGIN
 							inner join #Result r on c.maChiTietSanPham = r.maChiTietSanPham
 							where r.status = '3'
 							drop table #Result
-
 						END;
 
 						IF(@list_json_sanpham_nhaphanphoi IS NOT NULL)
@@ -1092,6 +1009,37 @@ BEGIN
 							inner join #Result1 r on c.MaSanPham = r.maSanPham
 							where r.status = '3'
 							drop table #Result1
+						END;
+
+						IF(@list_json_anhsanpham IS NOT NULL)
+						BEGIN
+							SELECT JSON_VALUE(p.value, '$.maSanPham') as maSanPham, 
+							    JSON_VALUE(p.value, '$.id') as id, 
+								JSON_VALUE(p.value, '$.linkAnh') as linkAnh,
+								JSON_VALUE(p.value, '$.status') as Status
+								INTO #Result2
+							FROM OPENJSON(@list_json_anhsanpham) AS p;
+
+							--insert status =1
+							Insert into AnhSanPhams(MaSanPham,LinkAnh)
+							select @MaSanPham,
+									#Result2.linkAnh
+							from #Result2
+							where #Result2.Status = 1
+
+							--update status =2 
+							Update AnhSanPhams
+							set 
+								LinkAnh = #Result2.linkAnh
+							from #Result2
+							where AnhSanPhams.Id=#Result2.id and #Result2.status = '2'
+
+							--delete status =3
+							delete c 
+							from AnhSanPhams c
+							inner join #Result2 r on c.Id = r.id
+							where r.status = '3'
+							drop table #Result2
 
 						END;
 			
