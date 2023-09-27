@@ -84,7 +84,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<SanPhamModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
         {
             string msgError = "";
             total = 0;
@@ -97,7 +97,7 @@ namespace DataAccessLayer
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
-                return dt.ConvertTo<SanPhamModel>().ToList();
+                return dt.ConvertTo<SanPhamDetailModel>().ToList();
             }
             catch (Exception ex)
             {

@@ -687,6 +687,15 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
+CREATE PROCEDURE sp_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
+AS
+    BEGIN
+      SELECT  *
+      FROM TaiKhoans
+      where TenTaiKhoan= @taikhoan and MatKhau = @matkhau;
+    END;
+
+-------------------------------------------------------------------------------------------------------------------------------
 create proc sp_get_all_danhmucuudai
 as
 begin
@@ -1072,7 +1081,7 @@ AS
 							  s.TrangThai,
 							  s.LuotXem,
 							  s.DacBiet,
-							  c.MaNhaSanXuat,
+							  h.TenHang,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet
@@ -1133,6 +1142,7 @@ AS
                         DROP TABLE #Temp2; 
         END;
     END;
+
 
 exec sp_sanpham_search @page_index = 1, @page_size = 10, @TenSanPham = N'Sản phẩm 1'
 

@@ -28,7 +28,7 @@ namespace BussinessLayer
             return _res.Update(model);
         }
 
-        public List<SanPhamModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
         {
             return _res.Search(pageIndex,pageSize, out total, TenSanPham);
         }

@@ -43,3 +43,11 @@ D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Model.dll
 D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\BussinessLayer.pdb
 D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Model.pdb
 D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\DataAccessLayer.pdb
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Bài kiểm tra\DoAn2\DOAN2\API_MYPHAM\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
