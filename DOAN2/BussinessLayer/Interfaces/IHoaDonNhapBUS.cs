@@ -10,8 +10,9 @@ namespace BussinessLayer.Interfaces
     public partial interface IHoaDonNhapBUS
     {
         public bool Create(HoaDonNhapModel model);
-        public bool Update(HoaDonNhapModel model);
-        List<HoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao);
+        public bool Update(HoaDonNhapModel model); 
+        bool Delete(int MaHoaDon);
+        List<ThongkeHoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao, string NhaPhanPhoi);
 
     }
 }

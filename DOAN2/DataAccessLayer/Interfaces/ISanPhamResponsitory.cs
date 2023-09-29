@@ -12,6 +12,7 @@ namespace DataAccessLayer.Interfaces
         bool Create(SanPhamModel model);
 
         bool Update(SanPhamModel model);
+        bool Delete(int MaSanPham);
 
         public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total,string TenSanPham);
     }

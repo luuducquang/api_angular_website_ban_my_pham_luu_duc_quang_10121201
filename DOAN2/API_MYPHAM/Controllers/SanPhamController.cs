@@ -26,11 +26,18 @@ namespace API_MYPHAM.Controllers
         }
 
         [Route("update-sanpham")]
-        [HttpPost]
+        [HttpPut]
         public SanPhamModel UpdateSanpham([FromBody] SanPhamModel model)
         {
             _sanPhamBUS.Update(model);
             return model;
+        }
+
+        [Route("delete-sanpham")]
+        [HttpDelete]
+        public bool DeleteSanPham([FromBody] int MaSanPham)
+        {
+            return _sanPhamBUS.Delete(MaSanPham);
         }
 
         [Route("search-sanpham")]

@@ -68,7 +68,27 @@ namespace DataAccessLayer
 
         }
 
-        public List<HoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao)
+        public bool Delete(int MaHoaDon)
+        {
+            string msgError = "";
+            try
+            {
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_delete_hoadon_nhap",
+                    "@MaHoaDon", MaHoaDon);
+                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception(Convert.ToString(result) + msgError);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<ThongkeHoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao, string NhaPhanPhoi)
         {
             string msgError = "";
             total = 0;
@@ -78,11 +98,12 @@ namespace DataAccessLayer
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
                     "@TenSanPham", TenSanPham,
-                    "@NgayTao", NgayTao);
+                    "@NgayTao", NgayTao,
+                    "@TenNhaPhanPhoi",NhaPhanPhoi);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
-                return dt.ConvertTo<HoaDonNhapModel>().ToList();
+                return dt.ConvertTo<ThongkeHoaDonNhapModel>().ToList();
             }
             catch (Exception ex)
             {

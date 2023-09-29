@@ -11,7 +11,8 @@ namespace DataAccessLayer.Interfaces
     {
         bool Create(HoaDonNhapModel model);
         bool Update(HoaDonNhapModel model);
-        List<HoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao);
+        bool Delete(int MaHoaDon);
+        List<ThongkeHoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao, string NhaPhanPhoi);
 
     }
 }

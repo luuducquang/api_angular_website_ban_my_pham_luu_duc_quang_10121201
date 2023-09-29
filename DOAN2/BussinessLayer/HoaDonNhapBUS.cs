@@ -26,10 +26,14 @@ namespace BussinessLayer
         {
             return _res.Update(model);
         }
-
-        public List<HoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao)
+        public bool Delete(int MaHoaDon)
         {
-            return _res.Search(pageIndex, pageSize, out total, TenSanPham, NgayTao);
+            return _res.Delete(MaHoaDon);
+        }
+
+        public List<ThongkeHoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao, string NhaPhanPhoi)
+        {
+            return _res.Search(pageIndex, pageSize, out total, TenSanPham, NgayTao, NhaPhanPhoi);
         }
     }
 }

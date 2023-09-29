@@ -82,22 +82,43 @@ namespace DataAccessLayer
 
         }
 
-        public List<HoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao)
+        public bool Delete(int MaHoaDon)
+        {
+            string msgError = "";
+            try
+            {
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_delete_hoadon",
+                    "@MaHoaDon", MaHoaDon);
+                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception(Convert.ToString(result) + msgError);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string TenSanPham)
         {
             string msgError = "";
             total = 0;
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_thongketheokhach_hoadon_search",
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_hoadon_search",
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
                     "@TenKH", TenKH,
+                    "@TenSanPham", TenSanPham,
                     "@fr_ngaytao", fr_NgayTao,
                     "@to_ngaytao", to_NgayTao);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
-                return dt.ConvertTo<HoaDonModel>().ToList();
+                return dt.ConvertTo<ThongkeHoaDonModel>().ToList();
             }
             catch (Exception ex)
             {

@@ -27,11 +27,19 @@ namespace API_MYPHAM.Controllers
 
 
         [Route("update-hoadon")]
-        [HttpPost]
+        [HttpPut]
         public HoaDonModel UpdateHoaDon([FromBody] HoaDonModel model)
         {
             _hoaDonBUS.Update(model);
             return model;
+        }
+
+        [Route("delete-hoadon")]
+        [HttpDelete]
+        public bool DeleteHoaDon([FromBody] int MaHoaDon)
+        {
+            var result = _hoaDonBUS.Delete(MaHoaDon);
+            return result;
         }
 
         [Route("search-hoadon")]
@@ -44,6 +52,8 @@ namespace API_MYPHAM.Controllers
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string TenKH = "";
                 if (formData.Keys.Contains("TenKH") && !string.IsNullOrEmpty(Convert.ToString(formData["TenKH"]))) { TenKH = Convert.ToString(formData["TenKH"]); }
+                string TenSanPham = "";
+                if (formData.Keys.Contains("TenSanPham") && !string.IsNullOrEmpty(Convert.ToString(formData["TenSanPham"]))) { TenKH = Convert.ToString(formData["TenSanPham"]); }
                 DateTime? fr_NgayTao = null;
                 if (formData.Keys.Contains("fr_NgayTao") && formData["fr_NgayTao"] != null && formData["fr_NgayTao"].ToString() != "")
                 {
@@ -57,7 +67,7 @@ namespace API_MYPHAM.Controllers
                     to_NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59, 999);
                 }
                 long total = 0;
-                var data = _hoaDonBUS.Search(page, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao);
+                var data = _hoaDonBUS.Search(page, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, TenSanPham);
                 return Ok(
                    new
                    {

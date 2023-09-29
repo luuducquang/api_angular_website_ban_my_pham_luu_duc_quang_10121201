@@ -27,6 +27,10 @@ namespace BussinessLayer
         {
             return _res.Update(model);
         }
+        public bool Delete(int MaSanPham)
+        {
+            return _res.Delete(MaSanPham);
+        }
 
         public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
         {

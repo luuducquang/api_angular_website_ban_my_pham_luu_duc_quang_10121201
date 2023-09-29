@@ -62,5 +62,25 @@ namespace DataAccessLayer
             }
 
         }
+
+        public bool Delete(int MaTaiKhoan)
+        {
+            string msgError = "";
+            try
+            {
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_xoa_taikhoan",
+                    "@MaTaiKhoan", MaTaiKhoan);
+                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception(Convert.ToString(result) + msgError);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

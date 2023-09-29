@@ -12,5 +12,6 @@ namespace DataAccessLayer.Interfaces
         bool Create(TaiKhoanModel model);
 
         bool Doimk(DoimkModel model);
+        bool Delete(int MaTaiKhoan);
     }
 }

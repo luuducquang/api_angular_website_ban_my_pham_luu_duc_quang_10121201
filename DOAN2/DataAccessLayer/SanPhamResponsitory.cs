@@ -84,6 +84,26 @@ namespace DataAccessLayer
 
         }
 
+        public bool Delete(int MaSanPham)
+        {
+            string msgError = "";
+            try
+            {
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_xoa_sanpham",
+                    "@MaSanPham", MaSanPham);
+                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception(Convert.ToString(result) + msgError);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
         {
             string msgError = "";

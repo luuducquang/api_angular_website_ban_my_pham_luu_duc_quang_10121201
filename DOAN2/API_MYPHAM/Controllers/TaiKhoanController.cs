@@ -3,6 +3,7 @@ using BussinessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
+using System.Reflection;
 
 namespace API_MYPHAM.Controllers
 {
@@ -31,6 +32,13 @@ namespace API_MYPHAM.Controllers
         {
             _taiKhoanBUS.Doimk(model);
             return model;
+        }
+
+        [Route("delete-taikhoan")]
+        [HttpDelete]
+        public bool DeleteTaiKhoan([FromBody] int MaTaiKhoan)
+        {
+            return _taiKhoanBUS.Delete(MaTaiKhoan);
         }
 
     }

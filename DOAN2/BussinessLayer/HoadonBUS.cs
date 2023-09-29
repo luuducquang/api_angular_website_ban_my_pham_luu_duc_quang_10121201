@@ -28,9 +28,14 @@ namespace BussinessLayer
             return _res.Update(model);
         }
 
-        public List<HoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao)
+        public bool Delete(int MaHoaDon)
         {
-            return _res.Search(pageIndex, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao);
+            return _res.Delete(MaHoaDon);
+        }
+
+        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string TenSanPham)
+        {
+            return _res.Search(pageIndex, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao,TenSanPham);
         }
     }
 }

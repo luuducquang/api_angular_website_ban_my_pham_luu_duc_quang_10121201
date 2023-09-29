@@ -26,11 +26,19 @@ namespace API_MYPHAM.Controllers
         }
 
         [Route("update-hoadonnhap")]
-        [HttpPost]
+        [HttpPut]
         public HoaDonNhapModel UpdateHoaDon([FromBody] HoaDonNhapModel model)
         {
             _hoaDonNhapBUS.Update(model);
             return model;
+        }
+
+        [Route("delete-hoadonnhap")]
+        [HttpDelete]
+        public bool DeleteHoaDon([FromBody] int MaHoaDon)
+        {
+            var result = _hoaDonNhapBUS.Delete(MaHoaDon);
+            return result;
         }
 
         [Route("search-hoadonnhap")]
@@ -43,6 +51,8 @@ namespace API_MYPHAM.Controllers
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string TenSanPham = "";
                 if (formData.Keys.Contains("TenSanPham") && !string.IsNullOrEmpty(Convert.ToString(formData["TenSanPham"]))) { TenSanPham = Convert.ToString(formData["TenSanPham"]); }
+                string NhaPhanPhoi = "";
+                if (formData.Keys.Contains("NhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["NhaPhanPhoi"]))) { TenSanPham = Convert.ToString(formData["NhaPhanPhoi"]); }
                 DateTime? NgayTao = null;
                 if (formData.Keys.Contains("NgayTao") && formData["NgayTao"] != null && formData["NgayTao"].ToString() != "")
                 {
@@ -50,7 +60,7 @@ namespace API_MYPHAM.Controllers
                     NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, 0);
                 }
                 long total = 0;
-                var data = _hoaDonNhapBUS.Search(page, pageSize, out total, TenSanPham, NgayTao);
+                var data = _hoaDonNhapBUS.Search(page, pageSize, out total, TenSanPham, NgayTao, NhaPhanPhoi);
                 return Ok(
                    new
                    {

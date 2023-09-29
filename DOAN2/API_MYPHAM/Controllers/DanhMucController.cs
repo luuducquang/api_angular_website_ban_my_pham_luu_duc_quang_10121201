@@ -39,7 +39,7 @@ namespace API_MYPHAM.Controllers
         }
 
         [Route("delete-danhmuc")]
-        [HttpPut]
+        [HttpDelete]
         public bool Delete(int madanhmuc)
         {
             return _danhMucBUS.Delete(madanhmuc);

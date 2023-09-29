@@ -1458,9 +1458,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\API_MYPHAM.csproj",
-      "projectName": "API_MYPHAM",
-      "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\API_MYPHAM.csproj",
+      "projectUniqueName": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\API_MYPHAM_ADMIN.csproj",
+      "projectName": "API_MYPHAM_ADMIN",
+      "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\API_MYPHAM_ADMIN.csproj",
       "packagesPath": "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\",
       "outputPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\obj\\",
       "projectStyle": "PackageReference",

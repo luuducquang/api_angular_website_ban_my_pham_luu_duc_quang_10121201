@@ -687,6 +687,14 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
+create proc sp_xoa_taikhoan(@MaTaiKhoan int)
+as
+begin
+	delete from TaiKhoans
+	where MaTaiKhoan = @MaTaiKhoan
+end
+
+-------------------------------------------------------------------------------------------------------------------------------
 CREATE PROCEDURE sp_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
 AS
     BEGIN
@@ -797,6 +805,55 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_hangsanxuat_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenHang nvarchar(50))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.TenHang ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp1
+                        FROM HangSanXuats as a
+
+					    WHERE (@TenHang = '' or a.TenHang like '%'+@TenHang +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+               SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.TenHang ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp2
+                        FROM HangSanXuats as a
+
+					    WHERE (@TenHang = '' or a.TenHang like '%'+@TenHang +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        DROP TABLE #Temp2; 
+        END;
+    END;
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
 create proc sp_get_all_nhaphanphoi
 as
 begin
@@ -830,6 +887,53 @@ begin
 	delete from NhaPhanPhois
 	where MaNhaPhanPhoi = @MaNhaPhanPhoi
 end
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_nhaphanphoi_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenNhaPhanPhoi nvarchar(250))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.TenNhaPhanPhoi ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp1
+                        FROM NhaPhanPhois as a
+
+					    WHERE (@TenNhaPhanPhoi = '' or a.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+               SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.TenNhaPhanPhoi ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp2
+                        FROM NhaPhanPhois as a
+
+					    WHERE (@TenNhaPhanPhoi = '' or a.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        DROP TABLE #Temp2; 
+        END;
+    END;
 
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -1056,6 +1160,14 @@ BEGIN
 
         SELECT '';
     END;
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_xoa_sanpham(@MaSanPham int)
+as
+begin
+	delete from SanPhams
+	where MaSanPham = @MaSanPham
+end
 
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -1290,11 +1402,19 @@ BEGIN
         SELECT '';
     END;
 
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_delete_hoadon(@MaHoaDon int)
+as
+begin
+	delete from HoaDons
+	where MaHoaDon = @MaHoaDon
+end
 	
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_thongketheokhach_hoadon_search(@page_index  INT, 
+alter proc sp_hoadon_search(@page_index  INT, 
                                        @page_size   INT,
 									   @TenKH Nvarchar(50),
+									   @TenSanPham nvarchar(150),
 									   @fr_NgayTao datetime,
 									   @to_NgayTao datetime)
 AS
@@ -1305,18 +1425,21 @@ AS
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY h.NgayTao ASC)) AS RowNumber, 
-                              s.MaSanPham,
-							  s.TenSanPham,
-							  c.SoLuong,
-							  c.TongGia,
+							  h.MaHoaDon,
 							  h.NgayTao,
+							  h.NgayDuyet,
 							  h.TenKH,
-							  h.Diachi
+							  h.SDT,
+							  h.DiaChiGiaoHang,
+                              s.TenSanPham,
+							  c.SoLuong,
+							  c.TongGia
                         INTO #Results
                         FROM HoaDons AS h
 						inner join ChiTietHoaDons c on c.MaHoaDon = h.MaHoaDon
 						inner join SanPhams s on s.MaSanPham = c.MaSanPham
 					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
+						and   (@TenSanPham = '' or s.TenSanPham like N'%'+@TenSanPham +'%')
 						and ((@fr_NgayTao is null and @to_NgayTao is null 
 								or (@fr_NgayTao is not null
 								and @to_NgayTao is null and
@@ -1338,18 +1461,21 @@ AS
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY h.NgayTao ASC)) AS RowNumber, 
-                              s.MaSanPham,
-							  s.TenSanPham,
-							  c.SoLuong,
-							  c.TongGia,
+							  h.MaHoaDon,
 							  h.NgayTao,
+							  h.NgayDuyet,
 							  h.TenKH,
-							  h.Diachi
-                        INTO #Results1
+							  h.SDT,
+							  h.DiaChiGiaoHang,
+                              s.TenSanPham,
+							  c.SoLuong,
+							  c.TongGia
+                        INTO #Results2
                         FROM HoaDons AS h
 						inner join ChiTietHoaDons c on c.MaHoaDon = h.MaHoaDon
 						inner join SanPhams s on s.MaSanPham = c.MaSanPham
 					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
+						and   (@TenSanPham = '' or s.TenSanPham like N'%'+@TenSanPham +'%')
 						and ((@fr_NgayTao is null and @to_NgayTao is null 
 								or (@fr_NgayTao is not null
 								and @to_NgayTao is null and
@@ -1365,6 +1491,8 @@ AS
                         DROP TABLE #Results2; 
         END;
     END;
+
+exec sp_hoadon_search @page_index = 1, @page_size = 5, @TenKH = N'', @TenSanPham = '', @fr_NgayTao ='',@to_NgayTao=''
 
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_create_hoadon_nhap(
@@ -1490,11 +1618,19 @@ BEGIN
         SELECT '';
     END;
 
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_delete_hoadon_nhap(@MaHoaDon int)
+as
+begin
+	delete from HoaDonNhaps
+	where MaHoaDon = @MaHoaDon
+end
 
 -------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_thongketheongay_hoadonnhap_search(@page_index  INT, 
                                        @page_size   INT,
 									   @TenSanPham nvarchar(150),
+									   @TenNhaPhanPhoi nvarchar(250),
 									   @NgayTao datetime)
 AS
     BEGIN
@@ -1504,7 +1640,9 @@ AS
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY h.NgayTao ASC)) AS RowNumber, 
+							  h.MaHoaDon,
                               s.MaSanPham,
+							  npp.TenNhaPhanPhoi,
 							  s.TenSanPham,
 							  c.SoLuong,
 							  c.DonViTinh,
@@ -1517,8 +1655,10 @@ AS
                         FROM HoaDonNhaps AS h
 						inner join ChiTietHoaDonNhaps c on c.MaHoaDon = h.MaHoaDon
 						inner join SanPhams s on s.MaSanPham = c.MaSanPham
+						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = h.MaNhaPhanPhoi
 					    WHERE 
 							(@TenSanPham = '' OR s.TenSanPham LIKE N'%' + @TenSanPham + '%')
+							and (@TenNhaPhanPhoi = '' OR npp.TenNhaPhanPhoi LIKE N'%' + @TenNhaPhanPhoi + '%')
 							AND (@NgayTao IS NULL OR h.NgayTao < @NgayTao);
                         SELECT @RecordCount = COUNT(*)
                         FROM #Results;
@@ -1534,7 +1674,9 @@ AS
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY h.NgayTao ASC)) AS RowNumber, 
+							  h.MaHoaDon,
                               s.MaSanPham,
+							  npp.TenNhaPhanPhoi,
 							  s.TenSanPham,
 							  c.SoLuong,
 							  c.DonViTinh,
@@ -1547,8 +1689,10 @@ AS
                         FROM HoaDonNhaps AS h
 						inner join ChiTietHoaDonNhaps c on c.MaHoaDon = h.MaHoaDon
 						inner join SanPhams s on s.MaSanPham = c.MaSanPham
+						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = h.MaNhaPhanPhoi
 					    WHERE 
 							(@TenSanPham = '' OR s.TenSanPham LIKE N'%' + @TenSanPham + '%')
+							and (@TenNhaPhanPhoi = '' OR npp.TenNhaPhanPhoi LIKE N'%' + @TenNhaPhanPhoi + '%')
 							AND (@NgayTao IS NULL OR h.NgayTao < @NgayTao);
                         SELECT @RecordCount = COUNT(*)
                         FROM #Results2;
@@ -1560,4 +1704,4 @@ AS
 
     END;
 
-exec sp_thongketheongay_hoadonnhap_search @page_index = 1, @page_size = 5, @TenSanPham = N'', @NgayTao = ''
+exec sp_thongketheongay_hoadonnhap_search @page_index = 1, @page_size = 5, @TenSanPham = N'', @NgayTao = '',@TenNhaPhanPhoi=''

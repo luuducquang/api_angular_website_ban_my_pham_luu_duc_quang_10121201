@@ -28,5 +28,10 @@ namespace BussinessLayer
             return _res.Doimk(model);
         }
 
+        public bool Delete(int MaTaiKhoan)
+        {
+            return _res.Delete(MaTaiKhoan);
+        }
+
     }
 }

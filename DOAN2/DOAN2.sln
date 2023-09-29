@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{8B3CB6C0-48D3-4E93-83F9-92238B3B8FD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{8B3CB6C0-48D3-4E93-83F9-92238B3B8FD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinessLayer", "BussinessLayer\BussinessLayer.csproj", "{946ED5F7-615E-497C-B969-137C0DF805F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BussinessLayer", "BussinessLayer\BussinessLayer.csproj", "{946ED5F7-615E-497C-B969-137C0DF805F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{A94386BC-7BDC-454C-97DE-64AB982437E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{A94386BC-7BDC-454C-97DE-64AB982437E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_MYPHAM", "API_MYPHAM\API_MYPHAM.csproj", "{9228D3B5-D847-4621-8692-2BDB0CD6BBB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_MYPHAM_ADMIN", "API_MYPHAM\API_MYPHAM_ADMIN.csproj", "{9228D3B5-D847-4621-8692-2BDB0CD6BBB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

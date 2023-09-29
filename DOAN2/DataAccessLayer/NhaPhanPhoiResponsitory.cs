@@ -96,5 +96,26 @@ namespace DataAccessLayer
             }
         }
 
+        public List<NhaPhanPhoiModel> Search(int pageIndex, int pageSize, out long total, string TenNhaPhanPhoi)
+        {
+            string msgError = "";
+            total = 0;
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_nhaphanphoi_search",
+                    "@page_index", pageIndex,
+                    "@page_size", pageSize,
+                    "@TenNhaPhanPhoi", TenNhaPhanPhoi);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<NhaPhanPhoiModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

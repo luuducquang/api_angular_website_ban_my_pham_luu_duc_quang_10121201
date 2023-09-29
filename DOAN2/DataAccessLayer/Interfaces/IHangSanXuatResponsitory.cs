@@ -14,5 +14,7 @@ namespace DataAccessLayer.Interfaces
         public bool Create(HangSanXuatModel model);
         public bool Update(HangSanXuatModel model);
         public bool Delete(int mahsx);
+        List<HangSanXuatModel> Search(int pageIndex, int pageSize, out long total, string TenHang);
+
     }
 }

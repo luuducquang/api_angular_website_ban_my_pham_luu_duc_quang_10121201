@@ -36,5 +36,10 @@ namespace BussinessLayer
         {
             return _res.Delete(mahsx);
         }
+
+        public List<HangSanXuatModel> Search(int pageIndex, int pageSize, out long total, string TenHang)
+        {
+            return _res.Search(pageIndex, pageSize, out total, TenHang);
+        }
     }
 }

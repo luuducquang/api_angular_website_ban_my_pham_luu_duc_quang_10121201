@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "yD/nTXMQMx5vYHZX7c3Yu5ENU4YUh2+AlFGoICUU0ZI=",
-  "Source": "API_MYPHAM",
-  "BasePath": "_content/API_MYPHAM",
+  "Hash": "kWR8fXyDGsufaR3SI62EWY1FXZ1JZr/s+iK7vd1YRdc=",
+  "Source": "API_MYPHAM_ADMIN",
+  "BasePath": "_content/API_MYPHAM_ADMIN",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
