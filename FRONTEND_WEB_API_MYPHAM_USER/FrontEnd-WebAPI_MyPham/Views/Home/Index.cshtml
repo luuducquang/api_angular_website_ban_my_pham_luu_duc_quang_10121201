@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Slide
+{
+    <div class="image">
+        <img id="img" src="~/assets/img/banner1.jpg" alt="Hình Ảnh" />
+        <div class="image-btn">
+            <div class="fa-solid fa-circle-chevron-right  btn next"></div>
+            <div class="fa-solid fa-circle-chevron-left  btn prev"></div>
+        </div>
+    </div>
+}
+
+@section Script
+{
+    <script src="~/assets/js/home.js"></script>
+    <script src="~/assets/js/gototop.js"></script>
+    <script src="~/assets/js/fast.js"></script>
+    <script src="~/assets/js/sliders.js"></script>
+    <script src="~/assets/js/render-product.js"></script>
+}
+<div id="content">
+    <div class="sale">
+        <h2 class="type type_Sale">SẢN PHẨM SALE</h2>
+
+    </div>
+
+    <div class="favourite">
+        <h2 class="type">SẢN PHẨM YÊU THÍCH</h2>
+
+    </div>
+
+    <div class="take-care">
+
+    </div>
+
+    <div class="cleanser">
+        <div class="more">
+            <a href="./cleanser.html">Xem thêm</a>
+        </div>
+        <h2 class="type">SỮA RỬA MẶT</h2>
+
+    </div>
+
+
+</div>
+
+

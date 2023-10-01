@@ -44,5 +44,34 @@ namespace API_MYPHAM.Controllers
         {
             return _danhMucUuDaiBUS.Delete(madanhmucuudai);
         }
+
+        [Route("search-danhmucuudai")]
+        [HttpPost]
+        public IActionResult Search([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string Tendanhmucuudai = "";
+                if (formData.Keys.Contains("Tendanhmucuudai") && !string.IsNullOrEmpty(Convert.ToString(formData["Tendanhmucuudai"]))) { Tendanhmucuudai = Convert.ToString(formData["Tendanhmucuudai"]); }
+                long total = 0;
+                var data = _danhMucUuDaiBUS.Search(page, pageSize, out total, Tendanhmucuudai);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

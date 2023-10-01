@@ -41,5 +41,39 @@ namespace API_MYPHAM.Controllers
             return _taiKhoanBUS.Delete(MaTaiKhoan);
         }
 
+        [Route("search-taikhoan")]
+        [HttpPost]
+        public IActionResult Search([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string TenTaiKhoan = "";
+                if (formData.Keys.Contains("TenTaiKhoan") && !string.IsNullOrEmpty(Convert.ToString(formData["TenTaiKhoan"]))) { TenTaiKhoan = Convert.ToString(formData["TenTaiKhoan"]); }
+                string Email = "";
+                if (formData.Keys.Contains("Email") && !string.IsNullOrEmpty(Convert.ToString(formData["Email"]))) { Email = Convert.ToString(formData["Email"]); }
+                string HoTen = "";
+                if (formData.Keys.Contains("HoTen") && !string.IsNullOrEmpty(Convert.ToString(formData["HoTen"]))) { HoTen = Convert.ToString(formData["HoTen"]); }
+                string SoDienThoai = "";
+                if (formData.Keys.Contains("SoDienThoai") && !string.IsNullOrEmpty(Convert.ToString(formData["SoDienThoai"]))) { SoDienThoai = Convert.ToString(formData["SoDienThoai"]); }
+                long total = 0;
+                var data = _taiKhoanBUS.Search(page, pageSize, out total, TenTaiKhoan, Email, HoTen, SoDienThoai);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

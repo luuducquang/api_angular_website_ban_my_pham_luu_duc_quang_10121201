@@ -33,5 +33,9 @@ namespace BussinessLayer
             return _res.Delete(MaTaiKhoan);
         }
 
+        public List<TaiKhoanSearchModel> Search(int page, int pageSize, out long total, string TenTaiKhoan, string Email, string HoTen, string SoDienThoai)
+        {
+            return _res.Search(page, pageSize, out total, TenTaiKhoan, Email, HoTen,SoDienThoai);
+        }
     }
 }

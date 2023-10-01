@@ -371,10 +371,8 @@ end
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-CREATE PROCEDURE sp_quang_cao_search (@page_index  INT, 
+alter PROCEDURE sp_quang_cao_search (@page_index  INT, 
                                        @page_size   INT,
-									   @AnhDaiDien Nvarchar(max),
-									   @LinkQuangCao  Nvarchar(max),
 									   @MoTa  Nvarchar(max))
 AS
     BEGIN
@@ -383,16 +381,14 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY AnhDaiDien ASC)) AS RowNumber, 
+                              ORDER BY K.Mota ASC)) AS RowNumber, 
                               K.Id, 
                               K.AnhDaiDien,
 							  K.LinkQuangCao,
 							  K.MoTa
                         INTO #Results1
                         FROM QuangCaos AS K
-					    WHERE (@AnhDaiDien = '' or K.AnhDaiDien like N'%'+@AnhDaiDien +'%') and
-						(@LinkQuangCao = '' or k.LinkQuangCao like N'%'+@LinkQuangCao +'%') and
-						(@MoTa = '' or k.MoTa like N'%'+@MoTa +'%');
+					    WHERE (@MoTa = '' or k.MoTa like N'%'+@MoTa +'%');
                         SELECT @RecordCount = COUNT(*)
                         FROM #Results1;
                         SELECT *, 
@@ -406,16 +402,14 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY AnhDaiDien ASC)) AS RowNumber, 
+                              ORDER BY K.Mota ASC)) AS RowNumber, 
                               K.Id, 
                               K.AnhDaiDien,
 							  K.LinkQuangCao,
 							  K.MoTa
                         INTO #Results2
                         FROM QuangCaos AS K
-					    WHERE (@AnhDaiDien = '' or K.AnhDaiDien like N'%'+@AnhDaiDien +'%') and
-						(@LinkQuangCao = '' or k.LinkQuangCao like N'%'+@LinkQuangCao +'%') and
-						(@MoTa = '' or k.MoTa like N'%'+@MoTa +'%');
+					    WHERE (@MoTa = '' or k.MoTa like N'%'+@MoTa +'%');
                         SELECT @RecordCount = COUNT(*)
                         FROM #Results2;
                         SELECT *, 
@@ -470,68 +464,6 @@ create proc sp_xoaslide(@MaAnh int)
 as
 begin
 	delete from SlideDetail where MaAnh = @MaAnh 
-end
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_get_all_caidat
-as
-begin
-	select*from CaiDats
-end
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_them_cai_dat(@Logo nvarchar(MAX),
-@GioLamViec nvarchar(50),
-@GiaoHang nvarchar(50),
-@HoanTien nvarchar(50),
-@SDTLienHe nvarchar(50),
-@EmailLienHe nvarchar(50),
-@FaceBook nvarchar(MAX),
-@GooglePlus nvarchar(MAX),
-@Twiter nvarchar(MAX),
-@YouTube nvarchar(MAX),
-@Instargram nvarchar(MAX),
-@GoogleMap nvarchar(MAX),
-@MatKhauMail nvarchar(50))
-as
-begin
-	insert into CaiDats(Logo,GioLamViec,GiaoHang,HoanTien,SDTLienHe,EmailLienHe,FaceBook,
-	GooglePlus,Twiter,YouTube,Instargram,GoogleMap,MatKhauMail)
-	values(@Logo,@GioLamViec,@GiaoHang,@HoanTien,@SDTLienHe,@EmailLienHe,@FaceBook,
-	@GooglePlus,@Twiter,@YouTube,@Instargram,@GoogleMap,@MatKhauMail)
-end
-
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_sua_cai_dat(@Id int,
-@Logo nvarchar(MAX),
-@GioLamViec nvarchar(50),
-@GiaoHang nvarchar(50),
-@HoanTien nvarchar(50),
-@SDTLienHe nvarchar(50),
-@EmailLienHe nvarchar(50),
-@FaceBook nvarchar(MAX),
-@GooglePlus nvarchar(MAX),
-@Twiter nvarchar(MAX),
-@YouTube nvarchar(MAX),
-@Instargram nvarchar(MAX),
-@GoogleMap nvarchar(MAX),
-@MatKhauMail nvarchar(50))
-as
-begin
-	update CaiDats
-	set	Logo=@Logo,GioLamViec=@GioLamViec,GiaoHang=@GiaoHang,HoanTien=@HoanTien,SDTLienHe=@SDTLienHe,EmailLienHe=@EmailLienHe,FaceBook=@FaceBook,
-	GooglePlus=@GooglePlus,Twiter=@Twiter,Youtube=@YouTube,Instargram=@Instargram,GoogleMap=@GoogleMap,MatKhauMail=@MatKhauMail
-	where Id = @Id
-end
-
-
--------------------------------------------------------------------------------------------------------------------------------
-create proc sp_xoa_cai_dat(@Id int)
-as
-begin
-	delete from CaiDats
-	where Id = @Id
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -694,6 +626,75 @@ begin
 	where MaTaiKhoan = @MaTaiKhoan
 end
 
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_taikhoan_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenTaiKhoan nvarchar(50),
+									   @Email nvarchar(150),
+									   @HoTen nvarchar(50),
+									   @SoDienThoai nvarchar(11))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY s.TenTaiKhoan ASC)) AS RowNumber, 
+                              s.TenTaiKhoan,
+							  s.Email,
+							  h.TenLoai,
+							  c.HoTen,
+							  c.SoDienThoai
+                        INTO #Temp1
+                        FROM TaiKhoans AS s
+						inner join ChiTietTaiKhoans c on c.MaTaiKhoan = s.MaTaiKhoan
+						inner join LoaiTaiKhoans h on h.MaLoaitaikhoan = c.MaLoaitaikhoan
+
+					    WHERE (@TenTaiKhoan = '' or s.TenTaiKhoan like '%'+@TenTaiKhoan +'%')
+						and (@Email = '' or s.Email like '%'+@Email +'%')
+						and (@HoTen = '' or c.HoTen like '%'+@HoTen +'%')
+						and (@SoDienThoai = '' or c.SoDienThoai like '%'+@SoDienThoai +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY s.TenTaiKhoan ASC)) AS RowNumber, 
+                              s.TenTaiKhoan,
+							  s.Email,
+							  h.TenLoai,
+							  c.HoTen,
+							  c.SoDienThoai
+                        INTO #Temp2
+                        FROM TaiKhoans AS s
+						inner join ChiTietTaiKhoans c on c.MaTaiKhoan = s.MaTaiKhoan
+						inner join LoaiTaiKhoans h on h.MaLoaitaikhoan = c.MaLoaitaikhoan
+
+					    WHERE (@TenTaiKhoan = '' or s.TenTaiKhoan like '%'+@TenTaiKhoan +'%')
+						and (@Email = '' or s.Email like '%'+@Email +'%')
+						and (@HoTen = '' or c.HoTen like '%'+@HoTen +'%')
+						and (@SoDienThoai = '' or c.SoDienThoai like '%'+@SoDienThoai +'%')
+
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        DROP TABLE #Temp2; 
+        END;
+    END;
+
 -------------------------------------------------------------------------------------------------------------------------------
 CREATE PROCEDURE sp_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
 AS
@@ -738,6 +739,53 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
+create proc sp_danhmucuudai_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @Tendanhmucuudai nvarchar(50))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.Tendanhmucuudai ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp1
+                        FROM DanhMucUudais as a
+
+					    WHERE (@Tendanhmucuudai = '' or a.Tendanhmucuudai like '%'+@Tendanhmucuudai +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.Tendanhmucuudai ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp2
+                        FROM DanhMucUudais as a
+
+					    WHERE (@Tendanhmucuudai = '' or a.Tendanhmucuudai like '%'+@Tendanhmucuudai +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        DROP TABLE #Temp2; 
+        END;
+    END;
+
+-------------------------------------------------------------------------------------------------------------------------------
 create proc sp_get_all_danhmuc
 as
 begin
@@ -771,6 +819,54 @@ begin
 	delete from DanhMucs
 	where MaDanhMuc = @Madanhmuc
 end
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_danhmuc_search(@page_index  INT, 
+                                       @page_size   INT,
+									   @TenDanhMuc nvarchar(50))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.TenDanhMuc ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp1
+                        FROM DanhMucs as a
+
+					    WHERE (@TenDanhMuc = '' or a.TenDanhMuc like '%'+@TenDanhMuc +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.TenDanhMuc ASC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp2
+                        FROM DanhMucs as a
+
+					    WHERE (@TenDanhMuc = '' or a.TenDanhMuc like '%'+@TenDanhMuc +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        DROP TABLE #Temp2; 
+        END;
+    END;
 
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_get_all_hangsanxuat
@@ -1173,7 +1269,12 @@ end
 -------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_sanpham_search(@page_index  INT, 
                                        @page_size   INT,
-									   @TenSanPham nvarchar(150))
+									   @TenSanPham nvarchar(150),
+									   @TenDanhMuc nvarchar(50),
+									   @Tendanhmucuudai nvarchar(250),
+									   @Gia decimal(18, 0),
+									   @TenHang nvarchar(50),
+									   @TenNhaPhanPhoi nvarchar(250))
 AS
     BEGIN
         DECLARE @RecordCount BIGINT;
@@ -1183,8 +1284,8 @@ AS
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY s.TenSanPham ASC)) AS RowNumber, 
                               s.MaSanPham,
-							  s.MaDanhMuc,
-							  s.Madanhmucuudai,
+							  dm.TenDanhMuc,
+							  dmu.Tendanhmucuudai,
 							  s.TenSanPham,
 							  s.AnhDaiDien,
 							  s.Gia,
@@ -1203,8 +1304,15 @@ AS
 						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
 						inner join SanPhams_NhaPhanPhois sp on sp.MaSanPham = s.MaSanPham
 						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = sp.MaNhaPhanPhoi
+						inner join DanhMucs dm on dm.MaDanhMuc = s.MaDanhMuc
+						inner join DanhMucUudais dmu on dmu.Madanhmucuudai = s.Madanhmucuudai
 
 					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
+							and (@TenDanhMuc = '' or dm.TenDanhMuc like '%'+@TenDanhMuc +'%')
+							and (@Tendanhmucuudai = '' or dmu.Tendanhmucuudai like '%'+@Tendanhmucuudai +'%')
+							and (@Gia = 0 or s.Gia = @Gia)
+							and (@TenHang = '' or h.TenHang like '%'+@TenHang +'%')
+							and (@TenNhaPhanPhoi = '' or npp.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
 						
                         SELECT @RecordCount = COUNT(*)
                         FROM #Temp1;
@@ -1221,8 +1329,8 @@ AS
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY s.TenSanPham ASC)) AS RowNumber, 
                               s.MaSanPham,
-							  s.MaDanhMuc,
-							  s.Madanhmucuudai,
+							  dm.TenDanhMuc,
+							  dmu.Tendanhmucuudai,
 							  s.TenSanPham,
 							  s.AnhDaiDien,
 							  s.Gia,
@@ -1231,7 +1339,7 @@ AS
 							  s.TrangThai,
 							  s.LuotXem,
 							  s.DacBiet,
-							  c.MaNhaSanXuat,
+							  h.TenHang,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet
@@ -1241,22 +1349,28 @@ AS
 						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
 						inner join SanPhams_NhaPhanPhois sp on sp.MaSanPham = s.MaSanPham
 						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = sp.MaNhaPhanPhoi
+						inner join DanhMucs dm on dm.MaDanhMuc = s.MaDanhMuc
+						inner join DanhMucUudais dmu on dmu.Madanhmucuudai = s.Madanhmucuudai
 
 					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
-						
+							and (@TenDanhMuc = '' or dm.TenDanhMuc like '%'+@TenDanhMuc +'%')
+							and (@Tendanhmucuudai = '' or dmu.Tendanhmucuudai like '%'+@Tendanhmucuudai +'%')
+							and (@Gia = 0 or s.Gia = @Gia)
+							and (@TenHang = '' or h.TenHang like '%'+@TenHang +'%')
+							and (@TenNhaPhanPhoi = '' or npp.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+
                         SELECT @RecordCount = COUNT(*)
                         FROM #Temp2;
                         SELECT *, 
                                @RecordCount AS RecordCount
                         FROM #Temp2
-                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
-                              OR @page_index = -1;
                         DROP TABLE #Temp2; 
         END;
     END;
 
 
-exec sp_sanpham_search @page_index = 1, @page_size = 10, @TenSanPham = N'Sản phẩm 1'
+exec sp_sanpham_search @page_index = 1, @page_size = 10, @TenSanPham = N'',@TenDanhMuc=N''
+,@Tendanhmucuudai=N'',@Gia=100000,@TenHang=N'',@TenNhaPhanPhoi=N''
 
 
 -------------------------------------------------------------------------------------------------------------------------------

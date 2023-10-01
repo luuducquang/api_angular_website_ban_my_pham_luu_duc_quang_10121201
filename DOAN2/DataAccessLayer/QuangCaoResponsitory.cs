@@ -93,7 +93,7 @@ namespace DataAccessLayer
         }
 
 
-        public List<QuangCaoModel> Search(int pageIndex, int pageSize, out long total, string AnhDaiDien, string LinkQuangCao, string MoTa)
+        public List<QuangCaoModel> Search(int pageIndex, int pageSize, out long total,  string MoTa)
         {
             string msgError = "";
             total = 0;
@@ -102,8 +102,6 @@ namespace DataAccessLayer
                 var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_quang_cao_search",
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
-                    "@AnhDaiDien", AnhDaiDien,
-                    "@LinkQuangCao", LinkQuangCao,
                     "@MoTa", MoTa);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);

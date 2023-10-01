@@ -104,7 +104,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham)
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi)
         {
             string msgError = "";
             total = 0;
@@ -113,7 +113,13 @@ namespace DataAccessLayer
                 var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_sanpham_search",
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
-                    "@TenSanPham", TenSanPham);
+                    "@TenSanPham", TenSanPham,
+                    "@TenDanhMuc", TenDanhMuc,
+                    "@Tendanhmucuudai", Tendanhmucuudai,
+                    "@Gia", Gia,
+                    "@TenHang", TenHang,
+                    "@TenNhaPhanPhoi", TenNhaPhanPhoi
+                    );
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];

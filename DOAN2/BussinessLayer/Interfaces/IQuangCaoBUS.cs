@@ -15,7 +15,7 @@ namespace BussinessLayer.Interfaces
         bool Update(QuangCaoModel quangCao);
         bool Delete(int id);
 
-        List<QuangCaoModel> Search(int page, int pageSize, out long total, string AnhDaiDien, string LinkQuangCao, string MoTa);
+        List<QuangCaoModel> Search(int page, int pageSize, out long total, string MoTa);
 
     }
 }

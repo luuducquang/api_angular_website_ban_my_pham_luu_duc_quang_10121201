@@ -1458,11 +1458,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\API_MYPHAM_ADMIN.csproj",
+      "projectUniqueName": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\API_MYPHAM\\API_MYPHAM_ADMIN.csproj",
       "projectName": "API_MYPHAM_ADMIN",
-      "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\API_MYPHAM_ADMIN.csproj",
+      "projectPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\API_MYPHAM\\API_MYPHAM_ADMIN.csproj",
       "packagesPath": "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\",
-      "outputPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\API_MYPHAM\\obj\\",
+      "outputPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\API_MYPHAM\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1483,11 +1483,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\BussinessLayer\\BussinessLayer.csproj": {
-              "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\BussinessLayer\\BussinessLayer.csproj"
+            "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\BussinessLayer\\BussinessLayer.csproj": {
+              "projectPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\BussinessLayer\\BussinessLayer.csproj"
             },
-            "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj": {
-              "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj"
+            "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj": {
+              "projectPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj"
             }
           }
         }

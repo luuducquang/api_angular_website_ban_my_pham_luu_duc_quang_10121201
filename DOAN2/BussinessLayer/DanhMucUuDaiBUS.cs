@@ -35,5 +35,10 @@ namespace BussinessLayer
         {
             return _res.Delete(madanhmucuudai);
         }
+
+        public List<DanhmucUuudaisModel> Search(int pageIndex, int pageSize, out long total, string Tendanhmucuudai)
+        {
+            return _res.Search(pageIndex, pageSize, out total, Tendanhmucuudai);
+        }
     }
 }

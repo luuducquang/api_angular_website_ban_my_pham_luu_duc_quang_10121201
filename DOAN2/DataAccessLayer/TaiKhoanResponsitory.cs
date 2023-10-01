@@ -82,5 +82,29 @@ namespace DataAccessLayer
             }
 
         }
+        public List<TaiKhoanSearchModel> Search(int pageIndex, int pageSize, out long total, string TenTaiKhoan, string Email, string HoTen, string SoDienThoai)
+        {
+            string msgError = "";
+            total = 0;
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_taikhoan_search",
+                    "@page_index", pageIndex,
+                    "@page_size", pageSize,
+                    "@TenTaiKhoan", TenTaiKhoan,
+                    "@Email", Email,
+                    "@HoTen", HoTen,
+                    "@SoDienThoai", SoDienThoai
+                    );
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<TaiKhoanSearchModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

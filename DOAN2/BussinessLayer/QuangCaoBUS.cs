@@ -37,9 +37,9 @@ namespace BussinessLayer
             return _res.Delete(id);
         }
 
-        public List<QuangCaoModel> Search(int page, int pageSize, out long total, string AnhDaiDien, string LinkQuangCao, string MoTa)
+        public List<QuangCaoModel> Search(int page, int pageSize, out long total, string MoTa)
         {
-            return _res.Search(page,pageSize,out total,AnhDaiDien,LinkQuangCao,MoTa);
+            return _res.Search(page,pageSize,out total,MoTa);
         }
     }
 }

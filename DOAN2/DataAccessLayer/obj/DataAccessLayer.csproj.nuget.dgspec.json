@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj": {}
+    "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj": {}
   },
   "projects": {
-    "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj": {
+    "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectUniqueName": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj",
         "projectName": "DataAccessLayer",
-        "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj",
+        "projectPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\DataAccessLayer\\DataAccessLayer.csproj",
         "packagesPath": "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\",
-        "outputPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\DataAccessLayer\\obj\\",
+        "outputPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\DataAccessLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj": {
-                "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj"
+              "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj": {
+                "projectPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj"
               }
             }
           }
@@ -81,14 +81,14 @@
         }
       }
     },
-    "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj": {
+    "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj",
+        "projectUniqueName": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\Model.csproj",
+        "projectPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\",
-        "outputPath": "D:\\Bài kiểm tra\\DoAn2\\DOAN2\\Model\\obj\\",
+        "outputPath": "D:\\Bài kiểm tra\\BTL_WEB_API\\DOAN2\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

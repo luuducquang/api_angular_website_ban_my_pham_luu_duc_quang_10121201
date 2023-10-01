@@ -1,0 +1,167 @@
+.container-right{
+    margin-left: 300px;
+}
+
+.tilte{
+    background-color: #ddd;
+    border-radius: 5px;
+    border-left: 5px #ead277 solid;
+    margin: 10px 0;
+}
+
+.form-group{
+    display: flex;
+    margin: 10px 0;
+}
+
+.form-group input{
+    width: 90%;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.form-group button{
+    width: 120px;
+    margin-left: .5%;
+    border-radius: 5px;
+    border: 2px solid #ead277;
+}
+
+.form-group input{
+    outline-color: rgb(128, 128, 128);
+    padding: 10px;
+}
+
+.table-product{
+    margin: 10px 0;
+}
+
+.table-product thead tr th{
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    background-color: #eeeeee;
+}
+
+.table-product tbody tr td{
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+
+.product-container{
+    background-color: rgba(0, 0, 0,0.8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: none;
+    z-index: 3;
+    animation: show .5s ease;
+}
+
+@keyframes show {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+@keyframes hide {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+.hide{
+    display: block;
+}
+
+.add-product{
+    width: 800px;
+    background-color: #eeeeee;
+    position: fixed;
+    top: 8%;
+    left: 10px;
+    right: 10px;
+    bottom: 8%;
+    z-index: 1;
+    border-radius: 10px;
+    overflow-y: scroll;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    padding: 10px 40px;
+}
+
+.add-product::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+    border-radius: 0 15px 15px 0;
+} 
+
+.add-product::-webkit-scrollbar-thumb {
+    background-color: #4444;
+    border-radius: 5px;
+}
+
+.form-group{
+    display: flex;
+    justify-content: start;
+    width: 100%;
+}
+
+.form-group label{
+    width: 30%;
+}
+
+.form-group input{
+    margin-left: 10px;
+    width: 70%;
+    height: 30px;
+    padding: 3px;
+}
+
+.form-group textarea {
+    margin-left: 10px;
+    width: 70%;
+}
+
+.form-group select {
+    margin-left: 10px;
+    width: 70%;
+    height: 30px;
+    padding: 0;
+    font-size: 14px;
+}
+
+.notifi {
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    animation: show .5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.notifi-btn {
+    max-width: 300px;
+    height: 162px;
+    padding: 13px;
+    background-color: #fff;
+    flex-grow: 1;
+    border-radius: 20px;
+}
+
+.hide-confirm {
+    display: flex;
+}

@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DataAccessLayer
-build_property.ProjectDir = D:\Bài kiểm tra\DoAn2\DOAN2\DataAccessLayer\
+build_property.ProjectDir = D:\Bài kiểm tra\BTL_WEB_API\DOAN2\DataAccessLayer\

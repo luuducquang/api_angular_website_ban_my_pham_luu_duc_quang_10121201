@@ -70,14 +70,10 @@ namespace API_MYPHAM.Controllers
             {
                 var page = int.Parse(formData["page"].ToString());
                 var pageSize = int.Parse(formData["pageSize"].ToString());
-                string AnhDaiDien = "";
-                if (formData.Keys.Contains("AnhDaiDien") && !string.IsNullOrEmpty(Convert.ToString(formData["AnhDaiDien"]))) { AnhDaiDien = Convert.ToString(formData["AnhDaiDien"]); }
-                string LinkQuangCao = "";
-                if (formData.Keys.Contains("LinkQuangCao") && !string.IsNullOrEmpty(Convert.ToString(formData["LinkQuangCao"]))) { LinkQuangCao = Convert.ToString(formData["LinkQuangCao"]); }
                 string MoTa = "";
                 if (formData.Keys.Contains("MoTa") && !string.IsNullOrEmpty(Convert.ToString(formData["MoTa"]))) { MoTa = Convert.ToString(formData["MoTa"]); }
                 long total = 0;
-                var data = _quangCaoBUS.Search(page, pageSize, out total, AnhDaiDien, LinkQuangCao,  MoTa);
+                var data = _quangCaoBUS.Search(page, pageSize, out total,  MoTa);
                 return Ok(
                    new
                    {

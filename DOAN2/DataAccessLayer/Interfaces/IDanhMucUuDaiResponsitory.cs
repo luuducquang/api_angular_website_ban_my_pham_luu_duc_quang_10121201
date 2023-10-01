@@ -14,5 +14,7 @@ namespace DataAccessLayer.Interfaces
         public bool Create(DanhmucUuudaisModel model);
         public bool Update(DanhmucUuudaisModel model);
         public bool Delete(int madanhmucuudai);
+        List<DanhmucUuudaisModel> Search(int pageIndex, int pageSize, out long total, string Tendanhmucuudai);
+
     }
 }

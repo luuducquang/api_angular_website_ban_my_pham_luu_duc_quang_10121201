@@ -23,7 +23,6 @@ builder.Services.AddCors(option =>
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
 builder.Services.AddTransient<IQuangCaoBUS, QuangCaoBUS>();
 builder.Services.AddTransient<ISlideDetailBUS, SlideDetailBUS>();
-builder.Services.AddTransient<ICaidatBUS, CaiDatBUS>();
 builder.Services.AddTransient<ITaiKhoanBUS, TaiKhoanBUS>();
 builder.Services.AddTransient<ILoaiTaiKhoanBUS, LoaiTaiKhoanBUS>();
 builder.Services.AddTransient<IChiTietTaiKhoanBUS, ChiTietTaiKhoanBUS>();
@@ -37,7 +36,6 @@ builder.Services.AddTransient<IHoaDonNhapBUS, HoaDonNhapBUS>();
 builder.Services.AddTransient<IUserBusiness, UserBusiness>();
 builder.Services.AddTransient<IQuangCaoResponsitory, QuangCaoResponsitory>();
 builder.Services.AddTransient<ISlideDetailResponsitory, SlideDetailResponsitory>();
-builder.Services.AddTransient<ICaidatResponsitory, CaidatResponsitory>();
 builder.Services.AddTransient<ITaiKhoanResponsitory, TaiKhoanResponsitory>();
 builder.Services.AddTransient<ILoaiTaiKhoanResponsitory, LoaiTaiKhoanResponsitory>();
 builder.Services.AddTransient<IChiTietTaiKhoanResponsitory, ChiTietTaiKhoanResponsitory>();

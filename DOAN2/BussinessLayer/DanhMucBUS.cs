@@ -37,5 +37,10 @@ namespace BussinessLayer
         {
             return _res.Delete(madanhmuc);
         }
+
+        public List<DanhMucModel> Search(int pageIndex, int pageSize, out long total, string TenDanhMuc)
+        {
+            return _res.Search(pageIndex, pageSize, out total, TenDanhMuc);
+        }
     }
 }
