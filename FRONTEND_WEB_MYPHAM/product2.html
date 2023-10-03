@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinCare</title>
+    <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+</head>
+<body onload="ShopAmount()">
+    <div id="frame">
+        <!-- -------------------------------------------Header--------------------------------- -->
+        <div id="header">
+            <div class="ti-menu list"></div>
+
+            <div class="banner">
+                <a href="./home.html"><img src="./assets/img/logo1.png" alt=""></a>
+            </div>
+
+            
+            <!-- --------------Search------------------- -->
+            <div class="wrap">
+                <form action="" class="search" method="post">
+                   <input type="text" class="searchTerm" placeholder="Bạn muốn tìm gì?">
+                   <button type="submit" class="searchButton">
+                        <div class="ti-search"></div>
+                  </button>
+                </form>
+                <span class="suggest">
+                    <a href="./cleanser.html">Sữa rửa mặt</a>
+                    <a href="./serum.html">Serum</a>
+                    <a href="./sunscreen.html">Kem chống nắng</a>
+                    <a href="./makeup-remove.html">Tẩy trang</a>
+                    <a href="./spray.html">Xịt khoáng</a>
+                </span>
+
+                <span class="home-search"> 
+                    <div class="content-search">
+                        <!-- <div class="products-search">
+                            <img src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt="">
+                            <div class="info">
+                                <div class="name-search">Sữa rửa mặt Cerave Renewing SA Face Cleaner 473ml</div>
+                                <div class="price-search">
+                                    <span>399.000</span><sup>đ</sup>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+              </span>
+             </div>
+
+             <!-- ---------------------Shop--------------- -->
+            <div class="shopping">
+                <a href="./cart.html" class="fa-solid fa-cart-shopping shop">
+                    <!-- <span style="display: none;" class="value-cart">0</span> -->
+                </a>
+                <!-- <div class="cart-demo">
+                    <div class="arrow-cart"></div>
+                    <form action="">
+                        <table>
+                            
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="go-to-cart">
+                                        <span>Đi đến giỏ hàng</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style=" display: flex; align-items: center;"><img style="width: 20%;" src="./assets/img/Makeup-remove/biodema.jpg" alt=""><span class="nameItem">Nước tẩy trang Bioderma xanh</span></td>
+                                    <td><p><span class="price-item">399.000</span><sup>đ</sup></p></td>
+                                </tr>
+                            </tbody>
+                            
+                            
+                        </table>
+                    </form>
+                </div> -->
+
+            </div>
+            <!------------------ Login, Registry ------------->
+            <div class="User">
+                <ul class="Login">
+                    <li><a href="./login.html">Đăng nhập</a></li>
+                </ul>
+                <ul class="Registry">
+                    <li><a href="./registry.html">Đăng ký</a></li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <!-- -----------Content Product-------- -->
+        <div id="content">  
+            <div class="product">
+                <div class="type">
+                    <a href="./home.html">TRANG CHỦ</a>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <a href="./cleanser.html">SỮA RỬA MẶT</a>
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <a href="./product.html">Sữa rửa mặt Cerave Renewing SA Cleanser</a>
+                </div>
+                <div class="product-item">
+
+                    <div class="product-left">
+                        <span class="product-item-img"><img src="./assets/img/Sunscreen/martiderm spf50+.webp" alt=""></span>
+                        <div class="miror"></div>
+                        <div class="but">
+                            <span>
+                                <i onclick="Prev()" class="fa-solid fa-angle-left"></i>
+                            </span>
+                            <span>
+                                <i onclick="Next()" class="fa-solid fa-angle-right"></i>
+                            </span>
+                        </div>
+                        <div class="img-slider">
+                            <img class="activeImg opacity1" src="./assets/img/Sunscreen/martiderm spf50+.webp" alt="">
+                            <img src="./assets/img/Sunscreen/martiderm/3.jpg" alt="">
+                            <img src="./assets/img/Sunscreen/martiderm/4.webp" alt="">
+                            <img src="./assets/img/Sunscreen/martiderm/1.jpeg" alt="">
+                            <img src="./assets/img/Sunscreen/martiderm/2.webp" alt="">
+                        </div>
+                    </div>
+    
+                    <div class="product-right">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="product-item-name">Kem Chống Nắng MartiDerm Phổ Rộng Bảo Vệ Toàn Diện 40ml
+                                        The Originals Proteos Screen SPF50+ Fluid Cream
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="prouct-item-star-rating">
+                                        <span class="fa-solid fa-star star-gold"></span>
+                                        <span class="fa-solid fa-star star-gold"></span>
+                                        <span class="fa-solid fa-star star-gold"></span>
+                                        <span class="fa-solid fa-star star-gold"></span>
+                                        <span class="fa-solid fa-star "></span>
+                                        <a href="">120 đánh giá</a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr> 
+                                <td>
+                                    <div class="product-item_price">
+                                        <span class="product-item_price_old">399.000</span><sup>đ</sup>
+                                        <span class="product-item_price_current">289.000</span><sup>đ</sup>
+                                        <span class="VAT">(Đã bao gồm VAT)</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="status">
+                                        Tình trạng : <span class="still">Còn hàng</span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span class="origin">Xuất xứ :</span> 
+                                    <span class="country-origin">Hàn Quốc</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="product-item-capacity">
+                                        <span class="capacity-name">Dung tích :</span>
+                                        <span class="size">40ml</span>
+                                        <!-- <div class="capacity-volume">
+                                            <input type="radio" id="1" name="capacity" class="size-mini">235ml</input>
+                                            <input type="radio" id="1" name="capacity" class="size-big">473ml</input>
+                                        </div> -->
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="product-amount-item">Số lượng :</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="buy-amount-product" style="display: flex;">
+                                        <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></span>
+                                        <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
+                                        <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></span>  
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="add-item">THÊM VÀO GIỎ HÀNG</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <button class="buy-now">MUA NGAY</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="call">
+                                        <div class="fa-solid fa-phone-volume"></div>
+                                        <span class="Hotline">Hotline :
+                                            <a href="tel:012.3456.789" title="tel:012.3456.789">
+                                                <span>012.3456.789</span>
+                                            </a>
+                                        </span>
+                                    </div>
+                
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="product-right-right">
+                        <table>
+                            <tr><th>CAM KẾT VỚI KHÁCH HÀNG</th></tr>
+                            <tr><td><i class="font15 fa-solid fa-shield-halved"></i>Hàng chính hãng 100%</td></tr>
+                            <tr><td><i class="font15 fa-solid fa-thumbs-up"></i>Uy tín chất lượng</td></tr>
+                            <tr><td><i class="font15 fa-solid fa-gears"></i>Hỗ trợ liên tục trong quá trình sử dụng sản phẩm</td></tr>
+                            <tr><td><i class="font15 fa-sharp fa-solid fa-rotate"></i>Chính sách đổi trả rõ ràng</td></tr>
+                        </table>
+                    </div>
+                </div>
+        
+            </div>
+            <!-- ------------Information------------- -->
+            <div class="information">
+                <div class="information-left">
+                    <ul class="menu-inf">
+                        <li class="color-menu" data-scroll="520">Thông tin sản phẩm</li>
+                        <li class="color-menu" data-scroll="1186">Thông số sản phẩm</li>
+                        <li class="color-menu" data-scroll="1484">Thành phần sản phẩm</li>
+                        <li  class="color-menu" data-scroll="1900">Hướng dẫn sử dụng</li>
+                        <li class="color-menu" data-scroll="2050">Đánh giá</li>
+                    </ul>
+
+                    <div id= "information-product">
+                        <p><strong>Kem Chống Nắng MartiDerm The Originals Proteos Screen SPF50+ Fluid Cream</strong>&nbspđến từ thương hiệu dược mỹ phẩm Martiderm<strong></strong></p>
+                        <ul>
+                            <li><strong>Kem Chống Nắng Phổ Rộng Toàn Diện Ngừa Lão Hóa </strong></li>
+                            <li><strong> Phòng Chống Nám Quay Lại MartiDerm The Originals Proteos Screen SPF50+ Fluid Cream 40ml</strong></li>
+                        </ul>
+                        <h2>1.Sữa Rửa Mặt Cerave Sạch Sâu Cho Da Thường Đến Da Dầu </h2>
+                        <p><strong>Sữa Rửa Mặt Cerave Foaming Cleanser</strong>&nbsp;kết 
+                            cấu dạng gel tạo bọt rất lý tưởng để loại bỏ dầu thừa, bụi bẩn 
+                            và lớp trang điểm với công thức nhẹ nhàng, không phá vỡ hàng 
+                            rào bảo vệ tự nhiên của da và chứa các thành phần giúp duy trì 
+                            độ ẩm cân bằng da. Cerave Foaming Cleanser chứa <strong>Ceramides, 
+                                Axit Hyaluronic và Niacinamide</strong> giúp duy trì hàng rào bảo vệ da,
+                             khóa ẩm và làm dịu làn da của bạn.</p>
+                        <h2>Loại da phù hợp</h2>
+                        <ul>
+                            <li>Sản phẩm thích hợp cho da thường đến dầu.</li>
+                            <li>Có thể sử dụng cho mặt và toàn thân.</li>
+                        </ul>
+                        <h2>Giải pháp cho tình trạng da</h2>
+                        <ul>
+                            <li>Da thường tiết bã nhờn, <strong>dầu thừa, lỗ chân lông to.</strong> </li>
+                        </ul>
+                        <h2>Ưu thế nổi bật:</h2>
+                        <ul>
+                            <li><strong>3 loại Ceramides (1, 3, 6-II)</strong> thiết yếu giúp khôi phục hàng rào độ ẩm da. </li>
+                            <li><strong>Hyaluronic Acid</strong> giúp duy trì độ ẩm tự nhiên của da.</li>
+                            <li> <strong>Niacinamide</strong> giúp làm dịu, nuôi dưỡng, củng cố hàng rào da.</li>
+                            <li>Kết cấu dạng gel tạo bọt giúp làm sạch sâu, loại bỏ dầu thừa, thông thoáng lỗ chân lông nhưng vẫn duy trì độ ẩm tự nhiên của da.</li>
+                        </ul>
+                    </div>
+
+                    <div id="parameter">
+                        <h2>Thông số sản phẩm</h2>
+                        <table>
+                            <tr>
+                                <td>Barcode</td>
+                                <td>337875597333</td>
+                            </tr>
+                            <tr>
+                                <td>Thương Hiệu</td>
+                                <td>Cerave</td>
+                            </tr>
+                            <tr>
+                                <td>Xuất xứ thương hiệu</td>
+                                <td>Mỹ</td>
+                            </tr>
+                            <tr>
+                                <td>Nơi sản xuất</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Loại da</td>
+                                <td>Da khô</td>
+                            </tr>
+                            <tr>
+                                <td>Giới tính</td>
+                                <td>Nam và Nữ</td>
+                            </tr>
+                            <tr>
+                                <td>Vấn đề da</td>
+                                <td>Da thiếu nước , thiếu ấm</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="ingredient">
+                        <h2>Thành phần sản phẩm</h2>
+                        <p><strong>Thành phần chính: </strong></p>
+                        <ul>
+                            <li>3 loại Ceramides (1, 3, 6-II): thiết yếu giúp khôi phục hàng rào độ ẩm da. </li>
+                            <li>Hyaluronic Acid: giúp duy trì độ ẩm tự nhiên của da.</li>
+                            <li>Niacinamide: giúp làm dịu, nuôi dưỡng, củng cố hàng rào da.</li>
+                        </ul>
+                        <p><strong>Thành phần đầy đủ</strong></p>
+                        <p>Purified Water (Aqua), Cocamidopropyl Hydroxysultaine, Glycerin, Sodium Lauroyl 
+                            Sarcosinate, Peg-150 Pentaerythrityl Tetrastearate (And) Peg-6 Caprylic/Capric 
+                            Glycerides, Niacinamide, Propylene Glycol, Sodium Methyl Cocoyl Taurate, Ceramide 
+                            3, Ceramide 6-Ii, Ceramide 1, Hyaluronic Acid, Cholesterol, Sodium Chloride, 
+                            Phytosphingosine, Citric Acid, Edetate Disodium Dihydrate, Sodium Lauroyl 
+                            Lactylate, Methylparaben, Propylparaben, Carbomer, Xanthan Gum. </p>
+                    </div>
+
+                    <div id="guide">
+                        <h2>Hướng dẫn sử dụng</h2>
+                        <ul>
+                            <li>Làm ướt da.</li>
+                            <li>Mát xa sữa rửa mặt theo chuyển động tròn.</li>
+                            <li>Nhẹ nhàng rửa sạch lại với nước.</li>
+                        </ul>
+                    </div>
+
+                    <div id="rate">
+                        <h2>Đánh giá</h2>
+                        <div class="personrate">
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="user">Lưu Đức Quang</span>
+                            <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
+                            <span class="fa-solid fa-check"></span>
+                            <span class="check-buy">Đã mua hàng online</span>
+                            <span class="time-comment">07:21 | 04/10/2022</span>
+                            <p>Sản phầm rất tốt</p>
+                        </div>
+                        <div class="personrate">
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="user">Lưu Đức Thắng</span>
+                            <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
+                            <span class="fa-solid fa-check"></span>
+                            <span class="check-buy">Đã mua hàng online</span>
+                            <span class="time-comment">07:21 | 04/10/2022</span>
+                            <p>Sản phầm chất lượng</p>
+                        </div>
+                        <div class="personrate">
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="user">Lưu Đức Thắng</span>
+                            <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
+                            <span class="fa-solid fa-check"></span>
+                            <span class="check-buy">Đã mua hàng online</span>
+                            <span class="time-comment">07:21 | 04/10/2022</span>
+                            <p>Sản phầm chất lượng</p>
+                        </div>
+                        <div class="personrate">
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="fa-solid fa-star star-gold"></span>
+                            <span class="user">Lưu Đức Thắng</span>
+                            <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
+                            <span class="fa-solid fa-check"></span>
+                            <span class="check-buy">Đã mua hàng online</span>
+                            <span class="time-comment">07:21 | 04/10/2022</span>
+                            <p>Sản phầm chất lượng</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="information-right">
+                    <div class="recommend">
+                        <h2>Sản phẩm liên quan</h2>
+                        <div class="product-recommend">
+                            <a href="">
+                                <div class="product-recommend-img"><img src="./assets/img/Cleanser/cetaphil.jpg" alt=""></div>
+                                <span class="product-recommend-price">123.000<sup>đ</sup></span>
+                                <span class="product-recommend-price-old">300.000<sup>đ</sup></span>
+                                <div class="sale-off">40<sup>%</sup></div>
+                                <div class="product-recommend-name">Sữa Tắm Gội Cetaphil Dịu Lành Cho Bé 400ml
+                                    Baby Wash & Shampoo with Organic Calendula
+                                </div>
+                            </a>
+                                <div class="icon-recommend">
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="people-rate">(10)</span>
+                                    <span>|</span>
+                                    <span class="fa-solid fa-shop"></span>
+                                    <span class="amount-product">123</span>
+                                </div>  
+                        </div>
+                        <div class="product-recommend">
+                            <a href="">
+                                <div class="product-recommend-img"><img src="./assets/img/Cleanser/cerave.jpg" alt=""></div>
+                                <span class="product-recommend-price">350.000<sup>đ</sup></span>
+                                <span class="product-recommend-price-old">400.000<sup>đ</sup></span>
+                                <div class="sale-off">40<sup>%</sup></div>
+                                <div class="product-recommend-name">Sữa rửa mặt Cerave dành cho da dầu
+                                </div>
+                            </a>
+                                <div class="icon-recommend">
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="people-rate">(10)</span>
+                                    <span>|</span>
+                                    <span class="fa-solid fa-shop"></span>
+                                    <span class="amount-product">123</span>
+                                </div>  
+                        </div>
+                        <div class="product-recommend">
+                            <a href="">
+                                <div class="product-recommend-img"><img src="./assets/img/Cleanser/cosrx.webp" alt=""></div>
+                                <span class="product-recommend-price">180.000<sup>đ</sup></span>
+                                <span class="product-recommend-price-old">300.000<sup>đ</sup></span>
+                                <div class="sale-off">40<sup>%</sup></div>
+                                <div class="product-recommend-name">Sữa rửa mặt CosrX dành cho da dầu
+                                </div>
+                            </a>
+                                <div class="icon-recommend">
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="people-rate">(10)</span>
+                                    <span>|</span>
+                                    <span class="fa-solid fa-shop"></span>
+                                    <span class="amount-product">123</span>
+                                </div>  
+                        </div>
+                        <div class="product-recommend">
+                            <a href="">
+                                <div class="product-recommend-img"><img src="./assets/img/Cleanser/laroche.png" alt=""></div>
+                                <span class="product-recommend-price">210.000<sup>đ</sup></span>
+                                <span class="product-recommend-price-old">300.000<sup>đ</sup></span>
+                                <div class="sale-off">40<sup>%</sup></div>
+                                <div class="product-recommend-name">Sữa rửa mặt Laroche Posay dành cho da dầu
+                                </div>
+                            </a>
+                                <div class="icon-recommend">
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="people-rate">(10)</span>
+                                    <span>|</span>
+                                    <span class="fa-solid fa-shop"></span>
+                                    <span class="amount-product">123</span>
+                                </div>  
+                        </div>
+                        <div class="product-recommend">
+                            <a href="">
+                                <div class="product-recommend-img"><img src="./assets/img/Cleanser/innisfree tra xanh.jpg" alt=""></div>
+                                <span class="product-recommend-price">170.000<sup>đ</sup></span>
+                                <span class="product-recommend-price-old">300.000<sup>đ</sup></span>
+                                <div class="sale-off">40<sup>%</sup></div>
+                                <div class="product-recommend-name">Sữa rửa mặt Innisfree trà xanh
+                                </div>
+                            </a>
+                                <div class="icon-recommend">
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="people-rate">(10)</span>
+                                    <span>|</span>
+                                    <span class="fa-solid fa-shop"></span>
+                                    <span class="amount-product">123</span>
+                                </div>  
+                        </div>
+                        <div class="product-recommend">
+                            <a href="">
+                                <div class="product-recommend-img"><img src="./assets/img/Cleanser/Kose-Softymo.jpg" alt=""></div>
+                                <span class="product-recommend-price">250.000<sup>đ</sup></span>
+                                <span class="product-recommend-price-old">300.000<sup>đ</sup></span>
+                                <div class="sale-off">40<sup>%</sup></div>
+                                <div class="product-recommend-name">Sữa rửa mặt Kose-Softymo
+                                </div>
+                            </a>
+                                <div class="icon-recommend">
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="fa-solid fa-star star-gold"></span>
+                                    <span class="people-rate">(10)</span>
+                                    <span>|</span>
+                                    <span class="fa-solid fa-shop"></span>
+                                    <span class="amount-product">123</span>
+                                </div>  
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ------------Footer------------ -->
+
+        <div id="footer">
+            <div class="footer-transport">
+                <div class="transport">
+                    <div class="policy">
+                        <div class="ti-truck truck"></div>
+                        <h3 class="policy-name">
+                            CHÍNH SÁCH HỖ TRỢ
+                        </h3>
+                        <div class="policy-content">
+                            Giảm 50% phí vận chuyển ngoại tỉnh
+                        </div>
+                    </div>
+    
+                    
+                    <div class="policy">
+                        <div class="ti-gift truck"></div>
+                        <h3 class="policy-name">
+                            GIÁ CẠNH TRANH
+                        </h3>
+                        <div class="policy-content">
+                            Cạnh tranh, chi phí phát sinh thấp
+                        </div>
+                    </div>
+    
+                    
+                    <div class="policy">
+                        <div class="ti-home truck"></div>
+                        <h3 class="policy-name">
+                            MIỄN PHÍ KHẢO SÁT
+                        </h3>
+                        <div class="policy-content">
+                            Tư vấn khảo sát tại nhà không cần đặt cọc (Duy nhất)
+                        </div>
+                    </div>
+    
+                    
+                    <div class="policy">
+                        <div class="ti-settings truck"></div>
+                        <h3 class="policy-name">
+                            BẢO HÀNH VƯỢT TRỘI
+                        </h3>
+                        <div class="policy-content">
+                            Hỗ trợ 1 năm bảo hành kèm gói bảo trì 6 tháng/1 lần
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-suport">
+                <div class="suport">
+                    <table>
+                        <tr>
+                            <td class="title-footer">HỖ TRỢ KHÁCH HÀNG</td>
+                            <td class="title-footer">VỀ CHÚNG TÔI</td>
+                            <td class="title-footer">MẠNG XÃ HỘI</td>
+                            <td class="title-footer">FANPAGE</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Hướng dẫn mua hàng</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Sứ mệnh và tầm nhìn</a></span>
+                            </td>
+                            <td rowspan="2">
+                                <a href="https://www.facebook.com/luuducquang"><span class="fa-brands fa-square-facebook"></span></a>
+                                <a href="https://www.instagram.com/kuanq_ne/"><span class="fa-brands fa-instagram"></span></a>
+                            </td>
+                            <td class="img-fanpage" rowspan="5">
+                                <a href="https://www.facebook.com/luuducquang"><img  src="./assets/img/fapage.png" alt=""></a>
+                            </td>
+                            
+                            
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách vận chuyển</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Giới thiệu công ty</a></span>
+                            </td>
+                            
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách bảo hành</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Blog</a></span>
+                            </td>
+                            
+                            <td class="title-footer">    
+                                THANH TOÁN
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách bảo mật thông tin</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Liên hệ</a></span>
+                            </td>
+                            <td rowspan="2">
+                                <span class="fa-brands fa-cc-visa"></span>
+                                <span class="fa-brands fa-cc-paypal"></span>
+                                <span class="fa-regular fa-credit-card"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách đổi trả</a></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="footer">
+
+                <div class="footer-contact">
+
+                    <div class="copyright">
+                        Copyright © SkinCare
+                    </div>
+                    <!-- <div class="socials-list">
+                        <a href=""><i class="ti-facebook social-color"></i></a>
+                        <a href=""><i class="ti-instagram social-color"></i></a>
+                        <a href=""><i class="ti-youtube social-color"></i></a>
+                        <a href=""><i class="ti-pinterest social-color"></i></a>
+                        <a href=""><i class="ti-twitter social-color"></i></a>
+                        <a href=""><i class="ti-linkedin social-color"></i></a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="right: -5%;" class="go-to-top">
+        <i class="fa-solid fa-circle-up"></i>
+    </div>
+    <!-- ------------Menu--------------- -->
+    <div id="menu">
+        <div class="menu-left">
+            <ul class="menu-list">
+                <li><a href="./home.html">Trang chủ</a></li>
+            </ul>
+            <ul class="menu-list">
+                <li><a href="#">Giới thiệu</a></li>
+            </ul>
+            <ul class="menu-list">
+                <li><a href="#">Danh mục</a>
+                    <ul class="menu-nav">
+                        <li><a href="./cleanser.html">Sữa rửa mặt</a></li>
+                        <li><a href="./makeup-remove.html">Nước tẩy trang</a></li>
+                        <li><a href="./toner.html">Toner nước hoa hồng</a></li>
+                        <li><a href="./spray.html">Xịt khoáng</a> </li>
+                        <li><a href="./serum.html">Serum</a> </li>
+                        <li><a href="./Mask.html">Mặt nạ</a></li>
+                        <li><a href="./Lotion.html">Kem dưỡng</a></li>
+                        <li><a href="./sunscreen.html">Kem chống nắng</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="menu-list">
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </div>
+        <div class="ti-close close-menu"></div>
+    </div>
+
+    <!-- -------Cart------- -->
+
+    <!-- <div class="cart">
+         <h2>Giỏ hàng</h2> -->
+        <!-- <div>
+            <table>
+                <thead>
+                    <h2>Giỏ hàng</h2>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Chọn</th>
+                    </tr>
+                </thead>
+                <tbody> --> 
+                    <!-- <tr>
+                        <td style=" display: flex; align-items: center;"><img style="width: 30%;" src="./assets/img/Makeup-remove/biodema.jpg" alt=""><span class="nameItem">Nước tẩy trang Bioderma xanh</span></td>
+                        <td><p><span class="price-item">399.000</span><sup>đ</sup></p></td>
+                        <td>
+                            <div class="buy-amount" style="display: flex;">
+                                <button style="height: 30px; width: 30px; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></button>
+                                <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
+                                <button style="height: 30px; width: 30px; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></button>  
+                            </div>
+                        </td>
+                        <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
+                        
+                    </tr> -->
+                    
+                <!-- </tbody>
+                
+
+            </table>
+            <div style="text-align: right;" class="price-total">
+                <p style="font-weight: bold;">Tổng tiền:<span class="totalPrice">0</span><sup>đ</sup></p>
+            </div>
+        </div>
+    </div> -->
+
+
+</body>
+<script src="./assets/js/product.js"></script>
+<script src="./assets/js/menulist.js"></script>
+<script src="./assets/js/gototop.js"></script>
+<script src="./assets/js/sliderProduct.js"></script>
+<script src="./assets/js/search.js"></script>
+
+</html>

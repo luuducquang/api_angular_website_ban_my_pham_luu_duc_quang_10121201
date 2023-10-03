@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="./assets/css/home-admin.css">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+    <script src="./assets/font/ckeditor/ckeditor.js"></script>
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
+    <link rel="stylesheet" href="./assets/font/cdn.jsdelivr.net_npm_bootstrap@5.3.1_dist_css_bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/product.css">
+</head>
+<body style="background-color: #ddd;">
+    <div class="content">
+        <div class="content-left">
+            <div class="text-center p-4">
+                <img style="height: 100px; width: 100px; border-radius: 50%;" src="../assets/img/background.jpg" alt="">
+            </div>
+            <p class="text-center" style="font-size: 24px;">Lưu Đức Quang</p>
+            <p class="text-center" style="color: #dbdad4;">Chào mừng bạn quay trở lại</p>
+            <div style="padding: 5px; background-color: #cea925; width: 120px;margin: 0 auto;border-radius: 10px;">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <a style="text-decoration: none;color: white;" href="">Đăng xuất</a>
+            </div>
+            <div style="width: 100%; height: 1px;background-color: aliceblue; margin: 10px auto;"></div>
+            <a href="" class="button-item p-3">
+                <i class="fa-solid fa-house-laptop"></i>
+                <span>Tổng quan</span>
+            </a>
+            <a href="./product.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Thông tin sản phẩm</span>
+            </a>
+            <a href="./category.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Danh Mục</span>
+            </a>
+            <a href="./categoryOffer.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Danh Mục Ưu Đãi</span>
+            </a>
+            <a href="./manufacturer.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Hãng Sản Xuất</span>
+            </a>
+            <a href="./distributor.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Nhà Phân Phối</span>
+            </a>
+            <a href="./advertisement.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Quảng Cáo</span>
+            </a>
+            <a href="./bannerslide.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Banner Slide</span>
+            </a>
+            <a href="./typeaccount.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Loại Tài Khoản</span>
+            </a>
+            <a href="./account.html" class="button-item p-3">
+                <i class="fa-brands fa-product-hunt"></i>
+                <span>Tài Khoản</span>
+            </a>
+        </div>
+
+        <div class="container-right">
+            <div class="container">
+                <p class="container p-2 tilte fs-5">Thông tin sản phẩm</p>
+                <form class="form-group">
+                    <input style="margin: 0;padding: 10px;" type="text" name="" id="" placeholder="Nhập tên sản phẩm hoặc giá sản phẩm cần tìm">
+                    <button>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Tìm kiếm
+                    </button>
+                </form>
+                <div class="button">
+                    <button type="button" class="btn btn-success btn-add">
+                        <i class="fa-solid fa-plus"></i>
+                        Thêm sản phẩm
+                    </button>
+                    <button type="button" class="btn btn-danger btn-del">
+                        <i class="fa-solid fa-trash"></i>
+                        Xoá sản phẩm
+                    </button>
+                </div>
+                <form action="">
+                    <table class="table table-product table-hover">
+                       <thead>
+                            <tr class="text-center">
+                                <th scope="col">Chọn</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên Sản Phẩm</th>
+                                <th scope="col">Hình Ảnh</th>
+                                <th scope="col">Giá Bán</th>
+                                <th scope="col">Số Lượng</th>
+                                <th scope="col">Danh mục</th>
+                                <th scope="col">Danh mục ưu đãi</th>
+                                <th>Mô tả</th>
+                                <th scope="col">Hành Động</th>
+                            </tr>
+                       </thead>
+                       <tbody>
+                            <tr class="text-center">
+                                <td>
+                                    <input class="form-check-input text-center" type="checkbox" value="" id="checkitem">
+                                </td>
+                                <td class="id-item">2</td>
+                                <td>Sữa rửa mặt</td>
+                                <td><img style="width: 100px;height: 100px;background-size: cover;" src="../assets/img/65ppIkbEsTQJ2.jpg" alt=""></td>
+                                <td>100000</td>
+                                <td>10</td>
+                                <td>Sữa rửa mặt</td>
+                                <td>Flagsale</td>
+                                <td>Sửa rửa mặt cho da dầu</td>
+                                <td>
+                                    <a style="cursor: pointer;" class="edit text-decoration-none">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <input class="form-check-input text-center" type="checkbox" value="" id="checkitem">
+                                </td>
+                                <td class="id-item">1</td>
+                                <td>Sữa rửa mặt</td>
+                                <td><img style="width: 100px;height: 100px;background-size: cover;" src="../assets/img/65ppIkbEsTQJ2.jpg" alt=""></td>
+                                <td>100000</td>
+                                <td>10</td>
+                                <td>Sữa rửa mặt</td>
+                                <td>Flagsale</td>
+                                <td>Sửa rửa mặt cho da dầu</td>
+                                <td>
+                                    <a style="cursor: pointer;" class="edit text-decoration-none">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                       </tbody>
+                    </table>
+                </form>
+                <div class="product-container">
+                    <div class="add-product container">
+                        <h4 class="text-center p-2">Thêm sản phẩm</h4>
+                        <div class="form-group">
+                            <label for="">Mã danh mục:</label>
+                            <select id="mySelect-danhmuc" class="select form-select-lg">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mã danh mục ưu đãi:</label>
+                            <select id="mySelect-danhmucuudai" class="select form-select-lg">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên sản phẩm:</label>
+                            <input id="ItemName" type="text" class="form-control" placeholder="Tên sản phẩm">
+                        </div>
+                        <div class="form-group">
+                            <label>Ảnh sản phẩm:</label>
+                            <input id="Image" type="file" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Ảnh chi tiết sản phẩm:</label>
+                            <input id="Image" type="file" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Giá:</label>
+                            <input id="Price"type="number" value="0" class="form-control" placeholder="Giá">
+                        </div>
+                        <div class="form-group">
+                            <label>Giá giảm:</label>
+                            <input id="Price-down" type="number" value="0" class="form-control" placeholder="Giá giảm">
+                        </div>
+                        <div class="form-group">
+                            <label>Số lượng:</label>
+                            <input id="Quantity"type="number" value="0" class="form-control" placeholder="Số lượng">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Trạng thái:</label>
+                            <select class="select form-select-lg status">
+                                <option value="true" selected>True</option>
+                                <option value="false">False</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Lượt xem:</label>
+                            <input id="Quantity" type="number" value="0" class="form-control" placeholder="Lượt xem">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Đặc biệt:</label>
+                            <select class="select form-select-lg">
+                                <option value="true" selected>True</option>
+                                <option value="false">False</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mã nhà sản xuất:</label>
+                            <select id="mySelect-producer" class="select form-select-lg">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Mã nhà phân phối:</label>
+                            <select id="mySelect-distributor" class="select form-select-lg">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả:</label>
+                            <textarea id="describe" name="mota" rows="5" cols="5" class="form-control" placeholder="Ghi chú"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Chi tiết:</label>
+                            <textarea id="detail" rows="5" cols="5" class="form-control" placeholder="Chi tiết"></textarea>
+                        </div>
+                        <button type="button" class="btn btn-success" style="margin: 0 0 10px 46%;">Lưu lại</button>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
+                <ul class="pagination">
+                    <li class="page-item prevPage"><p class="page-link " href="#"><<</p></li>
+                    <div class="page-count" style="display:flex">
+                        <li class="page-item"><p class="page-link">1</p></li>
+                    </div>
+                    <li class="page-item nextPage"><p class="page-link " href="#">>></p></li>
+                </ul>
+            </nav>
+            <div class="notifi">
+                <div class="notifi-btn">
+                    <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>
+                    <div class="text-center">
+                        <button type="button" class="yes-btn btn btn-success">Đồng ý</button>
+                        <button type="button" class="no-btn btn btn-secondary">Quay lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+    $(document).ready(function(){
+        $(".btn-add").click(function(){
+            $(".product-container").toggleClass("hide")
+        })
+
+        $(".product-container").click(function(){
+            $(".product-container").toggleClass("hide")
+        })
+
+        $(".add-product").click(function(e){
+            e.stopPropagation();
+        })
+
+        $('.btn-del').click(function(){
+            $('.notifi').toggleClass("hide-confirm")
+        })
+
+        $('.notifi').click(function(){
+            $('.notifi').toggleClass("hide-confirm")
+        })
+
+        $(".notifi-btn").click(function(e){
+            e.stopPropagation();
+        })
+
+        $('.no-btn').click(function(){
+            $('.notifi').toggleClass("hide-confirm")
+        })
+
+    });
+
+</script>
+</html>

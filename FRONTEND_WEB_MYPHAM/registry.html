@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinCare</title>
+    <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/login.css">
+    <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+</head>
+<body>
+    <div id="wrapper">
+        <form action="" id="form-login">
+            <h1 class="form-heading">Đăng ký tài khoản</h1>
+            <div class="form-group">
+                <i class="fa-sharp fa-solid fa-user-secret"></i>
+                <input type="text" class="form-input name" onblur="checkname()" placeholder="Họ và tên">
+                <span class="warning-name" style="color: red; display: none;">*</span>
+
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" class="form-input email" onblur="checkemail()" placeholder="Nhập địa chỉ email">
+                <span class="warning-email" style="color: red; display: none;">*</span>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" class="form-input user" onblur="checkinputuser()" placeholder="Tên đăng nhập">
+                <span class="warning-user" style="color: red; display: none;">*</span>
+
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" class="form-input input-pass" onblur="checkinputpass()" placeholder="Mật khẩu">
+                <span class="warning-pass" style="color: red; display: none;">*</span>
+                
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" class="form-input input-repass" onblur="checkinputpass()" placeholder="Nhập lại mật khẩu">
+                <span class="warning-repass" style="color: red; display: none;">*</span>
+                         
+            </div>
+            
+            <div class="rule">
+                <input type="checkbox" name="checkrule" id="checkrule">
+                <span>Tôi đã đọc và đồng ý với <a href="">điều khiện giao dịch chung</a>&nbspvà &nbsp<a href="">Chính sách bảo mật của SkinCare</a></span>
+            </div>
+            <input type="submit" src="./home.html" value="Đăng ký" class="form-submit">
+            <!-- <a href="./home.html" class="form-submit">Đăng ký</a> -->
+
+            <div class="register">
+                <ul>Tôi đã có tài khoản</ul>
+                <a href="./login.html">Đăng nhập</a>
+            </div>
+            
+        </form>
+    </div>
+</body>
+<script src="./assets/js/regestry.js"></script>
+</html>

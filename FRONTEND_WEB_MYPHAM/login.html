@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinCare</title>
+    <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/login.css">
+    <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+</head>
+<body>
+    <div id="wrapper">
+        <form action="" id="form-login">
+            <h1 class="form-heading">Đăng nhập</h1>
+            <div class="form-group">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" class="form-input input-user" onblur="checkinputuser()" placeholder="Tên đăng nhập">
+                <span class="warning" style="color: red; display: none;">*</span>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" class="form-input input-pass" onblur="checkinputpass()" placeholder="Mật khẩu">
+                <span class="eye-close">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </span>
+                <span class="eye-open hidden">
+                    <i class="fa-solid fa-eye"></i>
+                </span>
+                <span class="warning-pass" style="color: red; display: none;">*</span>
+
+            </div>
+            <div class="forgot-password">
+                <a href="./forgot.html">Quên mật khẩu</a>
+            </div>
+            <!-- <input type="submit" src="./home.html" value="Đăng nhập" class="form-submit"> -->
+            <a class="form-submit" onclick="login()">Đăng nhập</a>
+
+            <div class="register">
+                <ul>Bạn có tài khoản chưa?</ul>
+                <a href="./registry.html">Đăng ký ngay</a>
+            </div>
+            
+        </form>
+    </div>
+</body>
+<script src="../BaiTapLonSkincare/assets/js/login.js"></script>
+</html>
