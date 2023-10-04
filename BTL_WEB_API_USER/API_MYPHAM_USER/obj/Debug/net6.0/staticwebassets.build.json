@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "pjVe+M8terUxshsKE32AJflGYtCjVJ0L3m2ppbuctLQ=",
+  "Source": "API_MYPHAM_USER",
+  "BasePath": "_content/API_MYPHAM_USER",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -9,6 +9,7 @@ using DataAccessLayer;
 using DataModel;
 using System.Text;
 using BusinessLogicLayer;
+using Model;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinCare</title>
+    <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
+
+</head>
+<body ng-app="SaleHome"  ng-controller="HomeCtrl">
+    
+    <div id="frame">
+        
+        <!-- -------------------------------------------Header--------------------------------- -->
+        <div id="header">
+            <div class="ti-menu list"></div>
+
+            <div class="banner">
+                <a href="./home.html"><img src="./assets/img/logo1.png" alt=""></a>
+            </div>
+
+            <!-- --------------Search------------------- -->
+            <div class="wrap">
+                <form action="" class="search" method="post">
+                   <input type="text"  class="searchTerm" placeholder="Bạn muốn tìm gì?">
+                   <button type="submit" class="searchButton">
+                        <div class="ti-search"></div>
+                  </button>
+                </form>
+                
+                <span class="suggest">
+                    <a href="./cleanser.html">Sữa rửa mặt</a>
+                    <a href="./serum.html">Serum</a>
+                    <a href="./sunscreen.html">Kem chống nắng</a>
+                    <a href="./makeup-remove.html">Tẩy trang</a>
+                    <a href="./spray.html">Xịt khoáng</a>
+                </span>
+
+                <span class="home-search"> 
+                    <div class="content-search">
+                        <!-- <div class="products-search">
+                            <img src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt="">
+                            <div class="info">
+                                <div class="name-search">Sữa rửa mặt Cerave Renewing SA Face Cleaner 473ml</div>
+                                <div class="price-search">
+                                    <span>399.000</span><sup>đ</sup>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+              </span>
+             </div>
+
+             <!-- ---------------------Shop--------------- -->
+            <div class="shopping">
+                <a href="./cart.html" class="fa-solid fa-cart-shopping shop">
+                    <!-- <span class="value-cart">0</span> -->
+                </a>
+                
+
+            </div>
+            <!------------------ Login, Registry ------------->
+            <div class="User">
+                <ul class="Login">
+                    <li><a href="./login.html">Đăng nhập</a></li>
+                </ul>
+                <ul class="Registry">
+                    <li><a href="./registry.html">Đăng ký</a></li>
+                </ul>
+            </div>
+
+        </div>
+        
+        <!------------- ImageSlider ---------------->
+
+        <div class="image">
+            <img id="img"  src="./assets/img/skincare+banner.jpg" alt="">
+            <div class="image-btn">
+                <div class="fa-solid fa-circle-chevron-right  btn next"></div>
+                <div class="fa-solid fa-circle-chevron-left  btn prev"></div>
+            </div>
+        </div>
+        <!-- -----------------Banner----------------- -->
+        <div class="banner_left">
+            <img src="./assets/img/bannerdoc.jpg" alt="">
+            <img src="./assets/img/Poster quảng cáo khai trương.jpg" alt="">
+            <img src="./assets/img/poster.jpg" alt="">
+            <img src="./assets/img/poster2.jpg" alt="">
+        </div>
+        <div class="banner_right">
+            <img src="./assets/img/1606717542-poster-my-pham-2.jpg" alt="">
+            <img src="./assets/img/poster-my-pham1.jpg" alt="">
+            <img src="./assets/img/65ppIkbEsTQJ2.jpg    " alt="">
+            <img src="./assets/img/poster3.jpg" alt="">
+        </div>
+
+        <!-- -----------Content Product-------- -->
+        <div id="content">  
+            <div class="sale">
+                <h2 class="type type_Sale">SẢN PHẨM SALE</h2>
+                <div ng-repeat="x in listItem" class="home-product-item">
+                    <a href="./product.html">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt=""></div>
+                        <h4 class="home-product-item_name">{{x.tenSanPham}}</h4>
+                        <span class="decrip-item">{{x.moTa}}
+                        </span>
+                    </a>
+                    <span class="banner-sale">SALE</span>
+                    <span class="sale-up">20 <sup>%</sup><div>Giảm</div></span>
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">{{x.gia}}<sup>đ</sup></span>
+                        <span class="home-product-item_price_old">{{x.giaGiam}}<sup>đ</sup></span>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+            </div>
+
+            <div class="favourite">
+                <h2 class="type">SẢN PHẨM YÊU THÍCH</h2>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Makeup-remove/biodema.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Nước tẩy trang Bioderma Xanh</h4>
+                        <span class="decrip-item">Tẩy trang Bioderma xanh dành cho da hỗn hợp, da dầu dễ bị mụn. Sản phẩm có khả năng tẩy sạch chất bẩn, lớp trang điểm, dầu thừa, và kem chống nắng... trên da mặt. Công nghệ hiện đại giúp kiểm soát lượng dầu ở mức độ thích hợp, lớp da không bị khô, căng quá mức.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">209.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt Cerave Renewing SA Cleanser</h4>
+                        <span class="decrip-item">Sữa rửa mặt Cerave Renewing SA Clenaser chứa Salicylic Axit giúp loại bỏ tế bào chết, làm mềm làn da thô ráp giúp cho làn da trở nên mịn màng, đồng thời loại bỏ dầu và bụi bẩn hiệu quả mà không để lại cảm giác khô da. Sử dụng cho da mặt và cơ thể bị mụn trứng cá.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">399.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cosrx.webp" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt CosrX</h4>
+                        <span class="decrip-item">Sữa rửa mặt Cosrx Low pH Good Morning Gel Cleanser có công dụng chính là làm sạch da một cách nhẹ nhàng, hiệu quả. Đồng thời, sản phẩm còn hỗ trợ làm giảm mụn nhẹ trên da. Bên cạnh đó, sản phẩm còn có độ pH phù hợp với da, cung cấp độ ẩm vừa phải cho da, giúp da ẩm mượt, mềm mịn mà không bị khô căng sau khi rửa mặt.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">250.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Lotion/svr sebiaclear mat + pores.webp" alt=""></div>
+                        <h4 class="home-product-item_name">Kem dưỡng ẩm SVR Sebiaclear Mat + Pores</h4>
+                        <span class="decrip-item">– Sebiaclear Mat + Pores là dung dịch kết hợp giữa điều trị mụn và dưỡng da để mang đến cho bạn làn da sáng khỏe đầy tự tin. – Kem có chứa thành phần Gluconolactone (14%) và Acid salicylic giúp cải thiện kết cấu da, giảm vết thâm và ngăn chặn sự hình thành của mụn.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">250.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Makeup-remove/laroche da nhay cam.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Nước tẩy trang LarochePosay dành cho da nhạy cảm</h4>
+                        <span class="decrip-item">Nước tẩy trang La Roche-Posay Micellar Water Ultra – Da Nhạy Cảm là nước tẩy trang có khả năng làm sạch da lên đến 99%. Sản phẩm có thể loại bỏ kem chống nắng, bụi mịn, giúp lỗ chân lông được thông thoáng. Bảng thành phần tối giản. Không paraben / không chất tạo màu / không cồn/ không chứa xà phòng.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">299.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Serum/b5 godndoc.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Serum phục hồi B5 GoodNDoc</h4>
+                        <span class="decrip-item">Goodndoc Hydra B5 Serum cung cấp Vitamin B5 và nhiều các dưỡng chất khác, cải thiện độ ẩm cho da rất hiệu quả. Không những thế còn giúp xóa đi những nết nhăn do hậu quả của làn da khô để lại. Đưa bạn về với làn da của thời mười chín, đôi mươi. Cải thiện độ ẩm cho da và tăng cường độ đàn hồi cho da.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">319.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Spray/laroche.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Xịt khoáng cấp ẩm LarochePosay</h4>
+                        <span class="decrip-item">Xịt khoáng La Roche-Posay Thermal Spring Water Sensitive Skin được sản xuất từ nguồn nước khoáng chứa nhiều khoáng chất cân bằng và giàu các nguyên tố vi lượng sẽ giúp làm dịu mát làn da, cung cấp độ ẩm cần thiết, làm giảm kích ứng và bảo vệ da trước các tác hại của môi trường bên ngoài.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">259.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Tonner/klairs.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Toner cấp ẩm Klairs</h4>
+                        <span class="decrip-item">Công dụng của toner Klairs Supple Preparation Facial
+                            Làm dịu da khỏi các kích ứng, tổn thương. Kiềm dầu cho da. Làm đều màu da, giúp da trắng sáng hơn. Kháng viêm, kháng khuẩn, giảm mụn và hạn chế các kích ứng trên da.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">219.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Lotion/floslek.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Dưỡng ẩm kiềm dầu Floslek</h4>
+                        <span class="decrip-item">Floslek Mattifying Cream thuộc dòng sản phẩm ngừa mụn Anti Acne của Floslek. Là một sản phẩm với thành phần thiên nhiên, đảm bảo an toàn, lành tính, với công dụng kiểm soát lượng dầu, hạn chế bã nhờn và cung cấp độ ẩm cần thiết cho nha.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">209.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Sunscreen/martiderm spf50+.webp" alt=""></div>
+                        <h4 class="home-product-item_name">Kem chống nắng Martiderm</h4>
+                        <span class="decrip-item">MartiDerm có khả năng chống nắng phổ rộng, bảo vệ làn da toàn diện hơn nhờ áp dụng công nghệ Encapsulation Technology vào các bộ lọc chống nắng. Công nghệ này giúp tăng cường khả năng bảo vệ của hàng rào tự nhiên trên da. Đồng thời thúc đẩy hiệu quả của các thành phần chống nắng có trong sản phẩm.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">289.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+            </div>
+
+            <div class="take-care">
+                <div class="more">
+                    <a href="./serum.html">Xem thêm</a>
+                </div>
+                <h2 class="type">SERUM</h2>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Serum/b5 dr ceutics.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Serum phục hồi B5 DR.Ceutics</h4>
+                        <span class="decrip-item">B5 DrCeutics Dexpanthenol 10% + Centella Extract + HA sử dụng công nghệ đột phá với kết cấu cực thoáng trên làn da. Kết cấu này giúp da ngay lập tức được cung cấp độ ẩm và dưỡng chất, nhanh chóng làm dịu làn da mất nước và tăng cường hydrat hóa, tăng cường độ ẩm của da mà không hề nhờn dính.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">259.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Serum/b5 godndoc.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Serum phục hồi B5 GoodNDoc</h4>
+                        <span class="decrip-item">Goodndoc Hydra B5 Serum cung cấp Vitamin B5 và nhiều các dưỡng chất khác, cải thiện độ ẩm cho da rất hiệu quả. Không những thế còn giúp xóa đi những nết nhăn do hậu quả của làn da khô để lại. Đưa bạn về với làn da của thời mười chín, đôi mươi. Cải thiện độ ẩm cho da và tăng cường độ đàn hồi cho da.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">249.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Serum/b5 mediphar.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Serum phục hồi B5 Mediphar</h4>
+                        <span class="decrip-item">Sản phẩm không màu và không mùi, nên có thể sử dụng tốt với những người vốn thường dị ứng mùi hương hay các chất hóa học. Với thành phần chính là sự kết hợp của Hyaluronic và Vitamin B5, sản phẩm giúp làn da người dùng trở nên mềm mại và mịn màng hơn.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">399.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Serum/centella.webp" alt=""></div>
+                        <h4 class="home-product-item_name">Serum cấp ẩm phục hồi Centalla</h4>
+                        <span class="decrip-item">Serum Skin1004 Madagascar Centella Ampoule rất được ưa chuộng không chỉ bởi hiệu quả mang lại cho làn da mà cả vì độ dịu nhẹ, lành tính, chỉ chứa các thành phần giúp chăm sóc da nhẹ nhàng, an toàn không gây kích ứng đối với da nhạy cảm.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">309.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Serum/ha balance.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Serum cấp ẩm HA Balance</h4>
+                        <span class="decrip-item">Chúng có khả năng giữ nước, cấp ẩm gấp 5 lần trong vòng 24 giờ và chống oxy hóa gấp tới 4 lần so với HA. Chất này tác động đến các tế bào da giúp tạo thành màng chắn để ngăn chặn sự mất nước đồng thời cấp ẩm cho các tế bào.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">180.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+            </div>
+
+            <div class="cleanser">
+                <div class="more">
+                    <a href="./cleanser.html">Xem thêm</a>
+                </div>
+                <h2 class="type">SỮA RỬA MẶT</h2>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt Cerave Renewing SA Cleanser</h4>
+                        <span class="decrip-item">Sữa rửa mặt Cerave Renewing SA Clenaser chứa Salicylic Axit giúp loại bỏ tế bào chết, làm mềm làn da thô ráp giúp cho làn da trở nên mịn màng, đồng thời loại bỏ dầu và bụi bẩn hiệu quả mà không để lại cảm giác khô da. Sử dụng cho da mặt và cơ thể bị mụn trứng cá.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">280.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cerave.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt Cerave Foaming Facial Cleanser</h4>
+                        <span class="decrip-item">Originals Proteos Screen SPF50+ 
+                            Fluid Cream kem chống nắng dạng 
+                            lỏng dễ hấp thụ với chỉ số SPF 
+                            50+ giúp ngăn ngừa và sửa chữa 
+                            các dấu hiệu lão hoá da sớm. 
+                            Sản phẩm cung cấp màng lọc 
+                            chống nắng phổ rộng chống lại 
+                            các tia UVA, UVB, IR (hồng ngoại), 
+                            HEV (ánh sáng xanh).</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">280.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cetaphil.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt Cetaphil</h4>
+                        <span class="decrip-item">Sữa rửa mặt Cetaphil là loại sữa rửa mặt siêu lành tính với những công dụng nổi bật: Làm sạch bụi bẩn, bã nhờn trên da. Duy trì độ ẩm, giảm tình trạng bong tróc, nứt nẻ. Giải quyết các vấn đề về da như: Bệnh chàm, vảy nến, viêm da cơ địa,...</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">110.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/cosrx.webp" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt CosrX</h4>
+                        <span class="decrip-item">Sữa rửa mặt Cosrx Low pH Good Morning Gel Cleanser có công dụng chính là làm sạch da một cách nhẹ nhàng, hiệu quả. Đồng thời, sản phẩm còn hỗ trợ làm giảm mụn nhẹ trên da. Bên cạnh đó, sản phẩm còn có độ pH phù hợp với da, cung cấp độ ẩm vừa phải cho da, giúp da ẩm mượt, mềm mịn mà không bị khô căng sau khi rửa mặt.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">180.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+                <div class="home-product-item">
+                    <a href="">
+                        <div class="home-product-item_img"><img src="./assets/img/Cleanser/e100.jpg" alt=""></div>
+                        <h4 class="home-product-item_name">Sữa rửa mặt E100</h4>
+                        <span class="decrip-item">Sữa rửa mặt E100 nghệ được đặc chế từ tinh chất nghệ và hoạt chất Triclosan có tác dụng làm trắng da, sạch mụn cám và lấy đi tế bào chết. Tinh chất nghệ thẩm thấu sâu vào bên trong mô da, giúp làm mờ các vết đốm, mang đến cho bạn làn da tươi khỏe và sáng mịn. Miễn phí vận chuyển cho đơn hàng từ 300.000 đ.</span>
+                    </a>                    
+                    <div class="home-product-item_price">
+                        <span class="home-product-item_price_current">99.000<sup>đ</sup></span>
+                        <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                    </div>
+                    <div class="home-icon-recommend">
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="fa-solid fa-star star-gold"></span>
+                        <span class="people-rate">(100)</span>
+                        <span>|</span>
+                        <span class="fa-solid fa-shop"></span>
+                        <span class="amount-product">123</span>
+                        <span class="fa-solid fa-truck-fast free-ship"></span>
+                    </div>  
+                    <div class="country">
+                        Hàn Quốc
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!-- ------------Footer------------ -->
+
+        <div id="footer">
+            <div class="footer-transport">
+                <div class="transport">
+                    <div class="policy">
+                        <div class="ti-truck truck"></div>
+                        <h3 class="policy-name">
+                            CHÍNH SÁCH HỖ TRỢ
+                        </h3>
+                        <div class="policy-content">
+                            Giảm 50% phí vận chuyển ngoại tỉnh
+                        </div>
+                    </div>
+    
+                    <div class="policy">
+                        <div class="ti-gift truck"></div>
+                        <h3 class="policy-name">
+                            GIÁ CẠNH TRANH
+                        </h3>
+                        <div class="policy-content">
+                            Cạnh tranh, chi phí phát sinh thấp
+                        </div>
+                    </div>
+    
+                    
+                    <div class="policy">
+                        <div class="ti-home truck"></div>
+                        <h3 class="policy-name">
+                            MIỄN PHÍ KHẢO SÁT
+                        </h3>
+                        <div class="policy-content">
+                            Tư vấn khảo sát tại nhà không cần đặt cọc (Duy nhất)
+                        </div>
+                    </div>
+    
+                    
+                    <div class="policy">
+                        <div class="ti-settings truck"></div>
+                        <h3 class="policy-name">
+                            BẢO HÀNH VƯỢT TRỘI
+                        </h3>
+                        <div class="policy-content">
+                            Hỗ trợ 1 năm bảo hành kèm gói bảo trì 6 tháng/1 lần
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-suport">
+                <div class="suport">
+                    <table>
+                        <tr>
+                            <td class="title-footer">HỖ TRỢ KHÁCH HÀNG</td>
+                            <td class="title-footer">VỀ CHÚNG TÔI</td>
+                            <td class="title-footer">MẠNG XÃ HỘI</td>
+                            <td class="title-footer">FANPAGE</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Hướng dẫn mua hàng</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Sứ mệnh và tầm nhìn</a></span>
+                            </td>
+                            <td rowspan="2">
+                                <a href="https://www.facebook.com/luuducquang"><span class="fa-brands fa-square-facebook"></span></a>
+                                <a href="https://www.instagram.com/kuanq_ne/"><span class="fa-brands fa-instagram"></span></a>
+                            </td>
+                            <td class="img-fanpage" rowspan="5">
+                                <a href="https://www.facebook.com/luuducquang"><img  src="./assets/img/fapage.png" alt=""></a>
+                            </td>
+                            
+                            
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách vận chuyển</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Giới thiệu công ty</a></span>
+                            </td>
+                            
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách bảo hành</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Blog</a></span>
+                            </td>
+                            
+                            <td class="title-footer">    
+                                THANH TOÁN
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách bảo mật thông tin</a></span>
+                            </td>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Liên hệ</a></span>
+                            </td>
+                            <td rowspan="2">
+                                <span class="fa-brands fa-cc-visa"></span>
+                                <span class="fa-brands fa-cc-paypal"></span>
+                                <span class="fa-regular fa-credit-card"></span>
+                                <span class="fa-brands fa-cc-mastercard"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="fa-sharp fa-solid fa-play"></span>
+                                <span><a href="">Chính sách đổi trả</a></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="footer-contact">
+
+                    <div class="copyright">
+                        Copyright © SkinCare
+                    </div>
+                    <!-- <div class="socials-list">
+                        <a href=""><i class="ti-facebook social-color"></i></a>
+                        <a href=""><i class="ti-instagram social-color"></i></a>
+                        <a href=""><i class="ti-youtube social-color"></i></a>
+                        <a href=""><i class="ti-pinterest social-color"></i></a>
+                        <a href=""><i class="ti-twitter social-color"></i></a>
+                        <a href=""><i class="ti-linkedin social-color"></i></a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ---------------MenuFast--------------- -->
+    <div class="fast">
+        <div class="fast-sale">
+            <i data-scroll="360" class="fa-solid fa-fire fast-icon fast-color">
+                <ul class="fast-title">
+                    <span class="fast-arrow"></span>
+                    Sản phẩm đang sale
+                </ul>
+            </i>
+            
+        </div>
+        <div class="fast-favourite">
+            <i data-scroll="1400" class="fa-solid fa-heart fast-icon fast-color">
+                <ul class="fast-title">
+                    <span class="fast-arrow"></span>
+                    Sản phẩm yêu thích
+                </ul>
+            </i>
+            
+        </div>
+        <div class="fast-serum">
+            <i data-scroll="2325" class="fa-solid fa-wine-bottle fast-icon fast-color">
+                <ul class="fast-title">
+                    <span class="fast-arrow"></span>
+                    Serum
+                </ul>
+            </i>
+            
+        </div>
+        <div class="fast-cleaser fast-icon">
+            <i data-scroll="2790" class="fa-solid fa-face-grin-hearts fast-color">
+                <ul class="fast-title">
+                    <span class="fast-arrow"></span>
+                    Sữa rửa mặt
+                </ul>
+            </i>
+            
+        </div>
+    </div>
+    <!-- --------------GO TO TOP------------------ -->
+    <div class="go-to-top">
+        <i class="fa-solid fa-circle-up"></i>
+    </div>
+
+    <!-- ------------Menu--------------- -->
+    <div id="menu">
+        <div class="menu-left">
+            <ul class="menu-list">
+                <li><a href="./home.html">Trang chủ</a></li>
+            </ul>
+            <ul class="menu-list">
+                <li><a href="#">Giới thiệu</a></li>
+            </ul>
+            <ul class="menu-list">
+                <li><a href="#">Danh mục</a>
+                    <ul class="menu-nav">
+                        <li><a href="./cleanser.html">Sữa rửa mặt</a></li>
+                        <li><a href="./makeup-remove.html">Nước tẩy trang</a></li>
+                        <li><a href="./toner.html">Toner nước hoa hồng</a></li>
+                        <li><a href="./spray.html">Xịt khoáng</a> </li>
+                        <li><a href="./serum.html">Serum</a> </li>
+                        <li><a href="./Mask.html">Mặt nạ</a></li>
+                        <li><a href="./Lotion.html">Kem dưỡng</a></li>
+                        <li><a href="./sunscreen.html">Kem chống nắng</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="menu-list">
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </div>
+        <div class="ti-close close-menu"></div>
+    </div>
+
+    <!-- -------Cart------- -->
+
+    <!-- <div class="cart">
+        <div>
+            <table>
+                <thead>
+                    <h2>Giỏ hàng</h2>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Chọn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style=" display: flex; align-items: center;"><img style="width: 30%;" src="./assets/img/Makeup-remove/biodema.jpg" alt=""><span class="nameItem">Nước tẩy trang Bioderma xanh</span></td>
+                        <td><p><span class="price-item">399.000</span><sup>đ</sup></p></td>
+                        <td>
+                            <div class="buy-amount" style="display: flex;">
+                                <button style="height: 30px; width: 30px; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></button>
+                                <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
+                                <button style="height: 30px; width: 30px; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></button>  
+                            </div>
+                        </td>
+                        <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
+                        
+                    </tr>
+                    
+                </tbody>
+                
+
+            </table>
+            <div style="text-align: right;" class="price-total">
+                <p style="font-weight: bold;">Tổng tiền:<span class="totalPrice">0</span><sup>đ</sup></p>
+            </div>
+        </div>
+    </div> -->
+
+
+</body>
+<script src="./assets/js/home.js"></script>
+<script src="./assets/js/slider.js"></script>
+<script src="./assets/js/menulist.js"></script>
+<script src="./assets/js/gototop.js"></script>
+<script src="./assets/js/fast.js"></script>
+<script src="./assets/js/search.js"></script>
+<script src="./assets/js/data-home.js"></script>
+<script src="./assets/js/gobal.js"></script>
+
+
+</html>
