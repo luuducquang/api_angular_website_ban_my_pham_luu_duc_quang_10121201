@@ -54,17 +54,18 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
     $scope.selected =[]
     $scope.toggleSelection = function(item){
-        var idx = $scope.selected.indexOf(item);
+        var idx = $scope.selected.indexOf(item.maSanPham);
         if(idx >-1){
                 $scope.selected.splice(idx, 1);
+                console.log($scope.selected);
         }
         else{
-            $scope.selected.push(item);
+            $scope.selected.push(item.maSanPham);
+            console.log($scope.selected);
         }
-        console.log($scope.selected);
-        console.log(idx);
     }
     
+    var Anhdaidien=""
     $scope.AddProduct= function () {
         var linkAnh = ListImg
         $http({
@@ -73,12 +74,12 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 MaDanhMuc: $scope.danhmuc,
                 Madanhmucuudai: $scope.danhmucuudai,
                 TenSanPham: $scope.nameProduct,
+                AnhDaiDien: Anhdaidien,
                 Gia: $scope.price,
                 GiaGiam: $scope.priceold,
                 SoLuong: $scope.quantity,
                 TrangThai: Boolean($scope.status),
                 LuotXem: $scope.view,
-                DacBiet: Boolean($scope.special),
                 list_json_chitiet_sanpham:[{
                     MaNhaSanXuat: $scope.producer,
                     MoTa: $scope.describe,
@@ -86,7 +87,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 }],
                 list_json_sanpham_nhaphanphoi:[{
                     MaNhaPhanPhoi: $scope.distributor
-                }]
+                }],
+                list_json_anhsanpham:ListImgDetail
             },
             url: current_url + '/api/SanPham/create-sanpham',
             headers: {'Content-Type': 'application/json'}
@@ -115,11 +117,13 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
             reader.onload = function(e){
                 preview.src = e.target.result
+                Anhdaidien = preview.src
+                console.log(Anhdaidien);
             }
         });
     }
     getFilePathProduct()
-
+    var ListImgDetail=[]
     var ListImg = []
     function getFilesDetail(){
         $('#ImageDetail').change(function () {
@@ -140,14 +144,38 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         newImg.src = srcImg
                         document.querySelector('.imgdetail').innerHTML += newImg.outerHTML
                         ListImg.push(srcImg)
+                        console.log(ListImg);
+                        var obj = ListImg.map(function(e){
+                            return {LinkAnh:e}
+                        })
+                        ListImgDetail = obj
+                        console.log(ListImgDetail);
                     }
                     reader.readAsDataURL(fileToLoad)
-                    console.log(ListImg);
                 }
             }
         });
     }
     getFilesDetail()
 
+    yesdel = function(){
+        if($scope.selected.length === 0){
+            alert("chưa chọn mục để xoá")
+            return
+        }
+        else{
+            $http({
+                method: 'DELETE',
+                data: $scope.selected,
+                url: current_url + '/api/SanPham/delete-sanpham',
+                headers: {'Content-Type': 'application/json'}
+            }).then(function (response) { 
+                window.location='#!product'
+            })
+            .catch(function (error) {
+                console.error('Lỗi khi xoá:', error);
+            });
+        }
+    }
 
 });

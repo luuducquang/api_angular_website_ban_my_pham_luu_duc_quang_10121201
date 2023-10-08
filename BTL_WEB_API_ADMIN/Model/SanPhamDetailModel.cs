@@ -19,7 +19,6 @@ namespace Model
         public string MoTa { get; set; }
         public bool TrangThai { get; set; }
         public int LuotXem { get; set; }
-        public bool DacBiet { get; set; }
         public string TenHang { get; set; }
         public string TenNhaPhanPhoi { get; set; }
     }

@@ -53,20 +53,21 @@
             
             <div class="form-group">
                 <label>Tên danh mục:</label>
-                <input ng-model="nameCategory" id="categoryName" type="text" class="form-control" placeholder="Tên danh mục">
+                <input id="categoryName" type="text" class="form-control" placeholder="Tên danh mục">
             </div>
             <div class="form-group">
                 <label for="">Trạng thái:</label>
-                <select ng-model="status" class="select form-select-lg status" id="statusOption">
+                <select class="select form-select-lg status" onchange="change()" id="statusOption">
                     <option value="true" >True</option>
                     <option value="false" selected>False</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Mô tả:</label>
-                <textarea ng-model="describe" id="describe" name="mota" rows="5" cols="5" class="form-control" placeholder="Ghi chú"></textarea>
+                <textarea  id="describe" name="mota" rows="5" cols="5" class="form-control" placeholder="Ghi chú"></textarea>
             </div>
-            <button ng-click="addCategory()" type="button" class="btn btn-success" style="margin: 0 0 10px 46%;">Lưu lại</button>
+            <button ng-click="addCategory()" type="button" class="btn btn-success saveAdd" style="margin: 0 0 10px 46%;">Lưu lại</button>
+            <button ng-click="editCategory()" type="button" class="btn btn-success saveEdit" style="margin: 0 0 10px 46%;">Lưu chỉnh sửa</button>
         </div>
     </div>
 </div>
@@ -83,7 +84,7 @@
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>
         <div class="text-center">
-            <button ng-click="yesdel()" type="button" class="yes-btn btn btn-success" >Đồng ý</button>
+            <button onclick="yesdel()" type="button" class="yes-btn btn btn-success" >Đồng ý</button>
             <button type="button" class="no-btn btn btn-secondary">Quay lại</button>
         </div>
     </div>
@@ -94,6 +95,8 @@
     $(document).ready(function(){
         $(".btn-add").click(function(){
             $(".product-container").toggleClass("hide")
+            document.querySelector('.saveEdit').style.display = 'none'
+            document.querySelector('.saveAdd').style.display = 'block'
         })
 
         $(".product-container").click(function(){

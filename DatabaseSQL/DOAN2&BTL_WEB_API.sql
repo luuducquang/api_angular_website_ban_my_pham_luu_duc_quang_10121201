@@ -48,8 +48,10 @@ CREATE TABLE ChiTietTaiKhoans(
     HoTen NVARCHAR(50),
     DiaChi NVARCHAR(250),
     SoDienThoai NVARCHAR(11),
-    AnhDaiDien NVARCHAR(500)
+    AnhDaiDien NVARCHAR(MAX)
 );
+
+
 
 CREATE TABLE DanhMucUudais(
     Madanhmucuudai INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -72,20 +74,21 @@ CREATE TABLE SanPhams(
     MaDanhMuc INT foreign key (MaDanhMuc) references DanhMucs(MaDanhMuc) on delete cascade on update cascade,
     Madanhmucuudai INT foreign key (Madanhmucuudai) references DanhMucUudais(Madanhmucuudai) on delete cascade on update cascade,
     TenSanPham NVARCHAR(150),
-    AnhDaiDien NVARCHAR(350),
+    AnhDaiDien NVARCHAR(MAX),
     Gia DECIMAL(18, 0),
     GiaGiam DECIMAL(18, 0) DEFAULT 0,
     SoLuong INT,
     TrangThai BIT DEFAULT 0,
-    LuotXem INT DEFAULT 0,
-    DacBiet BIT
+    LuotXem INT DEFAULT 0
 );
+
 
 CREATE TABLE AnhSanPhams(
 	Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	MaSanPham INT foreign key (MaSanPham) references SanPhams(MaSanPham) on delete cascade on update cascade,
-	LinkAnh NVARCHAR(350)
+	LinkAnh NVARCHAR(MAX)
 )
+
 
 CREATE TABLE SlideDetail(
     MaAnh INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -232,13 +235,13 @@ VALUES
 ( N'Serum', 0, N'Nội dung chuyên mục 2')
 
 
-INSERT INTO SanPhams (MaDanhMuc, Madanhmucuudai, TenSanPham, AnhDaiDien, Gia, GiaGiam, SoLuong, TrangThai, LuotXem, DacBiet)
+INSERT INTO SanPhams (MaDanhMuc, Madanhmucuudai, TenSanPham, AnhDaiDien, Gia, GiaGiam, SoLuong, TrangThai, LuotXem)
 VALUES 
-(1, 1, N'Sản phẩm 1', 'product1.jpg', 100000, 0, 50, 1, 0, 0),
-(2, 2, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1),
-(3, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1),
-(4, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1),
-(5, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0, 1)
+(1, 1, N'Sản phẩm 1', 'product1.jpg', 100000, 0, 50, 1, 0),
+(2, 2, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0),
+(3, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 1),
+(4, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 1),
+(5, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0)
 
 
 INSERT INTO AnhSanPhams(MaSanPham, LinkAnh)
@@ -381,7 +384,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY K.Mota ASC)) AS RowNumber, 
+                              ORDER BY K.Id DESC)) AS RowNumber, 
                               K.Id, 
                               K.AnhDaiDien,
 							  K.LinkQuangCao,
@@ -402,7 +405,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY K.Mota ASC)) AS RowNumber, 
+                              ORDER BY K.Id DESC)) AS RowNumber, 
                               K.Id, 
                               K.AnhDaiDien,
 							  K.LinkQuangCao,
@@ -641,7 +644,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY s.TenTaiKhoan ASC)) AS RowNumber, 
+                              ORDER BY s.MaTaiKhoan DESC)) AS RowNumber, 
                               s.TenTaiKhoan,
 							  s.Email,
 							  h.TenLoai,
@@ -670,7 +673,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY s.TenTaiKhoan ASC)) AS RowNumber, 
+                              ORDER BY s.MaTaiKhoan DESC)) AS RowNumber, 
                               s.TenTaiKhoan,
 							  s.Email,
 							  h.TenLoai,
@@ -739,7 +742,7 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_danhmucuudai_search(@page_index  INT, 
+alter proc sp_danhmucuudai_search(@page_index  INT, 
                                        @page_size   INT,
 									   @Tendanhmucuudai nvarchar(50))
 AS
@@ -749,7 +752,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.Tendanhmucuudai ASC)) AS RowNumber, 
+                              ORDER BY a.Madanhmucuudai DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp1
                         FROM DanhMucUudais as a
@@ -769,7 +772,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.Tendanhmucuudai ASC)) AS RowNumber, 
+                              ORDER BY a.Madanhmucuudai DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp2
                         FROM DanhMucUudais as a
@@ -822,7 +825,7 @@ end
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_danhmuc_search(@page_index  INT, 
+alter proc sp_danhmuc_search(@page_index  INT, 
                                        @page_size   INT,
 									   @TenDanhMuc nvarchar(50))
 AS
@@ -832,7 +835,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.TenDanhMuc ASC)) AS RowNumber, 
+                              ORDER BY a.MaDanhMuc DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp1
                         FROM DanhMucs as a
@@ -852,7 +855,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.TenDanhMuc ASC)) AS RowNumber, 
+                              ORDER BY a.MaDanhMuc DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp2
                         FROM DanhMucs as a
@@ -911,7 +914,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.TenHang ASC)) AS RowNumber, 
+                              ORDER BY a.MaNhaSanXuat DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp1
                         FROM HangSanXuats as a
@@ -931,7 +934,7 @@ AS
             BEGIN
                SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.TenHang ASC)) AS RowNumber, 
+                              ORDER BY a.MaNhaSanXuat DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp2
                         FROM HangSanXuats as a
@@ -985,7 +988,7 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_nhaphanphoi_search(@page_index  INT, 
+alter proc sp_nhaphanphoi_search(@page_index  INT, 
                                        @page_size   INT,
 									   @TenNhaPhanPhoi nvarchar(250))
 AS
@@ -995,7 +998,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.TenNhaPhanPhoi ASC)) AS RowNumber, 
+                              ORDER BY a.MaNhaPhanPhoi DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp1
                         FROM NhaPhanPhois as a
@@ -1015,7 +1018,7 @@ AS
             BEGIN
                SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY a.TenNhaPhanPhoi ASC)) AS RowNumber, 
+                              ORDER BY a.MaNhaPhanPhoi DESC)) AS RowNumber, 
                               a.*
                         INTO #Temp2
                         FROM NhaPhanPhois as a
@@ -1043,7 +1046,6 @@ alter proc sp_create_sanpham(
 @SoLuong int,
 @TrangThai bit,
 @LuotXem int,
-@DacBiet bit,
 @list_json_chitiet_sanpham NVARCHAR(MAX),
 @list_json_sanpham_nhaphanphoi NVARCHAR(MAX),
 @list_json_anhsanpham NVARCHAR(MAX)
@@ -1061,8 +1063,7 @@ BEGIN
 					 GiaGiam,
 					 SoLuong,
 					 TrangThai,
-					 LuotXem,
-					 DacBiet
+					 LuotXem
 					)
 					VALUES
 					(@MaDanhMuc, 
@@ -1073,8 +1074,7 @@ BEGIN
 					 @GiaGiam,
 					 @SoLuong,
 					 @TrangThai,
-					 @LuotXem,
-					 @DacBiet
+					 @LuotXem
 					);
 
 					SET @MaSanPham = (SELECT SCOPE_IDENTITY());
@@ -1134,7 +1134,6 @@ alter proc sp_update_sanpham(
 @SoLuong int,
 @TrangThai bit,
 @LuotXem int,
-@DacBiet bit,
 @list_json_chitiet_sanpham NVARCHAR(MAX),
 @list_json_sanpham_nhaphanphoi NVARCHAR(MAX),
 @list_json_anhsanpham NVARCHAR(MAX)
@@ -1150,8 +1149,7 @@ BEGIN
 			GiaGiam = @GiaGiam,
 			SoLuong = @SoLuong,
 			TrangThai = @TrangThai,
-			LuotXem = @LuotXem,
-			DacBiet = @DacBiet
+			LuotXem = @LuotXem
 		where MaSanPham =@MaSanPham
 		
 					IF(@list_json_chitiet_sanpham IS NOT NULL)
@@ -1282,7 +1280,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY s.TenSanPham ASC)) AS RowNumber, 
+                              ORDER BY s.MaSanPham DESC)) AS RowNumber, 
                               s.MaSanPham,
 							  dm.TenDanhMuc,
 							  dmu.Tendanhmucuudai,
@@ -1293,7 +1291,6 @@ AS
 							  s.SoLuong,
 							  s.TrangThai,
 							  s.LuotXem,
-							  s.DacBiet,
 							  h.TenHang,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
@@ -1327,7 +1324,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY s.TenSanPham ASC)) AS RowNumber, 
+                              ORDER BY s.MaSanPham DESC)) AS RowNumber, 
                               s.MaSanPham,
 							  dm.TenDanhMuc,
 							  dmu.Tendanhmucuudai,
@@ -1338,7 +1335,6 @@ AS
 							  s.SoLuong,
 							  s.TrangThai,
 							  s.LuotXem,
-							  s.DacBiet,
 							  h.TenHang,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
@@ -1370,7 +1366,7 @@ AS
 
 
 exec sp_sanpham_search @page_index = 1, @page_size = 10, @TenSanPham = N'',@TenDanhMuc=N''
-,@Tendanhmucuudai=N'',@Gia=100000,@TenHang=N'',@TenNhaPhanPhoi=N''
+,@Tendanhmucuudai=N'',@Gia=0,@TenHang=N'',@TenNhaPhanPhoi=N''
 
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -1538,7 +1534,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              ORDER BY h.MaHoaDon DESC)) AS RowNumber, 
 							  h.MaHoaDon,
 							  h.NgayTao,
 							  h.NgayDuyet,
@@ -1574,7 +1570,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              ORDER BY h.MaHoaDon DESC)) AS RowNumber, 
 							  h.MaHoaDon,
 							  h.NgayTao,
 							  h.NgayDuyet,
@@ -1753,7 +1749,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              ORDER BY h.MaHoaDon DESC)) AS RowNumber, 
 							  h.MaHoaDon,
                               s.MaSanPham,
 							  npp.TenNhaPhanPhoi,
@@ -1787,7 +1783,7 @@ AS
             BEGIN
                 SET NOCOUNT ON;
                         SELECT(ROW_NUMBER() OVER(
-                              ORDER BY h.NgayTao ASC)) AS RowNumber, 
+                              ORDER BY h.MaHoaDon DESC)) AS RowNumber, 
 							  h.MaHoaDon,
                               s.MaSanPham,
 							  npp.TenNhaPhanPhoi,
