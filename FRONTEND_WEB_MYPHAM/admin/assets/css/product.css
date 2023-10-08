@@ -3,7 +3,7 @@
 }
 
 .tilte{
-    background-color: #001c41;
+    background-color: #858585;
     border-radius: 5px;
     border-left: 5px #ead277 solid;
     margin: 10px 0;
@@ -171,4 +171,16 @@
 
 .activePage{
     background-color:burlywood;
+}
+
+.imgdetail img{
+    width: 20%; float: right;padding: 2px;
+}
+
+.page-item{
+    cursor: pointer;
+}
+
+.pagination{
+    height: 37.6px;
 }

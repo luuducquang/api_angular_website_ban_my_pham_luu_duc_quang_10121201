@@ -16,7 +16,7 @@
       //  "AllowedScopes": []
       //}
     }
-
+    "Key": "Admin"
   ],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:23668"
