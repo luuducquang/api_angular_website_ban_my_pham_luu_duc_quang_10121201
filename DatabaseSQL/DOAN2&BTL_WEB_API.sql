@@ -78,6 +78,7 @@ CREATE TABLE SanPhams(
     Gia DECIMAL(18, 0),
     GiaGiam DECIMAL(18, 0) DEFAULT 0,
     SoLuong INT,
+	TrongLuong nvarchar(100),
     TrangThai BIT DEFAULT 0,
     LuotXem INT DEFAULT 0
 );
@@ -699,13 +700,17 @@ AS
     END;
 
 -------------------------------------------------------------------------------------------------------------------------------
-CREATE PROCEDURE sp_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
+alter PROCEDURE sp_login(@taikhoan nvarchar(50), @matkhau nvarchar(50))
 AS
     BEGIN
       SELECT  *
-      FROM TaiKhoans
+      FROM TaiKhoans t 
+	  inner join ChiTietTaiKhoans c on c.MaTaiKhoan = t.MaTaiKhoan
+	  inner join LoaiTaiKhoans l on l.MaLoaitaikhoan = c.MaLoaitaikhoan
       where TenTaiKhoan= @taikhoan and MatKhau = @matkhau;
     END;
+
+exec sp_login 'user1','1'
 
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_get_all_danhmucuudai
@@ -1034,6 +1039,39 @@ AS
         END;
     END;
 
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_get_sanpham_id(@MaSanPham int)
+as
+begin
+	Select s.MaSanPham,
+							  dm.MaDanhMuc,
+							  dm.TenDanhMuc,
+							  dmu.Madanhmucuudai,
+							  dmu.Tendanhmucuudai,
+							  s.TenSanPham,
+							  s.AnhDaiDien,
+							  s.Gia,
+							  s.GiaGiam,
+							  s.SoLuong,
+							  s.TrongLuong,
+							  s.TrangThai,
+							  s.LuotXem,
+							  h.MaNhaSanXuat,
+							  h.TenHang,
+							  npp.MaNhaPhanPhoi,
+							  npp.TenNhaPhanPhoi,
+							  c.MoTa,
+							  c.ChiTiet
+                        FROM SanPhams AS s
+						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
+						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
+						inner join SanPhams_NhaPhanPhois sp on sp.MaSanPham = s.MaSanPham
+						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = sp.MaNhaPhanPhoi
+						inner join DanhMucs dm on dm.MaDanhMuc = s.MaDanhMuc
+						inner join DanhMucUudais dmu on dmu.Madanhmucuudai = s.Madanhmucuudai
+	where s.MaSanPham = @MaSanPham
+end
+
 
 -------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_create_sanpham(
@@ -1044,6 +1082,7 @@ alter proc sp_create_sanpham(
 @Gia decimal(18, 0),
 @GiaGiam decimal(18, 0),
 @SoLuong int,
+@TrongLuong nvarchar(100),
 @TrangThai bit,
 @LuotXem int,
 @list_json_chitiet_sanpham NVARCHAR(MAX),
@@ -1062,6 +1101,7 @@ BEGIN
 					 Gia,
 					 GiaGiam,
 					 SoLuong,
+					 TrongLuong,
 					 TrangThai,
 					 LuotXem
 					)
@@ -1073,6 +1113,7 @@ BEGIN
 					 @Gia,
 					 @GiaGiam,
 					 @SoLuong,
+					 @TrongLuong,
 					 @TrangThai,
 					 @LuotXem
 					);
@@ -1132,6 +1173,7 @@ alter proc sp_update_sanpham(
 @Gia decimal(18, 0),
 @GiaGiam decimal(18, 0),
 @SoLuong int,
+@TrongLuong nvarchar(100),
 @TrangThai bit,
 @LuotXem int,
 @list_json_chitiet_sanpham NVARCHAR(MAX),
@@ -1148,6 +1190,7 @@ BEGIN
 			Gia = @Gia,
 			GiaGiam = @GiaGiam,
 			SoLuong = @SoLuong,
+			TrongLuong = @TrongLuong,
 			TrangThai = @TrangThai,
 			LuotXem = @LuotXem
 		where MaSanPham =@MaSanPham
@@ -1282,16 +1325,21 @@ AS
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY s.MaSanPham DESC)) AS RowNumber, 
                               s.MaSanPham,
+							  dm.MaDanhMuc,
 							  dm.TenDanhMuc,
+							  dmu.Madanhmucuudai,
 							  dmu.Tendanhmucuudai,
 							  s.TenSanPham,
 							  s.AnhDaiDien,
 							  s.Gia,
 							  s.GiaGiam,
 							  s.SoLuong,
+							  s.TrongLuong,
 							  s.TrangThai,
 							  s.LuotXem,
+							  h.MaNhaSanXuat,
 							  h.TenHang,
+							  npp.MaNhaPhanPhoi,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet
@@ -1326,16 +1374,21 @@ AS
                         SELECT(ROW_NUMBER() OVER(
                               ORDER BY s.MaSanPham DESC)) AS RowNumber, 
                               s.MaSanPham,
+							  dm.MaDanhMuc,
 							  dm.TenDanhMuc,
+							  dmu.Madanhmucuudai,
 							  dmu.Tendanhmucuudai,
 							  s.TenSanPham,
 							  s.AnhDaiDien,
 							  s.Gia,
 							  s.GiaGiam,
 							  s.SoLuong,
+							  s.TrongLuong,
 							  s.TrangThai,
 							  s.LuotXem,
+							  h.MaNhaSanXuat,
 							  h.TenHang,
+							  npp.MaNhaPhanPhoi,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet

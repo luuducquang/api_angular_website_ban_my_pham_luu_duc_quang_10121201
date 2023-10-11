@@ -1,6 +1,5 @@
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\appsettings.Development.json
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\appsettings.json
-D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\configDEV.json
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\GATEWAY.exe
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\GATEWAY.deps.json
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\GATEWAY.runtimeconfig.json
@@ -39,4 +38,4 @@ D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\obj\Debug\net6.0\refint\GATE
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\obj\Debug\net6.0\GATEWAY.pdb
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\obj\Debug\net6.0\GATEWAY.genruntimeconfig.cache
 D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\obj\Debug\net6.0\ref\GATEWAY.dll
-D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\configUSER.json
+D:\Bài kiểm tra\BTL_WEB_API\GATE_WAY_API\GATEWAY\bin\Debug\net6.0\configocelot.json

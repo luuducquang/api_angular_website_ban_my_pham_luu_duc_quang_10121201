@@ -96,7 +96,7 @@ var SizeProduct = document.querySelector(".size").innerHTML
 var AmounProduct = document.querySelector(".amount").value
 var addItem = document.querySelector(".add-item")
 var buyNow = document.querySelector(".buy-now")
-var country = document.querySelector('.country-origin').innerHTML
+// var country = document.querySelector('.country-origin').innerHTML
 var price = document.querySelector(".product-item_price_old")
 if(price){
     var priceO = price.innerHTML
@@ -138,8 +138,8 @@ addItem.addEventListener("click",function(){
             priceOld : priceO,
             price : PriceProduct,
             size : SizeProduct,
-            amount : AmounProduct,
-            countryItem :country,
+            amount : AmounProduct
+            // countryItem :country,
         })
         localStorage.setItem("productList",JSON.stringify(listProduct))
         

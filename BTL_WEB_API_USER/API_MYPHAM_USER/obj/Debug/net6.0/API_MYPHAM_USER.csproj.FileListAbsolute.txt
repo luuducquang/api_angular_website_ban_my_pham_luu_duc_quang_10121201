@@ -50,3 +50,4 @@ D:\Bài kiểm tra\BTL_WEB_API\BTL_WEB_API_USER\API_MYPHAM_USER\obj\Debug\net6.0
 D:\Bài kiểm tra\BTL_WEB_API\BTL_WEB_API_USER\API_MYPHAM_USER\obj\Debug\net6.0\API_MYPHAM_USER.pdb
 D:\Bài kiểm tra\BTL_WEB_API\BTL_WEB_API_USER\API_MYPHAM_USER\obj\Debug\net6.0\API_MYPHAM_USER.genruntimeconfig.cache
 D:\Bài kiểm tra\BTL_WEB_API\BTL_WEB_API_USER\API_MYPHAM_USER\obj\Debug\net6.0\ref\API_MYPHAM_USER.dll
+D:\Bài kiểm tra\BTL_WEB_API\BTL_WEB_API_USER\API_MYPHAM_USER\obj\Debug\net6.0\API_MYPHAM_USER.MvcApplicationPartsAssemblyInfo.cs

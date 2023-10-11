@@ -1,5 +1,7 @@
 <div ng-controller="CategoryCtrl" class="container">
-    <p class="container p-2 tilte fs-5">Thông tin danh mục</p>
+    <p class="container p-2 tilte fs-5">Thông tin danh mục
+        <div id="clock" class="header-common"></div>
+    </p>
     <form class="form-group">
         <input style="margin: 0;padding: 10px;" type="text" name="" id="" placeholder="Nhập tên danh mục bạn cần tìm">
         <button>
@@ -8,7 +10,7 @@
         </button>
     </form>
     <div class="button">
-        <button type="button" class="btn btn-success btn-add">
+        <button ng-click="btnAdd()" type="button" class="btn btn-success btn-add">
             <i class="fa-solid fa-plus"></i>
             Thêm Danh Mục
         </button>
@@ -49,7 +51,9 @@
     </form>
     <div class="product-container">
         <div class="add-product container">
-            <h4 class="text-center p-2">Thêm danh mục</h4>
+            <h4 class="text-center p-2">Thông tin danh mục</h4>
+            
+            <!-- <button class="btn-refesh">Làm mới</button> -->
             
             <div class="form-group">
                 <label>Tên danh mục:</label>
@@ -57,9 +61,9 @@
             </div>
             <div class="form-group">
                 <label for="">Trạng thái:</label>
-                <select class="select form-select-lg status" onchange="change()" id="statusOption">
+                <select class="select form-select-lg status" id="statusOption">
                     <option value="true" >True</option>
-                    <option value="false" selected>False</option>
+                    <option value="false">False</option>
                 </select>
             </div>
             <div class="form-group">

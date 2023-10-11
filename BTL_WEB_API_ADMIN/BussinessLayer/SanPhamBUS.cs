@@ -18,6 +18,10 @@ namespace BussinessLayer
         {
             _res = sanPhamResponsitory;
         }
+        public SanPhamDetailModel Getbyid(int id)
+        {
+            return _res.Getbyid(id);
+        }
         public bool Create(SanPhamModel model)
         {
             return _res.Create(model);

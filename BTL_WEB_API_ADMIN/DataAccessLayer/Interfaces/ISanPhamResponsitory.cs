@@ -9,6 +9,7 @@ namespace DataAccessLayer.Interfaces
 {
     public partial interface ISanPhamResponsitory
     {
+        SanPhamDetailModel  Getbyid(int id);
         bool Create(SanPhamModel model);
 
         bool Update(SanPhamModel model);

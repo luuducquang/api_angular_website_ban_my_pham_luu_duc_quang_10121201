@@ -1,11 +1,13 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
 namespace API_MYPHAM.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SanPhamController : ControllerBase
@@ -15,6 +17,13 @@ namespace API_MYPHAM.Controllers
         public SanPhamController(ISanPhamBUS sanPhamBUS)
         {
             _sanPhamBUS = sanPhamBUS;
+        }
+        
+        [Route("getbyid-sanpham/{id}")]
+        [HttpGet]
+        public SanPhamDetailModel GetByID(int id)
+        {
+            return _sanPhamBUS.Getbyid(id);
         }
 
         [Route("create-sanpham")]
@@ -43,7 +52,6 @@ namespace API_MYPHAM.Controllers
             }
             return true;
         }
-
         [Route("search-sanpham")]
         [HttpPost]
         public IActionResult Search([FromBody] Dictionary<string, object> formData)

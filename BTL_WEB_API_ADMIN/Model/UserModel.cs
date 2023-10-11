@@ -13,5 +13,8 @@ namespace DataModel
         public string MatKhau { get; set; }
         public string Email { get; set; }
         public string token { get; set; }
+        public string HoTen { get; set; }
+        public string SoDienThoai { get; set; }
+        public string AnhDaiDien { get; set; }
     }
 }

@@ -184,3 +184,13 @@
 .pagination{
     height: 37.6px;
 }
+
+.btn-refesh{
+    background-color: #858585;
+    padding: 3px 7px;
+    border-radius: 10px;
+    color: #ddd;
+    float: right;
+    margin: 10px 0;
+    
+}

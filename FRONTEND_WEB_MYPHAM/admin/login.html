@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="./assets/css/login.css">
     <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+    <link rel="stylesheet" href="./assets/font/cdn.jsdelivr.net_npm_bootstrap@5.3.1_dist_css_bootstrap.min.css">
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular-route.js"></script>
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -84,21 +88,41 @@ function checkinputpass(){
 }
 
 function login(){
-    var inputUser = document.querySelector(".input-user").value
-    var check = /^[a-zA-Z]+[a-zA-Z0-9]+$/
-    var warningPass = document.querySelector(".warning-pass")
-    var inputPass = document.querySelector(".input-pass").value
-    var check = /^[a-zA-Z0-9]+[a-zA-Z0-9@_]+$/
-    if(inputUser=="" || check.test(inputUser)===false ||inputPass=="" || check.test(inputPass)===false){
-        warning.style.display= 'block'
-        warningPass.style.display= 'block'
-        return
-    }
+    // var inputUser = document.querySelector(".input-user").value
+    // var check = /^[a-zA-Z]+[a-zA-Z0-9]+$/
+    // var warningPass = document.querySelector(".warning-pass")
+    // var inputPass = document.querySelector(".input-pass").value
+    // var checkp = /^[a-zA-Z0-9]+[a-zA-Z0-9@_]+$/
+    // if(inputUser=="" || check.test(inputUser)===false ||inputPass=="" || checkp.test(inputPass)===false){
+    //     warning.style.display= 'block'
+    //     warningPass.style.display= 'block'
+    //     return
+    // }
     
-    else{
-        window.location='./home.html'
+    // else{
+        var item = {}
+        item.username = $('.input-user').val()
+        item.password = $('.input-pass').val()
+        $.ajax({
+                type: "POST",
+                url: current_url+"/api/User/login",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify(item)
+            }).done(function (data) {
+                if (data != null && data.message != null && data.message != 'undefined') {
+                    alert(data.message);
+                } else {
+                    localStorage.setItem("user", JSON.stringify(data));
+                    window.location = 'home.html#!/'
+                }
+               
+            }) .fail(function() {
+              alert('Tài khoản hoặc mật khẩu không chính xác');
+            }); 
         return
-    }
+    // }
 }
 </script>
+<script src="./assets/js/global.js"></script>
 </html>

@@ -82,34 +82,6 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         }
     }
 
-    $scope.AddCategory = function(){
-        if(categoryName.value==='' || status.value==='undefined'|| describe.value==='undefined'){
-            alert('không được bỏ trống')
-            return
-        }
-
-        $http({
-            method: 'POST',
-            data: {
-                TenDanhMuc: categoryName.value,
-                DacBiet: Boolean(status.value),
-                NoiDung: describe.value
-            },
-            url: current_url + '/api/DanhMuc/create-danhmuc',
-            headers: {'Content-Type': 'application/json'}
-        }).then(function (response) { 
-            alert('Thêm thành công');
-            window.location='#!category/1'
-        })
-        .catch(function (error) {
-            console.error('Lỗi khi thêm sản phẩm:', error);
-        });
-    }
-    
-    $scope.addCategory = function(){
-        $scope.AddCategory(); 
-    }
-
     yesdel = function(){
         if($scope.checkCategory.length === 0){
             alert("chưa chọn mục để xoá")
@@ -122,12 +94,46 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 url: current_url + '/api/DanhMuc/delete-danhmuc',
                 headers: {'Content-Type': 'application/json'}
             }).then(function (response) { 
-                window.location='#!category/1'
+                alert('Xoá thành công')
+                window.location='#!category/'+$scope.page
             })
             .catch(function (error) {
                 console.error('Lỗi khi xoá:', error);
             });
         }
+    }
+
+    $scope.btnAdd=function(){
+        categoryName.value=''
+        describe.value=''
+    }
+
+    $scope.AddCategory = function(){
+        if(categoryName.value==='' || describe.value===''){
+            alert('không được bỏ trống')
+            return
+        }
+
+        $http({
+            method: 'POST',
+            data: {
+                TenDanhMuc: categoryName.value,
+                DacBiet: status.value === "true",
+                NoiDung: describe.value
+            },
+            url: current_url + '/api/DanhMuc/create-danhmuc',
+            headers: {'Content-Type': 'application/json'}
+        }).then(function (response) {
+            alert('Thêm thành công');
+            window.location='#!category/'+$scope.page
+        })
+        .catch(function (error) {
+            console.error('Lỗi khi thêm sản phẩm:', error);
+        });
+    }
+    
+    $scope.addCategory = function(){
+        $scope.AddCategory(); 
     }
 
     
@@ -143,7 +149,7 @@ app.controller("CategoryCtrl", function ($scope, $http) {
     }
 
     $scope.editCategory=function(){
-        if(categoryName.value==='' || status.value==='undefined'|| describe.value==='undefined'){
+        if(categoryName.value==='' || status.value===undefined|| describe.value==='undefined'){
             alert('không được bỏ trống')
             return
         }
@@ -153,14 +159,14 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 data: {
                     MaDanhMuc: $scope.maDanhMuc,
                     TenDanhMuc: categoryName.value,
-                    DacBiet: Boolean(status.value),
+                    DacBiet: status.value === "true",
                     NoiDung: describe.value
                 },
                 url: current_url + '/api/DanhMuc/update-danhmuc',
                 headers: {'Content-Type': 'application/json'}
             }).then(function (response) { 
-                alert('Sua thanh cong')
-                window.location='#!category/1'
+                alert('Sửa thành công')
+                window.location='#!category/'+$scope.page
             })
             .catch(function (error) {
                 console.error('Lỗi khi sua:', error);
@@ -168,8 +174,5 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         }
     }
 
-    change=function(){
-        console.log(status.value);
-    }
     
 });

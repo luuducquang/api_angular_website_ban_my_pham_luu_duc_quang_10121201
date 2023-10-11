@@ -5,6 +5,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,23 @@ namespace DataAccessLayer
         public SanPhamResponsitory(IDatabaseHelper dbHelper)
         {
             _dbHelper = dbHelper;
+        }
+
+        public SanPhamDetailModel Getbyid(int id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_get_sanpham_id",
+                     "@MaSanPham", id);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<SanPhamDetailModel>().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public bool Create(SanPhamModel model)
@@ -34,6 +52,7 @@ namespace DataAccessLayer
                     "@SoLuong", model.SoLuong,
                     "@TrangThai", model.TrangThai,
                     "@LuotXem", model.LuotXem,
+                    "@TrongLuong", model.TrongLuong,
                     "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
                     "@list_json_sanpham_nhaphanphoi", model.list_json_sanpham_nhaphanphoi != null ? MessageConvert.SerializeObject(model.list_json_sanpham_nhaphanphoi) : null,
                     "@list_json_anhsanpham", model.list_json_anhsanpham != null ? MessageConvert.SerializeObject(model.list_json_anhsanpham) : null);
@@ -66,6 +85,7 @@ namespace DataAccessLayer
                     "@SoLuong", model.SoLuong,
                     "@TrangThai", model.TrangThai,
                     "@LuotXem", model.LuotXem,
+                    "@TrongLuong", model.TrongLuong,
                     "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
                     "@list_json_sanpham_nhaphanphoi", model.list_json_sanpham_nhaphanphoi != null ? MessageConvert.SerializeObject(model.list_json_sanpham_nhaphanphoi) : null,
                     "@list_json_anhsanpham", model.list_json_anhsanpham != null ? MessageConvert.SerializeObject(model.list_json_anhsanpham) : null);

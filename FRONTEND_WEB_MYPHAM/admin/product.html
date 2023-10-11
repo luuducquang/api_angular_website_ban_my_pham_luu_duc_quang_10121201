@@ -1,5 +1,7 @@
 <div ng-controller="ProductCtrl" class="container">
-    <p class="container p-2 tilte fs-5">Thông tin sản phẩm</p>
+    <p class="container p-2 tilte fs-5">Thông tin sản phẩm
+        <div id="clock" class="header-common"></div>
+    </p>
     <form class="form-group">
         <input style="margin: 0;padding: 10px;" type="text" name="" id=""
             placeholder="Nhập tên sản phẩm hoặc giá sản phẩm cần tìm">
@@ -9,7 +11,7 @@
         </button>
     </form>
     <div class="button">
-        <button type="button" class="btn btn-success btn-add">
+        <button ng-click="btnAdd()" type="button" class="btn btn-success btn-add">
             <i class="fa-solid fa-plus"></i>
             Thêm sản phẩm
         </button>
@@ -28,6 +30,7 @@
                     <th scope="col">Hình Ảnh</th>
                     <th scope="col">Giá Bán</th>
                     <th scope="col">Số Lượng</th>
+                    <th scope="col">Trọng Lượng</th>
                     <th scope="col">Danh mục</th>
                     <th scope="col">Danh mục ưu đãi</th>
                     <th>Mô tả</th>
@@ -47,13 +50,14 @@
                     </td>
                     <td>{{x.gia}}</td>
                     <td>{{x.soLuong}}</td>
+                    <td>{{x.trongLuong}}</td>
                     <td>{{x.tenDanhMuc}}</td>
                     <td>{{x.tendanhmucuudai}}</td>
                     <td>{{x.moTa}}</td>
                     <td>{{x.trangThai}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <i ng-click="edit(x.maSanPham)"  class="fa-solid fa-pen-to-square"></i>
                         </a>
                     </td>
                 </tr>
@@ -62,103 +66,105 @@
     </form>
     <div class="product-container">
         <div class="add-product container">
-            <h4 class="text-center p-2">Thêm sản phẩm</h4>
-            <div class="form-group">
-                <label for="">Mã danh mục:</label>
-                <select id="mySelect-danhmuc" class="select form-select-lg">
-                    <option ng-repeat="x in ListDanhMuc" value={{x.maDanhMuc}} selected>{{x.tenDanhMuc}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Mã danh mục ưu đãi:</label>
-                <select  id="mySelect-danhmucuudai" class="select form-select-lg">
-                    <option ng-repeat="x in ListDanhMucUuDai" value={{x.madanhmucuudai}} selected>{{x.tendanhmucuudai}}
-                    </option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Tên sản phẩm:</label>
-                <input id="ItemName" type="text" class="form-control" placeholder="Tên sản phẩm">
-            </div>
-            <div class="form-group">
-                <label>Ảnh sản phẩm:</label>
-                <input id="ImageProduct" type="file" class="form-control">
-            </div>
-            <img style="width: 20%; float: right;padding: 2px;" class="ImgProduct" src="" alt="">
-            <div class="form-group">
-                <label>Ảnh chi tiết sản phẩm:</label>
-                <input id="ImageDetail" type="file" class="form-control" multiple>
-            </div>
-            <div class="imgdetail">
-
-            </div>
-            <div class="form-group">
-                <label>Giá:</label>
-                <input id="Price" type="number" value="0" class="form-control" placeholder="Giá">
-            </div>
-            <div class="form-group">
-                <label>Giá giảm:</label>
-                <input id="Price-down" type="number" value="0" class="form-control"
-                    placeholder="Giá giảm">
-            </div>
-            <div class="form-group">
-                <label>Số lượng:</label>
-                <input id="Quantity" type="number" value="0" class="form-control"
-                    placeholder="Số lượng">
-            </div>
-            <div class="form-group">
-                <label for="">Trạng thái:</label>
-                <select class="select form-select-lg status">
-                    <option value="true" selected>True</option>
-                    <option value="false">False</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Lượt xem:</label>
-                <input  id="view" type="number" value="0" class="form-control" placeholder="Lượt xem">
-            </div>
-            <div class="form-group">
-                <label for="">Mã nhà sản xuất:</label>
-                <select  id="mySelect-producer" class="select form-select-lg ">
-                    <option ng-repeat="x in ListNhaSanXuat " value={{x.maNhaSanXuat}} selected>{{x.tenHang}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="">Mã nhà phân phối:</label>
-                <select  id="mySelect-distributor" class="select form-select-lg">
-                    <option ng-repeat="x in ListNhaPhanPhoi " value={{x.maNhaPhanPhoi}} selected>{{x.tenNhaPhanPhoi}}
-                    </option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Mô tả:</label>
-                <textarea id="describe" name="mota" rows="5" cols="5" class="form-control"
-                    placeholder="Mô tả tổng quát"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Chi tiết:</label>
-                <textarea  id="detail" rows="5" cols="5" class="form-control"
-                    placeholder="Chi tiết"></textarea>
-            </div>
-            <button ng-click="addProduct()" type="button" class="btn btn-success" style="margin: 0 0 10px 46%;">Lưu
-                lại</button>
+            <h4 class="text-center p-2">Thông tin sản phẩm</h4>
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="">Tên danh mục:</label>
+                    <select ng-model="madanhmuc" id="mySelect-danhmuc" class="select form-select-lg">
+                        <option value="" selected disabled>Chọn danh mục</option>
+                        <option ng-repeat="x in ListDanhMuc" value="{{x.maDanhMuc}}">{{x.tenDanhMuc}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Tên danh mục ưu đãi:</label>
+                    <select ng-model="madanhmucuudai" id="mySelect-danhmucuudai" class="select form-select-lg">
+                        <option value="" selected disabled>Chọn danh mục ưu đãi</option>
+                        <option ng-repeat="x in ListDanhMucUuDai" value="{{x.madanhmucuudai}}">{{x.tendanhmucuudai}}</select>
+                </div>
+                <div class="form-group">
+                    <label>Tên sản phẩm:</label>
+                    <input ng-model="tensanpham" id="ItemName" type="text" class="form-control" placeholder="Tên sản phẩm">
+                </div>
+                <div class="form-group">
+                    <label>Ảnh sản phẩm:</label>
+                    <input ng-model="anhsanpham" id="ImageProduct" type="file" class="form-control">
+                </div>
+                <img style="width: 20%; float: right;padding: 2px;" class="ImgProduct" src="" alt="">
+                <div class="form-group">
+                    <label>Ảnh chi tiết sản phẩm:</label>
+                    <input ng-model="anhchitietsanpham" id="ImageDetail" type="file" class="form-control" multiple>
+                </div>
+                <div class="imgdetail">
+    
+                </div>
+                <div class="form-group">
+                    <label>Giá:</label>
+                    <input ng-model="gia" id="Price" type="number" value="0" class="form-control" placeholder="Giá">
+                </div>
+                <div class="form-group">
+                    <label>Giá giảm:</label>
+                    <input ng-model="giagiam" id="Price-down" type="number" value="0" class="form-control"
+                        placeholder="Giá giảm">
+                </div>
+                <div class="form-group">
+                    <label>Số lượng:</label>
+                    <input ng-model="soluong" id="Quantity" type="number" value="0" class="form-control"
+                        placeholder="Số lượng">
+                </div>
+                <div class="form-group">
+                    <label>Trọng lượng:</label>
+                    <input ng-model="trongluong" id="Weigh" type="text" class="form-control" placeholder="Trọng lượng">
+                </div>
+                <div class="form-group">
+                    <label for="">Trạng thái:</label>
+                    <select ng-model="trangthai" class="select form-select-lg status">
+                        <option value="" selected disabled>Chọn trạng thái</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Lượt xem:</label>
+                    <input ng-model="luotxem" id="view" type="number" class="form-control" placeholder="Lượt xem">
+                </div>
+                <div class="form-group">
+                    <label for="">Tên nhà sản xuất:</label>
+                    <select ng-model="manhasanxuat" id="mySelect-producer" class="select form-select-lg ">
+                        <option value="" selected disabled>Chọn nhà sản xuất</option>
+                        <option ng-repeat="x in ListNhaSanXuat " value={{x.maNhaSanXuat}} selected>{{x.tenHang}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Tên nhà phân phối:</label>
+                    <select ng-model="manhaphanphoi" id="mySelect-distributor" class="select form-select-lg">
+                        <option value="" selected disabled>Chọn nhà phân phối</option>
+                        <option ng-repeat="x in ListNhaPhanPhoi " value={{x.maNhaPhanPhoi}} selected>{{x.tenNhaPhanPhoi}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mô tả:</label>
+                    <textarea ng-model="mota" id="describe" name="mota" rows="5" cols="5" class="form-control"
+                        placeholder="Mô tả tổng quát"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Chi tiết:</label>
+                    <textarea ng-model="chitiet" id="detail" rows="5" cols="5" class="form-control"
+                        placeholder="Chi tiết"></textarea>
+                </div>
+                
+                <button ng-click="save()" type="button" class="btn btn-success saveAdd" style="margin: 0 0 10px 46%;">{{submit}}</button>
+            </form>
         </div>
     </div>
 </div>
 <nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
     <ul class="pagination">
-        <li class="page-item prevPage">
-            <p class="page-link " href="#">
-                <<< </p>
-        </li>
+        <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
         <div class="page-count" style="display:flex">
-            <li class="page-item">
-                <p class="page-link">1</p>
-            </li>
+            <!-- <li class="page-item"><p class="page-link">1</p></li> -->
         </div>
-        <li class="page-item nextPage">
-            <p class="page-link " href="#">>></p>
-        </li>
+        <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
     </ul>
 </nav>
 <div class="notifi">
@@ -176,7 +182,7 @@
 <script>
 
     $(document).ready(function () {
-        $(".btn-add").click(function () {
+        $(".btn-add").click(function(){
             $(".product-container").toggleClass("hide")
         })
 
@@ -204,6 +210,6 @@
             $('.notifi').toggleClass("hide-confirm")
         })
 
-    });
+    }); 
 
 </script>
