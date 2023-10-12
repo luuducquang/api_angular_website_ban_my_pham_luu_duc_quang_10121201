@@ -1,5 +1,5 @@
-<div ng-controller="CategoryCtrl" class="container">
-    <p class="container p-2 tilte fs-5">Thông tin danh mục
+<div ng-controller="billSellCtrl" class="container">
+    <p class="container p-2 tilte fs-5">Thông tin hoá đơn bán
         <div id="clock" class="header-common"></div>
     </p>
     <form class="form-group">
@@ -12,11 +12,11 @@
     <div class="button">
         <button ng-click="btnAdd()" type="button" class="btn btn-success btn-add">
             <i class="fa-solid fa-plus"></i>
-            Thêm Danh Mục
+            Thêm Hoá Đơn Bán
         </button>
         <button type="button" class="btn btn-danger btn-del" >
             <i class="fa-solid fa-trash"></i>
-            Xoá danh mục
+            Xoá Hoá Đơn Bán
         </button>
     </div>
     <form action="">
@@ -25,9 +25,14 @@
                 <tr class="text-center">
                     <th>Chọn</th>
                     <th scope="col">ID</th>
-                    <th scope="col">Tên Danh Mục</th>
-                    <th scope="col">Nội dung</th>
-                    <th scope="col">Trang Thái</th>
+                    <th scope="col">Tên Khách Hàng</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                    <th scope="col">Số Lượng</th>
+                    <th scope="col">Tổng Giá</th>
+                    <th scope="col">Địa chỉ giao</th>
+                    <th scope="col">Thời gian giao</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Trạng Thái</th>
                     <th scope="col">Hành Động</th>
                 </tr>
            </thead>
@@ -51,19 +56,18 @@
     </form>
     <div class="product-container">
         <div class="add-product container">
-            <h4 class="text-center p-2">Thông tin danh mục</h4>
+            <h4 class="text-center p-2">Thông tin hoá đơn bán</h4>
             
             <!-- <button class="btn-refesh">Làm mới</button> -->
             
             <div class="form-group">
-                <label>Tên danh mục:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Tên danh mục">
+                <label>Tên khách hàng:</label>
+                <input id="categoryName" type="text" class="form-control" placeholder="Tên khách hàng">
             </div>
             <div class="form-group">
-                <label for="">Trạng thái:</label>
-                <select class="select form-select-lg status" id="statusOption">
+                <label for="">Tên sản phẩm:</label>
+                <select class="select form-select-lg status">
                     <option value="true" >True</option>
-                    <option value="false">False</option>
                 </select>
             </div>
             <div class="form-group">

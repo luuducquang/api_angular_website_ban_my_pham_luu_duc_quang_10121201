@@ -49,5 +49,33 @@ namespace API_MYPHAM.Controllers
             return Ok();
         }
 
+        [Route("search-slide")]
+        [HttpPost]
+        public IActionResult Search([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string TieuDe = "";
+                if (formData.Keys.Contains("TieuDe") && !string.IsNullOrEmpty(Convert.ToString(formData["TieuDe"]))) { TieuDe = Convert.ToString(formData["TieuDe"]); }
+                long total = 0;
+                var data = _slideDetailBUS.Search(page, pageSize, out total, TieuDe);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

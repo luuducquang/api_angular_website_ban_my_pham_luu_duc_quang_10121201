@@ -434,32 +434,22 @@ end
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_them_slide(
 @TieuDe nvarchar(max),
-@TieuDe1 nvarchar(max),
-@TieuDe2 nvarchar(max),
-@MoTa1 nvarchar(max),
-@MoTa2 nvarchar(max),
-@MoTa3 nvarchar(max),
-@MoTa4 nvarchar(max),
+@MoTa nvarchar(max),
 @LinkAnh nvarchar(max))
 as
 begin
-	insert into SlideDetail(TieuDe,TieuDe1,TieuDe2,MoTa1,MoTa2,MoTa3,MoTa4,LinkAnh)
-	values (@TieuDe,@TieuDe1,@TieuDe2,@MoTa1,@MoTa2,@MoTa3,@MoTa4,@LinkAnh)
+	insert into SlideDetail(TieuDe,MoTa,LinkAnh)
+	values (@TieuDe,@MoTa,@LinkAnh)
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_suaslide(@MaAnh int,@TieuDe nvarchar(max),
-@TieuDe1 nvarchar(max),
-@TieuDe2 nvarchar(max),
-@MoTa1 nvarchar(max),
-@MoTa2 nvarchar(max),
-@MoTa3 nvarchar(max),
-@MoTa4 nvarchar(max),
+alter proc sp_suaslide(@MaAnh int,@TieuDe nvarchar(max),
+@MoTa nvarchar(max),
 @LinkAnh nvarchar(max))
 as
 begin
 	update SlideDetail
-	set TieuDe = @TieuDe,TieuDe1 = @TieuDe1,TieuDe2 = @TieuDe2,MoTa1 = @MoTa1,MoTa2 = @MoTa2,MoTa3 = @MoTa3,MoTa4 = @MoTa4,LinkAnh = @LinkAnh
+	set TieuDe = @TieuDe,MoTa = @MoTa,LinkAnh = @LinkAnh
 	where MaAnh = @MaAnh 
 end
 
@@ -471,10 +461,56 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_get_all_loaitaikhoan
+create proc sp_searchslide(@page_index  INT, 
+                                       @page_size   INT,
+									   @TieuDe nvarchar(MAX))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.MaAnh DESC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp1
+                        FROM SlideDetail as a
+					    WHERE (@TieuDe = '' or a.TieuDe like '%'+@TieuDe +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Temp1; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY a.MaAnh DESC)) AS RowNumber, 
+                              a.*
+                        INTO #Temp2
+                        FROM SlideDetail as a
+					    WHERE (@TieuDe = '' or a.TieuDe like '%'+@TieuDe +'%')
+						
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Temp2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Temp2
+                        DROP TABLE #Temp2; 
+        END;
+    END;
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_get_all_loaitaikhoan
 as
 begin
 	select*from LoaiTaiKhoans
+	order by MaLoaitaikhoan DESC
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -555,9 +591,8 @@ BEGIN
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_update_taikhoan(
+alter proc sp_update_taikhoan(
 @MaTaiKhoan int,
-@MatKhau nvarchar(50),
 @Email nvarchar(150),
 @list_json_chitiet_taikhoan NVARCHAR(MAX)
 )
@@ -565,19 +600,49 @@ as
 BEGIN
 		BEGIN
 			Update TaiKhoans
-			Set MatKhau =@MatKhau,Email =@Email
+			Set Email =@Email
 			WHERE MaTaiKhoan = @MaTaiKhoan
-
 					IF(@list_json_chitiet_taikhoan IS NOT NULL)
 						BEGIN
+							SELECT JSON_VALUE(p.value, '$.maChitietTaiKhoan') as maChitietTaiKhoan,
+								JSON_VALUE(p.value, '$.maTaiKhoan') as maTaiKhoan,
+								JSON_VALUE(p.value, '$.maLoaitaikhoan') as maLoaitaikhoan,
+								JSON_VALUE(p.value, '$.hoTen') as hoTen,
+								JSON_VALUE(p.value, '$.diaChi') as diaChi, 
+								JSON_VALUE(p.value, '$.soDienThoai') as soDienThoai,
+								JSON_VALUE(p.value, '$.anhDaiDien') as anhDaiDien,
+								JSON_VALUE(p.value, '$.status') as status
+								INTO #Result
+							FROM OPENJSON(@list_json_chitiet_taikhoan) AS p;
+
+							--insert status =1
+							Insert into ChiTietTaiKhoans(MaTaiKhoan,MaLoaitaikhoan,HoTen,DiaChi,SoDienThoai,AnhDaiDien)
+							select @MaTaiKhoan,
+									#Result.maLoaitaikhoan,
+									#Result.hoTen,
+									#Result.diaChi,
+									#Result.soDienThoai,
+									#Result.anhDaiDien
+							from #Result
+							where #Result.status = 1
+
+							--update status =2 
 							Update ChiTietTaiKhoans
-							Set
-								HoTen =  JSON_VALUE(y.value, '$.hoTen'),
-								DiaChi = JSON_VALUE(y.value, '$.diaChi'),
-								SoDienThoai =  JSON_VALUE(y.value, '$.soDienThoai'),
-								AnhDaiDien =  JSON_VALUE(y.value, '$.anhDaiDien')
-							from OPENJSON(@list_json_chitiet_taikhoan) AS y
-							Where MaChitietTaiKhoan = @MaTaiKhoan
+							set MaLoaitaikhoan= #Result.maLoaitaikhoan,
+								HoTen = #Result.hoTen,
+								DiaChi = #Result.diaChi,
+								SoDienThoai = #Result.soDienThoai,
+								AnhDaiDien = #Result.anhDaiDien
+							from #Result
+							where ChiTietTaiKhoans.MaChitietTaiKhoan=#Result.maChitietTaiKhoan and #Result.status = '2'
+
+							--delete status =3
+							delete c 
+							from ChiTietTaiKhoans c
+							inner join #Result r on c.maChitietTaiKhoan = r.maChitietTaiKhoan
+							where r.status = '3'
+							drop table #Result
+
 						END;
 			END
 
@@ -610,17 +675,17 @@ end
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_sua_chitiettaikhoan(@MaChitietTaiKhoan int,
-@HoTen nvarchar(50),
-@DiaChi nvarchar(250),
-@SoDienThoai nvarchar(11),
-@AnhDaiDien nvarchar(500))
-as
-begin
-	update ChiTietTaiKhoans
-	set HoTen = @HoTen, DiaChi = @DiaChi, SoDienThoai = @SoDienThoai, AnhDaiDien = @AnhDaiDien
-	where MaChitietTaiKhoan = @MaChitietTaiKhoan
-end
+--create proc sp_sua_chitiettaikhoan(@MaChitietTaiKhoan int,
+--@HoTen nvarchar(50),
+--@DiaChi nvarchar(250),
+--@SoDienThoai nvarchar(11),
+--@AnhDaiDien nvarchar(500))
+--as
+--begin
+--	update ChiTietTaiKhoans
+--	set HoTen = @HoTen, DiaChi = @DiaChi, SoDienThoai = @SoDienThoai, AnhDaiDien = @AnhDaiDien
+--	where MaChitietTaiKhoan = @MaChitietTaiKhoan
+--end
 
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_xoa_taikhoan(@MaTaiKhoan int)
@@ -650,7 +715,9 @@ AS
 							  s.Email,
 							  h.TenLoai,
 							  c.HoTen,
-							  c.SoDienThoai
+							  c.SoDienThoai,
+							  h.MaLoaitaikhoan,
+							  c.AnhDaiDien
                         INTO #Temp1
                         FROM TaiKhoans AS s
 						inner join ChiTietTaiKhoans c on c.MaTaiKhoan = s.MaTaiKhoan
@@ -1039,6 +1106,8 @@ AS
         END;
     END;
 
+
+
 -------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_get_sanpham_id(@MaSanPham int)
 as
@@ -1342,7 +1411,8 @@ AS
 							  npp.MaNhaPhanPhoi,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
-							  c.ChiTiet
+							  c.ChiTiet,
+							  c.MaChiTietSanPham
                         INTO #Temp1
                         FROM SanPhams AS s
 						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
@@ -1391,7 +1461,8 @@ AS
 							  npp.MaNhaPhanPhoi,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
-							  c.ChiTiet
+							  c.ChiTiet,
+							  c.MaChiTietSanPham
                         INTO #Temp2
                         FROM SanPhams AS s
 						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham

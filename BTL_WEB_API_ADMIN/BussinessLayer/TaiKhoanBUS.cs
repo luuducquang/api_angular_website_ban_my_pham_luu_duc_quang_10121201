@@ -23,6 +23,11 @@ namespace BussinessLayer
             return _res.Create(model);
         }
 
+        public bool Update(TaiKhoanModel model)
+        {
+            return _res.Update(model);
+        }
+
         public bool Doimk(DoimkModel model)
         {
             return _res.Doimk(model);

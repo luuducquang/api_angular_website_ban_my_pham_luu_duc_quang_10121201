@@ -36,5 +36,10 @@ namespace BussinessLayer
         {
             return _res.Delete(MaAnh);
         }
+
+        public List<SlideDetailModel> Search(int pageIndex, int pageSize, out long total, string TieuDe)
+        {
+            return _res.Search(pageIndex, pageSize, out total, TieuDe);
+        }
     }
 }

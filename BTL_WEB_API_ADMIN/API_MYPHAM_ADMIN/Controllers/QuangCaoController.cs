@@ -24,21 +24,21 @@ namespace API_MYPHAM.Controllers
             return _quangCaoBUS.GetDataAll();
         }
 
-        [Route("create-quang-cao")]
+        [Route("create-quangcao")]
         [HttpPost]
         public IActionResult CreateQuangCao([FromBody]QuangCaoModel quangCao)
         {
             return Ok(_quangCaoBUS.Create(quangCao));
         }
 
-        [Route("update-quang-cao")]
+        [Route("update-quangcao")]
         [HttpPut]
         public IActionResult UpdateQuangCao([FromBody] QuangCaoModel quangCao)
         {
             return Ok(_quangCaoBUS.Update(quangCao));
         }
 
-        [Route("delete-quang-cao")]
+        [Route("delete-quangcao")]
         [HttpDelete]
         public IActionResult DeleteQuangcao([FromBody] Dictionary<string, int>[] formData)
         {
@@ -51,7 +51,7 @@ namespace API_MYPHAM.Controllers
             return Ok();
         }
 
-        [Route("delete-quang-cao2")]
+        [Route("delete-quangcao2")]
         [HttpDelete]
         public IActionResult DeleteQuangcao2([FromBody] List<int> formData)
         {
@@ -62,7 +62,7 @@ namespace API_MYPHAM.Controllers
             return Ok();
         }
 
-        [Route("search-quang-cao")]
+        [Route("search-quangcao")]
         [HttpPost]
         public IActionResult Search([FromBody] Dictionary<string, object> formData)
         {

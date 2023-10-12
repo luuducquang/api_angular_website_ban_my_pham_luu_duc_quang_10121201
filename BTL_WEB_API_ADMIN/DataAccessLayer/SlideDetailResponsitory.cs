@@ -37,12 +37,7 @@ namespace DataAccessLayer
             {
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_them_slide",
                 "@TieuDe", model.TieuDe,
-                "@TieuDe1", model.TieuDe1,
-                "@TieuDe2", model.TieuDe2,
-                "@MoTa1", model.MoTa1,
-                "@MoTa2", model.MoTa2,
-                "@MoTa3", model.MoTa3,
-                "@MoTa4", model.MoTa4,
+                "@MoTa", model.MoTa,
                 "@LinkAnh", model.LinkAnh);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
@@ -64,12 +59,7 @@ namespace DataAccessLayer
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_suaslide"
                     ,"@MaAnh",model.MaAnh,
                 "@TieuDe", model.TieuDe,
-                "@TieuDe1", model.TieuDe1,
-                "@TieuDe2", model.TieuDe2,
-                "@MoTa1", model.MoTa1,
-                "@MoTa2", model.MoTa2,
-                "@MoTa3", model.MoTa3,
-                "@MoTa4", model.MoTa4,
+                "@MoTa", model.MoTa,
                 "@LinkAnh", model.LinkAnh);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
@@ -101,7 +91,26 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
-
+        public List<SlideDetailModel> Search(int pageIndex, int pageSize, out long total, string TieuDe)
+        {
+            string msgError = "";
+            total = 0;
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_searchslide",
+                    "@page_index", pageIndex,
+                    "@page_size", pageSize,
+                    "@TieuDe", TieuDe);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<SlideDetailModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
     }

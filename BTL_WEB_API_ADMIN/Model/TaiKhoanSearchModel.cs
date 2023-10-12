@@ -13,5 +13,7 @@ namespace Model
         public string TenLoai {  get; set; }
         public string HoTen {  get; set; }
         public string SoDienThoai {  get; set; }
+        public int MaLoaiTaiKhoan {  get; set; }
+        public string AnhDaiDien {  get; set; }
     }
 }

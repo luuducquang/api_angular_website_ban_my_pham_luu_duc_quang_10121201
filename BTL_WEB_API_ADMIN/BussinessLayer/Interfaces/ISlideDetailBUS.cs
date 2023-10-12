@@ -14,6 +14,7 @@ namespace BussinessLayer.Interfaces
         bool Create(SlideDetailModel model);
         bool Update(SlideDetailModel model);
         bool Delete(int MaAnh);
+        List<SlideDetailModel> Search(int page, int pageSize, out long total, string TieuDe);
 
     }
 }

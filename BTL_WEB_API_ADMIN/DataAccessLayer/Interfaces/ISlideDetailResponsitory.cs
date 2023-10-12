@@ -15,5 +15,6 @@ namespace DataAccessLayer.Interfaces
 
         bool Update(SlideDetailModel model);
         bool Delete(int MaAnh);
+        List<SlideDetailModel> Search(int page, int pageSize, out long total, string TieuDe);
     }
 }

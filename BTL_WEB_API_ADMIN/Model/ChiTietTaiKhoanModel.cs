@@ -15,6 +15,7 @@ namespace Model
         public string DiaChi {  get; set; }
         public string SoDienThoai {  get; set; }
         public string AnhDaiDien {  get; set; }
+        public int status {  get; set; }
     }
 
 }

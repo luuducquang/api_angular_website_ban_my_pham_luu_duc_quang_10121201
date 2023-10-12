@@ -17,11 +17,39 @@ app.config(function($routeProvider) {
     templateUrl : "manufacturer.html",
     controller: "manufacturer"
   })
+  .when("/distributor/:page", {
+    templateUrl : "distributor.html",
+    controller: "distributor"
+  })
+  .when("/advertisement/:page", {
+    templateUrl : "advertisement.html",
+    controller: "advertisement"
+  })
+  .when("/bannerslide/:page", {
+    templateUrl : "bannerslide.html",
+    controller: "bannerslide"
+  })
+  .when("/typeaccount", {
+    templateUrl : "typeaccount.html"
+  })
+  .when("/account/:page", {
+    templateUrl : "account.html",
+    controller: "account"
+  })
+  .when("/billSell/:page", {
+    templateUrl : "billSell.html",
+    controller: "billSell"
+  })
+  .when("/importBill/:page", {
+    templateUrl : "importBill.html",
+    controller: "importBill"
+  })
 });
 
 var userLocalStorage = JSON.parse(localStorage.getItem("user"))
 if(userLocalStorage){
   document.querySelector('.nameUser').innerHTML=userLocalStorage.hoten
+  document.querySelector('.imgUser').src=userLocalStorage.anhdaidien
 }
 if(!userLocalStorage){
   window.location.href = './login.html'

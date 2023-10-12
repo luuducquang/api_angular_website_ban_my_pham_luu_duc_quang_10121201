@@ -42,6 +42,28 @@ namespace DataAccessLayer
 
         }
 
+        public bool Update(TaiKhoanModel model)
+        {
+            string msgError = "";
+            try
+            {
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_update_taikhoan",
+                    "@MaTaiKhoan", model.MaTaiKhoan,
+                    "@Email", model.Email,
+                    "@list_json_chitiet_taikhoan", model.list_json_chitiet_taikhoan != null ? MessageConvert.SerializeObject(model.list_json_chitiet_taikhoan) : null);
+                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception(Convert.ToString(result) + msgError);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
         public bool Doimk(DoimkModel model)
         {
             string msgError = "";

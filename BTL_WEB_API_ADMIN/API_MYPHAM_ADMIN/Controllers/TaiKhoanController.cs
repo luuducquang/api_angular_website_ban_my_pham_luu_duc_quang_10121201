@@ -26,6 +26,14 @@ namespace API_MYPHAM.Controllers
             return model;
         }
 
+        [Route("update-taikhoan")]
+        [HttpPut]
+        public TaiKhoanModel UpdateTaiKhoan([FromBody] TaiKhoanModel model)
+        {
+            _taiKhoanBUS.Update(model);
+            return model;
+        }
+
         [Route("doimk-taikhoan")]
         [HttpPut]
         public DoimkModel Doimatkhau([FromBody] DoimkModel model)

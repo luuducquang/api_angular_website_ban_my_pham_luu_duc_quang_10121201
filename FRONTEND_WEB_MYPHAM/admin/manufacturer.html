@@ -16,7 +16,7 @@
         </button>
         <button type="button" class="btn btn-danger btn-del" >
             <i class="fa-solid fa-trash"></i>
-            Xoá danh mục
+            Xoá Hãng Sản Xuất
         </button>
     </div>
     <form action="">
@@ -72,22 +72,26 @@
 </div>
 <nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
     <ul class="pagination">
-        <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
+        <li class="page-item prevPage">
+            <p onclick="prev()" class="page-link "><<</p>
+        </li>
         <div class="page-count" style="display:flex">
             <!-- <li class="page-item"><p class="page-link">1</p></li> -->
         </div>
-        <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
+        <li class="page-item nextPage">
+            <p onclick="next()" class="page-link">>></p>
+        </li>
     </ul>
-  </nav>
-  <div class="notifi">
+</nav>
+<div class="notifi">
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>
         <div class="text-center">
-            <button onclick="yesdel()" type="button" class="yes-btn btn btn-success" >Đồng ý</button>
+            <button onclick="yesdel()" type="button" class="yes-btn btn btn-success">Đồng ý</button>
             <button type="button" class="no-btn btn btn-secondary">Quay lại</button>
         </div>
     </div>
-
+</div>
 <script>
 
     $(document).ready(function(){
@@ -122,4 +126,3 @@
     });
 
 </script>
-</html>
