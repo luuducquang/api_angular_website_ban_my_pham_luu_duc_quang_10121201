@@ -9,10 +9,12 @@ namespace DataAccessLayer.Interfaces
 {
     public partial interface IHoaDonNhapResponsitory
     {
+        List<ChiTietHoaDonNhapModelTWO> Getbyids(int MaHoaDon);
         bool Create(HoaDonNhapModel model);
         bool Update(HoaDonNhapModel model);
         bool Delete(int MaHoaDon);
         List<ThongkeHoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao, string NhaPhanPhoi);
+        List<HoaDonNhapModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, DateTime? NgayTao, string NhaPhanPhoi);
 
     }
 }

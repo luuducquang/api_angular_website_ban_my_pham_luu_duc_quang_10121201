@@ -15,6 +15,7 @@ namespace Model
         public string SDT { get; set; }
         public string DiaChiGiaoHang { get; set; }
         public string TenSanPham { get; set; }
+        public int MaSanPham { get; set; }
         public int SoLuong { get; set; }
         public Decimal TongGia { get; set; }
     }

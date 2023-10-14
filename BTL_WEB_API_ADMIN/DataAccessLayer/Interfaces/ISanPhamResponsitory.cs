@@ -9,6 +9,7 @@ namespace DataAccessLayer.Interfaces
 {
     public partial interface ISanPhamResponsitory
     {
+        List<SanPhamModel> Getallsanpham();
         SanPhamDetailModel  Getbyid(int id);
         bool Create(SanPhamModel model);
 
@@ -16,5 +17,6 @@ namespace DataAccessLayer.Interfaces
         bool Delete(int MaSanPham);
 
         public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total,string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi);
+        public List<SanPhamModel> SearchSingle(int pageIndex, int pageSize, out long total,string TenSanPham, Decimal Gia);
     }
 }

@@ -1,5 +1,5 @@
 <div ng-controller="importBillCtrl" class="container">
-    <p class="container p-2 tilte fs-5">Thông tin hoá đơn bán
+    <p class="container p-2 tilte fs-5">Thông tin hoá đơn nhập
         <div id="clock" class="header-common"></div>
     </p>
     <form class="form-group">
@@ -12,11 +12,11 @@
     <div class="button">
         <button ng-click="btnAdd()" type="button" class="btn btn-success btn-add">
             <i class="fa-solid fa-plus"></i>
-            Thêm Hoá Đơn Bán
+            Thêm Hoá Đơn Nhập
         </button>
         <button type="button" class="btn btn-danger btn-del" >
             <i class="fa-solid fa-trash"></i>
-            Xoá Hoá Đơn Bán
+            Xoá Hoá Đơn Nhập
         </button>
     </div>
     <form action="">
@@ -25,29 +25,26 @@
                 <tr class="text-center">
                     <th>Chọn</th>
                     <th scope="col">ID</th>
-                    <th scope="col">Tên Khách Hàng</th>
-                    <th scope="col">Tên Sản Phẩm</th>
-                    <th scope="col">Số Lượng</th>
-                    <th scope="col">Tổng Giá</th>
-                    <th scope="col">Địa chỉ giao</th>
-                    <th scope="col">Thời gian giao</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Trạng Thái</th>
+                    <th scope="col">Tên Nhà Phân Phối</th>
+                    <th scope="col">Ngày Tạo</th>
+                    <th scope="col">Kiểu Thanh Toán</th>
+                    <th scope="col">Tên Tài Khoản</th>
                     <th scope="col">Hành Động</th>
                 </tr>
            </thead>
            <tbody>
-                <tr ng-repeat="x in ListDanhMuc" class="text-center">
+                <tr ng-repeat="x in listHoaDonNhap" class="text-center">
                     <td>
                         <input class="form-check-input text-center" ng-model="selected" type="checkbox" ng-click="toggleSelection(x)" value="" id="checkitem">
                     </td>
-                    <td>{{x.maDanhMuc}}</td>
-                    <td>{{x.tenDanhMuc}}</td>
-                    <td>{{x.noiDung}}</td>
-                    <td>{{x.dacBiet}}</td>
+                    <td>{{x.maHoaDon}}</td>
+                    <td>{{x.tenNhaPhanPhoi}}</td>
+                    <td>{{x.ngayTao}}</td>
+                    <td>{{x.kieuThanhToan}}</td>
+                    <td>{{x.tenTaiKhoan}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
-                            <i ng-click="edit(x)"  class="fa-solid fa-pen-to-square"></i>
+                            <i ng-click="edit(x)"  class="fa-solid fa-circle-info"></i>
                         </a>
                     </td>
                 </tr>
@@ -56,26 +53,100 @@
     </form>
     <div class="product-container">
         <div class="add-product container">
-            <h4 class="text-center p-2">Thông tin hoá đơn bán</h4>
+            <h4 class="text-center p-2">Thông tin hoá đơn nhập</h4>
             
             <!-- <button class="btn-refesh">Làm mới</button> -->
             
             <div class="form-group">
-                <label>Tên khách hàng:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Tên khách hàng">
-            </div>
-            <div class="form-group">
-                <label for="">Tên sản phẩm:</label>
-                <select class="select form-select-lg status">
-                    <option value="true" >True</option>
+                <label for="">Tên nhà phân phối:</label>
+                <select ng-model="manhaphanphoi" class="select form-select-lg status">
+                    <option value="" selected disabled>Chọn nhà phân phối</option>
+                    <option ng-repeat="y in NPP" value={{y.maNhaPhanPhoi}} >{{y.tenNhaPhanPhoi}}</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Mô tả:</label>
-                <textarea  id="describe" name="mota" rows="5" cols="5" class="form-control" placeholder="Mô tả"></textarea>
+                <label>Ngày tạo:</label>
+                <input  id="party" name="partydate" type="datetime-local" class="form-control" placeholder="Ngày tạo">
             </div>
-            <button ng-click="addCategory()" type="button" class="btn btn-success saveAdd" style="margin: 0 0 10px 46%;">Lưu lại</button>
-            <button ng-click="editCategory()" type="button" class="btn btn-success saveEdit" style="margin: 0 0 10px 46%;">Lưu chỉnh sửa</button>
+            <div class="form-group">
+                <label>Kiểu thanh toán:</label>
+                <select ng-model="kieuthanhtoan" class="select form-select-lg status">
+                    <option value="" selected disabled>Chọn kiểu thanh toán</option>
+                    <option value="Tiền Mặt">Tiền Mặt</option>
+                    <option value="Thẻ ATM">Thẻ ngân hàng</option>
+                    <option value="Thẻ visa">Thẻ visa</option>
+                    <option value="Thẻ ghi nợ">Thẻ ghi nợ</option>
+                    <option value="Zalo Pay">Zalo Pay</option>
+                    <option value="MoMo">MoMo</option>
+                    <option value="Chuyển khoản">Chuyển khoản</option>
+                    <option value="Apple Pay">Apple Pay</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="">Tên tài khoản:</label>
+                <select ng-model="mataikhoan" class="select form-select-lg status">
+                    <option value="" selected disabled>Chọn tài khoản</option>
+                    <option ng-repeat="y in NameAcc" value={{y.maTaiKhoan}} >{{y.tenTaiKhoan}}</option>
+                </select>
+            </div>
+            <div style="border: 1px solid rgb(162, 163, 168); border-radius: 10px; padding: 10px;">
+                <h4>Chi tiết hoá đơn nhập</h4>
+                <div class="form-group">
+                    <label for="">Tên sản phẩm:</label>
+                    <select ng-model="masanpham" class="select form-select-lg status">
+                        <option value="" selected disabled>Chọn sản phẩm</option>
+                        <option ng-repeat="y in Product" value={{y.maSanPham}} >{{y.tenSanPham}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Số lượng:</label>
+                    <input ng-model="soluong" ng-model="soluong" id="Quantity" type="number" value="0" class="form-control"
+                        placeholder="Số lượng">
+                </div>
+                <div class="form-group">
+                    <label>Đơn vị tính:</label>
+                    <input ng-model="donvitinh" type="text" class="form-control" placeholder="Đơn vị tính">
+                </div>
+                <div class="form-group">
+                    <label>Giá nhập:</label>
+                    <input ng-model="gianhap" ng-model="gia" id="Price" type="number" value="0" class="form-control" placeholder="Giá nhập">
+                </div>
+                <div class="form-group">
+                    <label>Tổng tiền:</label>
+                    <input ng-model="tongtien" ng-model="gia" id="Price" type="number" value="0" class="form-control" placeholder="Tổng tiền">
+                </div>
+                <div class="detail">
+                    <div class="icon">
+                        <i ng-click="refreshDetail()" class="fa-solid fa-rotate-left"></i>
+                        <i ng-click="addDetail()" class="fa-solid fa-plus"></i>
+                        <i ng-click="editDetail()" class="fa-solid fa-pen-to-square"></i>
+                        <i ng-click="deleteDetail()" class="fa-solid fa-trash"></i>
+                    </div>
+                    <form action="">
+                        <table class="table table-product table-hover">
+                            <thead>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Đơn vị tính</th>
+                                <th scope="col">Giá nhập</th>
+                                <th scope="col">Tổng tiền</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-click="clicktoEdit(y)" ng-repeat="y in listHoaDonNhapDetail" class="text-center">
+                                    <td>{{y.id}}</td>
+                                    <td>{{y.tenSanPham}}</td>
+                                    <td>{{y.soLuong}}</td>
+                                    <td>{{y.donViTinh}}</td>
+                                    <td>{{y.giaNhap}}</td>
+                                    <td>{{y.tongTien}}</td>
+                                </tr>
+                           </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <button ng-click="addBill()" type="button" class="btn btn-success saveAdd" style="margin: 10px 0 10px 42%;">Thêm mới</button>
         </div>
     </div>
 </div>
@@ -102,8 +173,6 @@
     $(document).ready(function(){
         $(".btn-add").click(function(){
             $(".product-container").toggleClass("hide")
-            document.querySelector('.saveEdit').style.display = 'none'
-            document.querySelector('.saveAdd').style.display = 'block'
         })
 
         $(".product-container").click(function(){

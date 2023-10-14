@@ -18,7 +18,14 @@ namespace API_MYPHAM.Controllers
         {
             _sanPhamBUS = sanPhamBUS;
         }
-        
+
+        [Route("get-allsanpham")]
+        [HttpGet]
+        public IEnumerable<SanPhamModel> GetDataAll()
+        {
+            return _sanPhamBUS.Getallsanpham();
+        }
+
         [Route("getbyid-sanpham/{id}")]
         [HttpGet]
         public SanPhamDetailModel GetByID(int id)
@@ -74,6 +81,36 @@ namespace API_MYPHAM.Controllers
                 if (formData.Keys.Contains("TenNhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["TenNhaPhanPhoi"]))) { TenNhaPhanPhoi = Convert.ToString(formData["TenNhaPhanPhoi"]); }
                 long total = 0;
                 var data = _sanPhamBUS.Search(page, pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,Gia,TenHang,TenNhaPhanPhoi);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("search-sanphamsingle")]
+        [HttpPost]
+        public IActionResult SearchSingle([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string TenSanPham = "";
+                if (formData.Keys.Contains("TenSanPham") && !string.IsNullOrEmpty(Convert.ToString(formData["TenSanPham"]))) { TenSanPham = Convert.ToString(formData["TenSanPham"]); }
+                Decimal Gia = 0;
+                if (formData.Keys.Contains("Gia") && !string.IsNullOrEmpty(Convert.ToString(formData["Gia"]))) { Gia = Convert.ToDecimal(formData["Gia"]); }
+                long total = 0;
+                var data = _sanPhamBUS.SearchSingle(page, pageSize, out total, TenSanPham, Gia);
                 return Ok(
                    new
                    {

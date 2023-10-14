@@ -12,10 +12,14 @@ namespace BussinessLayer
     public partial class HoaDonNhapBUS : IHoaDonNhapBUS
     {
         private IHoaDonNhapResponsitory _res;
-
         public HoaDonNhapBUS(IHoaDonNhapResponsitory IHoaDonNhapResponsitory)
         {
             _res = IHoaDonNhapResponsitory;
+        }
+
+        public List<ChiTietHoaDonNhapModelTWO> Getbyids(int id)
+        {
+            return _res.Getbyids(id);
         }
         public bool Create(HoaDonNhapModel model)
         {
@@ -34,6 +38,11 @@ namespace BussinessLayer
         public List<ThongkeHoaDonNhapModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, DateTime? NgayTao, string NhaPhanPhoi)
         {
             return _res.Search(pageIndex, pageSize, out total, TenSanPham, NgayTao, NhaPhanPhoi);
+        }
+
+        public List<HoaDonNhapModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, DateTime? NgayTao, string NhaPhanPhoi)
+        {
+            return _res.SearchSingle(pageIndex, pageSize, out total, NgayTao, NhaPhanPhoi);
         }
     }
 }

@@ -4,6 +4,7 @@ using DataAccessLayer.Interfaces;
 using Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace BussinessLayer
         public HoaDonBUS(IHoaDonResponsitory IHoaDonResponsitory)
         {
             _res = IHoaDonResponsitory;
+        }
+
+        public List<ChiTietHoaDonModelTWO> Getbyids(int id)
+        {
+            return _res.Getbyids(id);
         }
         public bool Create(HoaDonModel model)
         {
@@ -36,6 +42,11 @@ namespace BussinessLayer
         public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string TenSanPham)
         {
             return _res.Search(pageIndex, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao,TenSanPham);
+        }
+
+        public List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string TenSanPham)
+        {
+            return _res.SearchSingle(pageIndex, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, TenSanPham);
         }
     }
 }

@@ -10,8 +10,8 @@ namespace Model
     {
         public int MaHoaDon {  get; set; }
         public int MaSanPham {  get; set; }
-        public string TenNhaPhanPhoi {  get; set; }
         public string TenSanPham {  get; set; }
+        public string TenNhaPhanPhoi {  get; set; }
         public int SoLuong {  get; set; }
         public string DonViTinh {  get; set; }
         public Decimal GiaNhap {  get; set; }

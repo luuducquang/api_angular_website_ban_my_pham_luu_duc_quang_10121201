@@ -26,10 +26,7 @@
                     <th scope="col">Chọn</th>
                     <th>ID</th>
                     <th scope="col">Tên Tài Khoản</th>
-                    <th scope="col">Họ Tên</th>
-                    <th scope="col">Ảnh Đại Diện</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Loại Tài Khoản</th>
                     <th scope="col">Hành Động</th>
                 </tr>
            </thead>
@@ -41,13 +38,10 @@
                     </td>
                     <td>{{x.maTaiKhoan}}</td>
                     <td>{{x.tenTaiKhoan}}</td>
-                    <td>{{x.hoTen}}</td>
-                    <td><img style="width: 100px;height: 100px;background-size: cover;" src={{x.anhDaiDien}} alt=""></td>
                     <td>{{x.email}}</td>
-                    <td>{{x.tenLoai}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
-                            <i ng-click="edit(x)"  class="fa-solid fa-pen-to-square"></i>
+                            <i ng-click="edit(x)"  class="fa-solid fa-circle-info"></i>
                         </a>
                     </td>
                 </tr>
@@ -59,38 +53,74 @@
             <h4 class="text-center p-2">Thông tin tài khoản</h4>
             <div class="form-group">
                 <label>Tên tài khoản:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Tên tài khoản">
+                <input ng-model="tentaikhoan" id="categoryName" type="text" class="form-control" placeholder="Tên tài khoản">
             </div>
             <div class="form-group">
                 <label>Mật khẩu:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Mật khẩu">
+                <input ng-model="matkhau" id="categoryName" type="text" class="form-control" placeholder="Mật khẩu">
             </div>
             <div class="form-group">
                 <label>Email:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Email">
+                <input ng-model="email" id="categoryName" type="text" class="form-control" placeholder="Email">
             </div>
-            <div class="form-group">
-                <label for="">Loại tài khoản:</label>
-                <select id="mySelect-typeuser" class="select form-select-lg">
-                </select>
+            <div style="border: 1px solid rgb(162, 163, 168); border-radius: 10px; padding: 10px;">
+                <h4>Chi tiết tài khoản</h4>
+                <div class="form-group">
+                    <label for="">Loại tài khoản:</label>
+                    <select ng-model="loaitaikhoan" id="mySelect-typeuser" class="select form-select-lg">
+                        <option value="">Chọn loại tài khoản</option>
+                        <option ng-repeat="a in listloaitk" value={{a.maLoaitaikhoan}}>{{a.tenLoai}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ảnh đại diện:</label>
+                    <input ng-model="anhdaidien" id="Image" type="file" class="form-control">
+                </div>
+                <img style="width: 20%; float: right;padding: 2px;" class="Img" src="" alt="">  
+                <div class="form-group">
+                    <label>Họ tên:</label>
+                    <input ng-model="hoten" id="categoryName" type="text" class="form-control" placeholder="Họ tên">
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ:</label>
+                    <input ng-model="diachi" id="categoryName" type="text" class="form-control" placeholder="Địa chỉ">
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <input ng-model="sodienthoai" id="categoryName" type="text" class="form-control" placeholder="Số điện thoại">
+                </div>
+                <div class="detail">
+                    <div class="icon">
+                        <i ng-click="refreshDetail()" class="fa-solid fa-rotate-left"></i>
+                        <i ng-click="addDetail()" class="fa-solid fa-plus"></i>
+                        <i ng-click="editDetail()" class="fa-solid fa-pen-to-square"></i>
+                        <i ng-click="deleteDetail()" class="fa-solid fa-trash"></i>
+                    </div>
+                    <form action="">
+                        <table class="table table-product table-hover">
+                            <thead>
+                                <th scope="col">ID</th>
+                                <th scope="col">Ảnh</th>
+                                <th scope="col">Loại tài khoản</th>
+                                <th scope="col">Họ tên</th>
+                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Số điện thoại</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-click="clicktoEdit(y)" ng-repeat="y in listTaiKhoanDetail" class="text-center">
+                                    <td>{{y.maChitietTaiKhoan}}</td>
+                                    <td><img style="width: 100px;height: 100px;background-size: cover;" src={{y.anhDaiDien}} alt="">
+                                    <td>{{y.tenLoai}}</td>
+                                    <td>{{y.hoTen}}</td>
+                                    <td>{{y.diaChi}}</td>
+                                    <td>{{y.soDienThoai}}</td>
+                                </tr>
+                           </tbody>
+                        </table>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Họ tên:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Họ tên">
-            </div>
-            <div class="form-group">
-                <label>Địa chỉ:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Địa chỉ">
-            </div>
-            <div class="form-group">
-                <label>Số điện thoại:</label>
-                <input id="categoryName" type="text" class="form-control" placeholder="Số điện thoại">
-            </div>
-            <div class="form-group">
-                <label>Ảnh dại diện:</label>
-                <input id="Image" type="file" class="form-control">
-            </div>
-            <button ng-click="save()" type="button" class="btn btn-success" style="margin: 0 0 10px 46%;">{{submit}}</button>
+            <button ng-click="addBill()" type="button" class="btn btn-success saveAdd" style="margin: 10px 0 10px 42%;">Thêm mới</button>
         </div>
     </div>
 </div>

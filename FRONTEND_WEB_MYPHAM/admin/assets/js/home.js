@@ -99,3 +99,40 @@ function time() {
     return i;
   }
 }
+
+var currentDate = new Date();
+var gmt7Time = new Date(currentDate.getTime() + 7 * 60 * 60 * 1000);
+var gmt7ISODate = gmt7Time.toISOString().slice(0, 16);
+
+// var btnItem = document.querySelectorAll('.button-item')
+// btnItem.forEach(function(e){
+//   e.addEventListener('click',function(event){
+//      event.target.classList.add('hoverBtn')
+//   })
+// })
+
+var contentLeft = document.querySelector('.content-left')
+var contentRight = document.querySelector('.container-right')
+
+contentLeft.style.marginLeft = "-250px";
+contentRight.style.marginLeft = "0px";
+
+hidemenu=function(){
+  contentLeft.style.animation=''
+  contentRight.style.animation = 'leftTorightMargin linear .3s'
+  contentLeft.style.animation = 'leftToright linear .3s'
+  setTimeout(function(){
+    contentLeft.style.marginLeft = "-250px";
+    contentRight.style.marginLeft = "0px";
+  },300)
+}
+
+showmenu=function(){
+  contentLeft.style.animation=''
+  contentRight.style.animation = 'rightToleftMargin linear .3s'
+  contentLeft.style.animation = 'rightToleft linear .3s'
+  setTimeout(function(){
+    contentLeft.style.marginLeft = "0px";
+    contentRight.style.marginLeft = "250px";
+  },300)
+}

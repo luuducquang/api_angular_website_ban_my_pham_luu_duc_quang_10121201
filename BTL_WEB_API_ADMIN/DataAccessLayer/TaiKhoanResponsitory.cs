@@ -19,6 +19,37 @@ namespace DataAccessLayer
             _dbHelper = dbHelper;
         }
 
+        public List<ChiTietTaiKhoanModelTWO> Getbyids(int id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_getbyidchitiettaikhoan",
+                     "@MaTaiKhoan", id);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ChiTietTaiKhoanModelTWO>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<TaiKhoanModel> Getalltaikhoan()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_getalltaikhoan");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<TaiKhoanModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public bool Create(TaiKhoanModel model)
         {
             string msgError = "";
@@ -122,6 +153,28 @@ namespace DataAccessLayer
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
                 return dt.ConvertTo<TaiKhoanSearchModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<TaiKhoanModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenTaiKhoan)
+        {
+            string msgError = "";
+            total = 0;
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_taikhoan_searchsingle",
+                    "@page_index", pageIndex,
+                    "@page_size", pageSize,
+                    "@TenTaiKhoan", TenTaiKhoan
+                    );
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<TaiKhoanModel>().ToList();
             }
             catch (Exception ex)
             {

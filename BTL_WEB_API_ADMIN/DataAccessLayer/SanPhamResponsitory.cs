@@ -20,6 +20,21 @@ namespace DataAccessLayer
             _dbHelper = dbHelper;
         }
 
+        public List<SanPhamModel> Getallsanpham()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_getallsanpham");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<SanPhamModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public SanPhamDetailModel Getbyid(int id)
         {
             string msgError = "";
@@ -142,6 +157,29 @@ namespace DataAccessLayer
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
                 return dt.ConvertTo<SanPhamDetailModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<SanPhamModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenSanPham,Decimal Gia)
+        {
+            string msgError = "";
+            total = 0;
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_sanpham_single_search",
+                    "@page_index", pageIndex,
+                    "@page_size", pageSize,
+                    "@TenSanPham", TenSanPham,
+                    "@Gia", Gia
+                    );
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<SanPhamModel>().ToList();
             }
             catch (Exception ex)
             {

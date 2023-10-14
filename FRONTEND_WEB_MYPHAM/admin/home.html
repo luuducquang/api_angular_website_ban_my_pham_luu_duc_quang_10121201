@@ -16,65 +16,69 @@
 </head>
 <body onload="time()" ng-app="myApp">
     <div class="container">
+        <i class="fa-solid fa-bars show_menu" onclick="showmenu()"></i>
         <div class="content-left">
-            <div class="text-center p-4">
-                <img class="imgUser" style="height: 100px; width: 100px; border-radius: 50%;" src="" alt="">
-            </div>
-            <p class="text-center nameUser" style="font-size: 24px;">profile</p>
-            <p class="text-center" style="color: #dbdad4;">Chào mừng bạn quay trở lại</p>
-            <div style="padding: 5px; background-color: #cea925; width: 120px;margin: 0 auto;border-radius: 10px;">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <a style="text-decoration: none;color: white;" onclick="logoutUser()" href="./login.html">Đăng xuất</a>
-            </div>
-            <div style="width: 100%; height: 1px;background-color: aliceblue; margin: 10px auto;"></div>
-            <a href="#!/" class="button-item p-3">
-                <i class="fa-solid fa-house-laptop"></i>
-                <span>Tổng quan</span>
-            </a>
-            <a href="#!product/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Thông tin sản phẩm</span>
-            </a>
-            <a href="#!billSell/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Hoá đơn bán</span>
-            </a>
-            <a href="#!importBill/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Hoá đơn nhập</span>
-            </a>
-            <a href="#!category/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Danh Mục</span>
-            </a>
-            <a href="#!categoryOffer/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Danh Mục Ưu Đãi</span>
-            </a>
-            <a href="#!manufacturer/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Hãng Sản Xuất</span>
-            </a>
-            <a href="#!distributor/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Nhà Phân Phối</span>
-            </a>
-            <a href="#!advertisement/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Quảng Cáo</span>
-            </a>
-            <a href="#!bannerslide/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Banner Slide</span>
-            </a>
-            <a href="#!typeaccount" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Loại Tài Khoản</span>
-            </a>
-            <a href="#!account/1" class="button-item p-3">
-                <i class="fa-brands fa-product-hunt"></i>
-                <span>Tài Khoản</span>
-            </a>
+            <i onclick="hidemenu()" class="fa-solid fa-xmark icon_menu"></i>
+            <nav class="nav-menu">
+                <div class="text-center p-4">
+                    <img class="imgUser" style="height: 100px; width: 100px; border-radius: 50%;" src="" alt="">
+                </div>
+                <p class="text-center nameUser" style="font-size: 24px;margin-bottom: 5px;">profile</p>
+                <p class="text-center" style="color: #dbdad4;">Chào mừng bạn quay trở lại</p>
+                <div style="padding: 5px; background-color: #cea925; width: 120px;margin: 0 auto;border-radius: 10px;">
+                    <i style="margin-left: 8px;" class="fa-solid fa-right-from-bracket"></i>
+                    <a style="text-decoration: none;color: white;" onclick="logoutUser()" href="./login.html">Đăng xuất</a>
+                </div>
+                <div style="width: 100%; height: 1px;background-color: aliceblue; margin: 10px auto;"></div>
+                <a href="#!/" class="button-item p-3">
+                    <i class="fa-solid fa-house-laptop"></i>
+                    Tổng quan
+                </a>
+                <a href="#!product/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Thông tin sản phẩm
+                </a>
+                <a href="#!billSell/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Hoá đơn bán
+                </a>
+                <a href="#!importBill/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Hoá đơn nhập
+                </a>
+                <a href="#!category/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Danh Mục
+                </a>
+                <a href="#!categoryOffer/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Danh Mục Ưu Đãi
+                </a>
+                <a href="#!manufacturer/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Hãng Sản Xuất
+                </a>
+                <a href="#!distributor/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Nhà Phân Phối
+                </a>
+                <a href="#!advertisement/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Quảng Cáo
+                </a>
+                <a href="#!bannerslide/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Banner Slide
+                </a>
+                <a href="#!typeaccount" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Loại Tài Khoản
+                </a>
+                <a href="#!account/1" class="button-item p-3">
+                    <i class="fa-brands fa-product-hunt"></i>
+                    Tài Khoản
+                </a>
+            </nav>
         </div>
         <div class="container-right">
             <div ng-view></div>

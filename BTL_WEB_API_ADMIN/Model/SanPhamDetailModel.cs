@@ -27,6 +27,5 @@ namespace Model
         public string TenHang { get; set; }
         public int MaNhaPhanPhoi { get; set; }
         public string TenNhaPhanPhoi { get; set; }
-        public int MaChiTietSanPham { get; set; }
     }
 }

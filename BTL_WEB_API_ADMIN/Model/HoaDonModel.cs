@@ -14,12 +14,10 @@ namespace Model
         public DateTime NgayDuyet {  get; set; }
         public Decimal TongGia {  get; set; }
         public string TenKH {  get; set; }
-        public bool GioiTinh {  get; set; }
         public string Diachi {  get; set; }
         public string Email {  get; set; }
         public string SDT {  get; set; }
         public string DiaChiGiaoHang {  get; set; }
-        public DateTime ThoiGianGiaoHang {  get; set; }
 
         public List<ChiTietHoaDonModel> list_json_chitiet_hoadon { get; set; }
     }

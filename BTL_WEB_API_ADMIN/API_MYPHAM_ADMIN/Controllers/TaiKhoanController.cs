@@ -18,6 +18,20 @@ namespace API_MYPHAM.Controllers
             _taiKhoanBUS = taiKhoanBUS;
         }
 
+        [Route("getbyid-taikhoan-chitiettaikhoan/{id}")]
+        [HttpGet]
+        public List<ChiTietTaiKhoanModelTWO> GetByID(int id)
+        {
+            return _taiKhoanBUS.Getbyids(id);
+        }
+
+        [Route("get-alltaikhoan")]
+        [HttpGet]
+        public IEnumerable<TaiKhoanModel> GetDataAll()
+        {
+            return _taiKhoanBUS.Getalltaikhoan();
+        }
+
         [Route("create-taikhoan")]
         [HttpPost]
         public TaiKhoanModel CreateTaikhoan([FromBody] TaiKhoanModel model)
@@ -71,6 +85,34 @@ namespace API_MYPHAM.Controllers
                 if (formData.Keys.Contains("SoDienThoai") && !string.IsNullOrEmpty(Convert.ToString(formData["SoDienThoai"]))) { SoDienThoai = Convert.ToString(formData["SoDienThoai"]); }
                 long total = 0;
                 var data = _taiKhoanBUS.Search(page, pageSize, out total, TenTaiKhoan, Email, HoTen, SoDienThoai);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("search-taikhoansingle")]
+        [HttpPost]
+        public IActionResult SearchSingle([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string TenTaiKhoan = "";
+                if (formData.Keys.Contains("TenTaiKhoan") && !string.IsNullOrEmpty(Convert.ToString(formData["TenTaiKhoan"]))) { TenTaiKhoan = Convert.ToString(formData["TenTaiKhoan"]); }
+                long total = 0;
+                var data = _taiKhoanBUS.SearchSingle(page, pageSize, out total, TenTaiKhoan);
                 return Ok(
                    new
                    {

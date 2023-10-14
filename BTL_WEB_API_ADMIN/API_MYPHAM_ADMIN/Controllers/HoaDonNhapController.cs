@@ -17,6 +17,13 @@ namespace API_MYPHAM.Controllers
             _hoaDonNhapBUS = hoaDonNhapBUS;
         }
 
+        [Route("getbyid-mahoadon-chitiethoadonnhap/{id}")]
+        [HttpGet]
+        public List<ChiTietHoaDonNhapModelTWO> GetByID(int id)
+        {
+            return _hoaDonNhapBUS.Getbyids(id);
+        }
+
         [Route("create-hoadonnhap")]
         [HttpPost]
         public HoaDonNhapModel CreateHoaDon([FromBody] HoaDonNhapModel model)
@@ -55,7 +62,7 @@ namespace API_MYPHAM.Controllers
                 string TenSanPham = "";
                 if (formData.Keys.Contains("TenSanPham") && !string.IsNullOrEmpty(Convert.ToString(formData["TenSanPham"]))) { TenSanPham = Convert.ToString(formData["TenSanPham"]); }
                 string NhaPhanPhoi = "";
-                if (formData.Keys.Contains("NhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["NhaPhanPhoi"]))) { TenSanPham = Convert.ToString(formData["NhaPhanPhoi"]); }
+                if (formData.Keys.Contains("NhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["NhaPhanPhoi"]))) { NhaPhanPhoi = Convert.ToString(formData["NhaPhanPhoi"]); }
                 DateTime? NgayTao = null;
                 if (formData.Keys.Contains("NgayTao") && formData["NgayTao"] != null && formData["NgayTao"].ToString() != "")
                 {
@@ -64,6 +71,40 @@ namespace API_MYPHAM.Controllers
                 }
                 long total = 0;
                 var data = _hoaDonNhapBUS.Search(page, pageSize, out total, TenSanPham, NgayTao, NhaPhanPhoi);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [Route("search-hoadonnhapsingle")]
+        [HttpPost]
+        public IActionResult SearchSingle([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string NhaPhanPhoi = "";
+                if (formData.Keys.Contains("NhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["NhaPhanPhoi"]))) { NhaPhanPhoi = Convert.ToString(formData["NhaPhanPhoi"]); }
+                DateTime? NgayTao = null;
+                if (formData.Keys.Contains("NgayTao") && formData["NgayTao"] != null && formData["NgayTao"].ToString() != "")
+                {
+                    var dt = Convert.ToDateTime(formData["NgayTao"].ToString());
+                    NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, 0);
+                }
+                long total = 0;
+                var data = _hoaDonNhapBUS.SearchSingle(page, pageSize, out total, NgayTao, NhaPhanPhoi);
                 return Ok(
                    new
                    {

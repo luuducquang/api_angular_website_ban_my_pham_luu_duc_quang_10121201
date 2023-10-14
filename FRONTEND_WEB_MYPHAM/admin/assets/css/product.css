@@ -1,5 +1,5 @@
 .container-right{
-    margin-left: 300px;
+    margin-left: 250px;
 }
 
 .tilte{
@@ -37,6 +37,14 @@
 
 .table-product{
     margin: 10px 0;
+}
+
+table tbody{
+    cursor: pointer;
+}
+
+#checkitem{
+    cursor: pointer;
 }
 
 .table-product thead tr th{
@@ -83,6 +91,10 @@
 
 .hide{
     display: block;
+}
+
+.none{
+    display: none;
 }
 
 .add-product{
@@ -193,4 +205,41 @@
     float: right;
     margin: 10px 0;
     
+}
+
+.icon{
+    text-align: end;
+}
+
+.icon i{
+    cursor: pointer;
+    padding: 10px;
+    background-color: #0099FF;
+    border-radius: 6px;
+    color: #fff;
+}
+
+.hoverBtn{
+    background-color: #fff;
+    color: #001c41;
+    border-radius: 10px;
+}
+
+.icon_menu{
+    font-size: 35px;
+    padding: 1.5px 0;
+    cursor: pointer;
+    float: right;
+}
+
+.show_menu{
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-size: 35px;
+    padding: 10px 10px 10px 8px;
+    background-color: #3399FF;
+    border-radius: 0 10px 10px 0;
+    color: #fff;
+    cursor: pointer;
 }

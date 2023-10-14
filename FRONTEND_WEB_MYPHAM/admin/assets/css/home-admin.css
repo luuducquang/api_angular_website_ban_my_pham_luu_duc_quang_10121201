@@ -6,7 +6,7 @@
 }
 
 .content-left{
-    width: 300px;
+    width: 250px;
     padding-bottom: 15px;
     background-color: #001c41;
     position: fixed;
@@ -15,10 +15,67 @@
     bottom: 0;
     color: #fff;
     overflow-y: scroll;
+    /* animation: rightToleft linear .5s; */
 }
+
+@keyframes leftToright{
+    from{
+        margin-left: 0;
+    }
+    to{
+        margin-left: -250px;
+    }
+}
+
+@keyframes rightToleft{
+    from{
+        margin-left: -250px;
+    }
+    to{
+        margin-left: 0;
+    }
+}
+
+/* @keyframes leftToright{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(-250px);
+    }
+}
+
+@keyframes rightToleft{
+    from{
+        transform: translateX(-200px);
+    }
+    to{
+        transform: translateX(0);
+    }
+} */
+
+@keyframes leftTorightMargin{
+    from{
+        margin-left: 250px;
+    }
+    to{
+        margin-left: 0;
+    }
+}
+
+@keyframes rightToleftMargin{
+    from{
+        margin-left: 0;
+    }
+    to{
+        margin-left: 250px;
+    }
+}
+
 
 .content-left::-webkit-scrollbar {
     width: 6px;
+    height: 100%;
     background-color: #001c41;
 } 
 
@@ -63,13 +120,18 @@
 }
 
 .button-item{
-    width: 80%;
+    width: 95%;
     margin: 0 auto;
     display: block;
     color: #fff;
     text-decoration: none;
+    transition: linear .3s;
+    /* font-weight: 700; */
 }
 
+.button-item i{
+    margin-right: 10px;
+}
 
 .button-item:hover{
     background-color: #c4defc;
@@ -84,3 +146,4 @@
 .button-item span{
     margin-left: 5px;
 }
+

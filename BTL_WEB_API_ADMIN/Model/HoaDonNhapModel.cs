@@ -16,4 +16,15 @@ namespace Model
 
         public List<ChiTietHoaDonNhapModel> list_json_chitiethoadonnhap {  get; set; }
     }
+
+    public class HoaDonNhapModelTWO
+    {
+        public int MaHoaDon { get; set; }
+        public int MaNhaPhanPhoi { get; set; }
+        public string TenNhaPhanPhoi { get; set; }
+        public DateTime NgayTao { get; set; }
+        public string KieuThanhToan { get; set; }
+        public int MaTaiKhoan { get; set; }
+        public string TenTaiKhoan { get; set; }
+    }
 }

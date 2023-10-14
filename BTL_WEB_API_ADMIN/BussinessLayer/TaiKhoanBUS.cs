@@ -18,6 +18,14 @@ namespace BussinessLayer
         {
             _res = taiKhoanResponsitory;
         }
+        public List<ChiTietTaiKhoanModelTWO> Getbyids(int id)
+        {
+            return _res.Getbyids(id);
+        }
+        public List<TaiKhoanModel> Getalltaikhoan()
+        {
+            return _res.Getalltaikhoan();
+        }
         public bool Create(TaiKhoanModel model)
         {
             return _res.Create(model);
@@ -41,6 +49,10 @@ namespace BussinessLayer
         public List<TaiKhoanSearchModel> Search(int page, int pageSize, out long total, string TenTaiKhoan, string Email, string HoTen, string SoDienThoai)
         {
             return _res.Search(page, pageSize, out total, TenTaiKhoan, Email, HoTen,SoDienThoai);
+        }
+        public List<TaiKhoanModel> SearchSingle(int page, int pageSize, out long total, string TenTaiKhoan)
+        {
+            return _res.SearchSingle(page, pageSize, out total, TenTaiKhoan);
         }
     }
 }
