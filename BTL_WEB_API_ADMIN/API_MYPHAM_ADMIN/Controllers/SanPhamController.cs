@@ -33,6 +33,13 @@ namespace API_MYPHAM.Controllers
             return _sanPhamBUS.Getbyid(id);
         }
 
+        [Route("getbyid-anhsanphamdetail/{id}")]
+        [HttpGet]
+        public List<AnhSanPhamModel> GetByIdimgdetail(int id)
+        {
+            return _sanPhamBUS.GetbyidImgdetail(id);
+        }
+
         [Route("create-sanpham")]
         [HttpPost]
         public SanPhamModel CreateSanpham([FromBody] SanPhamModel model)

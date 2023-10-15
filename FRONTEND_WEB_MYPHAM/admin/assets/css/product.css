@@ -243,3 +243,9 @@ table tbody{
     color: #fff;
     cursor: pointer;
 }
+
+.imgdetail{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}

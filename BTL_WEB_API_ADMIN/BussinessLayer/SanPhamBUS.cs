@@ -27,6 +27,10 @@ namespace BussinessLayer
         {
             return _res.Getbyid(id);
         }
+        public List<AnhSanPhamModel> GetbyidImgdetail(int id)
+        {
+            return _res.GetbyidImgdetail(id);
+        }
         public bool Create(SanPhamModel model)
         {
             return _res.Create(model);

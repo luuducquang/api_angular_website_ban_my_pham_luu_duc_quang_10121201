@@ -1166,6 +1166,16 @@ AS
         END;
     END;
 
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_getidImgdetail(@MaSanPham int)
+as
+begin
+	select *
+	from AnhSanPhams
+	where MaSanPham = @MaSanPham
+end
+
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_getallsanpham
 as
@@ -1196,7 +1206,9 @@ begin
 							  npp.MaNhaPhanPhoi,
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
-							  c.ChiTiet
+							  c.ChiTiet,
+							  c.MaChiTietSanPham,
+							  asp.Id
                         FROM SanPhams AS s
 						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
 						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
@@ -1204,6 +1216,7 @@ begin
 						inner join NhaPhanPhois npp on npp.MaNhaPhanPhoi = sp.MaNhaPhanPhoi
 						inner join DanhMucs dm on dm.MaDanhMuc = s.MaDanhMuc
 						inner join DanhMucUudais dmu on dmu.Madanhmucuudai = s.Madanhmucuudai
+						inner join AnhSanPhams asp on asp.MaSanPham = s.MaSanPham
 	where s.MaSanPham = @MaSanPham
 end
 
@@ -1342,13 +1355,13 @@ BEGIN
 							FROM OPENJSON(@list_json_chitiet_sanpham) AS p;
 
 							--insert status =1
-							Insert into ChiTietSanPhams(MaSanPham,MaNhaSanXuat,MoTa,ChiTiet)
-							select @MaSanPham,
-									#Result.maNhaSanXuat,
-									#Result.moTa,
-									#Result.chiTiet
-							from #Result
-							where #Result.Status = 1
+							--Insert into ChiTietSanPhams(MaSanPham,MaNhaSanXuat,MoTa,ChiTiet)
+							--select @MaSanPham,
+							--		#Result.maNhaSanXuat,
+							--		#Result.moTa,
+							--		#Result.chiTiet
+							--from #Result
+							--where #Result.Status = 1
 
 							--update status =2 
 							Update ChiTietSanPhams
@@ -1359,11 +1372,11 @@ BEGIN
 							where ChiTietSanPhams.MaChiTietSanPham=#Result.maChiTietSanPham and #Result.status = '2'
 
 							--delete status =3
-							delete c 
-							from ChiTietSanPhams c
-							inner join #Result r on c.maChiTietSanPham = r.maChiTietSanPham
-							where r.status = '3'
-							drop table #Result
+							--delete c 
+							--from ChiTietSanPhams c
+							--inner join #Result r on c.maChiTietSanPham = r.maChiTietSanPham
+							--where r.status = '3'
+							--drop table #Result
 						END;
 
 						IF(@list_json_sanpham_nhaphanphoi IS NOT NULL)
@@ -1389,11 +1402,11 @@ BEGIN
 							where SanPhams_NhaPhanPhois.MaSanPham=#Result1.maSanPham and #Result1.status = '2'
 
 							--delete status =3
-							delete c 
-							from SanPhams_NhaPhanPhois c
-							inner join #Result1 r on c.MaSanPham = r.maSanPham
-							where r.status = '3'
-							drop table #Result1
+							--delete c 
+							--from SanPhams_NhaPhanPhois c
+							--inner join #Result1 r on c.MaSanPham = r.maSanPham
+							--where r.status = '3'
+							--drop table #Result1
 						END;
 
 						IF(@list_json_anhsanpham IS NOT NULL)
@@ -1405,19 +1418,19 @@ BEGIN
 								INTO #Result2
 							FROM OPENJSON(@list_json_anhsanpham) AS p;
 
-							--insert status =1
-							Insert into AnhSanPhams(MaSanPham,LinkAnh)
-							select @MaSanPham,
-									#Result2.linkAnh
-							from #Result2
-							where #Result2.Status = 1
+							------insert status =1
+							----Insert into AnhSanPhams(MaSanPham,LinkAnh)
+							----select @MaSanPham,
+							----		#Result2.linkAnh
+							----from #Result2
+							----where #Result2.Status = 1
 
 							--update status =2 
 							Update AnhSanPhams
 							set 
 								LinkAnh = #Result2.linkAnh
 							from #Result2
-							where AnhSanPhams.Id=#Result2.id and #Result2.status = '2'
+							where AnhSanPhams.Id=#Result2.id and #Result2.status = 2
 
 							--delete status =3
 							delete c 

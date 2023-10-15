@@ -10,8 +10,9 @@ namespace BussinessLayer.Interfaces
     public partial interface ISanPhamBUS
     {
         List<SanPhamModel> Getallsanpham();
+        SanPhamDetailModel Getbyid(int id);
+        List<AnhSanPhamModel> GetbyidImgdetail(int id);
         public bool Create(SanPhamModel model);
-        public SanPhamDetailModel Getbyid(int id);
         public bool Update(SanPhamModel model);
         public bool Delete(int MaSanPham);
         public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi);

@@ -16,6 +16,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.submit = "Thêm mới";
     $scope.AnhProduct
     $scope.AnhProductDetail
+    $scope.AnhProductDetailEdit
 
     $scope.GetProduct= function () {
         $http({
@@ -166,7 +167,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 list_json_sanpham_nhaphanphoi:[{
                     MaNhaPhanPhoi: $scope.manhaphanphoi
                 }],
-                list_json_anhsanpham:ListImgDetail
+                list_json_anhsanpham:$scope.AnhProductDetail
             },
             url: current_url + '/api/SanPham/create-sanpham',
             headers: {'Content-Type': 'application/json'}
@@ -193,14 +194,18 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 TrangThai: $scope.trangthai === "true",
                 LuotXem: $scope.luotxem,
                 list_json_chitiet_sanpham:[{
+                    MaChiTietSanPham:$scope.machitietsanpham,
                     MaNhaSanXuat: $scope.manhasanxuat,
                     MoTa: $scope.mota,
                     ChiTiet: $scope.chitiet,
+                    status: 2
                 }],
                 list_json_sanpham_nhaphanphoi:[{
-                    MaNhaPhanPhoi: $scope.manhaphanphoi
+                    MaSanPham:$scope.maSanPham,
+                    MaNhaPhanPhoi: $scope.manhaphanphoi,
+                    status: 2
                 }],
-                list_json_anhsanpham:ListImgDetail
+                list_json_anhsanpham:$scope.AnhProductDetail
             },
             url: current_url + '/api/SanPham/update-sanpham',
             headers: {'Content-Type': 'application/json'}
@@ -221,7 +226,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
             return
         }
         var file = document.getElementById('ImageProduct').files[0];
-        if (file) {
+        var files = document.getElementById('ImageDetail').files;
+        if (file||files) {
             const formData = new FormData();
             formData.append('file', file);
             $http({
@@ -235,33 +241,70 @@ app.controller("ProductCtrl", function ($scope, $http) {
             }).then(function (res) {
                 $scope.AnhProduct = res.data.filePath;
                 preview.src = "./assets/img"+ $scope.AnhProduct
-
-                // var files = document.getElementById('ImageDetail').files;
-                // if(files.length>0){
-                //     for (let i = 0; i < file.length; i++) {
-                //         var fileToLoad = file[i]
-                //         ListImg.push(fileToLoad.name)
-                //         $scope.AnhProductDetail = ListImg
-                //     }
-                // }
-                // $http({
-                //     method:'POST',
-                //     headers: {
-                //         "Authorization": 'Bearer ' + _user.token,
-                //         'Content-Type': undefined
-                //     },
-                //     data: $scope.AnhProduct,
-                //     url: current_url + '/api/Image/upload',
-                // }).then(function(res){
-
-                // })
-
-
-                if($scope.submit==="Thêm mới"){
-                    $scope.AddProduct()
-                }
-                else{
-                    $scope.EditProduct()
+                if(files.length>0){
+                    var formDatas = new FormData();
+                    for (let i = 0; i < files.length; i++) {
+                        formDatas.append('files', files[i]);
+                    }
+                    $http({
+                        method: 'POST',
+                        headers: {
+                            "Authorization": 'Bearer ' + _user.token,
+                            'Content-Type': undefined
+                        },
+                        data: formDatas,
+                        url: current_url + '/api/Image/upload-multi',
+                    }).then(function (response) {
+                        var imgs = response.data.files
+                        $scope.AnhProductDetail = imgs.map(function(item){
+                            return {LinkAnh:"./assets/img"+ item}
+                        })
+                        $scope.AnhProductDetailEdit = $scope.AnhProductDetail.map(item => ({ 'Id':$scope.idAnhDetail, ...item, 'status': 2 }));
+                        console.log($scope.AnhProductDetailEdit);
+                        if($scope.submit==="Thêm mới"){
+                            $scope.AddProduct()
+                        }
+                        else{
+                            $http({
+                                method: 'PUT',
+                                data: {
+                                    MaSanPham: $scope.maSanPham,
+                                    MaDanhMuc: $scope.madanhmuc,
+                                    Madanhmucuudai: $scope.madanhmucuudai,
+                                    TenSanPham: $scope.tensanpham,
+                                    AnhDaiDien: "./assets/img"+$scope.AnhProduct,
+                                    Gia: $scope.gia,
+                                    GiaGiam: $scope.giagiam,
+                                    SoLuong: $scope.soluong,
+                                    TrongLuong:$scope.trongluong,
+                                    TrangThai: $scope.trangthai === "true",
+                                    LuotXem: $scope.luotxem,
+                                    list_json_chitiet_sanpham:[{
+                                        MaChiTietSanPham:$scope.machitietsanpham,
+                                        MaNhaSanXuat: $scope.manhasanxuat,
+                                        MoTa: $scope.mota,
+                                        ChiTiet: $scope.chitiet,
+                                        status: 2
+                                    }],
+                                    list_json_sanpham_nhaphanphoi:[{
+                                        MaSanPham:$scope.maSanPham,
+                                        MaNhaPhanPhoi: $scope.manhaphanphoi,
+                                        status: 2
+                                    }],
+                                    list_json_anhsanpham:$scope.AnhProductDetailEdit
+                                },
+                                url: current_url + '/api/SanPham/update-sanpham',
+                                headers: {'Content-Type': 'application/json'}
+                            }).then(function (response) {  
+                                alert('Sửa thành công')
+                                window.location='#!product/'+$scope.page
+                            }).catch(function (error) {
+                                console.error('Lỗi khi sửa sản phẩm:', error);
+                            });
+                        }
+                    }).catch(function (error) {
+                        console.error('Lỗi:', error);
+                    });
                 }
             });
         }
@@ -285,14 +328,18 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         TrangThai: $scope.trangthai === "true",
                         LuotXem: $scope.luotxem,
                         list_json_chitiet_sanpham:[{
+                            MaChiTietSanPham:$scope.machitietsanpham,
                             MaNhaSanXuat: $scope.manhasanxuat,
                             MoTa: $scope.mota,
                             ChiTiet: $scope.chitiet,
+                            status: 2
                         }],
                         list_json_sanpham_nhaphanphoi:[{
-                            MaNhaPhanPhoi: $scope.manhaphanphoi
+                            MaSanPham:$scope.maSanPham,
+                            MaNhaPhanPhoi: $scope.manhaphanphoi,
+                            status: 2
                         }],
-                        list_json_anhsanpham:ListImgDetail
+                        list_json_anhsanpham:$scope.AnhProductDetail
                     },
                     url: current_url + '/api/SanPham/update-sanpham',
                     headers: {'Content-Type': 'application/json'}
@@ -305,8 +352,19 @@ app.controller("ProductCtrl", function ($scope, $http) {
             }
         }
     }
-    
 
+    function loadImgDetail(){
+        var imgContainer = document.querySelector('.imgdetail');
+            var images = imgContainer.querySelectorAll('img');
+
+            images.forEach(function(img) {
+                img.remove();
+            });
+    }
+    
+    $scope.machitietsanpham
+    $scope.idAnhDetail
+    $scope.listImgDetailShow =[]
     $scope.maSanPham
     $scope.edit=function(x){
         $scope.submit = "Chỉnh sửa";
@@ -333,14 +391,31 @@ app.controller("ProductCtrl", function ($scope, $http) {
             $scope.chitiet = sanpham.chiTiet
             $scope.manhaphanphoi = String(sanpham.maNhaPhanPhoi)
             preview.src = sanpham.anhDaiDien
+            $scope.machitietsanpham = sanpham.maChiTietSanPham
+            $scope.idAnhDetail=sanpham.id
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });
+
+        $http({
+            method: 'GET',
+            headers: { "Authorization": 'Bearer ' + _user.token },
+            url: current_url + '/api/SanPham/getbyid-anhsanphamdetail/' + x,
+        }).then(function(response){
+            var listdetail = (response.data).map(function(item){
+                return item.linkAnh
+            })
+            loadImgDetail()
+            for (let i = 0; i < listdetail.length; i++) {
+                var fileToLoad = listdetail[i]
+                var newImg = document.createElement('img')
+                newImg.src = fileToLoad
+                document.querySelector('.imgdetail').appendChild(newImg)
+            }
+        })
     }
 
-    
-    // var anhsanpham = document.querySelector("#ImageProduct")
-    // var anhchitietsp = document.querySelector("#ImageDetail")
+
     $scope.getFilePathProduct=function(){
         $('#ImageProduct').change(function () {
             var file = this.files[0]
@@ -364,7 +439,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.getFilePathProduct()
 
 
-    var ListImgDetail=[]
     var ListImg = []
     function getFilesDetail(){
         $('#ImageDetail').change(function () {
@@ -376,6 +450,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 alert("File không được quá 5MB")
             }
             if(file.length>0){
+                loadImgDetail()
                 for (let i = 0; i < file.length; i++) {
                     var fileToLoad = file[i]
                     var reader = new FileReader()
@@ -388,24 +463,29 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     }
                     reader.readAsDataURL(fileToLoad)
                 }
-                const formData = new FormData();
-                for (let i = 0; i < ListImg.length; i++) {
-                    formData.append('files', ListImg[i]);
-                }
-                console.log(ListImg);
-                $http({
-                    method: 'POST',
-                    headers: {
-                        "Authorization": 'Bearer ' + _user.token,
-                        'Content-Type': undefined
-                    },
-                    data: formData,
-                    url: current_url + '/api/Image/upload-multi',
-                }).then(function (res) {
-                    alert('Thêm ảnh thành công');
-                }).catch(function (error) {
-                    console.error('Lỗi:', error);
-                });
+                // var formData = new FormData();
+                // for (let i = 0; i < file.length; i++) {
+                //     formData.append('files', file[i]);
+                // }
+                // $http({
+                //     method: 'POST',
+                //     headers: {
+                //         "Authorization": 'Bearer ' + _user.token,
+                //         'Content-Type': undefined
+                //     },
+                //     data: formData,
+                //     url: current_url + '/api/Image/upload-multi',
+                // }).then(function (res) {
+                //     var imgs = res.data.files
+                //     $scope.AnhProductDetail = imgs.map(function(item){
+                //         return {LinkAnh:"./assets/img"+ item}
+                //     })
+                //     console.log(a);
+                //     debugger
+                //     alert('Thêm ảnh thành công');
+                // }).catch(function (error) {
+                //     console.error('Lỗi:', error);
+                // });
             }
         });
     }

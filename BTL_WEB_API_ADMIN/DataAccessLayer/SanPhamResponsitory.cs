@@ -52,6 +52,23 @@ namespace DataAccessLayer
             }
         }
 
+        public List<AnhSanPhamModel> GetbyidImgdetail(int id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_getidImgdetail",
+                     "@MaSanPham", id);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<AnhSanPhamModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool Create(SanPhamModel model)
         {
             string msgError = "";

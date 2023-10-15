@@ -11,6 +11,7 @@ namespace DataAccessLayer.Interfaces
     {
         List<SanPhamModel> Getallsanpham();
         SanPhamDetailModel  Getbyid(int id);
+        List<AnhSanPhamModel> GetbyidImgdetail(int id);
         bool Create(SanPhamModel model);
 
         bool Update(SanPhamModel model);
