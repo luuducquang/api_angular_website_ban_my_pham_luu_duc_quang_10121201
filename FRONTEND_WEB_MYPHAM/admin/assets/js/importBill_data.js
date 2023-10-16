@@ -58,6 +58,8 @@ app.controller("importBillCtrl", function ($scope, $http) {
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
             var count = Math.ceil((total) / $scope.pageSize)
+            var currentPage = $scope.page;
+            var aItem = [];
             for (var i = 1; i < count + 1; i++) {
                 let li = document.createElement('li')
                 li.className = 'page-item'
@@ -65,12 +67,16 @@ app.controller("importBillCtrl", function ($scope, $http) {
                 a.className = 'page-link'
                 li.appendChild(a)
                 a.innerText = i
+                aItem.push(a);
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
                     a.href='#!importBill/'+a.innerHTML
                 }
             }    
+
+            aItem[currentPage - 1].classList.add('activePage');
+
             prev = function(){
                 if($scope.page<=1){
                     $scope.page=1

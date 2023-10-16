@@ -3,9 +3,9 @@
 }
 
 .tilte{
-    background-color: #858585;
+    background-color: #005500;
     border-radius: 5px;
-    border-left: 5px #ead277 solid;
+    border-left: 5px #006aff solid;
     margin: 10px 0;
     color: #fff;
 }
@@ -182,7 +182,8 @@ table tbody{
 }
 
 .activePage{
-    background-color:burlywood;
+    background-color:#FFCC00;
+    color: #fff;
 }
 
 .imgdetail img{
@@ -247,5 +248,15 @@ table tbody{
 .imgdetail{
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.imgdetail img {
+    cursor: pointer;
+}
+
+.choseImg{
+    border: 2px solid #0099FF;
+    border-radius: 5px;
 }

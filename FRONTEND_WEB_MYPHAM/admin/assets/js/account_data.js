@@ -41,6 +41,8 @@ app.controller("AccountCtrl", function ($scope, $http) {
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
             var count = Math.ceil((total) / $scope.pageSize)
+            var currentPage = $scope.page;
+            var aItem = [];
             for (var i = 1; i < count + 1; i++) {
                 let li = document.createElement('li')
                 li.className = 'page-item'
@@ -48,12 +50,15 @@ app.controller("AccountCtrl", function ($scope, $http) {
                 a.className = 'page-link'
                 li.appendChild(a)
                 a.innerText = i
+                aItem.push(a);
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
                     a.href='#!account/'+a.innerHTML
                 }
             }    
+
+            aItem[currentPage - 1].classList.add('activePage');
             prev = function(){
                 if($scope.page<=1){
                     $scope.page=1
@@ -196,7 +201,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                 url: current_url + '/api/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
-                preview.src = "./assets/img"+ $scope.Image
+                preview.src = "../img"+ $scope.Image
                 $http({
                     method: 'POST',
                     data: {
@@ -205,7 +210,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         Email: $scope.email,
                         list_json_chitiet_taikhoan:[{
                             MaLoaitaikhoan: $scope.loaitaikhoan,
-                            AnhDaiDien: "./assets/img"+$scope.Image,
+                            AnhDaiDien: "../img"+$scope.Image,
                             HoTen:$scope.hoten,
                             DiaChi:$scope.diachi,
                             SoDienThoai:$scope.sodienthoai
@@ -229,7 +234,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     Email: $scope.email,
                     list_json_chitiet_taikhoan:[{
                         MaLoaitaikhoan: $scope.loaitaikhoan,
-                        AnhDaiDien: "./assets/img"+$scope.Image,
+                        AnhDaiDien: "../img"+$scope.Image,
                         HoTen:$scope.hoten,
                         DiaChi:$scope.diachi,
                         SoDienThoai:$scope.sodienthoai
@@ -278,7 +283,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                 url: current_url + '/api/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
-                preview.src = "./assets/img"+ $scope.Image
+                preview.src = "../img"+ $scope.Image
                 $http({
                     method: 'PUT',
                     data: {
@@ -288,7 +293,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         Email: $scope.email,
                         list_json_chitiet_taikhoan:[{
                             MaLoaitaikhoan: $scope.loaitaikhoan,
-                            AnhDaiDien: "./assets/img"+$scope.Image,
+                            AnhDaiDien: "../img"+$scope.Image,
                             HoTen:$scope.hoten,
                             DiaChi:$scope.diachi,
                             SoDienThoai:$scope.sodienthoai,
@@ -316,7 +321,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     Email: $scope.email,
                     list_json_chitiet_taikhoan:[{
                         MaLoaitaikhoan: $scope.loaitaikhoan,
-                        AnhDaiDien: "./assets/img"+$scope.Image,
+                        AnhDaiDien: "../img"+$scope.Image,
                         HoTen:$scope.hoten,
                         DiaChi:$scope.diachi,
                         SoDienThoai:$scope.sodienthoai,
@@ -370,7 +375,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     url: current_url + '/api/Image/upload',
                 }).then(function (res) {
                     $scope.Image = res.data.filePath;
-                    preview.src = "./assets/img"+ $scope.Image
+                    preview.src = "../img"+ $scope.Image
                     $http({
                         method: 'PUT',
                         data: {
@@ -381,7 +386,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                             list_json_chitiet_taikhoan:[{
                                 MaChitietTaiKhoan: $scope.machitiettaikhoan,
                                 MaLoaitaikhoan: $scope.loaitaikhoan,
-                                AnhDaiDien: "./assets/img"+$scope.Image,
+                                AnhDaiDien: "../img"+$scope.Image,
                                 HoTen:$scope.hoten,
                                 DiaChi:$scope.diachi,
                                 SoDienThoai:$scope.sodienthoai,

@@ -90,12 +90,20 @@
                     <input ng-model="anhsanpham" id="ImageProduct" type="file" class="form-control">
                 </div>
                 <img style="width: 20%; float: right;padding: 2px;" class="ImgProduct" src="" alt="">
-                <div class="form-group">
-                    <label>Ảnh chi tiết sản phẩm:</label>
-                    <input ng-model="anhchitietsanpham" id="ImageDetail" type="file" class="form-control" multiple>
-                </div>
-                <div class="imgdetail">
-    
+                <div style="border: 1px solid #4b4b4b; border-radius: 10px;padding: 10px; clear: both;">
+                    <div class="form-group">
+                        <label>Ảnh chi tiết sản phẩm:</label>
+                        <input ng-model="anhchitietsanpham" id="ImageDetail" type="file" class="form-control" multiple>
+                    </div>
+                    <div class="icon">
+                        <i ng-click="refreshDetail()" class="fa-solid fa-rotate-left"></i>
+                        <i ng-click="addDetail()" class="fa-solid fa-plus"></i>
+                        <i ng-click="editDetail()" class="fa-solid fa-pen-to-square"></i>
+                        <i ng-click="deleteDetail()" class="fa-solid fa-trash"></i>
+                    </div>
+                    <div class="imgdetail">
+        
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Giá:</label>

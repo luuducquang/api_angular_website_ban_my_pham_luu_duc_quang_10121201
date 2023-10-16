@@ -1207,8 +1207,7 @@ begin
 							  npp.TenNhaPhanPhoi,
 							  c.MoTa,
 							  c.ChiTiet,
-							  c.MaChiTietSanPham,
-							  asp.Id
+							  c.MaChiTietSanPham
                         FROM SanPhams AS s
 						inner join ChiTietSanPhams c on c.MaSanPham = s.MaSanPham
 						inner join HangSanXuats h on h.MaNhaSanXuat = c.MaNhaSanXuat
@@ -1418,19 +1417,19 @@ BEGIN
 								INTO #Result2
 							FROM OPENJSON(@list_json_anhsanpham) AS p;
 
-							------insert status =1
-							----Insert into AnhSanPhams(MaSanPham,LinkAnh)
-							----select @MaSanPham,
-							----		#Result2.linkAnh
-							----from #Result2
-							----where #Result2.Status = 1
+							--insert status =1
+							Insert into AnhSanPhams(MaSanPham,LinkAnh)
+							select @MaSanPham,
+									#Result2.linkAnh
+							from #Result2
+							where #Result2.Status = 1
 
 							--update status =2 
 							Update AnhSanPhams
 							set 
 								LinkAnh = #Result2.linkAnh
 							from #Result2
-							where AnhSanPhams.Id=#Result2.id and #Result2.status = 2
+							where AnhSanPhams.Id=#Result2.Id and #Result2.status = 2
 
 							--delete status =3
 							delete c 

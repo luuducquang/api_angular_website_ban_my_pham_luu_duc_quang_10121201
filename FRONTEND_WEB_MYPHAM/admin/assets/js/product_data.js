@@ -37,20 +37,25 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
             var count = Math.ceil((total) / datas.pageSize)
+            var currentPage = $scope.page;
+            var aItem = [];
             for (var i = 1; i < count + 1; i++) {
                 let li = document.createElement('li')
                 li.className = 'page-item'
                 let a = document.createElement('a')
                 a.className = 'page-link'
-                // a.setAttribute("ng-click","nameValue("+i+")");
                 li.appendChild(a)
                 a.innerText = i
+                aItem.push(a);
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
                     a.href='#!product/'+a.innerHTML
                 }
             }    
+
+            aItem[currentPage - 1].classList.add('activePage');
+            
             prev = function(){
                 if($scope.page<=1){
                     $scope.page=1
@@ -152,7 +157,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 MaDanhMuc: $scope.madanhmuc,
                 Madanhmucuudai: $scope.madanhmucuudai,
                 TenSanPham: $scope.tensanpham,
-                AnhDaiDien: "./assets/img"+$scope.AnhProduct,
+                AnhDaiDien: "../img"+$scope.AnhProduct,
                 Gia: $scope.gia,
                 GiaGiam: $scope.giagiam,
                 SoLuong: $scope.soluong,
@@ -186,7 +191,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 MaDanhMuc: $scope.madanhmuc,
                 Madanhmucuudai: $scope.madanhmucuudai,
                 TenSanPham: $scope.tensanpham,
-                AnhDaiDien: "./assets/img"+$scope.AnhProduct,
+                AnhDaiDien: "../img"+$scope.AnhProduct,
                 Gia: $scope.gia,
                 GiaGiam: $scope.giagiam,
                 SoLuong: $scope.soluong,
@@ -227,7 +232,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
         }
         var file = document.getElementById('ImageProduct').files[0];
         var files = document.getElementById('ImageDetail').files;
-        if (file||files) {
+        if (file) {
             const formData = new FormData();
             formData.append('file', file);
             $http({
@@ -240,7 +245,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 url: current_url + '/api/Image/upload',
             }).then(function (res) {
                 $scope.AnhProduct = res.data.filePath;
-                preview.src = "./assets/img"+ $scope.AnhProduct
+                preview.src = "../img"+ $scope.AnhProduct
                 if(files.length>0){
                     var formDatas = new FormData();
                     for (let i = 0; i < files.length; i++) {
@@ -257,10 +262,9 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     }).then(function (response) {
                         var imgs = response.data.files
                         $scope.AnhProductDetail = imgs.map(function(item){
-                            return {LinkAnh:"./assets/img"+ item}
+                            return {LinkAnh:"../img"+ item}
                         })
-                        $scope.AnhProductDetailEdit = $scope.AnhProductDetail.map(item => ({ 'Id':$scope.idAnhDetail, ...item, 'status': 2 }));
-                        console.log($scope.AnhProductDetailEdit);
+                        $scope.AnhProductDetailEdit = $scope.AnhProductDetail.map(item => ({ 'Id':$scope.idAnhDetail, ...item, 'status': 1 }));
                         if($scope.submit==="Thêm mới"){
                             $scope.AddProduct()
                         }
@@ -272,7 +276,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                     MaDanhMuc: $scope.madanhmuc,
                                     Madanhmucuudai: $scope.madanhmucuudai,
                                     TenSanPham: $scope.tensanpham,
-                                    AnhDaiDien: "./assets/img"+$scope.AnhProduct,
+                                    AnhDaiDien: "../img"+$scope.AnhProduct,
                                     Gia: $scope.gia,
                                     GiaGiam: $scope.giagiam,
                                     SoLuong: $scope.soluong,
@@ -291,7 +295,11 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                         MaNhaPhanPhoi: $scope.manhaphanphoi,
                                         status: 2
                                     }],
-                                    list_json_anhsanpham:$scope.AnhProductDetailEdit
+                                    list_json_anhsanpham:[{
+                                        Id: 0,
+                                        LinkAnh:'',
+                                        status:0
+                                    }]
                                 },
                                 url: current_url + '/api/SanPham/update-sanpham',
                                 headers: {'Content-Type': 'application/json'}
@@ -306,11 +314,191 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         console.error('Lỗi:', error);
                     });
                 }
+                else{
+                    if($scope.submit==="Thêm mới"){
+                        $http({
+                            method: 'POST',
+                            data: {
+                                MaDanhMuc: $scope.madanhmuc,
+                                Madanhmucuudai: $scope.madanhmucuudai,
+                                TenSanPham: $scope.tensanpham,
+                                AnhDaiDien: "../img"+$scope.AnhProduct,
+                                Gia: $scope.gia,
+                                GiaGiam: $scope.giagiam,
+                                SoLuong: $scope.soluong,
+                                TrongLuong:$scope.trongluong,
+                                TrangThai: $scope.trangthai === "true",
+                                LuotXem: $scope.luotxem,
+                                list_json_chitiet_sanpham:[{
+                                    MaNhaSanXuat: $scope.manhasanxuat,
+                                    MoTa: $scope.mota,
+                                    ChiTiet: $scope.chitiet,
+                                }],
+                                list_json_sanpham_nhaphanphoi:[{
+                                    MaNhaPhanPhoi: $scope.manhaphanphoi
+                                }],
+                                list_json_anhsanpham:[{
+                                    LinkAnh:''
+                                }]
+                            },
+                            url: current_url + '/api/SanPham/create-sanpham',
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(function (response) {  
+                            alert('Thêm thành công')
+                        }).catch(function (error) {
+                            console.error('Lỗi khi thêm sản phẩm:', error);
+                        });
+                    }
+                    else{
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                MaSanPham: $scope.maSanPham,
+                                MaDanhMuc: $scope.madanhmuc,
+                                Madanhmucuudai: $scope.madanhmucuudai,
+                                TenSanPham: $scope.tensanpham,
+                                AnhDaiDien: "../img"+$scope.AnhProduct,
+                                Gia: $scope.gia,
+                                GiaGiam: $scope.giagiam,
+                                SoLuong: $scope.soluong,
+                                TrongLuong:$scope.trongluong,
+                                TrangThai: $scope.trangthai === "true",
+                                LuotXem: $scope.luotxem,
+                                list_json_chitiet_sanpham:[{
+                                    MaChiTietSanPham:$scope.machitietsanpham,
+                                    MaNhaSanXuat: $scope.manhasanxuat,
+                                    MoTa: $scope.mota,
+                                    ChiTiet: $scope.chitiet,
+                                    status: 2
+                                }],
+                                list_json_sanpham_nhaphanphoi:[{
+                                    MaSanPham:$scope.maSanPham,
+                                    MaNhaPhanPhoi: $scope.manhaphanphoi,
+                                    status: 2
+                                }],
+                                list_json_anhsanpham:[{
+                                    Id:0,
+                                    LinkAnh:'',
+                                    status:0
+                                }]
+                            },
+                            url: current_url + '/api/SanPham/update-sanpham',
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(function (response) {  
+                            alert('Sửa thành công')
+                            window.location='#!product/'+$scope.page
+                        }).catch(function (error) {
+                            console.error('Lỗi khi sửa sản phẩm:', error);
+                        });
+                    }
+                }
             });
         }
-        else{
+        if(!file){
+            if(files.length>0){
+                var formDatas = new FormData();
+                for (let i = 0; i < files.length; i++) {
+                    formDatas.append('files', files[i]);
+                }
+                $http({
+                    method: 'POST',
+                    headers: {
+                        "Authorization": 'Bearer ' + _user.token,
+                        'Content-Type': undefined
+                    },
+                    data: formDatas,
+                    url: current_url + '/api/Image/upload-multi',
+                }).then(function (response) {
+                    var imgs = response.data.files
+                    $scope.AnhProductDetail = imgs.map(function(item){
+                        return {LinkAnh:"../img"+ item}
+                    })
+                    // $scope.AnhProductDetailEdit = $scope.AnhProductDetail.map(item => ({ 'Id':$scope.idAnhDetail, ...item, 'status': 0 }));
+                    console.log($scope.AnhProductDetailEdit);
+                    if($scope.submit==="Thêm mới"){
+                        $scope.AddProduct()
+                    }
+                    else{
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                MaSanPham: $scope.maSanPham,
+                                MaDanhMuc: $scope.madanhmuc,
+                                Madanhmucuudai: $scope.madanhmucuudai,
+                                TenSanPham: $scope.tensanpham,
+                                AnhDaiDien: $scope.anhsanpham,
+                                Gia: $scope.gia,
+                                GiaGiam: $scope.giagiam,
+                                SoLuong: $scope.soluong,
+                                TrongLuong:$scope.trongluong,
+                                TrangThai: $scope.trangthai === "true",
+                                LuotXem: $scope.luotxem,
+                                list_json_chitiet_sanpham:[{
+                                    MaChiTietSanPham:$scope.machitietsanpham,
+                                    MaNhaSanXuat: $scope.manhasanxuat,
+                                    MoTa: $scope.mota,
+                                    ChiTiet: $scope.chitiet,
+                                    status: 2
+                                }],
+                                list_json_sanpham_nhaphanphoi:[{
+                                    MaSanPham:$scope.maSanPham,
+                                    MaNhaPhanPhoi: $scope.manhaphanphoi,
+                                    status: 2
+                                }],
+                                list_json_anhsanpham:[{
+                                    Id: 0,
+                                    LinkAnh:'',
+                                    status:0
+                                }]
+                            },
+                            url: current_url + '/api/SanPham/update-sanpham',
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(function (response) {  
+                            alert('Sửa thành công')
+                            window.location='#!product/'+$scope.page
+                        }).catch(function (error) {
+                            console.error('Lỗi khi sửa sản phẩm:', error);
+                        });
+                    }
+                }).catch(function (error) {
+                    console.error('Lỗi:', error);
+                });
+            }
+        }
+        if(!file || !files){
             if($scope.submit==="Thêm mới"){
-                $scope.AddProduct()
+                $http({
+                    method: 'POST',
+                    data: {
+                        MaDanhMuc: $scope.madanhmuc,
+                        Madanhmucuudai: $scope.madanhmucuudai,
+                        TenSanPham: $scope.tensanpham,
+                        AnhDaiDien: '',
+                        Gia: $scope.gia,
+                        GiaGiam: $scope.giagiam,
+                        SoLuong: $scope.soluong,
+                        TrongLuong:$scope.trongluong,
+                        TrangThai: $scope.trangthai === "true",
+                        LuotXem: $scope.luotxem,
+                        list_json_chitiet_sanpham:[{
+                            MaNhaSanXuat: $scope.manhasanxuat,
+                            MoTa: $scope.mota,
+                            ChiTiet: $scope.chitiet,
+                        }],
+                        list_json_sanpham_nhaphanphoi:[{
+                            MaNhaPhanPhoi: $scope.manhaphanphoi
+                        }],
+                        list_json_anhsanpham:[{
+                            LinkAnh:''
+                        }]
+                    },
+                    url: current_url + '/api/SanPham/create-sanpham',
+                    headers: {'Content-Type': 'application/json'}
+                }).then(function (response) {  
+                    alert('Thêm thành công')
+                }).catch(function (error) {
+                    console.error('Lỗi khi thêm sản phẩm:', error);
+                });
             }
             else{
                 $http({
@@ -339,7 +527,11 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             MaNhaPhanPhoi: $scope.manhaphanphoi,
                             status: 2
                         }],
-                        list_json_anhsanpham:$scope.AnhProductDetail
+                        list_json_anhsanpham:[{
+                            Id: 0,
+                            LinkAnh:'',
+                            status:0
+                        }]
                     },
                     url: current_url + '/api/SanPham/update-sanpham',
                     headers: {'Content-Type': 'application/json'}
@@ -353,6 +545,78 @@ app.controller("ProductCtrl", function ($scope, $http) {
         }
     }
 
+    $scope.addDetail=function(){
+        var files = document.getElementById('ImageDetail').files;
+        if(files.length>0){
+            var formDatas = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formDatas.append('files', files[i]);
+            }
+            $http({
+                method: 'POST',
+                headers: {
+                    "Authorization": 'Bearer ' + _user.token,
+                    'Content-Type': undefined
+                },
+                data: formDatas,
+                url: current_url + '/api/Image/upload-multi',
+            }).then(function (response) {
+                var imgs = response.data.files
+                $scope.AnhProductDetail = imgs.map(function(item){
+                    return {LinkAnh:"../img"+ item}
+                })
+                $scope.AnhProductDetailEdit = $scope.AnhProductDetail.map(item => ({ ...item, 'status': 1 }));
+                console.log($scope.AnhProductDetailEdit);
+                if($scope.submit==="Thêm mới"){
+                    $scope.AddProduct()
+                }
+                else{
+                    $http({
+                        method: 'PUT',
+                        data: {
+                            MaSanPham: $scope.maSanPham,
+                            MaDanhMuc: $scope.madanhmuc,
+                            Madanhmucuudai: $scope.madanhmucuudai,
+                            TenSanPham: $scope.tensanpham,
+                            AnhDaiDien: $scope.anhsanpham,
+                            Gia: $scope.gia,
+                            GiaGiam: $scope.giagiam,
+                            SoLuong: $scope.soluong,
+                            TrongLuong:$scope.trongluong,
+                            TrangThai: $scope.trangthai === "true",
+                            LuotXem: $scope.luotxem,
+                            list_json_chitiet_sanpham:[{
+                                MaChiTietSanPham:$scope.machitietsanpham,
+                                MaNhaSanXuat: $scope.manhasanxuat,
+                                MoTa: $scope.mota,
+                                ChiTiet: $scope.chitiet,
+                                status: 2
+                            }],
+                            list_json_sanpham_nhaphanphoi:[{
+                                MaSanPham:$scope.maSanPham,
+                                MaNhaPhanPhoi: $scope.manhaphanphoi,
+                                status: 2
+                            }],
+                            list_json_anhsanpham:$scope.AnhProductDetailEdit
+                        },
+                        url: current_url + '/api/SanPham/update-sanpham',
+                        headers: {'Content-Type': 'application/json'}
+                    }).then(function (response) {  
+                        alert('Thêm thành công')
+                        window.location='#!product/'+$scope.page
+                    }).catch(function (error) {
+                        console.error('Lỗi khi thêm sản phẩm:', error);
+                    });
+                }
+            }).catch(function (error) {
+                console.error('Lỗi:', error);
+            });
+        }
+        else{
+            alert('chưa chọn ảnh để thêm')
+        }
+    }
+
     function loadImgDetail(){
         var imgContainer = document.querySelector('.imgdetail');
             var images = imgContainer.querySelectorAll('img');
@@ -363,7 +627,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
     }
     
     $scope.machitietsanpham
-    $scope.idAnhDetail
     $scope.listImgDetailShow =[]
     $scope.maSanPham
     $scope.edit=function(x){
@@ -392,7 +655,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
             $scope.manhaphanphoi = String(sanpham.maNhaPhanPhoi)
             preview.src = sanpham.anhDaiDien
             $scope.machitietsanpham = sanpham.maChiTietSanPham
-            $scope.idAnhDetail=sanpham.id
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });
@@ -403,18 +665,166 @@ app.controller("ProductCtrl", function ($scope, $http) {
             url: current_url + '/api/SanPham/getbyid-anhsanphamdetail/' + x,
         }).then(function(response){
             var listdetail = (response.data).map(function(item){
-                return item.linkAnh
+                return {
+                    id:item.id,
+                    linkAnh:item.linkAnh
+                }
             })
             loadImgDetail()
+            var imgContainer = document.querySelector('.imgdetail');
+
             for (let i = 0; i < listdetail.length; i++) {
-                var fileToLoad = listdetail[i]
-                var newImg = document.createElement('img')
-                newImg.src = fileToLoad
-                document.querySelector('.imgdetail').appendChild(newImg)
+                var fileToLoad = listdetail[i].linkAnh;
+                var newImg = document.createElement('img');
+                newImg.src = fileToLoad;
+                newImg.dataset.id = listdetail[i].id;
+
+                newImg.onclick = createClickHandler(newImg, listdetail[i].id);
+
+                imgContainer.appendChild(newImg);
             }
-        })
+        }).catch(function (error) {
+            console.error('Lỗi:', error);
+        });
+    }
+    
+    function createClickHandler(img, id) {
+        return function() {
+            var selectedImages = document.querySelectorAll('.imgdetail img');
+            selectedImages.forEach(img => img.classList.remove('choseImg'));
+            img.classList.add('choseImg');
+            clickImgDetail(id);
+        };
     }
 
+    $scope.idAnhDetail
+    clickImgDetail=function(a){
+        $scope.idAnhDetail=a
+    }
+
+    $scope.editDetail=function(){
+        if($scope.idAnhDetail){
+            var files = document.getElementById('ImageDetail').files;
+            if(files.length>0){
+                var formDatas = new FormData();
+                for (let i = 0; i < files.length; i++) {
+                    formDatas.append('files', files[i]);
+                }
+                $http({
+                    method: 'POST',
+                    headers: {
+                        "Authorization": 'Bearer ' + _user.token,
+                        'Content-Type': undefined
+                    },
+                    data: formDatas,
+                    url: current_url + '/api/Image/upload-multi',
+                }).then(function (response) {
+                    var imgs = response.data.files
+                    $scope.AnhProductDetail = imgs.map(function(item){
+                        return {LinkAnh:"../img"+ item}
+                    })
+                    $scope.AnhProductDetailEdit = $scope.AnhProductDetail.map(item => ({"Id":$scope.idAnhDetail, ...item, 'status': 2 }));
+                    console.log($scope.AnhProductDetailEdit);
+                    if($scope.submit==="Thêm mới"){
+                        $scope.AddProduct()
+                    }
+                    else{
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                MaSanPham: $scope.maSanPham,
+                                MaDanhMuc: $scope.madanhmuc,
+                                Madanhmucuudai: $scope.madanhmucuudai,
+                                TenSanPham: $scope.tensanpham,
+                                AnhDaiDien: $scope.anhsanpham,
+                                Gia: $scope.gia,
+                                GiaGiam: $scope.giagiam,
+                                SoLuong: $scope.soluong,
+                                TrongLuong:$scope.trongluong,
+                                TrangThai: $scope.trangthai === "true",
+                                LuotXem: $scope.luotxem,
+                                list_json_chitiet_sanpham:[{
+                                    MaChiTietSanPham:$scope.machitietsanpham,
+                                    MaNhaSanXuat: $scope.manhasanxuat,
+                                    MoTa: $scope.mota,
+                                    ChiTiet: $scope.chitiet,
+                                    status: 2
+                                }],
+                                list_json_sanpham_nhaphanphoi:[{
+                                    MaSanPham:$scope.maSanPham,
+                                    MaNhaPhanPhoi: $scope.manhaphanphoi,
+                                    status: 2
+                                }],
+                                list_json_anhsanpham:$scope.AnhProductDetailEdit
+                            },
+                            url: current_url + '/api/SanPham/update-sanpham',
+                            headers: {'Content-Type': 'application/json'}
+                        }).then(function (response) {  
+                            alert('Sửa thành công')
+                            window.location='#!product/'+$scope.page
+                        }).catch(function (error) {
+                            console.error('Lỗi khi sửa sản phẩm:', error);
+                        });
+                    }
+                }).catch(function (error) {
+                    console.error('Lỗi:', error);
+                });
+            }
+            else{
+                alert('Chưa chọn ảnh để sửa')
+            }
+        }
+        else{
+            alert('Chưa chọn ảnh để sửa')
+        }
+    }
+
+    $scope.deleteDetail=function(){
+        if($scope.idAnhDetail){
+            $http({
+                method: 'PUT',
+                data: {
+                    MaSanPham: $scope.maSanPham,
+                    MaDanhMuc: $scope.madanhmuc,
+                    Madanhmucuudai: $scope.madanhmucuudai,
+                    TenSanPham: $scope.tensanpham,
+                    AnhDaiDien: $scope.anhsanpham,
+                    Gia: $scope.gia,
+                    GiaGiam: $scope.giagiam,
+                    SoLuong: $scope.soluong,
+                    TrongLuong:$scope.trongluong,
+                    TrangThai: $scope.trangthai === "true",
+                    LuotXem: $scope.luotxem,
+                    list_json_chitiet_sanpham:[{
+                        MaChiTietSanPham:$scope.machitietsanpham,
+                        MaNhaSanXuat: $scope.manhasanxuat,
+                        MoTa: $scope.mota,
+                        ChiTiet: $scope.chitiet,
+                        status: 2
+                    }],
+                    list_json_sanpham_nhaphanphoi:[{
+                        MaSanPham:$scope.maSanPham,
+                        MaNhaPhanPhoi: $scope.manhaphanphoi,
+                        status: 2
+                    }],
+                    list_json_anhsanpham:[{
+                        Id:$scope.idAnhDetail,
+                        status:3
+                    }]
+                },
+                url: current_url + '/api/SanPham/update-sanpham',
+                headers: {'Content-Type': 'application/json'}
+            }).then(function (response) {  
+                alert('Xoá thành công')
+                window.location='#!product/'+$scope.page
+            }).catch(function (error) {
+                console.error('Lỗi khi sửa sản phẩm:', error);
+            });
+        }
+        else{
+            alert('Chưa chọn ảnh để xoá')
+        }
+    }
 
     $scope.getFilePathProduct=function(){
         $('#ImageProduct').change(function () {
@@ -463,29 +873,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     }
                     reader.readAsDataURL(fileToLoad)
                 }
-                // var formData = new FormData();
-                // for (let i = 0; i < file.length; i++) {
-                //     formData.append('files', file[i]);
-                // }
-                // $http({
-                //     method: 'POST',
-                //     headers: {
-                //         "Authorization": 'Bearer ' + _user.token,
-                //         'Content-Type': undefined
-                //     },
-                //     data: formData,
-                //     url: current_url + '/api/Image/upload-multi',
-                // }).then(function (res) {
-                //     var imgs = res.data.files
-                //     $scope.AnhProductDetail = imgs.map(function(item){
-                //         return {LinkAnh:"./assets/img"+ item}
-                //     })
-                //     console.log(a);
-                //     debugger
-                //     alert('Thêm ảnh thành công');
-                // }).catch(function (error) {
-                //     console.error('Lỗi:', error);
-                // });
             }
         });
     }

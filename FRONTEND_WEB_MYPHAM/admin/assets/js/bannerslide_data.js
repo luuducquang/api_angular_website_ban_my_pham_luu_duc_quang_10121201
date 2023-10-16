@@ -30,6 +30,8 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
             var count = Math.ceil((total) / $scope.pageSize)
+            var currentPage = $scope.page;
+            var aItem = [];
             for (var i = 1; i < count + 1; i++) {
                 let li = document.createElement('li')
                 li.className = 'page-item'
@@ -37,12 +39,15 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                 a.className = 'page-link'
                 li.appendChild(a)
                 a.innerText = i
+                aItem.push(a);
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
                     a.href='#!bannerslide/'+a.innerHTML
                 }
             }    
+
+            aItem[currentPage - 1].classList.add('activePage');    
             prev = function(){
                 if($scope.page<=1){
                     $scope.page=1
@@ -157,13 +162,13 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                 url: current_url + '/api/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
-                preview.src = "./assets/img"+ $scope.Image
+                preview.src = "../img"+ $scope.Image
 
                 if($scope.submit==="Thêm mới"){
                     $http({
                         method: 'POST',
                         data: {
-                            LinkAnh: "./assets/img"+$scope.Image,
+                            LinkAnh: "../img"+$scope.Image,
                             TieuDe: $scope.tieude,
                             MoTa: $scope.mota
                         },
@@ -180,7 +185,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                         method: 'PUT',
                         data: {
                             MaAnh: $scope.MaSlide,
-                            LinkAnh: "./assets/img"+$scope.Image,
+                            LinkAnh: "../img"+$scope.Image,
                             TieuDe: $scope.tieude,
                             MoTa: $scope.mota
                         },
@@ -199,7 +204,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                 $http({
                     method: 'POST',
                     data: {
-                        LinkAnh: "./assets/img"+$scope.Image,
+                        LinkAnh: "../img"+$scope.Image,
                         TieuDe: $scope.tieude,
                         MoTa: $scope.mota
                     },

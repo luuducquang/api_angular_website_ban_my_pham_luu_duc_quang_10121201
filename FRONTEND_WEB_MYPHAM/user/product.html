@@ -9,7 +9,7 @@
         </div>
         <div class="product-item">
             <div class="product-left">
-                <span class="product-item-img"><img src="./assets/img/Cleanser/cerave/3.jpg" alt=""></span>
+                <span class="product-item-img"><img src={{ProductByid.anhDaiDien}} alt=""></span>
                 <div class="miror"></div>
                 <div class="but">
                     <span>
@@ -20,11 +20,11 @@
                     </span>
                 </div>
                 <div class="img-slider">
-                    <img class="activeImg opacity1" src="./assets/img/Cleanser/cerave/3.jpg" alt="">
-                    <img src="./assets/img/Cleanser/cerave/4.jpg" alt="">
-                    <img src="./assets/img/Cleanser/cerave/2.jpg" alt="">
+                    <!-- <img class="activeImg opacity1" src="./assets/img/Cleanser/cerave/3.jpg" alt=""> -->
+                    <img ng-repeat="x in listImgDetail" src={{x.linkAnh}} alt="">
+                    <!-- <img src="./assets/img/Cleanser/cerave/2.jpg" alt="">
                     <img src="./assets/img/Cleanser/cerave/1.webp" alt="">
-                    <img src="./assets/img/Cleanser/cerave/5.webp" alt="">
+                    <img src="./assets/img/Cleanser/cerave/5.webp" alt=""> -->
                 </div>
             </div>
 
