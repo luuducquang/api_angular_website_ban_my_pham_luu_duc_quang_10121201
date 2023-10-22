@@ -19,6 +19,7 @@ namespace Model
         public bool TrangThai { get; set; }
         public int LuotXem { get; set; }
         public string TrongLuong { get; set; }
+        public string XuatXu { get; set; }
         public List<ChiTietSanPhamModel> list_json_chitiet_sanpham { get; set; }
         public List<SanPham_NhaPhanPhoiModel> list_json_sanpham_nhaphanphoi { get; set; }
         public List<AnhSanPhamModel> list_json_anhsanpham { get; set; }

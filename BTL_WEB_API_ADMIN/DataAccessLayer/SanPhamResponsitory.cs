@@ -85,6 +85,7 @@ namespace DataAccessLayer
                     "@TrangThai", model.TrangThai,
                     "@LuotXem", model.LuotXem,
                     "@TrongLuong", model.TrongLuong,
+                    "@XuatXu", model.XuatXu,
                     "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
                     "@list_json_sanpham_nhaphanphoi", model.list_json_sanpham_nhaphanphoi != null ? MessageConvert.SerializeObject(model.list_json_sanpham_nhaphanphoi) : null,
                     "@list_json_anhsanpham", model.list_json_anhsanpham != null ? MessageConvert.SerializeObject(model.list_json_anhsanpham) : null);
@@ -118,6 +119,7 @@ namespace DataAccessLayer
                     "@TrangThai", model.TrangThai,
                     "@LuotXem", model.LuotXem,
                     "@TrongLuong", model.TrongLuong,
+                    "@XuatXu", model.XuatXu,
                     "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
                     "@list_json_sanpham_nhaphanphoi", model.list_json_sanpham_nhaphanphoi != null ? MessageConvert.SerializeObject(model.list_json_sanpham_nhaphanphoi) : null,
                     "@list_json_anhsanpham", model.list_json_anhsanpham != null ? MessageConvert.SerializeObject(model.list_json_anhsanpham) : null);
@@ -154,7 +156,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi)
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi, string XuatXu)
         {
             string msgError = "";
             total = 0;
@@ -168,7 +170,8 @@ namespace DataAccessLayer
                     "@Tendanhmucuudai", Tendanhmucuudai,
                     "@Gia", Gia,
                     "@TenHang", TenHang,
-                    "@TenNhaPhanPhoi", TenNhaPhanPhoi
+                    "@TenNhaPhanPhoi", TenNhaPhanPhoi,
+                    "@XuatXu", XuatXu
                     );
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);

@@ -147,6 +147,20 @@ app.controller("ProductCtrl", function ($scope, $http) {
     
     $scope.btnAdd=function(){
         $scope.submit="Thêm mới"
+        $scope.tensanpham=''
+        $scope.gia=''
+        $scope.giagiam=''
+        $scope.soluong=0
+        $scope.trongluong=''
+        $scope.mota=''
+        $scope.chitiet=''
+        $scope.xuatxu=''
+        preview.src=''
+        var imgDetail = document.querySelectorAll('.imgdetail img')
+        imgDetail.forEach(function(e){
+            e.remove()
+        })
+
     }
 
     $scope.AddProduct= function () {
@@ -163,7 +177,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 SoLuong: $scope.soluong,
                 TrongLuong:$scope.trongluong,
                 TrangThai: $scope.trangthai === "true",
-                LuotXem: $scope.luotxem,
+                LuotXem: 0,
+                XuatXu: $scope.xuatxu,
                 list_json_chitiet_sanpham:[{
                     MaNhaSanXuat: $scope.manhasanxuat,
                     MoTa: $scope.mota,
@@ -197,7 +212,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 SoLuong: $scope.soluong,
                 TrongLuong:$scope.trongluong,
                 TrangThai: $scope.trangthai === "true",
-                LuotXem: $scope.luotxem,
+                LuotXem: 0,
+                XuatXu: $scope.xuatxu,
                 list_json_chitiet_sanpham:[{
                     MaChiTietSanPham:$scope.machitietsanpham,
                     MaNhaSanXuat: $scope.manhasanxuat,
@@ -226,7 +242,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.save = function(){
         if($scope.tensanpham===''||$scope.gia===''||$scope.giagiam===''||
         $scope.soluong===''||$scope.trongluong===''||
-        $scope.luotxem===''|| $scope.mota===''||$scope.chitiet===''){
+        $scope.mota===''||$scope.chitiet===''){
             alert("Vui lòng nhập đủ thông tin")
             return
         }
@@ -282,7 +298,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                     SoLuong: $scope.soluong,
                                     TrongLuong:$scope.trongluong,
                                     TrangThai: $scope.trangthai === "true",
-                                    LuotXem: $scope.luotxem,
+                                    LuotXem: 0,
+                                    XuatXu: $scope.xuatxu,
                                     list_json_chitiet_sanpham:[{
                                         MaChiTietSanPham:$scope.machitietsanpham,
                                         MaNhaSanXuat: $scope.manhasanxuat,
@@ -328,7 +345,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 SoLuong: $scope.soluong,
                                 TrongLuong:$scope.trongluong,
                                 TrangThai: $scope.trangthai === "true",
-                                LuotXem: $scope.luotxem,
+                                LuotXem: 0,
+                                XuatXu: $scope.xuatxu,
                                 list_json_chitiet_sanpham:[{
                                     MaNhaSanXuat: $scope.manhasanxuat,
                                     MoTa: $scope.mota,
@@ -363,7 +381,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 SoLuong: $scope.soluong,
                                 TrongLuong:$scope.trongluong,
                                 TrangThai: $scope.trangthai === "true",
-                                LuotXem: $scope.luotxem,
+                                LuotXem: 0,
+                                XuatXu: $scope.xuatxu,
                                 list_json_chitiet_sanpham:[{
                                     MaChiTietSanPham:$scope.machitietsanpham,
                                     MaNhaSanXuat: $scope.manhasanxuat,
@@ -432,7 +451,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 SoLuong: $scope.soluong,
                                 TrongLuong:$scope.trongluong,
                                 TrangThai: $scope.trangthai === "true",
-                                LuotXem: $scope.luotxem,
+                                LuotXem: 0,
+                                XuatXu: $scope.xuatxu,
                                 list_json_chitiet_sanpham:[{
                                     MaChiTietSanPham:$scope.machitietsanpham,
                                     MaNhaSanXuat: $scope.manhasanxuat,
@@ -479,7 +499,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         SoLuong: $scope.soluong,
                         TrongLuong:$scope.trongluong,
                         TrangThai: $scope.trangthai === "true",
-                        LuotXem: $scope.luotxem,
+                        LuotXem: 0,
+                        XuatXu: $scope.xuatxu,
                         list_json_chitiet_sanpham:[{
                             MaNhaSanXuat: $scope.manhasanxuat,
                             MoTa: $scope.mota,
@@ -514,7 +535,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         SoLuong: $scope.soluong,
                         TrongLuong:$scope.trongluong,
                         TrangThai: $scope.trangthai === "true",
-                        LuotXem: $scope.luotxem,
+                        LuotXem: 0,
+                        XuatXu: $scope.xuatxu,
                         list_json_chitiet_sanpham:[{
                             MaChiTietSanPham:$scope.machitietsanpham,
                             MaNhaSanXuat: $scope.manhasanxuat,
@@ -584,7 +606,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             SoLuong: $scope.soluong,
                             TrongLuong:$scope.trongluong,
                             TrangThai: $scope.trangthai === "true",
-                            LuotXem: $scope.luotxem,
+                            LuotXem: 0,
+                            XuatXu: $scope.xuatxu,
                             list_json_chitiet_sanpham:[{
                                 MaChiTietSanPham:$scope.machitietsanpham,
                                 MaNhaSanXuat: $scope.manhasanxuat,
@@ -648,13 +671,13 @@ app.controller("ProductCtrl", function ($scope, $http) {
             $scope.soluong = sanpham.soLuong
             $scope.trongluong = sanpham.trongLuong
             $scope.trangthai = String(sanpham.trangThai)
-            $scope.luotxem = sanpham.luotXem
             $scope.manhasanxuat = String(sanpham.maNhaSanXuat)
             $scope.mota = sanpham.moTa
             $scope.chitiet = sanpham.chiTiet
             $scope.manhaphanphoi = String(sanpham.maNhaPhanPhoi)
             preview.src = sanpham.anhDaiDien
             $scope.machitietsanpham = sanpham.maChiTietSanPham
+            $scope.xuatxu = sanpham.xuatXu
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });
@@ -742,7 +765,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 SoLuong: $scope.soluong,
                                 TrongLuong:$scope.trongluong,
                                 TrangThai: $scope.trangthai === "true",
-                                LuotXem: $scope.luotxem,
+                                LuotXem: 0,
+                                XuatXu: $scope.xuatxu,
                                 list_json_chitiet_sanpham:[{
                                     MaChiTietSanPham:$scope.machitietsanpham,
                                     MaNhaSanXuat: $scope.manhasanxuat,
@@ -794,7 +818,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     SoLuong: $scope.soluong,
                     TrongLuong:$scope.trongluong,
                     TrangThai: $scope.trangthai === "true",
-                    LuotXem: $scope.luotxem,
+                    LuotXem: 0,
+                    XuatXu: $scope.xuatxu,
                     list_json_chitiet_sanpham:[{
                         MaChiTietSanPham:$scope.machitietsanpham,
                         MaNhaSanXuat: $scope.manhasanxuat,

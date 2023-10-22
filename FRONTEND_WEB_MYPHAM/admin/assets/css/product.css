@@ -3,9 +3,9 @@
 }
 
 .tilte{
-    background-color: #005500;
+    background-color: #002c65;
     border-radius: 5px;
-    border-left: 5px #006aff solid;
+    border-left: 5px #99c0d1 solid;
     margin: 10px 0;
     color: #fff;
 }
@@ -258,5 +258,68 @@ table tbody{
 
 .choseImg{
     border: 2px solid #0099FF;
+    border-radius: 5px;
+}
+
+.total-overview .row .col{
+    padding: 10px;
+    margin: 5px;
+    background-color: #001c41;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.total-overview .row .col .amount{
+    font-size:xx-large;
+    color: #fff;
+}
+
+.total-overview .row .col .title_overview{ 
+    color: #fff;
+}
+
+.statistic{
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.statistic_product>div>div{
+    width: 50%;
+}
+
+.statistic_product>div>div h3{
+    padding: 10px;
+    margin: 0;
+    padding-top: 0;
+}
+
+.statistic_product form{
+    max-height: 377px;
+    overflow-y: scroll;
+}
+
+.statistic_product{
+    background-color: #dfdfdf;
+    padding: 10px; 
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.statistic_product form:last-child{
+    padding-left: 10px;
+}
+
+
+.statistic_product form::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #dfdfdf;
+    border-radius: 0 15px 15px 0;
+} 
+
+.statistic_product form::-webkit-scrollbar-thumb {
+    background-color: #ffffff;
     border-radius: 5px;
 }

@@ -80,8 +80,10 @@ CREATE TABLE SanPhams(
     SoLuong INT,
 	TrongLuong nvarchar(100),
     TrangThai BIT DEFAULT 0,
-    LuotXem INT DEFAULT 0
+    LuotXem INT DEFAULT 0,
+	XuatXu nvarchar(50)
 );
+
 
 
 CREATE TABLE AnhSanPhams(
@@ -234,13 +236,13 @@ VALUES
 ( N'Serum', 0, N'Nội dung chuyên mục 2')
 
 
-INSERT INTO SanPhams (MaDanhMuc, Madanhmucuudai, TenSanPham, AnhDaiDien, Gia, GiaGiam, SoLuong, TrangThai, LuotXem)
+INSERT INTO SanPhams (MaDanhMuc, Madanhmucuudai, TenSanPham, AnhDaiDien, Gia, GiaGiam, SoLuong, TrangThai, LuotXem,XuatXu)
 VALUES 
-(1, 1, N'Sản phẩm 1', 'product1.jpg', 100000, 0, 50, 1, 0),
-(2, 2, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0),
-(3, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 1),
-(4, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 1),
-(5, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0)
+(1, 1, N'Sản phẩm 1', 'product1.jpg', 100000, 0, 50, 1, 0,'Canada'),
+(2, 2, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0,'Canada'),
+(3, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 1,'Canada'),
+(4, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 1,'Canada'),
+(5, 3, N'Sản phẩm 2', 'product2.jpg', 150000, 20000, 30, 1, 0,'Canada')
 
 
 INSERT INTO AnhSanPhams(MaSanPham, LinkAnh)
@@ -1177,7 +1179,7 @@ begin
 end
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_getallsanpham
+alter proc sp_getallsanpham
 as
 begin
 	select TenSanPham,MaSanPham
@@ -1201,6 +1203,7 @@ begin
 							  s.TrongLuong,
 							  s.TrangThai,
 							  s.LuotXem,
+							  s.XuatXu,
 							  h.MaNhaSanXuat,
 							  h.TenHang,
 							  npp.MaNhaPhanPhoi,
@@ -1232,6 +1235,7 @@ alter proc sp_create_sanpham(
 @TrongLuong nvarchar(100),
 @TrangThai bit,
 @LuotXem int,
+@XuatXu nvarchar(50),
 @list_json_chitiet_sanpham NVARCHAR(MAX),
 @list_json_sanpham_nhaphanphoi NVARCHAR(MAX),
 @list_json_anhsanpham NVARCHAR(MAX)
@@ -1250,7 +1254,8 @@ BEGIN
 					 SoLuong,
 					 TrongLuong,
 					 TrangThai,
-					 LuotXem
+					 LuotXem,
+					 XuatXu
 					)
 					VALUES
 					(@MaDanhMuc, 
@@ -1262,7 +1267,8 @@ BEGIN
 					 @SoLuong,
 					 @TrongLuong,
 					 @TrangThai,
-					 @LuotXem
+					 @LuotXem,
+					 @XuatXu
 					);
 
 					SET @MaSanPham = (SELECT SCOPE_IDENTITY());
@@ -1323,6 +1329,7 @@ alter proc sp_update_sanpham(
 @TrongLuong nvarchar(100),
 @TrangThai bit,
 @LuotXem int,
+@XuatXu nvarchar(50),
 @list_json_chitiet_sanpham NVARCHAR(MAX),
 @list_json_sanpham_nhaphanphoi NVARCHAR(MAX),
 @list_json_anhsanpham NVARCHAR(MAX)
@@ -1339,7 +1346,8 @@ BEGIN
 			SoLuong = @SoLuong,
 			TrongLuong = @TrongLuong,
 			TrangThai = @TrangThai,
-			LuotXem = @LuotXem
+			LuotXem = @LuotXem,
+			XuatXu = @XuatXu
 		where MaSanPham =@MaSanPham
 		
 					IF(@list_json_chitiet_sanpham IS NOT NULL)
@@ -1462,7 +1470,8 @@ alter proc sp_sanpham_search(@page_index  INT,
 									   @Tendanhmucuudai nvarchar(250),
 									   @Gia decimal(18, 0),
 									   @TenHang nvarchar(50),
-									   @TenNhaPhanPhoi nvarchar(250))
+									   @TenNhaPhanPhoi nvarchar(250),
+									   @XuatXu nvarchar(50))
 AS
     BEGIN
         DECLARE @RecordCount BIGINT;
@@ -1484,6 +1493,7 @@ AS
 							  s.TrongLuong,
 							  s.TrangThai,
 							  s.LuotXem,
+							  s.XuatXu,
 							  h.MaNhaSanXuat,
 							  h.TenHang,
 							  npp.MaNhaPhanPhoi,
@@ -1505,6 +1515,7 @@ AS
 							and (@Gia = 0 or s.Gia = @Gia)
 							and (@TenHang = '' or h.TenHang like '%'+@TenHang +'%')
 							and (@TenNhaPhanPhoi = '' or npp.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+							and (@XuatXu = '' or s.XuatXu like '%'+@XuatXu +'%')
 						
                         SELECT @RecordCount = COUNT(*)
                         FROM #Temp1;
@@ -1533,6 +1544,7 @@ AS
 							  s.TrongLuong,
 							  s.TrangThai,
 							  s.LuotXem,
+							  s.XuatXu,
 							  h.MaNhaSanXuat,
 							  h.TenHang,
 							  npp.MaNhaPhanPhoi,
@@ -1554,6 +1566,7 @@ AS
 							and (@Gia = 0 or s.Gia = @Gia)
 							and (@TenHang = '' or h.TenHang like '%'+@TenHang +'%')
 							and (@TenNhaPhanPhoi = '' or npp.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+							and (@XuatXu = '' or s.XuatXu like '%'+@XuatXu +'%')
 
                         SELECT @RecordCount = COUNT(*)
                         FROM #Temp2;
@@ -2222,3 +2235,352 @@ AS
 		END
 
     END;
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_overview
+as
+begin
+	DECLARE @Results TABLE (
+		SoluongHoaDonNhap INT,
+		SoluongHoaDonBan INT,
+		KhachHangMua INT,
+		TienChi INT,
+		DoanhThu INT
+	)
+
+	INSERT INTO @Results (SoluongHoaDonNhap, SoluongHoaDonBan,KhachHangMua,TienChi,DoanhThu)
+	SELECT
+		(SELECT COUNT(*) FROM HoaDonNhaps) AS SoluongHoaDonNhap,
+		(SELECT COUNT(*) FROM HoaDons) AS SoluongHoaDonBan,
+		(SELECT COUNT(DISTINCT SDT) FROM HoaDons) AS KhachHangMua,
+		(SELECT Sum(TongTien) FROM ChiTietHoaDonNhaps) AS TienChi,
+		(SELECT Sum(TongGia) FROM HoaDons) AS DoanhThu
+
+	SELECT * FROM @Results
+end
+
+exec sp_overview
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_ThongKeDoanhThuNam(@Nam INT)
+AS
+BEGIN
+    DECLARE @Thang INT = 1;
+    DECLARE @DoanhThu FLOAT;
+    
+    CREATE TABLE #ThongKeDoanhThu (Thang INT, DoanhThu FLOAT);
+
+    WHILE @Thang <= 12
+    BEGIN
+
+        SELECT @DoanhThu = SUM(TongGia)
+        FROM HoaDons
+        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+
+        INSERT INTO #ThongKeDoanhThu (Thang, DoanhThu)
+        VALUES (@Thang, @DoanhThu);
+
+        SET @Thang = @Thang + 1;
+    END;
+
+    SELECT * FROM #ThongKeDoanhThu;
+
+    DROP TABLE #ThongKeDoanhThu;
+END;
+
+exec sp_ThongKeDoanhThuNam 2023
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_ThongKeTienChiNam(@Nam INT)
+AS
+BEGIN
+    DECLARE @Thang INT = 1;
+    DECLARE @TienChi FLOAT;
+    
+    CREATE TABLE #ThongKeTienChi(Thang INT, TienChi FLOAT);
+
+    WHILE @Thang <= 12
+    BEGIN
+
+        SELECT @TienChi = SUM(TongTien)
+        FROM ChiTietHoaDonNhaps ct
+		inner join HoaDonNhaps hdn on hdn.MaHoaDon = ct.MaHoaDon
+        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+
+        INSERT INTO #ThongKeTienChi (Thang, TienChi)
+        VALUES (@Thang, @TienChi);
+
+        SET @Thang = @Thang + 1;
+    END;
+
+    SELECT * FROM #ThongKeTienChi;
+
+    DROP TABLE #ThongKeTienChi;
+END;
+
+exec sp_ThongKeTienChiNam 2023
+
+-------------------------------------------------------------------------------------------------------------------------------
+create PROCEDURE sp_ThongKeDoanhThuTrongThang
+    @Nam INT,
+    @Thang INT
+AS
+BEGIN
+    CREATE TABLE #DoanhThuTheoNgay (Ngay DATE, DoanhThu FLOAT);
+
+    DECLARE @NgayDau DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @NgayCuoi DATE = EOMONTH(@NgayDau);
+
+    DECLARE @NgayHienTai DATE = @NgayDau;
+
+    WHILE @NgayHienTai <= @NgayCuoi
+    BEGIN
+        INSERT INTO #DoanhThuTheoNgay (Ngay, DoanhThu)
+        SELECT @NgayHienTai, SUM(TongGia)
+        FROM HoaDons
+        WHERE CAST(NgayTao AS DATE) = @NgayHienTai;
+
+        SET @NgayHienTai = DATEADD(DAY, 1, @NgayHienTai);
+    END;
+
+    SELECT * FROM #DoanhThuTheoNgay;
+
+    DROP TABLE #DoanhThuTheoNgay;
+END;
+
+exec sp_ThongKeDoanhThuTrongThang 2023,10
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter PROCEDURE sp_ThongKeTienChiTrongThang
+    @Nam INT,
+    @Thang INT
+AS
+BEGIN
+    CREATE TABLE #TienChiTheoNgay (Ngay DATE, TienChi FLOAT);
+
+    DECLARE @NgayDau DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @NgayCuoi DATE = EOMONTH(@NgayDau);
+
+    DECLARE @NgayHienTai DATE = @NgayDau;
+
+    WHILE @NgayHienTai <= @NgayCuoi
+    BEGIN
+        INSERT INTO #TienChiTheoNgay (Ngay, TienChi)
+        SELECT @NgayHienTai, SUM(ct.TongTien)
+        FROM HoaDonNhaps hdn
+		inner join ChiTietHoaDonNhaps ct on ct.MaHoaDon=hdn.MaHoaDon
+        WHERE CAST(hdn.NgayTao AS DATE) = @NgayHienTai;
+
+        SET @NgayHienTai = DATEADD(DAY, 1, @NgayHienTai);
+    END;
+
+    SELECT * FROM #TienChiTheoNgay;
+
+    DROP TABLE #TienChiTheoNgay;
+END;
+
+exec sp_ThongKeTienChiTrongThang 2023,10
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_ThongKeHDBNam(@Nam INT)
+AS
+BEGIN
+    DECLARE @Thang INT = 1;
+    DECLARE @SL INT;
+    
+    CREATE TABLE #ThongKeHDBNam(Thang INT, SL INT);
+
+    WHILE @Thang <= 12
+    BEGIN
+
+        SELECT @SL = COUNT(*)
+        FROM HoaDons ct
+        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+
+        INSERT INTO #ThongKeHDBNam (Thang, SL)
+        VALUES (@Thang, @SL);
+
+        SET @Thang = @Thang + 1;
+    END;
+
+    SELECT * FROM #ThongKeHDBNam;
+
+    DROP TABLE #ThongKeHDBNam;
+END;
+
+exec sp_ThongKeHDBNam 2023
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter PROCEDURE sp_ThongKeHDBNgay
+    @Nam INT,
+    @Thang INT
+AS
+BEGIN
+    CREATE TABLE #HDBNgay (Ngay DATE, SL INT);
+
+    DECLARE @NgayDau DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @NgayCuoi DATE = EOMONTH(@NgayDau);
+
+    DECLARE @NgayHienTai DATE = @NgayDau;
+
+    WHILE @NgayHienTai <= @NgayCuoi
+    BEGIN
+        INSERT INTO #HDBNgay (Ngay, SL)
+        SELECT @NgayHienTai, COUNT(*)
+        FROM HoaDons
+        WHERE CAST(NgayTao AS DATE) = @NgayHienTai;
+
+        SET @NgayHienTai = DATEADD(DAY, 1, @NgayHienTai);
+    END;
+
+    SELECT * FROM #HDBNgay;
+
+    DROP TABLE #HDBNgay;
+END;
+
+exec sp_ThongKeHDBNgay 2023,9
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_ThongKeHDNNam(@Nam INT)
+AS
+BEGIN
+    DECLARE @Thang INT = 1;
+    DECLARE @SL INT;
+    
+    CREATE TABLE #ThongKeHDNNam(Thang INT, SL INT);
+
+    WHILE @Thang <= 12
+    BEGIN
+
+        SELECT @SL = COUNT(*)
+        FROM HoaDonNhaps
+        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+
+        INSERT INTO #ThongKeHDNNam (Thang, SL)
+        VALUES (@Thang, @SL);
+
+        SET @Thang = @Thang + 1;
+    END;
+
+    SELECT * FROM #ThongKeHDNNam;
+
+    DROP TABLE #ThongKeHDNNam;
+END;
+
+exec sp_ThongKeHDNNam 2023
+
+-------------------------------------------------------------------------------------------------------------------------------
+create PROCEDURE sp_ThongKeHDNNgay
+    @Nam INT,
+    @Thang INT
+AS
+BEGIN
+    CREATE TABLE #HDNNgay (Ngay DATE, SL INT);
+
+    DECLARE @NgayDau DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @NgayCuoi DATE = EOMONTH(@NgayDau);
+
+    DECLARE @NgayHienTai DATE = @NgayDau;
+
+    WHILE @NgayHienTai <= @NgayCuoi
+    BEGIN
+        INSERT INTO #HDNNgay (Ngay, SL)
+        SELECT @NgayHienTai, COUNT(*)
+        FROM HoaDonNhaps
+        WHERE CAST(NgayTao AS DATE) = @NgayHienTai;
+
+        SET @NgayHienTai = DATEADD(DAY, 1, @NgayHienTai);
+    END;
+
+    SELECT * FROM #HDNNgay;
+
+    DROP TABLE #HDNNgay;
+END;
+
+exec sp_ThongKeHDNNgay 2023,10
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_ThongKeKHNam(@Nam INT)
+AS
+BEGIN
+    DECLARE @Thang INT = 1;
+    DECLARE @SL INT;
+    
+    CREATE TABLE #ThongKeKHNam(Thang INT, SL INT);
+
+    WHILE @Thang <= 12
+    BEGIN
+
+        SELECT @SL = COUNT(DISTINCT SDT)
+        FROM HoaDons
+        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+
+        INSERT INTO #ThongKeKHNam (Thang, SL)
+        VALUES (@Thang, @SL);
+
+        SET @Thang = @Thang + 1;
+    END;
+
+    SELECT * FROM #ThongKeKHNam;
+
+    DROP TABLE #ThongKeKHNam;
+END;
+
+exec sp_ThongKeKHNam 2023
+
+-------------------------------------------------------------------------------------------------------------------------------
+create PROCEDURE sp_ThongKeKHNgay
+    @Nam INT,
+    @Thang INT
+AS
+BEGIN
+    CREATE TABLE #KHNgay (Ngay DATE, SL INT);
+
+    DECLARE @NgayDau DATE = DATEFROMPARTS(@Nam, @Thang, 1);
+    DECLARE @NgayCuoi DATE = EOMONTH(@NgayDau);
+
+    DECLARE @NgayHienTai DATE = @NgayDau;
+
+    WHILE @NgayHienTai <= @NgayCuoi
+    BEGIN
+        INSERT INTO #KHNgay (Ngay, SL)
+        SELECT @NgayHienTai, COUNT(DISTINCT SDT)
+        FROM HoaDons
+        WHERE CAST(NgayTao AS DATE) = @NgayHienTai;
+
+        SET @NgayHienTai = DATEADD(DAY, 1, @NgayHienTai);
+    END;
+
+    SELECT * FROM #KHNgay;
+
+    DROP TABLE #KHNgay;
+END;
+
+exec sp_ThongKeKHNgay 2023,10
+
+alter proc sp_sanphambanchaytrongthang
+as
+begin
+	SELECT Top(50) ct.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.TrongLuong,dmu.Tendanhmucuudai,dm.TenDanhMuc, SUM(ct.SoLuong) AS soluong
+	FROM HoaDons hd
+	inner join ChiTietHoaDons ct on ct.MaHoaDon = hd.MaHoaDon
+	inner join SanPhams sp on sp.MaSanPham = ct.MaSanPham
+	inner join DanhMucs dm on dm.MaDanhMuc = sp.MaDanhMuc
+	inner join DanhMucUudais dmu on dmu.Madanhmucuudai = sp.Madanhmucuudai
+	WHERE MONTH(hd.NgayTao) = MONTH(GETDATE()) AND YEAR(hd.NgayTao) = YEAR(GETDATE())
+	GROUP BY ct.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.TrongLuong,dmu.Tendanhmucuudai,dm.TenDanhMuc
+	ORDER BY soluong DESC
+end
+
+exec sp_sanphambanchaytrongthang
+
+alter proc sp_sanphamsaphet
+as
+begin
+	select top(50) sp.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.TrongLuong,dm.TenDanhMuc,dmu.Tendanhmucuudai,sp.SoLuong as soluong
+	from SanPhams sp
+	inner join DanhMucs dm on dm.MaDanhMuc = sp.MaDanhMuc
+	inner join DanhMucUudais dmu on dmu.Madanhmucuudai = sp.Madanhmucuudai
+	ORDER BY soluong ASC
+end

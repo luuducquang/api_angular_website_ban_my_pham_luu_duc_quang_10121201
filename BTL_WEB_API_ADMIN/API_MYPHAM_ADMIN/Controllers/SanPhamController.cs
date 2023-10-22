@@ -86,8 +86,10 @@ namespace API_MYPHAM.Controllers
                 if (formData.Keys.Contains("TenHang") && !string.IsNullOrEmpty(Convert.ToString(formData["TenHang"]))) { TenHang = Convert.ToString(formData["TenHang"]); }
                 string TenNhaPhanPhoi = "";
                 if (formData.Keys.Contains("TenNhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["TenNhaPhanPhoi"]))) { TenNhaPhanPhoi = Convert.ToString(formData["TenNhaPhanPhoi"]); }
+                string XuatXu = "";
+                if (formData.Keys.Contains("XuatXu") && !string.IsNullOrEmpty(Convert.ToString(formData["XuatXu"]))) { XuatXu = Convert.ToString(formData["XuatXu"]); }
                 long total = 0;
-                var data = _sanPhamBUS.Search(page, pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,Gia,TenHang,TenNhaPhanPhoi);
+                var data = _sanPhamBUS.Search(page, pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,Gia,TenHang,TenNhaPhanPhoi,XuatXu);
                 return Ok(
                    new
                    {

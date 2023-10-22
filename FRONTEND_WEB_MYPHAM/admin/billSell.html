@@ -47,7 +47,7 @@
                     <td>{{x.sdt}}</td>
                     <td>{{x.ngayTao}}</td>
                     <td>{{x.ngayDuyet}}</td>
-                    <td>{{x.trangThai}}</td>
+                    <td ng-style="{'color': x.trangThai === true ? '#33CC00' : '#FF3300'}">{{x.trangThai===true?'Đã bán':'Huỷ'}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
                             <i ng-click="edit(x)"  class="fa-solid fa-circle-info"></i>
@@ -95,8 +95,8 @@
                 <label for="">Trạng thái:</label>
                 <select ng-model="trangthai" class="select form-select-lg status" id="statusOption">
                     <option value="" selected disabled>Chọn trạng thái</option>
-                    <option value="true" >True</option>
-                    <option value="false">False</option>
+                    <option value="true" >Đã bán</option>
+                    <option value="false">Huỷ</option>
                 </select>
             </div>
             <div style="border: 1px solid rgb(162, 163, 168); border-radius: 10px; padding: 10px;">

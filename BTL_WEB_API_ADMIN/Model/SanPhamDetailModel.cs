@@ -19,6 +19,7 @@ namespace Model
         public Decimal GiaGiam { get; set; }
         public int SoLuong { get; set; }
         public string TrongLuong { get; set; }
+        public string XuatXu { get; set; }
         public string MoTa { get; set; }
         public string ChiTiet { get; set; }
         public bool TrangThai { get; set; }

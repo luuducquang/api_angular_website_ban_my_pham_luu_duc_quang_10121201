@@ -1,0 +1,124 @@
+<div ng-controller="OverviewCtrl" class="container">
+  <p class="container p-2 tilte fs-5"> Tổng quan
+  <div id="clock" class="header-common"></div>
+  </p>
+  <div class="container total-overview">
+    <div class="row">
+      <div class="col">
+        <div class="amount">{{DataOverview.soluongHoaDonNhap}}</div>
+        <div class="title_overview">Hoá đơn nhập</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.soluongHoaDonBan}}</div>
+        <div class="title_overview">Hoá đơn bán </div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.khachHangMua}}</div>
+        <div class="title_overview">Khách hàng đã mua</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{Tienchi}}</div>
+        <div class="title_overview">Tổng tiền chi</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DoanhThu}}</div>
+        <div class="title_overview">Tổng doanh thu</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container statistic_product">
+    <div style="display: flex;">
+      <div>
+        <h3 style="color: #00CC00;">Sản phẩm bán chạy trong tháng</h3>
+        <form action="">
+          <table style="margin: 0;" class="table table-product table-hover">
+             <thead>
+                  <tr class="text-center">
+                      <th scope="col">Tên Sản Phẩm</th>
+                      <th scope="col">Hình Ảnh</th>
+                      <th scope="col">Giá</th>
+                      <th scope="col">Trọng Lượng</th>
+                      <th scope="col">Số Lượng</th>
+                  </tr>
+             </thead>
+             <tbody>
+                  <tr ng-repeat="x in Spbanchaythang" class="text-center">
+                      <td>{{x.tenSanPham}}</td>
+                      <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
+                      <td>{{x.giaGiam}}</td>
+                      <td>{{x.trongLuong}}</td>
+                      <td>{{x.soluong}}</td>
+                  </tr>
+             </tbody>
+          </table>
+        </form>
+      </div>
+      <div>
+        <h3 style="color: #FF9933;">Sản phẩm sắp hết</h3>
+        <form action="">
+          <table style="margin: 0;" class="table table-product table-hover">
+            <thead>
+                  <tr class="text-center">
+                      <th scope="col">Tên Sản Phẩm</th>
+                      <th scope="col">Hình Ảnh</th>
+                      <th scope="col">Giá</th>
+                      <th scope="col">Trọng Lượng</th>
+                      <th scope="col">Số Lượng</th>
+                  </tr>
+            </thead>
+            <tbody>
+                  <tr ng-repeat="x in Spsaphet" class="text-center">
+                      <td>{{x.tenSanPham}}</td>
+                      <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
+                      <td>{{x.giaGiam}}</td>
+                      <td>{{x.trongLuong}}</td>
+                      <td>{{x.soluong}}</td>
+                  </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="container statistic">
+    <select class="form-select choiseYear" aria-label="Default select example">
+      <option disabled>Chọn năm muốn thống kê</option>
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option selected value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+    </select>
+    <canvas id="myChart"></canvas>
+    <select class="form-select choiseYeartoDay" aria-label="Default select example">
+      <option disabled>Chọn năm muốn thống kê</option>
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option selected value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+    </select>
+    <select class="form-select choiseMonthtoDay" aria-label="Default select example">
+      <option disabled>Chọn tháng muốn thống kê</option>
+      <option selected value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+    </select>
+    <canvas id="myChart2"></canvas>
+  </div>
+
+</div>
+

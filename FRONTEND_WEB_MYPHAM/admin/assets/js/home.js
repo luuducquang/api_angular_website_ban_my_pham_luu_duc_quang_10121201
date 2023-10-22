@@ -1,6 +1,9 @@
 var app = angular.module("myApp", ["ngRoute"]);
 app.config(function($routeProvider) {
   $routeProvider
+  .when("/", {
+    templateUrl : "overview.html"
+  })
   .when("/product/:page", {
     templateUrl : "product.html",
     controller: "product"
@@ -45,6 +48,13 @@ app.config(function($routeProvider) {
     controller: "importBill"
   })
 });
+
+const VND = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+});
+
+const VND2 = new Intl.NumberFormat('vi-VN');
 
 var userLocalStorage = JSON.parse(localStorage.getItem("user"))
 if(userLocalStorage){
@@ -114,8 +124,12 @@ var gmt7ISODate = gmt7Time.toISOString().slice(0, 16);
 var contentLeft = document.querySelector('.content-left')
 var contentRight = document.querySelector('.container-right')
 
-contentLeft.style.marginLeft = "-250px";
-contentRight.style.marginLeft = "0px";
+
+if(JSON.parse(localStorage.getItem('menu')) === false){
+  contentLeft.style.marginLeft = "-250px";
+  contentRight.style.marginLeft = "0px";
+}
+
 
 hidemenu=function(){
   contentLeft.style.animation=''
@@ -125,6 +139,8 @@ hidemenu=function(){
     contentLeft.style.marginLeft = "-250px";
     contentRight.style.marginLeft = "0px";
   },300)
+  isMenu = false
+  localStorage.setItem('menu',isMenu)
 }
 
 showmenu=function(){
@@ -135,4 +151,7 @@ showmenu=function(){
     contentLeft.style.marginLeft = "0px";
     contentRight.style.marginLeft = "250px";
   },300)
+  isMenu =true
+  localStorage.setItem('menu',isMenu)
 }
+

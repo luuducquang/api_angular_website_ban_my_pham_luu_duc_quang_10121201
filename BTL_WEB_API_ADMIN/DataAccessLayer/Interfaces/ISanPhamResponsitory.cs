@@ -17,7 +17,7 @@ namespace DataAccessLayer.Interfaces
         bool Update(SanPhamModel model);
         bool Delete(int MaSanPham);
 
-        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total,string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi);
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total,string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi, string XuatXu);
         public List<SanPhamModel> SearchSingle(int pageIndex, int pageSize, out long total,string TenSanPham, Decimal Gia);
     }
 }

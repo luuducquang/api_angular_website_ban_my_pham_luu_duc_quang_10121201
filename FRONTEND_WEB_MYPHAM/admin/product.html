@@ -54,7 +54,7 @@
                     <td>{{x.tenDanhMuc}}</td>
                     <td>{{x.tendanhmucuudai}}</td>
                     <td>{{x.moTa}}</td>
-                    <td>{{x.trangThai}}</td>
+                    <td ng-style="{'color': x.trangThai === true ? '#33CC00' : '#FF3300'}">{{x.trangThai===true?'Hoạt động':'Tắt'}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
                             <i ng-click="edit(x.maSanPham)"  class="fa-solid fa-pen-to-square"></i>
@@ -127,13 +127,9 @@
                     <label for="">Trạng thái:</label>
                     <select ng-model="trangthai" class="select form-select-lg status">
                         <option value="" selected disabled>Chọn trạng thái</option>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Tắt</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>Lượt xem:</label>
-                    <input ng-model="luotxem" id="view" type="number" class="form-control" placeholder="Lượt xem">
                 </div>
                 <div class="form-group">
                     <label for="">Tên nhà sản xuất:</label>
@@ -149,6 +145,10 @@
                         <option ng-repeat="x in ListNhaPhanPhoi " value={{x.maNhaPhanPhoi}} selected>{{x.tenNhaPhanPhoi}}
                         </option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label>Xuất xứ:</label>
+                    <input ng-model="xuatxu" id="Weigh" type="text" class="form-control" placeholder="Xuất xứ">
                 </div>
                 <div class="form-group">
                     <label>Mô tả:</label>

@@ -45,9 +45,9 @@ namespace BussinessLayer
             return _res.Delete(MaSanPham);
         }
 
-        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi)
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi, string XuatXu)
         {
-            return _res.Search(pageIndex,pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,Gia,TenHang,TenNhaPhanPhoi);
+            return _res.Search(pageIndex,pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,Gia,TenHang,TenNhaPhanPhoi, XuatXu);
         }
 
         public List<SanPhamModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenSanPham, Decimal Gia)
