@@ -1,18 +1,17 @@
-﻿using BusinessLogicLayer;
-using DataModel;
+﻿using BussinessLayer.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Model;
 
-namespace Api.BanHang.Controllers
+namespace API_MYPHAM_USER.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserBusiness _userBusiness;
-        public UserController(IUserBusiness userBusiness)
+        private IUserBUS _userBusiness;
+        public UserController(IUserBUS userBusiness)
         {
             _userBusiness = userBusiness;
         }

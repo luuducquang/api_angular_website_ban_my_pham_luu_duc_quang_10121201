@@ -1,5 +1,6 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -17,6 +18,7 @@ namespace API_MYPHAM.Controllers
             _quangCaoBUS = quangCaoBUS;
         }
 
+        [Authorize]
         [Route("get-all-quangcao")]
         [HttpGet]
         public IEnumerable<QuangCaoModel> GetDatabAll()

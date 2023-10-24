@@ -1,5 +1,5 @@
-﻿using BusinessLogicLayer;
-using DataModel;
+﻿using BussinessLayer.Interfaces;
+using Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

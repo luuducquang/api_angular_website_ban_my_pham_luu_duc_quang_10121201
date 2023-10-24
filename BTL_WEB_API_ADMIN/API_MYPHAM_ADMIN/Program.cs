@@ -6,9 +6,8 @@ using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using DataAccessLayer;
-using DataModel;
+using Model;
 using System.Text;
-using BusinessLogicLayer;
 using Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,6 +93,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("MyCors");
+
+//app.UseCors(x => x
+//    .AllowAnyOrigin()
+//    .AllowAnyMethod()
+//    .AllowAnyHeader());
+//app.UseRouting();
 
 app.UseHttpsRedirection();
 

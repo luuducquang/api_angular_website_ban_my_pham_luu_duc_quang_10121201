@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ZptXg39HTBvOVbTNL/voocp5PMl27cbl8ToB7Q1sB0j7ccyQfjCW52gworHBiKgILRV7Y97SdO0NEmv9O/T3cw==",
+  "dgSpecHash": "ds8s0Xqn17tvwKFBAEAaU/RIBEU30k7eqdIOGgnrEC1tqOe2sJte79d/xB5A+xNHg4qS89X6IMNT4GLCWsRpAw==",
   "success": true,
   "projectFilePath": "D:\\Bài kiểm tra\\BTL_WEB_API\\BTL_WEB_API_ADMIN\\BussinessLayer\\BussinessLayer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.0\\microsoft.extensions.configuration.6.0.0.nupkg.sha512",
+    "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\microsoft.extensions.configuration\\6.0.1\\microsoft.extensions.configuration.6.0.1.nupkg.sha512",
     "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\LUU DUC QUANG\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.0.0\\microsoft.identitymodel.abstractions.7.0.0.nupkg.sha512",

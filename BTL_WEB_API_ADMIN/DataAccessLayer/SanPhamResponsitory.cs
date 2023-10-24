@@ -156,7 +156,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi, string XuatXu)
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal GiaMin, Decimal GiaMax, string TenHang, string TenNhaPhanPhoi, string XuatXu)
         {
             string msgError = "";
             total = 0;
@@ -168,7 +168,8 @@ namespace DataAccessLayer
                     "@TenSanPham", TenSanPham,
                     "@TenDanhMuc", TenDanhMuc,
                     "@Tendanhmucuudai", Tendanhmucuudai,
-                    "@Gia", Gia,
+                    "@GiaMin", GiaMin,
+                    "@GiaMax", GiaMax,
                     "@TenHang", TenHang,
                     "@TenNhaPhanPhoi", TenNhaPhanPhoi,
                     "@XuatXu", XuatXu

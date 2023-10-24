@@ -1,13 +1,19 @@
 ﻿using DataAccessLayer.Helper;
 using DataAccessLayer.Helper.Interfaces;
-using DataModel;
+using DataAccessLayer.Interfaces;
+using Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    public class UserRepository:IUserRepository
+    public class UserResponsitory : IUserResponsitory
     {
         private IDatabaseHelper _dbHelper;
-        public UserRepository(IDatabaseHelper dbHelper)
+        public UserResponsitory(IDatabaseHelper dbHelper)
         {
             _dbHelper = dbHelper;
         }
@@ -28,6 +34,6 @@ namespace DataAccessLayer
             {
                 throw ex;
             }
-        } 
+        }
     }
 }

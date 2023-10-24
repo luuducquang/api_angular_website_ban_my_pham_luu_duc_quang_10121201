@@ -8,6 +8,14 @@ app.config(function($routeProvider) {
     templateUrl : "product.html",
     controller: "product"
   })
+  .when("/product/:page/:pricemin/:valuepricemin/:pricemax/:valuepricemax/:key/:value", {
+    templateUrl : "product.html",
+    controller: "product"
+  })
+  .when("/product/:page/:pricemin/:valuepricemin/:pricemax/:valuepricemax", {
+    templateUrl : "product.html",
+    controller: "product"
+  })
   .when("/category/:page", {
     templateUrl : "category.html",
     controller: "category"

@@ -2,13 +2,51 @@
     <p class="container p-2 tilte fs-5">Thông tin sản phẩm
         <div id="clock" class="header-common"></div>
     </p>
-    <form class="form-group">
-        <input style="margin: 0;padding: 10px;" type="text" name="" id=""
-            placeholder="Nhập tên sản phẩm hoặc giá sản phẩm cần tìm">
-        <button>
+    <form style="display: block;" class="form-group">
+        <input ng-model="timkiem" style="margin: 0;padding: 10px;" type="text" name="" id=""
+            placeholder="Nhập từ khoá cần tìm">
+        
+        <select ng-model="luachontimkiem" style="width: 20%;" class="select form-select-lg" aria-label="Default select example">
+            <option value=""disabled>Tìm kiếm theo</option>
+            <option value="TenSanPham">Tên Sản Phẩm</option>
+            <option value="TenDanhMuc">Tên Danh Mục</option>
+            <option value="Tendanhmucuudai">Tên Danh Mục Ưu Đãi</option>
+            <option value="TenNhaPhanPhoi">Tên Nhà Phân Phối</option>
+            <option value="TenHang">Tên Hãng Sản Xuất</option>
+            <option value="XuatXu">Xuất Xứ</option>
+        </select>
+
+        <div style="width: 50%; margin-left: 5px;">
+            <div class="range-container">
+                <label style="width: 100px;" for="giaMin" class="range-label">Giá Min:</label>
+                <input type="range" id="giaMin" class="range-input" min="0" max="999999" step="1" value="0">
+                <span style="width: 50px; padding-left: 10px;" id="giaMinValue">0</span>
+            </div>
+        
+            <div class="range-container">
+                <label style="width: 100px;" for="giaMax" class="range-label">Giá Max:</label>
+                <input type="range" id="giaMax" class="range-input" min="0" max="999999" step="1" value="999999">
+                <span style="width: 50px; padding-left: 10px;" id="giaMaxValue">999999</span>
+            </div>
+        </div>
+        <button style="margin: 5px 0;height: 35px;" ng-click="search()">
             <i class="fa-solid fa-magnifying-glass"></i>
             Tìm kiếm
         </button>
+        <style>
+            .range-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .range-input {
+                width: 100%;
+            }
+            .range-label {
+                width: 45px;
+                text-align: left;
+            }
+        </style>
     </form>
     <div class="button">
         <button ng-click="btnAdd()" type="button" class="btn btn-success btn-add">
@@ -71,14 +109,14 @@
                 <div class="form-group">
                     <label for="">Tên danh mục:</label>
                     <select ng-model="madanhmuc" id="mySelect-danhmuc" class="select form-select-lg">
-                        <option value="" selected disabled>Chọn danh mục</option>
+                        <option value="" disabled>Chọn danh mục</option>
                         <option ng-repeat="x in ListDanhMuc" value="{{x.maDanhMuc}}">{{x.tenDanhMuc}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="">Tên danh mục ưu đãi:</label>
                     <select ng-model="madanhmucuudai" id="mySelect-danhmucuudai" class="select form-select-lg">
-                        <option value="" selected disabled>Chọn danh mục ưu đãi</option>
+                        <option value="" disabled>Chọn danh mục ưu đãi</option>
                         <option ng-repeat="x in ListDanhMucUuDai" value="{{x.madanhmucuudai}}">{{x.tendanhmucuudai}}</select>
                 </div>
                 <div class="form-group">
@@ -126,7 +164,7 @@
                 <div class="form-group">
                     <label for="">Trạng thái:</label>
                     <select ng-model="trangthai" class="select form-select-lg status">
-                        <option value="" selected disabled>Chọn trạng thái</option>
+                        <option value="" disabled>Chọn trạng thái</option>
                         <option value="true">Hoạt động</option>
                         <option value="false">Tắt</option>
                     </select>
@@ -134,15 +172,15 @@
                 <div class="form-group">
                     <label for="">Tên nhà sản xuất:</label>
                     <select ng-model="manhasanxuat" id="mySelect-producer" class="select form-select-lg ">
-                        <option value="" selected disabled>Chọn nhà sản xuất</option>
-                        <option ng-repeat="x in ListNhaSanXuat " value={{x.maNhaSanXuat}} selected>{{x.tenHang}}</option>
+                        <option value="" disabled>Chọn nhà sản xuất</option>
+                        <option ng-repeat="x in ListNhaSanXuat " value={{x.maNhaSanXuat}}>{{x.tenHang}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="">Tên nhà phân phối:</label>
                     <select ng-model="manhaphanphoi" id="mySelect-distributor" class="select form-select-lg">
-                        <option value="" selected disabled>Chọn nhà phân phối</option>
-                        <option ng-repeat="x in ListNhaPhanPhoi " value={{x.maNhaPhanPhoi}} selected>{{x.tenNhaPhanPhoi}}
+                        <option value="" disabled>Chọn nhà phân phối</option>
+                        <option ng-repeat="x in ListNhaPhanPhoi " value={{x.maNhaPhanPhoi}}>{{x.tenNhaPhanPhoi}}
                         </option>
                     </select>
                 </div>

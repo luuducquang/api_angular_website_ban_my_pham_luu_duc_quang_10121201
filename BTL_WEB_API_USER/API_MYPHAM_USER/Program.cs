@@ -6,9 +6,8 @@ using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using DataAccessLayer;
-using DataModel;
+using Model;
 using System.Text;
-using BusinessLogicLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,14 +26,14 @@ builder.Services.AddTransient<ITaiKhoanBUS, TaiKhoanBUS>();
 builder.Services.AddTransient<IChiTietTaiKhoanBUS, ChiTietTaiKhoanBUS>();
 builder.Services.AddTransient<IDanhMucBUS, DanhMucBUS>();
 builder.Services.AddTransient<ISanPhamBUS, SanPhamBUS>();
-builder.Services.AddTransient<IUserBusiness, UserBusiness>();
+builder.Services.AddTransient<IUserBUS, UserBUS>();
 builder.Services.AddTransient<IQuangCaoResponsitory, QuangCaoResponsitory>();
 builder.Services.AddTransient<ISlideDetailResponsitory, SlideDetailResponsitory>();
 builder.Services.AddTransient<ITaiKhoanResponsitory, TaiKhoanResponsitory>();
 builder.Services.AddTransient<IChiTietTaiKhoanResponsitory, ChiTietTaiKhoanResponsitory>();
 builder.Services.AddTransient<IDanhMucResponsitory, DanhMucResponsitory>();
 builder.Services.AddTransient<ISanPhamResponsitory, SanPhamResponsitory>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserResponsitory, UserResponsitory>();
 
 
 // configure strongly typed settings objects

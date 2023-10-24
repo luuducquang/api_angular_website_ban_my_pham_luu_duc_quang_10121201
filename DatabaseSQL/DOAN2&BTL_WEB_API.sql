@@ -1579,7 +1579,7 @@ AS
 
 
 exec sp_sanpham_search @page_index = 1, @page_size = 100, @TenSanPham = N'',@TenDanhMuc=N''
-,@Tendanhmucuudai=N'',@Gia=0,@TenHang=N'',@TenNhaPhanPhoi=N''
+,@Tendanhmucuudai=N'',@Gia=0,@TenHang=N'',@TenNhaPhanPhoi=N'',@XuatXu=N''
 
 
 -------------------------------------------------------------------------------------------------------------------------------

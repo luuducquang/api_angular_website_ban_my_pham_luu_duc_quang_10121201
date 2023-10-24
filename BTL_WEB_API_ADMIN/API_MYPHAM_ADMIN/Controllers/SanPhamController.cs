@@ -7,7 +7,7 @@ using Model;
 
 namespace API_MYPHAM.Controllers
 {
-    //[Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class SanPhamController : ControllerBase
@@ -66,6 +66,7 @@ namespace API_MYPHAM.Controllers
             }
             return true;
         }
+
         [Route("search-sanpham")]
         [HttpPost]
         public IActionResult Search([FromBody] Dictionary<string, object> formData)
@@ -80,8 +81,27 @@ namespace API_MYPHAM.Controllers
                 if (formData.Keys.Contains("TenDanhMuc") && !string.IsNullOrEmpty(Convert.ToString(formData["TenDanhMuc"]))) { TenDanhMuc = Convert.ToString(formData["TenDanhMuc"]); }
                 string Tendanhmucuudai = "";
                 if (formData.Keys.Contains("Tendanhmucuudai") && !string.IsNullOrEmpty(Convert.ToString(formData["Tendanhmucuudai"]))) { Tendanhmucuudai = Convert.ToString(formData["Tendanhmucuudai"]); }
-                Decimal Gia = 0;
-                if (formData.Keys.Contains("Gia") && !string.IsNullOrEmpty(Convert.ToString(formData["Gia"]))) { Gia = Convert.ToDecimal(formData["Gia"]); }
+                //Decimal GiaMin = 0;
+                //if (formData.Keys.Contains("GiaMin") && !string.IsNullOrEmpty(Convert.ToString(formData["GiaMin"]))) { GiaMin = Convert.ToDecimal(formData["GiaMin"]); }
+                //Decimal GiaMax = 0;
+                //if (formData.Keys.Contains("GiaMax") && !string.IsNullOrEmpty(Convert.ToString(formData["GiaMax"]))) { GiaMax = Convert.ToDecimal(formData["GiaMax"]); }
+                decimal GiaMin = 0;
+                if (formData.ContainsKey("GiaMin") && !string.IsNullOrEmpty(formData["GiaMin"].ToString()))
+                {
+                    if (decimal.TryParse(formData["GiaMin"].ToString(), out decimal giaMinValue))
+                    {
+                        GiaMin = giaMinValue;
+                    }
+                }
+
+                decimal GiaMax = 0;
+                if (formData.ContainsKey("GiaMax") && !string.IsNullOrEmpty(formData["GiaMax"].ToString()))
+                {
+                    if (decimal.TryParse(formData["GiaMax"].ToString(), out decimal giaMaxValue))
+                    {
+                        GiaMax = giaMaxValue;
+                    }
+                }
                 string TenHang = "";
                 if (formData.Keys.Contains("TenHang") && !string.IsNullOrEmpty(Convert.ToString(formData["TenHang"]))) { TenHang = Convert.ToString(formData["TenHang"]); }
                 string TenNhaPhanPhoi = "";
@@ -89,7 +109,7 @@ namespace API_MYPHAM.Controllers
                 string XuatXu = "";
                 if (formData.Keys.Contains("XuatXu") && !string.IsNullOrEmpty(Convert.ToString(formData["XuatXu"]))) { XuatXu = Convert.ToString(formData["XuatXu"]); }
                 long total = 0;
-                var data = _sanPhamBUS.Search(page, pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,Gia,TenHang,TenNhaPhanPhoi,XuatXu);
+                var data = _sanPhamBUS.Search(page, pageSize, out total, TenSanPham,TenDanhMuc,Tendanhmucuudai,GiaMin,GiaMax,TenHang,TenNhaPhanPhoi,XuatXu);
                 return Ok(
                    new
                    {

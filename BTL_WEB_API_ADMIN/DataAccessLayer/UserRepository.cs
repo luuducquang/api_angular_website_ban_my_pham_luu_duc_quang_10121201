@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer.Helper;
 using DataAccessLayer.Helper.Interfaces;
-using DataModel;
+using DataAccessLayer.Interfaces;
+using Model;
 
 namespace DataAccessLayer
 {

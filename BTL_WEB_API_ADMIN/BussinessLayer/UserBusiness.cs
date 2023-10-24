@@ -1,6 +1,5 @@
-﻿using BusinessLogicLayer;
-using DataAccessLayer;
-using DataModel;
+﻿using DataAccessLayer;
+using Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -8,8 +7,10 @@ using System.Net.Sockets;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using BussinessLayer.Interfaces;
+using DataAccessLayer.Interfaces;
 
-namespace BusinessLogicLayer
+namespace BussinessLayer
 {
     public class UserBusiness:IUserBusiness
     {
@@ -40,7 +41,7 @@ namespace BusinessLogicLayer
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.TenTaiKhoan.ToString()),
-                    new Claim(ClaimTypes.StreetAddress, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.Aes128CbcHmacSha256)

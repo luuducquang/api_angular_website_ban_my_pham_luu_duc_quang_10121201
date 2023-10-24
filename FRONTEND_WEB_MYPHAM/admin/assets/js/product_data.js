@@ -1,13 +1,23 @@
 app.controller ('product', ['$scope', '$routeParams', function($scope, $routeParams){
     $scope.page = $routeParams.page;
+    $scope.key = $routeParams.key;
+    $scope.value = $routeParams.value;
+    $scope.pricemin = $routeParams.pricemin;
+    $scope.valuepricemin = $routeParams.valuepricemin;
+    $scope.pricemax = $routeParams.pricemax;
+    $scope.valuepricemax = $routeParams.valuepricemax;
 }]);
 
 
 app.controller("ProductCtrl", function ($scope, $http) {
     var datas = {
         page:$scope.page,
-        pageSize:10
+        pageSize:10,
+        GiaMin: $scope.valuepricemin,
+        GiaMax: $scope.valuepricemax
     }
+    datas[$scope.key] = $scope.value
+
 	$scope.listItem;	
     $scope.ListDanhMuc;
     $scope.ListDanhMucUuDai;
@@ -17,6 +27,111 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.AnhProduct
     $scope.AnhProductDetail
     $scope.AnhProductDetailEdit
+
+    $scope.timkiem = $scope.value
+    $scope.luachontimkiem = $scope.key
+
+    const giaMinInput = document.getElementById("giaMin");
+    const giaMaxInput = document.getElementById("giaMax");
+    const giaMinValue = document.getElementById("giaMinValue");
+    const giaMaxValue = document.getElementById("giaMaxValue");
+    giaMinInput.addEventListener("input", function () {
+        giaMinValue.textContent = VND.format(giaMinInput.value);
+    });
+    giaMinValue.textContent = VND.format(giaMinInput.value);
+    
+    giaMaxInput.addEventListener("input", function () {
+        giaMaxValue.textContent = VND.format(giaMaxInput.value);
+    });
+    giaMaxValue.textContent = VND.format(giaMaxInput.value);
+    
+    $scope.pricemin = 'GiaMin'
+    $scope.pricemax = 'GiaMax'
+    
+    if($scope.valuepricemin){
+        giaMinInput.value = $scope.valuepricemin
+        giaMinValue.textContent = VND.format($scope.valuepricemin)
+    }
+
+    if($scope.valuepricemax){
+        giaMaxInput.value = $scope.valuepricemax
+        giaMaxValue.textContent = VND.format($scope.valuepricemax)
+    }
+
+    
+    $scope.search = function(){
+        
+        if(giaMinInput.value>=giaMaxInput.value){
+            alert('Giá không hợp lệ')
+            return
+        }
+        else{
+            $scope.valuepricemin = giaMinInput.value
+            $scope.valuepricemax = giaMaxInput.value
+            if($scope.luachontimkiem===undefined||
+                $scope.luachontimkiem===''||$scope.timkiem===undefined||$scope.timkiem===''){
+                    $http({
+                        method: 'POST',
+                        // headers: { "Authorization": 'Bearer ' + _user.token },
+                        data: {
+                            page: 1,
+                            pageSize: 10,
+                            GiaMin: $scope.valuepricemin,
+                            GiaMax: $scope.valuepricemax
+                        },
+                        url: current_url + '/api/SanPham/search-sanpham',
+                    }).then(function (response) {  
+                        if(response.data.totalItems===0){
+                            alert("Không có sản phẩm nào")
+                            $scope.valuepricemin=''
+                            $scope.valuepricemax=''
+                            return
+                        }
+                        else{
+                            $scope.listItem = response.data.data; 
+                            window.location='#!product/1/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                        }
+                    }).catch(function (error) {
+                        console.error('Lỗi :', error);
+                    });
+                }
+                else{
+                    $scope.key = $scope.luachontimkiem
+                    $scope.value = $scope.timkiem
+        
+                    var data2 = {
+                        page: 1,
+                        pageSize: 10,
+                        GiaMin: $scope.valuepricemin,
+                        GiaMax: $scope.valuepricemax
+                    };
+                    data2[$scope.key] = $scope.value
+        
+                    $http({
+                        method: 'POST',
+                        // headers: { "Authorization": 'Bearer ' + _user.token },
+                        data: data2,
+                        url: current_url + '/api/SanPham/search-sanpham',
+                    }).then(function (response) {  
+                        if(response.data.totalItems===0){
+                            alert("Không có sản phẩm nào")
+                            $scope.key =''
+                            $scope.value =''
+                            $scope.valuepricemin=''
+                            $scope.valuepricemax=''
+                            return
+                        }
+                        else{
+                            $scope.listItem = response.data.data; 
+                            window.location='#!product/1/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                        }
+                    }).catch(function (error) {
+                        console.error('Lỗi :', error);
+                    });
+                    
+                }
+        }
+    }
 
     $scope.GetProduct= function () {
         $http({
@@ -29,7 +144,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
             $scope.pageIndex(response.data.totalItems)
         }).catch(function (error) {
             console.error('Lỗi :', error);
-            console.log(_user.token);
         });
     };   
 	$scope.GetProduct();
@@ -50,7 +164,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
-                    a.href='#!product/'+a.innerHTML
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                        a.href='#!product/'+a.innerHTML+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                    }
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                        a.href='#!product/'+a.innerHTML+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                        a.href='#!product/'+a.innerHTML
+                    }
                 }
             }    
 
@@ -62,14 +184,30 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 }
                 else{
                     $scope.page--
-                    window.location='#!product/'+$scope.page
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                        window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                    }
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                        window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                        window.location='#!product/'+$scope.page
+                    }
                 }
             }
 
             next = function(){
                 if($scope.page<count){
                     $scope.page++
-                    window.location='#!product/'+$scope.page
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                        window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                    }
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                        window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                        window.location='#!product/'+$scope.page
+                    }
                 }
             }
     }
@@ -137,7 +275,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 headers: {'Content-Type': 'application/json'}
             }).then(function (response) { 
                 alert('Xoá thành công')
-                window.location='#!product/'+$scope.page
+                if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                    window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                }
+                if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                    window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                }
+                if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                    window.location='#!product/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi xoá:', error);
@@ -232,7 +378,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) {  
             alert('Sửa thành công')
-            window.location='#!product/'+$scope.page
+            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+            }
+            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+            }
+            if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                window.location='#!product/'+$scope.page
+            }
         }).catch(function (error) {
             console.error('Lỗi khi sửa sản phẩm:', error);
         });
@@ -322,7 +476,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 headers: {'Content-Type': 'application/json'}
                             }).then(function (response) {  
                                 alert('Sửa thành công')
-                                window.location='#!product/'+$scope.page
+                                if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                                    window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                                }
+                                if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                                    window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                                }
+                                if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                                    window.location='#!product/'+$scope.page
+                                }
                             }).catch(function (error) {
                                 console.error('Lỗi khi sửa sản phẩm:', error);
                             });
@@ -405,7 +567,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             headers: {'Content-Type': 'application/json'}
                         }).then(function (response) {  
                             alert('Sửa thành công')
-                            window.location='#!product/'+$scope.page
+                            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                            }
+                            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                            }
+                            if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                                window.location='#!product/'+$scope.page
+                            }
                         }).catch(function (error) {
                             console.error('Lỗi khi sửa sản phẩm:', error);
                         });
@@ -475,7 +645,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             headers: {'Content-Type': 'application/json'}
                         }).then(function (response) {  
                             alert('Sửa thành công')
-                            window.location='#!product/'+$scope.page
+                            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                            }
+                            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                            }
+                            if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                                window.location='#!product/'+$scope.page
+                            }
                         }).catch(function (error) {
                             console.error('Lỗi khi sửa sản phẩm:', error);
                         });
@@ -559,7 +737,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     headers: {'Content-Type': 'application/json'}
                 }).then(function (response) {  
                     alert('Sửa thành công')
-                    window.location='#!product/'+$scope.page
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                        window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                    }
+                    if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                        window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                        window.location='#!product/'+$scope.page
+                    }
                 }).catch(function (error) {
                     console.error('Lỗi khi sửa sản phẩm:', error);
                 });
@@ -626,7 +812,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         headers: {'Content-Type': 'application/json'}
                     }).then(function (response) {  
                         alert('Thêm thành công')
-                        window.location='#!product/'+$scope.page
+                        if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                            window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                        }
+                        if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                            window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                        }
+                        if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                            window.location='#!product/'+$scope.page
+                        }
                     }).catch(function (error) {
                         console.error('Lỗi khi thêm sản phẩm:', error);
                     });
@@ -785,7 +979,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             headers: {'Content-Type': 'application/json'}
                         }).then(function (response) {  
                             alert('Sửa thành công')
-                            window.location='#!product/'+$scope.page
+                            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                            }
+                            if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                                window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                            }
+                            if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                                window.location='#!product/'+$scope.page
+                            }
                         }).catch(function (error) {
                             console.error('Lỗi khi sửa sản phẩm:', error);
                         });
@@ -841,7 +1043,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 headers: {'Content-Type': 'application/json'}
             }).then(function (response) {  
                 alert('Xoá thành công')
-                window.location='#!product/'+$scope.page
+                if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
+                    window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
+                }
+                if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax&&$scope.key&&$scope.value){
+                    window.location='#!product/'+$scope.page+'/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
+                }
+                if(!$scope.valuepricemin&&!$scope.valuepricemax&&!$scope.key&&!$scope.value){
+                    window.location='#!product/'+$scope.page
+                }
             }).catch(function (error) {
                 console.error('Lỗi khi sửa sản phẩm:', error);
             });
