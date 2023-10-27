@@ -20,7 +20,15 @@ app.config(function($routeProvider) {
     templateUrl : "category.html",
     controller: "category"
   })
+  .when("/category/:page/:tendanhmucsearch", {
+    templateUrl : "category.html",
+    controller: "category"
+  })
   .when("/categoryOffer/:page", {
+    templateUrl : "categoryOffer.html",
+    controller: "categoryOffer"
+  })
+  .when("/categoryOffer/:page/:tendanhmucuudaisearch", {
     templateUrl : "categoryOffer.html",
     controller: "categoryOffer"
   })
@@ -28,7 +36,15 @@ app.config(function($routeProvider) {
     templateUrl : "manufacturer.html",
     controller: "manufacturer"
   })
+  .when("/manufacturer/:page/:tenhangsearch", {
+    templateUrl : "manufacturer.html",
+    controller: "manufacturer"
+  })
   .when("/distributor/:page", {
+    templateUrl : "distributor.html",
+    controller: "distributor"
+  })
+  .when("/distributor/:page/:key/:value", {
     templateUrl : "distributor.html",
     controller: "distributor"
   })
@@ -47,11 +63,31 @@ app.config(function($routeProvider) {
     templateUrl : "account.html",
     controller: "account"
   })
+  .when("/account/:page/:key/:value", {
+    templateUrl : "account.html",
+    controller: "account"
+  })
   .when("/billSell/:page", {
     templateUrl : "billSell.html",
     controller: "billSell"
   })
+  .when("/billSell/:page/:start/:valuestart/:end/:valueend", {
+    templateUrl : "billSell.html",
+    controller: "billSell"
+  })
+  .when("/billSell/:page/:start/:valuestart/:end/:valueend/:key/:value", {
+    templateUrl : "billSell.html",
+    controller: "billSell"
+  })
   .when("/importBill/:page", {
+    templateUrl : "importBill.html",
+    controller: "importBill"
+  })
+  .when("/importBill/:page/:start/:valuestart/:end/:valueend", {
+    templateUrl : "importBill.html",
+    controller: "importBill"
+  })
+  .when("/importBill/:page/:start/:valuestart/:end/:valueend/:npp", {
     templateUrl : "importBill.html",
     controller: "importBill"
   })
@@ -121,13 +157,6 @@ function time() {
 var currentDate = new Date();
 var gmt7Time = new Date(currentDate.getTime() + 7 * 60 * 60 * 1000);
 var gmt7ISODate = gmt7Time.toISOString().slice(0, 16);
-
-// var btnItem = document.querySelectorAll('.button-item')
-// btnItem.forEach(function(e){
-//   e.addEventListener('click',function(event){
-//      event.target.classList.add('hoverBtn')
-//   })
-// })
 
 var contentLeft = document.querySelector('.content-left')
 var contentRight = document.querySelector('.container-right')

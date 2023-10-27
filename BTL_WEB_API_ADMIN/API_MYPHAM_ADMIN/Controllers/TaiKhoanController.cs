@@ -1,5 +1,6 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
@@ -7,6 +8,7 @@ using System.Reflection;
 
 namespace API_MYPHAM.Controllers
 {
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class TaiKhoanController : ControllerBase
@@ -18,6 +20,7 @@ namespace API_MYPHAM.Controllers
             _taiKhoanBUS = taiKhoanBUS;
         }
 
+        [AllowAnonymous]
         [Route("getbyid-taikhoan-chitiettaikhoan/{id}")]
         [HttpGet]
         public List<ChiTietTaiKhoanModelTWO> GetByID(int id)
@@ -25,6 +28,7 @@ namespace API_MYPHAM.Controllers
             return _taiKhoanBUS.Getbyids(id);
         }
 
+        [AllowAnonymous]
         [Route("get-alltaikhoan")]
         [HttpGet]
         public IEnumerable<TaiKhoanModel> GetDataAll()

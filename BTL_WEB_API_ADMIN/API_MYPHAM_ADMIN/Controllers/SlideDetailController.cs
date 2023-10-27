@@ -1,11 +1,13 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
 namespace API_MYPHAM.Controllers
 {
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class SlideDetailController : ControllerBase
@@ -17,6 +19,7 @@ namespace API_MYPHAM.Controllers
             _slideDetailBUS = slideDetailBUS;
         }
 
+        [AllowAnonymous]
         [Route("get-all-slide")]
         [HttpGet]
         public IEnumerable<SlideDetailModel> GetDatabAll()

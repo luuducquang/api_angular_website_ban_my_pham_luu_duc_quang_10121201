@@ -72,7 +72,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 $scope.luachontimkiem===''||$scope.timkiem===undefined||$scope.timkiem===''){
                     $http({
                         method: 'POST',
-                        // headers: { "Authorization": 'Bearer ' + _user.token },
+                        headers: { "Authorization": 'Bearer ' + _user.token },
                         data: {
                             page: 1,
                             pageSize: 10,
@@ -88,7 +88,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             return
                         }
                         else{
-                            $scope.listItem = response.data.data; 
                             window.location='#!product/1/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax
                         }
                     }).catch(function (error) {
@@ -109,7 +108,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
         
                     $http({
                         method: 'POST',
-                        // headers: { "Authorization": 'Bearer ' + _user.token },
+                        headers: { "Authorization": 'Bearer ' + _user.token },
                         data: data2,
                         url: current_url + '/api/SanPham/search-sanpham',
                     }).then(function (response) {  
@@ -122,7 +121,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             return
                         }
                         else{
-                            $scope.listItem = response.data.data; 
                             window.location='#!product/1/'+$scope.pricemin+'/'+$scope.valuepricemin+'/'+$scope.pricemax+'/'+$scope.valuepricemax+'/'+$scope.key+'/'+$scope.value
                         }
                     }).catch(function (error) {
@@ -136,8 +134,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.GetProduct= function () {
         $http({
             method: 'POST',
-            // headers: { "Authorization": 'Bearer ' + _user.token },
             data: datas,
+            headers: { "Authorization": 'Bearer ' + _user.token },
             url: current_url + '/api/SanPham/search-sanpham',
         }).then(function (response) {  
             $scope.listItem = response.data.data; 
@@ -272,7 +270,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.selected,
                 url: current_url + '/api/SanPham/delete-sanpham',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
                 if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -336,7 +334,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 list_json_anhsanpham:$scope.AnhProductDetail
             },
             url: current_url + '/api/SanPham/create-sanpham',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             alert('Thêm thành công')
         }).catch(function (error) {
@@ -375,7 +373,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 list_json_anhsanpham:$scope.AnhProductDetail
             },
             url: current_url + '/api/SanPham/update-sanpham',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             alert('Sửa thành công')
             if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -473,7 +471,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                     }]
                                 },
                                 url: current_url + '/api/SanPham/update-sanpham',
-                                headers: {'Content-Type': 'application/json'}
+                                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                             }).then(function (response) {  
                                 alert('Sửa thành công')
                                 if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -522,7 +520,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 }]
                             },
                             url: current_url + '/api/SanPham/create-sanpham',
-                            headers: {'Content-Type': 'application/json'}
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                         }).then(function (response) {  
                             alert('Thêm thành công')
                         }).catch(function (error) {
@@ -564,7 +562,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 }]
                             },
                             url: current_url + '/api/SanPham/update-sanpham',
-                            headers: {'Content-Type': 'application/json'}
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                         }).then(function (response) {  
                             alert('Sửa thành công')
                             if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -642,7 +640,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 }]
                             },
                             url: current_url + '/api/SanPham/update-sanpham',
-                            headers: {'Content-Type': 'application/json'}
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                         }).then(function (response) {  
                             alert('Sửa thành công')
                             if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -692,7 +690,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         }]
                     },
                     url: current_url + '/api/SanPham/create-sanpham',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
                 }).catch(function (error) {
@@ -734,7 +732,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         }]
                     },
                     url: current_url + '/api/SanPham/update-sanpham',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Sửa thành công')
                     if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -809,7 +807,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             list_json_anhsanpham:$scope.AnhProductDetailEdit
                         },
                         url: current_url + '/api/SanPham/update-sanpham',
-                        headers: {'Content-Type': 'application/json'}
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Thêm thành công')
                         if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -976,7 +974,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 list_json_anhsanpham:$scope.AnhProductDetailEdit
                             },
                             url: current_url + '/api/SanPham/update-sanpham',
-                            headers: {'Content-Type': 'application/json'}
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                         }).then(function (response) {  
                             alert('Sửa thành công')
                             if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){
@@ -1040,7 +1038,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     }]
                 },
                 url: current_url + '/api/SanPham/update-sanpham',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Xoá thành công')
                 if($scope.pricemin&&$scope.pricemax&&$scope.valuepricemin&&$scope.valuepricemax){

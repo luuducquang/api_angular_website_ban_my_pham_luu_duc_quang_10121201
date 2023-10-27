@@ -1124,7 +1124,9 @@ end
 -------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_nhaphanphoi_search(@page_index  INT, 
                                        @page_size   INT,
-									   @TenNhaPhanPhoi nvarchar(250))
+									   @TenNhaPhanPhoi nvarchar(250),
+									   @DiaChi nvarchar(max),
+									   @SoDienThoai nvarchar(50))
 AS
     BEGIN
         DECLARE @RecordCount BIGINT;
@@ -1138,6 +1140,8 @@ AS
                         FROM NhaPhanPhois as a
 
 					    WHERE (@TenNhaPhanPhoi = '' or a.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+							and (@DiaChi = '' or a.DiaChi like '%'+@DiaChi +'%')
+							and (@SoDienThoai = '' or a.SoDienThoai like '%'+@SoDienThoai +'%')
 						
                         SELECT @RecordCount = COUNT(*)
                         FROM #Temp1;
@@ -1158,6 +1162,8 @@ AS
                         FROM NhaPhanPhois as a
 
 					    WHERE (@TenNhaPhanPhoi = '' or a.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
+							and (@DiaChi = '' or a.DiaChi like '%'+@DiaChi +'%')
+							and (@SoDienThoai = '' or a.SoDienThoai like '%'+@SoDienThoai +'%')
 						
                         SELECT @RecordCount = COUNT(*)
                         FROM #Temp2;
@@ -1468,7 +1474,8 @@ alter proc sp_sanpham_search(@page_index  INT,
 									   @TenSanPham nvarchar(150),
 									   @TenDanhMuc nvarchar(50),
 									   @Tendanhmucuudai nvarchar(250),
-									   @Gia decimal(18, 0),
+									   @GiaMin DECIMAL(18, 0),
+									   @GiaMax DECIMAL(18, 0),
 									   @TenHang nvarchar(50),
 									   @TenNhaPhanPhoi nvarchar(250),
 									   @XuatXu nvarchar(50))
@@ -1512,7 +1519,8 @@ AS
 					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
 							and (@TenDanhMuc = '' or dm.TenDanhMuc like '%'+@TenDanhMuc +'%')
 							and (@Tendanhmucuudai = '' or dmu.Tendanhmucuudai like '%'+@Tendanhmucuudai +'%')
-							and (@Gia = 0 or s.Gia = @Gia)
+							and (@GiaMin = 0 OR s.Gia >= @GiaMin)
+							 and (@GiaMax = 0 OR s.Gia <= @GiaMax)
 							and (@TenHang = '' or h.TenHang like '%'+@TenHang +'%')
 							and (@TenNhaPhanPhoi = '' or npp.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
 							and (@XuatXu = '' or s.XuatXu like '%'+@XuatXu +'%')
@@ -1563,7 +1571,8 @@ AS
 					    WHERE (@TenSanPham = '' or s.TenSanPham like '%'+@TenSanPham +'%')
 							and (@TenDanhMuc = '' or dm.TenDanhMuc like '%'+@TenDanhMuc +'%')
 							and (@Tendanhmucuudai = '' or dmu.Tendanhmucuudai like '%'+@Tendanhmucuudai +'%')
-							and (@Gia = 0 or s.Gia = @Gia)
+							and (@GiaMin = 0 OR s.Gia >= @GiaMin)
+							 and (@GiaMax = 0 OR s.Gia <= @GiaMax)
 							and (@TenHang = '' or h.TenHang like '%'+@TenHang +'%')
 							and (@TenNhaPhanPhoi = '' or npp.TenNhaPhanPhoi like '%'+@TenNhaPhanPhoi +'%')
 							and (@XuatXu = '' or s.XuatXu like '%'+@XuatXu +'%')
@@ -1576,10 +1585,10 @@ AS
                         DROP TABLE #Temp2; 
         END;
     END;
-
+	
 
 exec sp_sanpham_search @page_index = 1, @page_size = 100, @TenSanPham = N'',@TenDanhMuc=N''
-,@Tendanhmucuudai=N'',@Gia=0,@TenHang=N'',@TenNhaPhanPhoi=N'',@XuatXu=N''
+,@Tendanhmucuudai=N'',@GiaMin=1,@GiaMax=350000,@TenHang=N'',@TenNhaPhanPhoi=N'',@XuatXu=N''
 
 
 -------------------------------------------------------------------------------------------------------------------------------
@@ -1812,7 +1821,7 @@ end
 alter proc sp_hoadon_search(@page_index  INT, 
                                        @page_size   INT,
 									   @TenKH Nvarchar(50),
-									   @TenSanPham nvarchar(150),
+									   @SDT nvarchar(50),
 									   @fr_NgayTao datetime,
 									   @to_NgayTao datetime)
 AS
@@ -1837,7 +1846,7 @@ AS
 						inner join ChiTietHoaDons c on c.MaHoaDon = h.MaHoaDon
 						inner join SanPhams s on s.MaSanPham = c.MaSanPham
 					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
-						and   (@TenSanPham = '' or s.TenSanPham like N'%'+@TenSanPham +'%')
+						and   (@SDT = '' or h.SDT like N'%'+@SDT +'%')
 						and ((@fr_NgayTao is null and @to_NgayTao is null 
 								or (@fr_NgayTao is not null
 								and @to_NgayTao is null and
@@ -1873,7 +1882,7 @@ AS
 						inner join ChiTietHoaDons c on c.MaHoaDon = h.MaHoaDon
 						inner join SanPhams s on s.MaSanPham = c.MaSanPham
 					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
-						and   (@TenSanPham = '' or s.TenSanPham like N'%'+@TenSanPham +'%')
+						and   (@SDT = '' or h.SDT like N'%'+@SDT +'%')
 						and ((@fr_NgayTao is null and @to_NgayTao is null 
 								or (@fr_NgayTao is not null
 								and @to_NgayTao is null and
@@ -1890,13 +1899,13 @@ AS
         END;
     END;
 
-exec sp_hoadon_search @page_index = 1, @page_size = 5, @TenKH = N'', @TenSanPham = '', @fr_NgayTao ='',@to_NgayTao=''
+exec sp_hoadon_search @page_index = 1, @page_size = 5, @TenKH = '', @SDT = '09', @fr_NgayTao ='',@to_NgayTao=''
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_hoadon_search_single(@page_index  INT, 
+alter proc sp_hoadon_search_single(@page_index  INT, 
                                        @page_size   INT,
 									   @TenKH Nvarchar(50),
-									   @TenSanPham nvarchar(150),
+									   @SDT nvarchar(50),
 									   @fr_NgayTao datetime,
 									   @to_NgayTao datetime)
 AS
@@ -1911,6 +1920,7 @@ AS
                         INTO #Results
                         FROM HoaDons AS h
 					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
+						and   (@SDT = '' or h.SDT like N'%'+@SDT +'%')
 						and ((@fr_NgayTao is null and @to_NgayTao is null 
 								or (@fr_NgayTao is not null
 								and @to_NgayTao is null and
@@ -1936,6 +1946,7 @@ AS
                         INTO #Results2
                         FROM HoaDons AS h
 					    WHERE (@TenKH = '' or h.TenKH like N'%'+@TenKH +'%')
+						and   (@SDT = '' or h.SDT like N'%'+@SDT +'%')
 						and ((@fr_NgayTao is null and @to_NgayTao is null 
 								or (@fr_NgayTao is not null
 								and @to_NgayTao is null and
@@ -2187,7 +2198,8 @@ exec sp_thongketheongay_hoadonnhap_search @page_index = 1, @page_size = 5, @TenS
 alter proc sp_search_hoadonnhap_single(@page_index  INT, 
                                        @page_size   INT,
 									   @TenNhaPhanPhoi nvarchar(250),
-									   @NgayTao datetime)
+									   @fr_NgayTao datetime,
+									   @to_NgayTao datetime)
 AS
     BEGIN
         DECLARE @RecordCount BIGINT;
@@ -2203,7 +2215,14 @@ AS
                         FROM HoaDonNhaps AS h
 						inner join NhaPhanPhois npp on h.MaNhaPhanPhoi = npp.MaNhaPhanPhoi
 						inner join TaiKhoans tk on tk.MaTaiKhoan = h.MaTaiKhoan
-					    WHERE (@NgayTao IS NULL OR h.NgayTao < @NgayTao);
+					     WHERE(@TenNhaPhanPhoi = '' OR npp.TenNhaPhanPhoi LIKE N'%' + @TenNhaPhanPhoi + '%')
+							and ((@fr_NgayTao is null and @to_NgayTao is null 
+								or (@fr_NgayTao is not null
+								and @to_NgayTao is null and
+								h.NgayTao >= @fr_NgayTao)
+								or @fr_NgayTao is null and @to_NgayTao is not null 
+								and h.NgayTao < @to_NgayTao
+								or h.NgayTao between @fr_NgayTao and @to_NgayTao))
                         SELECT @RecordCount = COUNT(*)
                         FROM #Results;
                         SELECT *, 
@@ -2225,7 +2244,14 @@ AS
                         FROM HoaDonNhaps AS h
 						inner join NhaPhanPhois npp on h.MaNhaPhanPhoi = npp.MaNhaPhanPhoi
 						inner join TaiKhoans tk on tk.MaTaiKhoan = h.MaTaiKhoan
-					    WHERE (@NgayTao IS NULL OR h.NgayTao < @NgayTao);
+					    WHERE (@TenNhaPhanPhoi = '' OR npp.TenNhaPhanPhoi LIKE N'%' + @TenNhaPhanPhoi + '%')
+							and ((@fr_NgayTao is null and @to_NgayTao is null 
+								or (@fr_NgayTao is not null
+								and @to_NgayTao is null and
+								h.NgayTao >= @fr_NgayTao)
+								or @fr_NgayTao is null and @to_NgayTao is not null 
+								and h.NgayTao < @to_NgayTao
+								or h.NgayTao between @fr_NgayTao and @to_NgayTao))
                         SELECT @RecordCount = COUNT(*)
                         FROM #Results2;
                         SELECT *, 

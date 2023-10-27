@@ -1,11 +1,11 @@
 <div ng-controller="ProductCtrl" id="content">  
     <div ng-model="ProductByid" class="product">
         <div class="type">
-            <a href="./home.html">TRANG CHỦ</a>
+            <a href="#!/">TRANG CHỦ</a>
             <i class="fa-solid fa-arrow-right"></i>
-            <a href="./cleanser.html">SỮA RỬA MẶT</a>
+            <a href="#!/category/1/{{ProductByid.tenDanhMuc}}">{{ProductByid.tenDanhMuc.toUpperCase()}}</a>
             <i class="fa-solid fa-arrow-right"></i>
-            <a href="./product.html">Sữa rửa mặt Cerave Renewing SA Cleanser</a>
+            <a href="#!/product/{{ProductByid.maSanPham}}">{{ProductByid.tenSanPham}}</a>
         </div>
         <div class="product-item">
             <div class="product-left">
@@ -21,7 +21,7 @@
                 </div>
                 <div class="img-slider">
                     <!-- <img class="activeImg opacity1" src="./assets/img/Cleanser/cerave/3.jpg" alt=""> -->
-                    <img ng-repeat="x in listImgDetail" src={{x.linkAnh}} alt="">
+                    <!-- <img ng-repeat="x in listImgDetail" src={{x.linkAnh}} alt=""> -->
                     <!-- <img src="./assets/img/Cleanser/cerave/2.jpg" alt="">
                     <img src="./assets/img/Cleanser/cerave/1.webp" alt="">
                     <img src="./assets/img/Cleanser/cerave/5.webp" alt=""> -->
@@ -52,8 +52,8 @@
                     <tr> 
                         <td>
                             <div class="product-item_price">
-                                <span class="product-item_price_old">{{ProductByid.gia}}</span><sup>đ</sup>
-                                <span class="product-item_price_current">{{ProductByid.giaGiam}}</span><sup>đ</sup>
+                                <span class="product-item_price_old">{{ProductByid.gia.toLocaleString('de-DE')}}</span><sup>đ</sup>
+                                <span class="product-item_price_current">{{ProductByid.giaGiam.toLocaleString('de-DE')}}</span><sup>đ</sup>
                                 <span class="VAT">(Đã bao gồm VAT)</span>
                             </div>
                         </td>

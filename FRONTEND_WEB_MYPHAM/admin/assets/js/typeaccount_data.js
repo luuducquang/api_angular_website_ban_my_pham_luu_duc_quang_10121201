@@ -36,7 +36,7 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.selected,
                 url: current_url + '/api/LoaiTaiKhoan/delete_loaitaikhoan',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
                 window.location='#!typeaccount'
@@ -75,7 +75,7 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
                     MoTa: $scope.mota
                 },
                 url: current_url + '/api/LoaiTaiKhoan/create_loaitaikhoan',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Thêm thành công')
                 window.location='#!typeaccount'
@@ -92,7 +92,7 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
                     MoTa: $scope.mota
                 },
                 url: current_url + '/api/LoaiTaiKhoan/update_loaitaikhoan',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Sửa thành công')
                 window.location='#!typeaccount'

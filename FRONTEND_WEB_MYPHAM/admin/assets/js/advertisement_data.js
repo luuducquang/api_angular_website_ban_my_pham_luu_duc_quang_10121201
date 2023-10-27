@@ -12,7 +12,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
     $scope.GetADS= function () {
         $http({
             method: 'POST',
-            // headers: { "Authorization": 'Bearer ' + _user.token },
+            headers: { "Authorization": 'Bearer ' + _user.token },
             data: {
                 page: $scope.page,
                 pageSize: $scope.pageSize
@@ -93,7 +93,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.selected,
                 url: current_url + '/api/QuangCao/delete-quangcao2',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
                 window.location='#!advertisement/'+$scope.page
@@ -163,7 +163,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                             MoTa: $scope.mota
                         },
                         url: current_url + '/api/QuangCao/create-quangcao',
-                        headers: {'Content-Type': 'application/json'}
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Thêm thành công')
                     }).catch(function (error) {
@@ -180,7 +180,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                             MoTa: $scope.mota
                         },
                         url: current_url + '/api/QuangCao/update-quangcao',
-                        headers: {'Content-Type': 'application/json'}
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Sửa thành công')
                     }).catch(function (error) {
@@ -199,7 +199,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                         MoTa: $scope.mota
                     },
                     url: current_url + '/api/QuangCao/create-quangcao',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
                     window.location='#!advertisement/'+$scope.page
@@ -217,7 +217,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                         MoTa: $scope.mota
                     },
                     url: current_url + '/api/QuangCao/update-quangcao',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Sửa thành công')
                     window.location='#!advertisement/'+$scope.page

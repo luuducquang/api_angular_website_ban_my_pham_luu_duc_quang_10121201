@@ -1,6 +1,6 @@
-
 app.controller ('category', ['$scope', '$routeParams', function($scope, $routeParams){
     $scope.page = $routeParams.page;
+    $scope.tendanhmucsearch = $routeParams.tendanhmucsearch;
 }]);
 
 app.controller("CategoryCtrl", function ($scope, $http) {
@@ -8,7 +8,8 @@ app.controller("CategoryCtrl", function ($scope, $http) {
 
     var datas = {
         page: $scope.page,
-        pageSize: 10
+        pageSize: 10,
+        TenDanhMuc: $scope.tendanhmucsearch
     }
 
     var categoryName = document.querySelector('#categoryName')
@@ -20,6 +21,7 @@ app.controller("CategoryCtrl", function ($scope, $http) {
             method: 'POST',
             data: datas,
             url: current_url + '/api/DanhMuc/search-danhmuc',
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             $scope.ListDanhMuc = response.data.data; 
             $scope.pageIndex(response.data.totalItems)
@@ -28,6 +30,42 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         
     }
     $scope.GetDanhMuc();
+
+    //-------------------------------------------------------------------------------//
+    $scope.timkiem = $scope.tendanhmucsearch
+    $scope.search = function(){
+        if($scope.timkiem===undefined){
+            $scope.tendanhmucsearch=''
+        }
+        else{
+            $scope.tendanhmucsearch = $scope.timkiem
+            var data = {
+                page: 1,
+                pageSize: 10,
+                TenDanhMuc: $scope.tendanhmucsearch
+            };
+            $http({
+                method: 'POST',
+                // headers: { "Authorization": 'Bearer ' + _user.token },
+                data: data,
+                url: current_url + '/api/DanhMuc/search-danhmuc',
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+            }).then(function (response) {  
+                console.log(response);
+                if(response.data.totalItems===0){
+                    alert("Không có danh mục nào")
+                    $scope.tendanhmucsearch =''
+                    return
+                }
+                else{
+                    window.location='#!category/1/'+$scope.tendanhmucsearch
+                }
+            }).catch(function (error) {
+                console.error('Lỗi :', error);
+            });
+        }
+    }
+    //-------------------------------------------------------------------------------//
     
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
@@ -45,7 +83,12 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
-                    a.href='#!category/'+a.innerHTML
+                    if($scope.tendanhmucsearch){
+                        a.href='#!category/'+a.innerHTML+'/'+$scope.tendanhmucsearch
+                    }
+                    else{
+                        a.href='#!category/'+a.innerHTML
+                    }
                 }
             }    
 
@@ -57,15 +100,25 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 }
                 else{
                     $scope.page--
+                    if($scope.tendanhmucsearch){
+                        window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+                    }
+                    else{
+                        window.location='#!category/'+$scope.page
+                    }
                 }
-                window.location='#!category/'+$scope.page
             }
 
             next = function(){
                 if($scope.page<count){
                     $scope.page++
+                    if($scope.tendanhmucsearch){
+                        window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+                    }
+                    else{
+                        window.location='#!category/'+$scope.page
+                    }
                 }
-                window.location='#!category/'+$scope.page
             }
     }
     
@@ -97,10 +150,15 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.checkCategory,
                 url: current_url + '/api/DanhMuc/delete-danhmuc',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
-                window.location='#!category/'+$scope.page
+                if($scope.tendanhmucsearch){
+                    window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+                }
+                else{
+                    window.location='#!category/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi xoá:', error);
@@ -127,10 +185,15 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 NoiDung: describe.value
             },
             url: current_url + '/api/DanhMuc/create-danhmuc',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {
             alert('Thêm thành công');
-            window.location='#!category/'+$scope.page
+            if($scope.tendanhmucsearch){
+                window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+            }
+            else{
+                window.location='#!category/'+$scope.page
+            }
         })
         .catch(function (error) {
             console.error('Lỗi khi thêm sản phẩm:', error);
@@ -168,10 +231,15 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                     NoiDung: describe.value
                 },
                 url: current_url + '/api/DanhMuc/update-danhmuc',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Sửa thành công')
-                window.location='#!category/'+$scope.page
+                if($scope.tendanhmucsearch){
+                    window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+                }
+                else{
+                    window.location='#!category/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi sua:', error);

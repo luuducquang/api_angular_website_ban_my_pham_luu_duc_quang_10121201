@@ -127,7 +127,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<HoaDonNhapModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, DateTime? NgayTao, string NhaPhanPhoi)
+        public List<HoaDonNhapModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, DateTime? fr_NgayTao, DateTime? to_NgayTao, string NhaPhanPhoi)
         {
             string msgError = "";
             total = 0;
@@ -136,7 +136,8 @@ namespace DataAccessLayer
                 var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_search_hoadonnhap_single",
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
-                    "@NgayTao", NgayTao,
+                    "@fr_NgayTao", fr_NgayTao,
+                    "@to_NgayTao", to_NgayTao,
                     "@TenNhaPhanPhoi", NhaPhanPhoi);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);

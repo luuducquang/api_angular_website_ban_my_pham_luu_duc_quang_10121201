@@ -23,10 +23,10 @@ namespace BussinessLayer
             secret = configuration["AppSettings:Secret"];
         }
 
-        public UserModel Login(string taikhoan, string matkhau)
+        public UserModel Login(string username, string password)
         {
-            var user = _res.Login(taikhoan, matkhau);
-            if (user == null)
+            var admin_account = _res.Login(username, password);
+            if (admin_account == null)
                 return null;
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
@@ -34,15 +34,15 @@ namespace BussinessLayer
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.TenTaiKhoan.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Name, admin_account.TenTaiKhoan.ToString()),
+                    new Claim(ClaimTypes.Email, admin_account.Email)
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.Aes128CbcHmacSha256)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            user.token = tokenHandler.WriteToken(token);
-            return user;
+            admin_account.token = tokenHandler.WriteToken(token);
+            return admin_account;
         }
     }
 }

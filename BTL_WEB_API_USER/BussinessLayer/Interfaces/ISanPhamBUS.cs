@@ -9,7 +9,9 @@ namespace BussinessLayer.Interfaces
 {
     public partial interface ISanPhamBUS
     {
-        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal Gia, string TenHang, string TenNhaPhanPhoi);
+        SanPhamDetailModel Getbyid(int id);
+        List<AnhSanPhamModel> GetbyidImgdetail(int id);
+        public List<SanPhamDetailModel> Search(int pageIndex, int pageSize, out long total, string TenSanPham, string TenDanhMuc, string Tendanhmucuudai, Decimal GiaMin, Decimal GiaMax, string TenHang, string TenNhaPhanPhoi, string XuatXu);
 
     }
 }

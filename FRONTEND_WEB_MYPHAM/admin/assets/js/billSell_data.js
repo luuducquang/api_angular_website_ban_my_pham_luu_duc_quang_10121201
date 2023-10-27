@@ -1,5 +1,11 @@
 app.controller ('billSell', ['$scope', '$routeParams', function($scope, $routeParams){
     $scope.page = $routeParams.page;
+    $scope.start = $routeParams.start;
+    $scope.valuestart = $routeParams.valuestart;
+    $scope.end = $routeParams.end;
+    $scope.valueend = $routeParams.valueend;
+    $scope.key = $routeParams.key;
+    $scope.value = $routeParams.value;
 }]);
 
 app.controller("billSellCtrl", function ($scope, $http) {
@@ -21,15 +27,19 @@ app.controller("billSellCtrl", function ($scope, $http) {
         });
     }
     $scope.Getallproduct()
+    var datas = {
+        page: $scope.page,
+        pageSize: $scope.pageSize,
+        fr_NgayTao: $scope.valuestart,
+        to_NgayTao: $scope.valueend
+    }
+    datas[$scope.key] = $scope.value
 
     $scope.GetBill= function () {
         $http({
             method: 'POST',
-            // headers: { "Authorization": 'Bearer ' + _user.token },
-            data: {
-                page: $scope.page,
-                pageSize: $scope.pageSize
-            },
+            headers: { "Authorization": 'Bearer ' + _user.token },
+            data: datas,
             url: current_url + '/api/HoaDon/search-hoadonsingle',
         }).then(function (response) {  
             $scope.listHoaDonBan = response.data.data
@@ -39,6 +49,100 @@ app.controller("billSellCtrl", function ($scope, $http) {
         });
     };   
 	$scope.GetBill();
+
+    //---------------------------SEARCH------------------------------------//
+    var ngaybatdau = document.getElementById("startdate")
+    var ngayketthuc = document.getElementById("enddate")
+    
+    var ngayBatDau = new Date(gmt7Time);
+    ngayBatDau.setMonth(ngayBatDau.getMonth() - 1);
+    ngayBatDau = ngayBatDau.toISOString().slice(0, 16);
+    ngaybatdau.value = ngayBatDau
+    ngayketthuc.value = gmt7ISODate;
+
+    $scope.start = "fr_NgayTao"
+    $scope.end = "to_NgayTao"
+
+    $scope.timkiem = $scope.value
+    $scope.luachontimkiem = $scope.key
+
+    if($scope.valuestart){
+        ngaybatdau.value = $scope.valuestart
+    }
+
+    if($scope.valueend){
+        ngayketthuc.value = $scope.valueend
+    }
+
+    $scope.search = function(){
+        if(ngaybatdau.value>=ngayketthuc.value){
+            alert('Ngày không hợp lệ')
+            return
+        }
+        else{
+            $scope.valuestart = ngaybatdau.value
+            $scope.valueend = ngayketthuc.value
+            if($scope.luachontimkiem===undefined||
+                $scope.luachontimkiem===''||$scope.timkiem===undefined||$scope.timkiem===''){
+                    $http({
+                        method: 'POST',
+                        headers: { "Authorization": 'Bearer ' + _user.token },
+                        data: {
+                            page: 1,
+                            pageSize: 10,
+                            fr_NgayTao: $scope.valuestart,
+                            to_NgayTao: $scope.valueend
+                        },
+                        url: current_url + '/api/HoaDon/search-hoadonsingle',
+                    }).then(function (response) {  
+                        if(response.data.totalItems===0){
+                            alert("Không có hoá đơn nào")
+                            $scope.valuestart=''
+                            $scope.valueend=''
+                            return
+                        }
+                        else{
+                            window.location='#!billSell/1/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+                        }
+                    }).catch(function (error) {
+                        console.error('Lỗi :', error);
+                    });
+            }
+            else{
+                $scope.key = $scope.luachontimkiem
+                $scope.value = $scope.timkiem
+                var data = {
+                    page: 1,
+                    pageSize: 10,
+                    fr_NgayTao: $scope.valuestart,
+                    to_NgayTao: $scope.valueend
+                };
+                data[$scope.key] = $scope.value
+                $http({
+                    method: 'POST',
+                    headers: { "Authorization": 'Bearer ' + _user.token },
+                    data: data,
+                    url: current_url + '/api/HoaDon/search-hoadonsingle',
+                }).then(function (response) {  
+                    if(response.data.totalItems===0){
+                        alert("Không có hoá đơn nào")
+                        $scope.key =''
+                        $scope.value =''
+                        $scope.valuestart=''
+                        $scope.valueend=''
+                        return
+                    }
+                    else{
+                        window.location='#!billSell/1/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+                    }
+                }).catch(function (error) {
+                    console.error('Lỗi :', error);
+                });
+            }
+        }
+    }
+    //---------------------------------------------------------------//
+
 
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
@@ -56,7 +160,15 @@ app.controller("billSellCtrl", function ($scope, $http) {
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
-                    a.href='#!billSell/'+a.innerHTML
+                    if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                        a.href='#!billSell/'+a.innerHTML+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+                    }
+                    if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                        a.href='#!billSell/'+a.innerHTML+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                        a.href='#!billSell/'+a.innerHTML
+                    }
                 }
             }    
             aItem[currentPage - 1].classList.add('activePage');
@@ -66,14 +178,30 @@ app.controller("billSellCtrl", function ($scope, $http) {
                 }
                 else{
                     $scope.page--
-                    window.location='#!billSell/'+$scope.page
+                    if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                        window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+                    }
+                    if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                        window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                        window.location='#!billSell/'+$scope.page
+                    }
                 }
             }
 
             next = function(){
                 if($scope.page<count){
                     $scope.page++
-                    window.location='#!billSell/'+$scope.page
+                    if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                        window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+                    }
+                    if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                        window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+                    }
+                    if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                        window.location='#!billSell/'+$scope.page
+                    }
                 }
             }
     }
@@ -105,10 +233,18 @@ app.controller("billSellCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.selected,
                 url: current_url + '/api/HoaDon/delete-hoadon',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
-                window.location='#!billSell/'+$scope.page
+                if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                    window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+                }
+                if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                    window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+                }
+                if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                    window.location='#!billSell/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi xoá:', error);
@@ -184,10 +320,18 @@ app.controller("billSellCtrl", function ($scope, $http) {
                 }]
             },
             url: current_url + '/api/HoaDon/create-hoadon',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             alert('Thêm thành công')
-            window.location='#!billSell/'+$scope.page
+            if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+            }
+            if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+            }
+            if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                window.location='#!billSell/'+$scope.page
+            }
         }).catch(function (error) {
             console.error('Lỗi khi thêm sản phẩm:', error);
         });
@@ -226,10 +370,18 @@ app.controller("billSellCtrl", function ($scope, $http) {
                 }]
             },
             url: current_url + '/api/HoaDon/update-hoadon',
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             alert('Thêm chi tiết thành công')
-            window.location='#!billSell/'+$scope.page
+            if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+            }
+            if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+            }
+            if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                window.location='#!billSell/'+$scope.page
+            }
         }).catch(function (error) {
             console.error('Lỗi khi thêm sản phẩm:', error);
             console.log($scope.gia);
@@ -272,10 +424,18 @@ app.controller("billSellCtrl", function ($scope, $http) {
                     }]
                 },
                 url: current_url + '/api/HoaDon/update-hoadon',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Sửa chi tiết thành công')
-                window.location='#!billSell/'+$scope.page
+                if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend){
+                    window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend
+                }
+                if($scope.start&&$scope.end&&$scope.valuestart&&$scope.valueend&&$scope.key&&$scope.value){
+                    window.location='#!billSell/'+$scope.page+'/'+$scope.start+'/'+$scope.valuestart+'/'+$scope.end+'/'+$scope.valueend+'/'+$scope.key+'/'+$scope.value
+                }
+                if(!$scope.valuestart&&!$scope.valueend&&!$scope.key&&!$scope.value){
+                    window.location='#!billSell/'+$scope.page
+                }
             }).catch(function (error) {
                 console.error('Lỗi khi sửa sản phẩm:', error);
             });
@@ -303,7 +463,7 @@ app.controller("billSellCtrl", function ($scope, $http) {
                     }]
                 },
                 url: current_url + '/api/HoaDon/update-hoadon',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Sửa chi tiết thành công')
                 window.location='#!billSell/'+$scope.page
@@ -339,7 +499,7 @@ app.controller("billSellCtrl", function ($scope, $http) {
                     }]
                 },
                 url: current_url + '/api/HoaDon/update-hoadon',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Xoá chi tiết thành công')
                 window.location='#!billSell/'+$scope.page

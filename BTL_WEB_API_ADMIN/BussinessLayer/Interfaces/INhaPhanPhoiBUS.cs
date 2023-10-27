@@ -14,7 +14,7 @@ namespace BussinessLayer.Interfaces
         public bool Create(NhaPhanPhoiModel model);
         public bool Update(NhaPhanPhoiModel model);
         public bool Delete(int manhaphanphoi);
-        List<NhaPhanPhoiModel> Search(int pageIndex, int pageSize, out long total, string TenNhaPhanPhoi);
+        List<NhaPhanPhoiModel> Search(int pageIndex, int pageSize, out long total, string TenNhaPhanPhoi, string DiaChi, string SDT);
 
     }
 }

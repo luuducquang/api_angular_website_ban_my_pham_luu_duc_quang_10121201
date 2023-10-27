@@ -1,11 +1,13 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
 namespace API_MYPHAM.Controllers
 {
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class HoaDonNhapController : ControllerBase
@@ -17,6 +19,7 @@ namespace API_MYPHAM.Controllers
             _hoaDonNhapBUS = hoaDonNhapBUS;
         }
 
+        [AllowAnonymous]
         [Route("getbyid-mahoadon-chitiethoadonnhap/{id}")]
         [HttpGet]
         public List<ChiTietHoaDonNhapModelTWO> GetByID(int id)
@@ -97,14 +100,20 @@ namespace API_MYPHAM.Controllers
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string NhaPhanPhoi = "";
                 if (formData.Keys.Contains("NhaPhanPhoi") && !string.IsNullOrEmpty(Convert.ToString(formData["NhaPhanPhoi"]))) { NhaPhanPhoi = Convert.ToString(formData["NhaPhanPhoi"]); }
-                DateTime? NgayTao = null;
-                if (formData.Keys.Contains("NgayTao") && formData["NgayTao"] != null && formData["NgayTao"].ToString() != "")
+                DateTime? fr_NgayTao = null;
+                if (formData.Keys.Contains("fr_NgayTao") && formData["fr_NgayTao"] != null && formData["fr_NgayTao"].ToString() != "")
                 {
-                    var dt = Convert.ToDateTime(formData["NgayTao"].ToString());
-                    NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, 0);
+                    var dt = Convert.ToDateTime(formData["fr_NgayTao"].ToString());
+                    fr_NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, 0);
+                }
+                DateTime? to_NgayTao = null;
+                if (formData.Keys.Contains("to_NgayTao") && formData["to_NgayTao"] != null && formData["to_NgayTao"].ToString() != "")
+                {
+                    var dt = Convert.ToDateTime(formData["to_NgayTao"].ToString());
+                    to_NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59, 999);
                 }
                 long total = 0;
-                var data = _hoaDonNhapBUS.SearchSingle(page, pageSize, out total, NgayTao, NhaPhanPhoi);
+                var data = _hoaDonNhapBUS.SearchSingle(page, pageSize, out total, fr_NgayTao, to_NgayTao, NhaPhanPhoi);
                 return Ok(
                    new
                    {

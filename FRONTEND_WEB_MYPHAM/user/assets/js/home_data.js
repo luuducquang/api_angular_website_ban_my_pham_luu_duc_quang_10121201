@@ -1,6 +1,4 @@
 app.controller("HomeCtrl", function ($scope, $http) {
-    $scope.listUudai;
-	 
     $scope.GetUuDai= function () {
         $http({
             method: 'POST',
@@ -12,7 +10,4 @@ app.controller("HomeCtrl", function ($scope, $http) {
     };   
 	$scope.GetUuDai();
 
-  $scope.item=function(x){
-    window.location='#!product/'+x.maSanPham
-  }
 });

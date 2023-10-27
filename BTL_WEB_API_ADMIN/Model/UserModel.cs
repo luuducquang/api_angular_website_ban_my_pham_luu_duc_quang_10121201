@@ -16,5 +16,6 @@ namespace Model
         public string HoTen { get; set; }
         public string SoDienThoai { get; set; }
         public string AnhDaiDien { get; set; }
+        public int MaLoaitaikhoan { get; set; }
     }
 }

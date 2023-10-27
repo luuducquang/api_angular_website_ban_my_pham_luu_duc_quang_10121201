@@ -4,7 +4,7 @@
 <script src="./assets/js/fast.js"></script>
 
 <div class="image">
-    <img id="img"  src="./assets/img/skincare+banner.jpg" alt="">
+    <img id="img" src="./assets/img/skincare+banner.jpg" alt="">
     <div class="image-btn">
         <div class="fa-solid fa-circle-chevron-right  btn next"></div>
         <div class="fa-solid fa-circle-chevron-left  btn prev"></div>
@@ -29,8 +29,8 @@
 <div ng-controller="HomeCtrl" id="content">  
     <div class="sale">
         <h2 class="type type_Sale">SẢN PHẨM SALE</h2>
-        <div ng-repeat="x in listUudai" class="home-product-item" ng-click="item(x)">
-            <a href="">
+        <div ng-repeat="x in listUudai" class="home-product-item">
+            <a class="linkproduct" href="#!/product/{{x.maSanPham}}">
                 <div class="home-product-item_img"><img style="min-height: 200px; min-width: 100px;" src="{{x.anhDaiDien}}" alt=""></div>
                 <h4 class="home-product-item_name">{{x.tenSanPham}}</h4>
                 <span class="decrip-item">{{x.moTa}}

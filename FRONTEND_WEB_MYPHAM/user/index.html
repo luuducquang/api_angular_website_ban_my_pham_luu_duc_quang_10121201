@@ -12,10 +12,9 @@
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular-route.js"></script>
-    <link rel="stylesheet" href="./assets/font/cdn.jsdelivr.net_npm_bootstrap@5.3.1_dist_css_bootstrap.min.css">
 
 </head>
-<body ng-app="Home">
+<body ng-app="Home" ng-controller="IndexCtrl">
     
     <div id="frame">
         <!-- -------------------------------------------Header--------------------------------- -->
@@ -250,14 +249,7 @@
             <ul class="menu-list">
                 <li><a href="#">Danh mục</a>
                     <ul class="menu-nav">
-                        <li><a href="./cleanser.html">Sữa rửa mặt</a></li>
-                        <li><a href="./makeup-remove.html">Nước tẩy trang</a></li>
-                        <li><a href="./toner.html">Toner nước hoa hồng</a></li>
-                        <li><a href="./spray.html">Xịt khoáng</a> </li>
-                        <li><a href="./serum.html">Serum</a> </li>
-                        <li><a href="./Mask.html">Mặt nạ</a></li>
-                        <li><a href="./Lotion.html">Kem dưỡng</a></li>
-                        <li><a href="./sunscreen.html">Kem chống nắng</a></li>
+                        <li ng-repeat="x in ListDanhMuc" ><a href="#!/category/1/{{x.tenDanhMuc}}">{{x.tenDanhMuc}}</a></li>
                     </ul>
                 </li>
             </ul>
@@ -278,4 +270,5 @@
 <script src="./assets/js/index.js"></script>
 <script src="./assets/js/home_data.js"></script>
 <script src="./assets/js/product_data.js"></script>
+<script src="./assets/js/category_data.js"></script>
 </html>

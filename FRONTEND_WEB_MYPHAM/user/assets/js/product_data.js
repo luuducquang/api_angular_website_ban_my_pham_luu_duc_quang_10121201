@@ -5,10 +5,12 @@ app.controller ('product', ['$scope', '$routeParams', function($scope, $routePar
 app.controller("ProductCtrl", function ($scope, $http) {
     $scope.ProductByid
     $scope.listImgDetail
+    
 
     $http.get(current_url+'/api/SanPham/getbyid-sanpham/'+$scope.id)
     .then(function (response) {  
         $scope.ProductByid = response.data; 
+        console.log();
         $http({
             method: 'GET',
             // headers: { "Authorization": 'Bearer ' + _user.token },
@@ -123,8 +125,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
             else{
                 var priceO = PriceProduct
             }
-
-            console.log(document.querySelector(".product-item_price_current"));
 
 
             function ShopAmount(){
@@ -269,14 +269,106 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 
                 miror.style.backgroundImage = `url(${img.src})`
                 
-                console.log(e.clientX,e.pageX);
 
             })
+
+            
+            var imgP = document.querySelector(".product-item-img img")
+
+            function updateActive(i){
+                var acti = document.querySelector('.img-slider .activeImg')
+                if(acti){
+                    acti.classList.remove('activeImg')
+                }
+                var opaci = document.querySelector(".img-slider .opacity1")
+                if(opaci){
+                    opaci.classList.remove('opacity1')
+                    opaci.classList.add('opacity')
+
+                }
+                listImg[i].classList.add('activeImg')
+
+                listImg[i].classList.add('opacity1')
+            }
+
+
+            
+            var images = $scope.listImgDetail.map(function(value){
+                return `<img src="${value.linkAnh}" alt="">`;
+            });
+            
+            var imgSlider = document.querySelector(".img-slider");
+            
+            images.forEach(function(image) {
+                imgSlider.innerHTML += image;
+            });
+            
+            var listImg = document.querySelectorAll(".img-slider img")
+
+            listImg.forEach(function(e,i){
+                e.addEventListener("click",function(){
+                    imgP.style.opacity = '0'
+                    setTimeout(function(){
+                        index = i
+                        var imgProduct = document.querySelector(".product-item-img img").src = listImg[index].src;
+                        updateActive(i)
+                        imgP.style.opacity = '1'
+                    },300)
+                })    
+                e.classList.add('opacity')
+
+            })
+
+
+            index  = 0
+
+            function Next(){
+                imgP.style.opacity = '0'
+                setTimeout(function(){
+                    index++
+                    if(index >= listImg.length){
+                    index=0
+                    }
+                    var imgProduct = document.querySelector(".product-item-img img").src = listImg[index].src;
+                    updateActive(index)
+                    imgP.style.opacity = '1'
+                    
+                },100)
+                
+            }
+
+            function Prev(){
+                imgP.style.opacity = '0'
+                setTimeout(function(){
+                    index--
+                    if(index<0){
+                        index = listImg.length-1
+                    }
+                    var imgProduct = document.querySelector(".product-item-img img").src = listImg[index].src;
+                    updateActive(index)
+                    imgP.style.opacity = '1'
+                },100)
+            }
+
+
+            var icon = document.querySelector('.but')
+
+            var Pleft = document.querySelector('.product-left')
+            Pleft.addEventListener("mouseover",function(){
+                icon.style.display = 'block'
+            })
+
+            Pleft.addEventListener("mouseleave",function(){
+                icon.style.display = 'none'
+            })
+
+            setInterval(function(){
+                Next()
+            },3000)
+
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });
     });
-
-    
     
 })

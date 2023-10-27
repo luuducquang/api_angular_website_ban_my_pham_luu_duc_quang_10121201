@@ -1,11 +1,13 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
 namespace API_MYPHAM.Controllers
 {
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class LoaiTaiKhoanController : ControllerBase
@@ -17,6 +19,7 @@ namespace API_MYPHAM.Controllers
             _loaiTaiKhoanBUS = loaiTaiKhoanBUS;
         }
 
+        [AllowAnonymous]
         [Route("get_all_loaitaikhoan")]
         [HttpGet]
         public IActionResult GetallLoaiTaiKhoan()

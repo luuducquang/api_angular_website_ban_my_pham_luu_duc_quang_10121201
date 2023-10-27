@@ -1,11 +1,13 @@
 ﻿using BussinessLayer;
 using BussinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 
 namespace API_MYPHAM.Controllers
 {
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class HoaDonController : ControllerBase
@@ -17,6 +19,7 @@ namespace API_MYPHAM.Controllers
             _hoaDonBUS = hoaDonBUS;
         }
 
+        [AllowAnonymous]
         [Route("getbyid-mahoadon-chitiethoadon/{id}")]
         [HttpGet]
         public List<ChiTietHoaDonModelTWO> GetByID(int id)
@@ -62,8 +65,8 @@ namespace API_MYPHAM.Controllers
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string TenKH = "";
                 if (formData.Keys.Contains("TenKH") && !string.IsNullOrEmpty(Convert.ToString(formData["TenKH"]))) { TenKH = Convert.ToString(formData["TenKH"]); }
-                string TenSanPham = "";
-                if (formData.Keys.Contains("TenSanPham") && !string.IsNullOrEmpty(Convert.ToString(formData["TenSanPham"]))) { TenKH = Convert.ToString(formData["TenSanPham"]); }
+                string SDT = "";
+                if (formData.Keys.Contains("SDT") && !string.IsNullOrEmpty(Convert.ToString(formData["SDT"]))) { SDT = Convert.ToString(formData["SDT"]); }
                 DateTime? fr_NgayTao = null;
                 if (formData.Keys.Contains("fr_NgayTao") && formData["fr_NgayTao"] != null && formData["fr_NgayTao"].ToString() != "")
                 {
@@ -77,7 +80,7 @@ namespace API_MYPHAM.Controllers
                     to_NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59, 999);
                 }
                 long total = 0;
-                var data = _hoaDonBUS.Search(page, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, TenSanPham);
+                var data = _hoaDonBUS.Search(page, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, SDT);
                 return Ok(
                    new
                    {
@@ -104,8 +107,8 @@ namespace API_MYPHAM.Controllers
                 var pageSize = int.Parse(formData["pageSize"].ToString());
                 string TenKH = "";
                 if (formData.Keys.Contains("TenKH") && !string.IsNullOrEmpty(Convert.ToString(formData["TenKH"]))) { TenKH = Convert.ToString(formData["TenKH"]); }
-                string TenSanPham = "";
-                if (formData.Keys.Contains("TenSanPham") && !string.IsNullOrEmpty(Convert.ToString(formData["TenSanPham"]))) { TenKH = Convert.ToString(formData["TenSanPham"]); }
+                string SDT = "";
+                if (formData.Keys.Contains("SDT") && !string.IsNullOrEmpty(Convert.ToString(formData["SDT"]))) { SDT = Convert.ToString(formData["SDT"]); }
                 DateTime? fr_NgayTao = null;
                 if (formData.Keys.Contains("fr_NgayTao") && formData["fr_NgayTao"] != null && formData["fr_NgayTao"].ToString() != "")
                 {
@@ -119,7 +122,7 @@ namespace API_MYPHAM.Controllers
                     to_NgayTao = new DateTime(dt.Year, dt.Month, dt.Day, 23, 59, 59, 999);
                 }
                 long total = 0;
-                var data = _hoaDonBUS.SearchSingle(page, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, TenSanPham);
+                var data = _hoaDonBUS.SearchSingle(page, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, SDT);
                 return Ok(
                    new
                    {

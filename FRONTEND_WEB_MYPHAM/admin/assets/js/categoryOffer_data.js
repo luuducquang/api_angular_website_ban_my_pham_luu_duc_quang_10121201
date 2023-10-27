@@ -1,5 +1,6 @@
 app.controller ('categoryOffer', ['$scope', '$routeParams', function($scope, $routeParams){
     $scope.page = $routeParams.page;
+    $scope.tendanhmucuudaisearch = $routeParams.tendanhmucuudaisearch;
 }]);
 
 app.controller("CategoryOfferCtrl", function ($scope, $http) {
@@ -7,7 +8,8 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
 
     var datas = {
         page: $scope.page,
-        pageSize: 10
+        pageSize: 10,
+        Tendanhmucuudai:$scope.tendanhmucuudaisearch
     }
 
     var categoryName = document.querySelector('#categoryName')
@@ -19,6 +21,7 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
             method: 'POST',
             data: datas,
             url: current_url + '/api/DanhMucUuDai/search-danhmucuudai',
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             $scope.ListDanhMucUuDai = response.data.data; 
             $scope.pageIndex(response.data.totalItems)
@@ -27,6 +30,42 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
         
     }
     $scope.GetDanhMucUuDai();
+
+    //-------------------------------------------------------------------------------//
+    $scope.timkiem = $scope.tendanhmucuudaisearch
+    $scope.search = function(){
+        if($scope.timkiem===undefined){
+            $scope.tendanhmucuudaisearch=''
+        }
+        else{
+            $scope.tendanhmucuudaisearch = $scope.timkiem
+            var data = {
+                page: 1,
+                pageSize: 10,
+                Tendanhmucuudai: $scope.tendanhmucuudaisearch
+            };
+            $http({
+                method: 'POST',
+                headers: { "Authorization": 'Bearer ' + _user.token },
+                data: data,
+                url: current_url + '/api/DanhMucUuDai/search-danhmucuudai',
+            }).then(function (response) {  
+                console.log(response);
+                if(response.data.totalItems===0){
+                    alert("Không có danh mục nào")
+                    $scope.tendanhmucuudaisearch =''
+                    return
+                }
+                else{ 
+                    window.location='#!categoryOffer/1/'+$scope.tendanhmucuudaisearch
+                }
+            }).catch(function (error) {
+                console.error('Lỗi :', error);
+            });
+        }
+    }
+    //-------------------------------------------------------------------------------//
+    
     
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
@@ -44,7 +83,12 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
-                    a.href='#!categoryOffer/'+a.innerHTML
+                    if($scope.tendanhmucuudaisearch){
+                        a.href='#!categoryOffer/'+a.innerHTML+'/'+$scope.tendanhmucuudaisearch
+                    }
+                    else{
+                        a.href='#!categoryOffer/'+a.innerHTML
+                    }
                 }
             }    
 
@@ -55,15 +99,25 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
                 }
                 else{
                     $scope.page--
+                    if($scope.tendanhmucuudaisearch){
+                        window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+                    }
+                    else{
+                        window.location='#!categoryOffer/'+$scope.page
+                    }
                 }
-                window.location='#!categoryOffer/'+$scope.page
             }
 
             next = function(){
                 if($scope.page<count){
                     $scope.page++
+                    if($scope.tendanhmucuudaisearch){
+                        window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+                    }
+                    else{
+                        window.location='#!categoryOffer/'+$scope.page
+                    }
                 }
-                window.location='#!categoryOffer/'+$scope.page
             }
     }
     
@@ -95,10 +149,15 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.checkBoxItem,
                 url: current_url + '/api/DanhMucUuDai/delete-danhmucuudai',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
-                window.location='#!categoryOffer/'+ $scope.page
+                if($scope.tendanhmucuudaisearch){
+                    window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+                }
+                else{
+                    window.location='#!categoryOffer/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi xoá:', error);
@@ -128,7 +187,12 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) { 
             alert('Thêm thành công');
-            window.location='#!categoryOffer/'+$scope.page
+            if($scope.tendanhmucuudaisearch){
+                window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+            }
+            else{
+                window.location='#!categoryOffer/'+$scope.page
+            }
         })
         .catch(function (error) {
             console.error('Lỗi khi thêm :', error);
@@ -166,10 +230,15 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
                     NoiDung: describe.value
                 },
                 url: current_url + '/api/DanhMucUuDai/update-danhmucuudai',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Sửa thành công')
-                window.location='#!categoryOffer/'+$scope.page
+                if($scope.tendanhmucuudaisearch){
+                    window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+                }
+                else{
+                    window.location='#!categoryOffer/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi sua:', error);

@@ -9,14 +9,12 @@ using DataAccessLayer;
 using Model;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(option =>
+builder.Services.AddCors(options =>
 {
-    option.AddPolicy("MyCors", build =>
-    {
-        build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-    });
+    options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
@@ -61,6 +59,9 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -71,22 +72,17 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseCors("MyCors");
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-
+app.UseRouting();
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
-
-

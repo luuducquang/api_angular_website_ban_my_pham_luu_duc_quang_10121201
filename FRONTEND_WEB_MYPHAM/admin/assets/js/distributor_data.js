@@ -1,5 +1,7 @@
 app.controller ('distributor', ['$scope', '$routeParams', function($scope, $routeParams){
     $scope.page = $routeParams.page;
+    $scope.key = $routeParams.key;
+    $scope.value = $routeParams.value;
 }]);
 
 app.controller("DistributorCtrl", function ($scope, $http) {
@@ -8,14 +10,17 @@ app.controller("DistributorCtrl", function ($scope, $http) {
     $scope.pageSize=10
     $scope.MaNhaPhanPhoi
 
+    var datas = {
+        page: $scope.page,
+        pageSize: $scope.pageSize
+    }
+    datas[$scope.key] = $scope.value
+
     $scope.GetDistributor= function () {
         $http({
             method: 'POST',
-            // headers: { "Authorization": 'Bearer ' + _user.token },
-            data: {
-                page: $scope.page,
-                pageSize: $scope.pageSize
-            },
+            headers: { "Authorization": 'Bearer ' + _user.token },
+            data: datas,
             url: current_url + '/api/NhaPhanPhoi/search-nhaphanphoi',
         }).then(function (response) {  
             $scope.listDistributor = response.data.data
@@ -25,6 +30,49 @@ app.controller("DistributorCtrl", function ($scope, $http) {
         });
     };   
 	$scope.GetDistributor();
+
+    //------------------------------------------------------------------------------//
+    $scope.timkiem = $scope.value
+    $scope.luachontimkiem = $scope.key
+
+    $scope.search = function(){
+        if($scope.luachontimkiem===undefined||
+            $scope.luachontimkiem===''){
+            alert('Vui lòng chọn loại tìm kiếm')
+            return
+        }
+        if($scope.timkiem===undefined||$scope.timkiem===''){
+            window.location='#!distributor/1'
+        }
+        else{
+            $scope.key = $scope.luachontimkiem
+                $scope.value = $scope.timkiem
+                var data = {
+                    page: 1,
+                    pageSize: 10
+                };
+                data[$scope.key] = $scope.value
+                $http({
+                    method: 'POST',
+                    headers: { "Authorization": 'Bearer ' + _user.token },
+                    data: data,
+                    url: current_url + '/api/NhaPhanPhoi/search-nhaphanphoi',
+                }).then(function (response) {  
+                    if(response.data.totalItems===0){
+                        alert("Không có nhà phân phối nào")
+                        $scope.key =''
+                        $scope.value =''
+                        return
+                    }
+                    else{
+                        window.location='#!distributor/1/'+$scope.key+'/'+$scope.value
+                    }
+                }).catch(function (error) {
+                    console.error('Lỗi :', error);
+                });
+        }
+    }
+    //------------------------------------------------------------------------------//
 
     $scope.pageIndex = function(total){
         $('.page-count li').remove()
@@ -42,7 +90,12 @@ app.controller("DistributorCtrl", function ($scope, $http) {
                 $('.page-count').append(li)
                 a.onclick = function () {
                     $scope.changePage(a.innerHTML)
-                    a.href='#!distributor/'+a.innerHTML
+                    if($scope.key&&$scope.value){
+                        a.href='#!distributor/'+a.innerHTML+'/'+$scope.key+'/'+$scope.value
+                    }
+                    else{
+                        a.href='#!distributor/'+a.innerHTML
+                    }
                 }
             }    
 
@@ -54,14 +107,24 @@ app.controller("DistributorCtrl", function ($scope, $http) {
                 }
                 else{
                     $scope.page--
-                    window.location='#!distributor/'+$scope.page
+                    if($scope.key&&$scope.value){
+                        window.location='#!distributor/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                    }
+                    else{
+                        window.location='#!distributor/'+$scope.page
+                    }
                 }
             }
 
             next = function(){
                 if($scope.page<count){
                     $scope.page++
-                    window.location='#!distributor/'+$scope.page
+                    if($scope.key&&$scope.value){
+                        window.location='#!distributor/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                    }
+                    else{
+                        window.location='#!distributor/'+$scope.page
+                    }
                 }
             }
     }
@@ -93,10 +156,15 @@ app.controller("DistributorCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.selected,
                 url: current_url + '/api/NhaPhanPhoi/delete-nhaphanphoi',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
-                window.location='#!distributor/'+$scope.page
+                if($scope.key&&$scope.value){
+                    window.location='#!distributor/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                }
+                else{
+                    window.location='#!distributor/'+$scope.page
+                }
             })
             .catch(function (error) {
                 console.error('Lỗi khi xoá:', error);
@@ -131,10 +199,15 @@ app.controller("DistributorCtrl", function ($scope, $http) {
                     MoTa: $scope.mota
                 },
                 url: current_url + '/api/NhaPhanPhoi/create-nhaphanphoi',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Thêm thành công')
-                window.location='#!distributor/'+$scope.page
+                if($scope.key&&$scope.value){
+                    window.location='#!distributor/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                }
+                else{
+                    window.location='#!distributor/'+$scope.page
+                }
             }).catch(function (error) {
                 console.error('Lỗi khi thêm sản phẩm:', error);
             });
@@ -151,10 +224,15 @@ app.controller("DistributorCtrl", function ($scope, $http) {
                     MoTa: $scope.mota
                 },
                 url: current_url + '/api/NhaPhanPhoi/update-nhaphanphoi',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Sửa thành công')
-                window.location='#!distributor/'+$scope.page
+                if($scope.key&&$scope.value){
+                    window.location='#!distributor/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                }
+                else{
+                    window.location='#!distributor/'+$scope.page
+                }
             }).catch(function (error) {
                 console.error('Lỗi khi sửa sản phẩm:', error);
             });

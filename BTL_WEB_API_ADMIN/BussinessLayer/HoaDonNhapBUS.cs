@@ -40,9 +40,9 @@ namespace BussinessLayer
             return _res.Search(pageIndex, pageSize, out total, TenSanPham, NgayTao, NhaPhanPhoi);
         }
 
-        public List<HoaDonNhapModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, DateTime? NgayTao, string NhaPhanPhoi)
+        public List<HoaDonNhapModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, DateTime? fr_NgayTao, DateTime? to_NgayTao, string NhaPhanPhoi)
         {
-            return _res.SearchSingle(pageIndex, pageSize, out total, NgayTao, NhaPhanPhoi);
+            return _res.SearchSingle(pageIndex, pageSize, out total, fr_NgayTao, to_NgayTao, NhaPhanPhoi);
         }
     }
 }

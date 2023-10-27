@@ -27,11 +27,11 @@
     width: 120px;
     margin-left: .5%;
     border-radius: 5px;
-    border: 2px solid #ead277;
+    border: 2px solid #66CC66;
 }
 
 .form-group input{
-    outline-color: rgb(128, 128, 128);
+    outline-color: #6699CC;
     padding: 10px;
 }
 

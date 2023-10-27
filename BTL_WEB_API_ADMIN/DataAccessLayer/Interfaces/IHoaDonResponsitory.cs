@@ -13,8 +13,8 @@ namespace DataAccessLayer.Interfaces
         bool Create(HoaDonModel model);
         bool Update(HoaDonModel model);
         bool Delete(int MaHoaDon);
-        List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string TenSanPham);
-        List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string TenSanPham);
+        List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string SDT);
+        List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string SDT);
 
     }
 }

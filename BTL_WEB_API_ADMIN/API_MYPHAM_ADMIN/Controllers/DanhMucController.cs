@@ -8,6 +8,7 @@ using Model;
 
 namespace API_MYPHAM.Controllers
 {
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class DanhMucController : ControllerBase
@@ -19,6 +20,7 @@ namespace API_MYPHAM.Controllers
             _danhMucBUS = danhMuc;
         }
 
+        [AllowAnonymous]
         [Route("get-all-danhmuc")]
         [HttpGet]
         public IEnumerable<DanhMucModel> GetDataAll()

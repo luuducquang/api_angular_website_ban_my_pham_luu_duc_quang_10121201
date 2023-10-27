@@ -37,9 +37,9 @@ namespace BussinessLayer
             return _res.Delete(manhaphanphoi);
         }
 
-        public List<NhaPhanPhoiModel> Search(int pageIndex, int pageSize, out long total, string TenNhaPhanPhoi)
+        public List<NhaPhanPhoiModel> Search(int pageIndex, int pageSize, out long total, string TenNhaPhanPhoi, string DiaChi, string SDT)
         {
-            return _res.Search(pageIndex, pageSize, out total, TenNhaPhanPhoi);
+            return _res.Search(pageIndex, pageSize, out total, TenNhaPhanPhoi,DiaChi,SDT);
         }
     }
 }

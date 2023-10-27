@@ -20,13 +20,6 @@ namespace BussinessLayer
         {
             _res = res;
             secret = configuration["AppSettings:Secret"];
-            if (string.IsNullOrEmpty(secret) || secret.Length < 22)
-            {
-                var rng = new RNGCryptoServiceProvider();
-                var key = new byte[16]; // 128 bit
-                rng.GetBytes(key);
-                secret = Convert.ToBase64String(key);
-            }
         }
 
         public UserModel Login(string taikhoan, string matkhau)
@@ -41,7 +34,8 @@ namespace BussinessLayer
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.TenTaiKhoan.ToString()),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.MaLoaitaikhoan.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.Aes128CbcHmacSha256)

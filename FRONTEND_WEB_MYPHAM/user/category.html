@@ -1,0 +1,44 @@
+<div ng-controller="CategoryCtrl" style="margin-top: 85px;" id="content">  
+    <div class="cleanser">
+        <div class="type">
+            <a href="#!/">TRANG CHỦ</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/category/1/{{tendanhmucsearch}}">{{tendanhmucsearch.toUpperCase()}}</a>
+        </div>
+        <div ng-repeat="x in listItem" class="home-product-item">
+            <a href="#!/product/{{x.maSanPham}}">
+                <div class="home-product-item_img"><img src="{{x.anhDaiDien}}" alt=""></div>
+                <h4 class="home-product-item_name">{{x.tenSanPham}}</h4>
+                <span class="decrip-item">{{x.moTa}}</span>
+            </a>                    
+            <div class="home-product-item_price">
+                <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('de-DE')}}<sup>đ</sup></span>
+                <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+            </div>
+            <div class="home-icon-recommend">
+                <span class="fa-solid fa-star star-gold"></span>
+                <span class="fa-solid fa-star star-gold"></span>
+                <span class="fa-solid fa-star star-gold"></span>
+                <span class="fa-solid fa-star star-gold"></span>
+                <span class="fa-solid fa-star star-gold"></span>
+                <span class="people-rate">(100)</span>
+                <span>|</span>
+                <span class="fa-solid fa-shop"></span>
+                <span class="amount-product">123</span>
+                <span class="fa-solid fa-truck-fast free-ship"></span>
+            </div>  
+            <div class="country">
+                {{x.xuatXu}}
+            </div>
+        </div>
+    </div>
+    <nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
+        <ul class="pagination">
+            <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
+            <div class="page-count" style="display:flex">
+                <!-- <li class="page-item"><p class="page-link">1</p></li> -->
+            </div>
+            <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
+        </ul>
+    </nav>
+</div>

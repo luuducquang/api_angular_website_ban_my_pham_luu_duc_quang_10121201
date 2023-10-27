@@ -7,7 +7,7 @@ using Model;
 
 namespace API_MYPHAM.Controllers
 {
-    
+    [Authorize(Roles = "1")]
     [Route("api/[controller]")]
     [ApiController]
     public class SanPhamController : ControllerBase
@@ -19,6 +19,7 @@ namespace API_MYPHAM.Controllers
             _sanPhamBUS = sanPhamBUS;
         }
 
+        [AllowAnonymous]
         [Route("get-allsanpham")]
         [HttpGet]
         public IEnumerable<SanPhamModel> GetDataAll()
@@ -26,6 +27,7 @@ namespace API_MYPHAM.Controllers
             return _sanPhamBUS.Getallsanpham();
         }
 
+        [AllowAnonymous]
         [Route("getbyid-sanpham/{id}")]
         [HttpGet]
         public SanPhamDetailModel GetByID(int id)
@@ -33,6 +35,7 @@ namespace API_MYPHAM.Controllers
             return _sanPhamBUS.Getbyid(id);
         }
 
+        [AllowAnonymous]
         [Route("getbyid-anhsanphamdetail/{id}")]
         [HttpGet]
         public List<AnhSanPhamModel> GetByIdimgdetail(int id)

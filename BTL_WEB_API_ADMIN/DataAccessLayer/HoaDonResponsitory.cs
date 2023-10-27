@@ -115,7 +115,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string TenSanPham)
+        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string SDT)
         {
             string msgError = "";
             total = 0;
@@ -125,7 +125,7 @@ namespace DataAccessLayer
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
                     "@TenKH", TenKH,
-                    "@TenSanPham", TenSanPham,
+                    "@SDT", SDT,
                     "@fr_ngaytao", fr_NgayTao,
                     "@to_ngaytao", to_NgayTao);
                 if (!string.IsNullOrEmpty(msgError))
@@ -139,7 +139,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string TenSanPham)
+        public List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
         {
             string msgError = "";
             total = 0;
@@ -149,7 +149,7 @@ namespace DataAccessLayer
                     "@page_index", pageIndex,
                     "@page_size", pageSize,
                     "@TenKH", TenKH,
-                    "@TenSanPham", TenSanPham,
+                    "@SDT", SDT,
                     "@fr_ngaytao", fr_NgayTao,
                     "@to_ngaytao", to_NgayTao);
                 if (!string.IsNullOrEmpty(msgError))

@@ -12,7 +12,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
     $scope.GetSlide= function () {
         $http({
             method: 'POST',
-            // headers: { "Authorization": 'Bearer ' + _user.token },
+            headers: { "Authorization": 'Bearer ' + _user.token },
             data: {
                 page: $scope.page,
                 pageSize: $scope.pageSize
@@ -93,7 +93,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                 method: 'DELETE',
                 data: $scope.selected,
                 url: current_url + '/api/SlideDetail/delete-slide_detail',
-                headers: {'Content-Type': 'application/json'}
+                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
                 alert('Xoá thành công')
                 window.location='#!bannerslide/'+$scope.page
@@ -173,7 +173,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                             MoTa: $scope.mota
                         },
                         url: current_url + '/api/SlideDetail/create-slide_detail',
-                        headers: {'Content-Type': 'application/json'}
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Thêm thành công')
                     }).catch(function (error) {
@@ -190,7 +190,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                             MoTa: $scope.mota
                         },
                         url: current_url + '/api/SlideDetail/update-slide_detail',
-                        headers: {'Content-Type': 'application/json'}
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Sửa thành công')
                     }).catch(function (error) {
@@ -209,7 +209,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                         MoTa: $scope.mota
                     },
                     url: current_url + '/api/SlideDetail/create-slide_detail',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
                     window.location='#!bannerslide/'+$scope.page
@@ -227,7 +227,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                         MoTa: $scope.mota
                     },
                     url: current_url + '/api/SlideDetail/update-slide_detail',
-                    headers: {'Content-Type': 'application/json'}
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Sửa thành công')
                     window.location='#!bannerslide/'+$scope.page

@@ -3,11 +3,12 @@
         <div id="clock" class="header-common"></div>
     </p>
     <form class="form-group">
-        <input style="margin: 0;padding: 10px;" type="text" name="" id="" placeholder="Nhập tên danh mục bạn cần tìm">
-        <button>
-            <i class="fa-solid fa-magnifying-glass"></i>
-            Tìm kiếm
-        </button>
+        <input style="margin-left: 3px;" ng-model="timkiem"type="text" name="" id=""
+            placeholder="Nhập tên danh mục bạn cần tìm">
+            <button ng-click="search()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Tìm kiếm
+            </button>
     </form>
     <div class="button">
         <button ng-click="btnAdd()" type="button" class="btn btn-success btn-add">
