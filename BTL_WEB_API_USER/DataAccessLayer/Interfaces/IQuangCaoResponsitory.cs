@@ -10,5 +10,7 @@ namespace DataAccessLayer.Interfaces
     public partial interface IQuangCaoResponsitory
     {
         List<QuangCaoModel> GetDataAll();
+
+        List<QuangCaoModel> Search(int page, int pageSize, out long total, string MoTa);
     }
 }

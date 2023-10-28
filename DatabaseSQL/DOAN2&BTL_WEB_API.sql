@@ -139,7 +139,7 @@ CREATE TABLE ChiTietSanPhams(
     MaChiTietSanPham INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     MaSanPham INT foreign key (MaSanPham) references SanPhams(MaSanPham) on delete cascade on update cascade,
     MaNhaSanXuat INT foreign key (MaNhaSanXuat) references HangSanXuats(MaNhaSanXuat) on delete cascade on update cascade,
-    MoTa NVARCHAR(350) ,
+    MoTa NVARCHAR(MAX) ,
     ChiTiet NVARCHAR(MAX)
 );
 

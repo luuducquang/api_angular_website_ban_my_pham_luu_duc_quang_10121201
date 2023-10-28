@@ -233,7 +233,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
         $(".product-container").toggleClass("hide")
         $scope.IdQuangCao = x.id
         $scope.link = x.linkQuangCao
-        $scope.mota = x.moTa
+        $scope.mota = String(x.moTa)
         $scope.hinhanh = x.anhDaiDien
         preview.src = x.anhDaiDien
     }

@@ -10,6 +10,6 @@ namespace BussinessLayer.Interfaces
     public partial interface IQuangCaoBUS
     {
         List<QuangCaoModel> GetDataAll();
-
+        List<QuangCaoModel> Search(int page, int pageSize, out long total, string MoTa);
     }
 }

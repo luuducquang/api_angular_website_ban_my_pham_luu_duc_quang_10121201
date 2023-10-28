@@ -1,4 +1,11 @@
 var app = angular.module("Home", ["ngRoute"]);
+
+app.filter('roundUp', function () {
+    return function (input) {
+        return Math.ceil(input);
+    };
+});
+
 app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
@@ -12,6 +19,10 @@ app.config(function($routeProvider) {
 
     .when("/cart", {
         templateUrl : "cart.html"
+    })
+    
+    .when("/order", {
+        templateUrl : "order.html"
     })
 
     .when("/category/:page/:tendanhmucsearch", {
@@ -28,4 +39,6 @@ app.controller("IndexCtrl", function ($scope, $http) {
         });
     }
     $scope.GetDanhMuc();
+
 })
+

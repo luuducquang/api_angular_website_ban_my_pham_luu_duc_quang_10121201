@@ -22,5 +22,9 @@ namespace BussinessLayer
             return _res.GetDataAll();
         }
 
+        public List<QuangCaoModel> Search(int page, int pageSize, out long total, string MoTa)
+        {
+            return _res.Search(page, pageSize, out total, MoTa);
+        }
     }
 }

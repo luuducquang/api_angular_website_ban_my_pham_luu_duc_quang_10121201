@@ -3,6 +3,7 @@ app.controller ('product', ['$scope', '$routeParams', function($scope, $routePar
 }]);
 
 app.controller("ProductCtrl", function ($scope, $http) {
+
     $scope.ProductByid
     $scope.listImgDetail
     
@@ -17,7 +18,6 @@ app.controller("ProductCtrl", function ($scope, $http) {
             url: current_url + '/api/SanPham/getbyid-anhsanphamdetail/' + response.data.maSanPham,
         }).then(function(response){
             $scope.listImgDetail = response.data
-            console.log($scope.listImgDetail);
 
             var menuInf = document.querySelector(".menu-inf")
             window.addEventListener("scroll",function(){
@@ -292,13 +292,14 @@ app.controller("ProductCtrl", function ($scope, $http) {
             }
 
 
-            
-            var images = $scope.listImgDetail.map(function(value){
+            var images = [];
+            images = $scope.listImgDetail.map(function(value){
                 return `<img src="${value.linkAnh}" alt="">`;
             });
-            
+
             var imgSlider = document.querySelector(".img-slider");
             
+            imgSlider.innerHTML=''
             images.forEach(function(image) {
                 imgSlider.innerHTML += image;
             });
@@ -366,9 +367,23 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 Next()
             },3000)
 
+            $scope.GetProductConnect= function () {
+                $http({
+                    method: 'POST',
+                    data: { page: 1, pageSize: 5,TenDanhMuc:$scope.ProductByid.tenDanhMuc},
+                    url: current_url + '/api/SanPham/search-sanpham',
+                }).then(function (response) {  
+                    $scope.listConnect = response.data.data; 
+                });
+            };   
+            $scope.GetProductConnect();
+
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });
     });
     
+    $scope.reloadPage = function() {
+        window.location.reload();
+    };
 })

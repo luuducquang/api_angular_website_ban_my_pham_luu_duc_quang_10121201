@@ -1678,6 +1678,7 @@ ul.pagination p:hover {
 .activePage {
     background-color: #FFCC00;
     color: #fff;
+    padding: 10px;
 }
 
 .page-count li {

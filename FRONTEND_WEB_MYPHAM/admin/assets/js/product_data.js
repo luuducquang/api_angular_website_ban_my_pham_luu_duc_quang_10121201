@@ -394,7 +394,9 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $scope.save = function(){
         if($scope.tensanpham===''||$scope.gia===''||$scope.giagiam===''||
         $scope.soluong===''||$scope.trongluong===''||
-        $scope.mota===''||$scope.chitiet===''){
+        $scope.mota===''||$scope.madanhmuc===''
+        ||$scope.madanhmucuudai===''||$scope.trangthai===''
+        ||$scope.manhasanxuat===''||$scope.manhaphanphoi===''){
             alert("Vui lòng nhập đủ thông tin")
             return
         }

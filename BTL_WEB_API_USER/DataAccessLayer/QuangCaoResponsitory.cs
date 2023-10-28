@@ -30,6 +30,26 @@ namespace DataAccessLayer
             }
         }
 
+        public List<QuangCaoModel> Search(int pageIndex, int pageSize, out long total, string MoTa)
+        {
+            string msgError = "";
+            total = 0;
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_quang_cao_search",
+                    "@page_index", pageIndex,
+                    "@page_size", pageSize,
+                    "@MoTa", MoTa);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
+                return dt.ConvertTo<QuangCaoModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

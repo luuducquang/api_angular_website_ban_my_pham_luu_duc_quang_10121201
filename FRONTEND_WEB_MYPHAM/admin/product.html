@@ -86,7 +86,7 @@
                     <td>{{x.tenSanPham}}</td>
                     <td><img style="width: 100px;height: 100px;background-size: cover;" src={{x.anhDaiDien}} alt="">
                     </td>
-                    <td>{{x.gia}}</td>
+                    <td>{{x.giaGiam}}</td>
                     <td>{{x.soLuong}}</td>
                     <td>{{x.trongLuong}}</td>
                     <td>{{x.tenDanhMuc}}</td>
@@ -197,7 +197,20 @@
                     <label>Chi tiết:</label>
                     <textarea ng-model="chitiet" id="detail" rows="5" cols="5" class="form-control"
                         placeholder="Chi tiết"></textarea>
+                    <!-- <div id="editor"></div> -->
                 </div>
+                
+                <!-- <script>
+                        ClassicEditor
+                                .create( document.querySelector( '#editor' ) )
+                                .then( editor => {
+                                        var editorData = editor.getData();
+                                        console.log(editorData); 
+                                } )
+                                .catch( error => {
+                                        console.error( error );
+                                } );
+                </script> -->
                 
                 <button ng-click="save()" type="button" class="btn btn-success saveAdd" style="margin: 0 0 10px 46%;">{{submit}}</button>
             </form>

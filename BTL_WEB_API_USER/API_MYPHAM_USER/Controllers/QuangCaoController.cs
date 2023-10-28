@@ -26,5 +26,33 @@ namespace API_MYPHAM.Controllers
             return _quangCaoBUS.GetDataAll();
         }
 
+
+        [Route("search-quangcao")]
+        [HttpPost]
+        public IActionResult Search([FromBody] Dictionary<string, object> formData)
+        {
+            try
+            {
+                var page = int.Parse(formData["page"].ToString());
+                var pageSize = int.Parse(formData["pageSize"].ToString());
+                string MoTa = "";
+                if (formData.Keys.Contains("MoTa") && !string.IsNullOrEmpty(Convert.ToString(formData["MoTa"]))) { MoTa = Convert.ToString(formData["MoTa"]); }
+                long total = 0;
+                var data = _quangCaoBUS.Search(page, pageSize, out total, MoTa);
+                return Ok(
+                   new
+                   {
+                       TotalItems = total,
+                       Data = data,
+                       Page = page,
+                       PageSize = pageSize
+                   }
+                   );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

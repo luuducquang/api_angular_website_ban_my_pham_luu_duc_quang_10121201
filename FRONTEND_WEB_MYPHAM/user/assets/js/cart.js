@@ -17,8 +17,8 @@ function product(){
                         <td style="font-size: 14px;">${value.size}</td>
                         <td>
                             <div style="display:flex; justify-content: center;">
-                                <p><span style="font-size: 14px;color:#888888;text-decoration: line-through;" class="price-item">${value.priceOld.toLocaleString('de-DE')}</span><sup style="color:#888888;">đ</sup></p>
-                                <p><span style="font-size: 14px; margin-left:5px;" class="price-item">${value.price.toLocaleString('de-DE')}</span><sup>đ</sup></p>
+                                <p><span style="font-size: 14px;color:#888888;text-decoration: line-through;" class="price-item">${value.priceOld}</span><sup style="color:#888888;">đ</sup></p>
+                                <p><span style="font-size: 14px; margin-left:5px;" class="price-item">${value.price}</span><sup>đ</sup></p>
                             </div>
                         </td>
                         <td>

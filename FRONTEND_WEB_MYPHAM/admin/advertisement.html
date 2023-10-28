@@ -33,7 +33,7 @@
                     <td>{{x.id}}</td>
                     <td><img style="width: 100px;height: 100px;background-size: cover;" src={{x.anhDaiDien}} alt=""></td>
                     <td>{{x.linkQuangCao}}</td>
-                    <td>{{x.moTa}}</td>
+                    <td>{{x.moTa === "true" ? 'Bên Phải':'Bên trái'}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
                             <i ng-click="edit(x)"  class="fa-solid fa-pen-to-square"></i>
@@ -56,8 +56,12 @@
                 <input ng-model="link" id="link" type="text" class="form-control" placeholder="Link">
             </div>
             <div class="form-group">
-                <label>Mô tả:</label>
-                <textarea ng-model="mota" id="describe" name="mota" rows="5" cols="5" class="form-control" placeholder="Ghi chú"></textarea>
+                <label for="">Mô tả:</label>
+                <select ng-model="mota" class="select form-select-lg status" id="statusOption">
+                    <option value="" disabled>Chọn vị trí</option>
+                    <option value="true" >Bên Phải</option>
+                    <option value="false">Bên Trái</option>
+                </select>
             </div>
             <button ng-click="save()" type="button" class="btn btn-success" style="margin: 0 0 10px 46%;">{{submit}}</button>
         </div>
