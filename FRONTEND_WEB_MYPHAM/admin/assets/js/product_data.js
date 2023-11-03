@@ -10,6 +10,25 @@ app.controller ('product', ['$scope', '$routeParams', function($scope, $routePar
 
 
 app.controller("ProductCtrl", function ($scope, $http) {
+    var editorData
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .then( editor => {
+                editorData = editor
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
+                
+    function getdata() {
+        if (editorData) {
+            return editorData.getData();
+        } else {
+            return 'Editor is not initialized yet.';
+        }
+    }
+
+
     var datas = {
         page:$scope.page,
         pageSize:10,
@@ -297,7 +316,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
         $scope.soluong=0
         $scope.trongluong=''
         $scope.mota=''
-        $scope.chitiet=''
+        editorData.setData('');
         $scope.xuatxu=''
         preview.src=''
         var imgDetail = document.querySelectorAll('.imgdetail img')
@@ -326,7 +345,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 list_json_chitiet_sanpham:[{
                     MaNhaSanXuat: $scope.manhasanxuat,
                     MoTa: $scope.mota,
-                    ChiTiet: $scope.chitiet,
+                    ChiTiet: getdata(),
                 }],
                 list_json_sanpham_nhaphanphoi:[{
                     MaNhaPhanPhoi: $scope.manhaphanphoi
@@ -362,7 +381,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     MaChiTietSanPham:$scope.machitietsanpham,
                     MaNhaSanXuat: $scope.manhasanxuat,
                     MoTa: $scope.mota,
-                    ChiTiet: $scope.chitiet,
+                    ChiTiet: getdata(),
                     status: 2
                 }],
                 list_json_sanpham_nhaphanphoi:[{
@@ -458,7 +477,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                         MaChiTietSanPham:$scope.machitietsanpham,
                                         MaNhaSanXuat: $scope.manhasanxuat,
                                         MoTa: $scope.mota,
-                                        ChiTiet: $scope.chitiet,
+                                        ChiTiet: getdata(),
                                         status: 2
                                     }],
                                     list_json_sanpham_nhaphanphoi:[{
@@ -512,7 +531,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 list_json_chitiet_sanpham:[{
                                     MaNhaSanXuat: $scope.manhasanxuat,
                                     MoTa: $scope.mota,
-                                    ChiTiet: $scope.chitiet,
+                                    ChiTiet: getdata(),
                                 }],
                                 list_json_sanpham_nhaphanphoi:[{
                                     MaNhaPhanPhoi: $scope.manhaphanphoi
@@ -549,7 +568,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                     MaChiTietSanPham:$scope.machitietsanpham,
                                     MaNhaSanXuat: $scope.manhasanxuat,
                                     MoTa: $scope.mota,
-                                    ChiTiet: $scope.chitiet,
+                                    ChiTiet: getdata(),
                                     status: 2
                                 }],
                                 list_json_sanpham_nhaphanphoi:[{
@@ -627,7 +646,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                     MaChiTietSanPham:$scope.machitietsanpham,
                                     MaNhaSanXuat: $scope.manhasanxuat,
                                     MoTa: $scope.mota,
-                                    ChiTiet: $scope.chitiet,
+                                    ChiTiet: getdata(),
                                     status: 2
                                 }],
                                 list_json_sanpham_nhaphanphoi:[{
@@ -682,7 +701,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         list_json_chitiet_sanpham:[{
                             MaNhaSanXuat: $scope.manhasanxuat,
                             MoTa: $scope.mota,
-                            ChiTiet: $scope.chitiet,
+                            ChiTiet: getdata(),
                         }],
                         list_json_sanpham_nhaphanphoi:[{
                             MaNhaPhanPhoi: $scope.manhaphanphoi
@@ -719,7 +738,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                             MaChiTietSanPham:$scope.machitietsanpham,
                             MaNhaSanXuat: $scope.manhasanxuat,
                             MoTa: $scope.mota,
-                            ChiTiet: $scope.chitiet,
+                            ChiTiet: getdata(),
                             status: 2
                         }],
                         list_json_sanpham_nhaphanphoi:[{
@@ -798,7 +817,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                 MaChiTietSanPham:$scope.machitietsanpham,
                                 MaNhaSanXuat: $scope.manhasanxuat,
                                 MoTa: $scope.mota,
-                                ChiTiet: $scope.chitiet,
+                                ChiTiet: getdata(),
                                 status: 2
                             }],
                             list_json_sanpham_nhaphanphoi:[{
@@ -867,7 +886,8 @@ app.controller("ProductCtrl", function ($scope, $http) {
             $scope.trangthai = String(sanpham.trangThai)
             $scope.manhasanxuat = String(sanpham.maNhaSanXuat)
             $scope.mota = sanpham.moTa
-            $scope.chitiet = sanpham.chiTiet
+            // $scope.chitiet = sanpham.chiTiet
+            editorData.setData(sanpham.chiTiet);
             $scope.manhaphanphoi = String(sanpham.maNhaPhanPhoi)
             preview.src = sanpham.anhDaiDien
             $scope.machitietsanpham = sanpham.maChiTietSanPham
@@ -965,7 +985,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                                     MaChiTietSanPham:$scope.machitietsanpham,
                                     MaNhaSanXuat: $scope.manhasanxuat,
                                     MoTa: $scope.mota,
-                                    ChiTiet: $scope.chitiet,
+                                    ChiTiet: getdata(),
                                     status: 2
                                 }],
                                 list_json_sanpham_nhaphanphoi:[{
@@ -1026,7 +1046,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         MaChiTietSanPham:$scope.machitietsanpham,
                         MaNhaSanXuat: $scope.manhasanxuat,
                         MoTa: $scope.mota,
-                        ChiTiet: $scope.chitiet,
+                        ChiTiet: getdata(),
                         status: 2
                     }],
                     list_json_sanpham_nhaphanphoi:[{

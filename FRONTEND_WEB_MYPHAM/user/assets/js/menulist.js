@@ -26,3 +26,7 @@ menuleft.addEventListener("click",function(event){
 btnList.addEventListener("click",function(event){
     event.stopPropagation()
 })
+
+function hide(){
+    OptionMenu = menu.style.display = 'none'
+}

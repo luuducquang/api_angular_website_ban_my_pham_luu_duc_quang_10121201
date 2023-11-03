@@ -73,7 +73,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
             var buy = document.querySelector(".buy-now")
             buy.addEventListener("click",function(){
-                window.location = '../BaiTapLonSkincare/order.html'
+                window.location = '#!/order'
             })
 
 
@@ -114,7 +114,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
             var Nameproduct = document.querySelector(".product-item-name").innerHTML
             var PriceProduct = document.querySelector(".product-item_price_current").innerHTML
             var SizeProduct = document.querySelector(".size").innerHTML
-            var AmounProduct = document.querySelector(".amount").value
+            var AmounProduct = document.querySelector(".amount")
             var addItem = document.querySelector(".add-item")
             var buyNow = document.querySelector(".buy-now")
             // var country = document.querySelector('.country-origin').innerHTML
@@ -141,23 +141,22 @@ app.controller("ProductCtrl", function ($scope, $http) {
             var z = 0
             addItem.addEventListener("click",function(){
                 var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
-                var search = listProduct.find(x => x.name === Nameproduct)
+                var search = listProduct.find(x => x.name === $scope.ProductByid.tenSanPham)
                 if(search){
-                    listProduct.map((value,index)=>{
-                        value.amount++
-                    })
+                    search.amount = Number(search.amount) + Number(AmounProduct.value)
                     localStorage.setItem("productList",JSON.stringify(listProduct))
                     productLast('Sản phẩm đã có trong giỏ hàng','block')
                     return
                 }
                 else{
                     listProduct.push({  
+                        id : $scope.ProductByid.maSanPham,
                         img : $scope.ProductByid.anhDaiDien,
                         name : $scope.ProductByid.tenSanPham,
                         priceOld : $scope.ProductByid.gia,
                         price : $scope.ProductByid.giaGiam,
                         size : $scope.ProductByid.trongLuong,
-                        amount : AmounProduct,
+                        amount : AmounProduct.value,
                         countryItem :$scope.ProductByid.xuatXu
                     })
                     localStorage.setItem("productList",JSON.stringify(listProduct))
@@ -221,7 +220,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         name : Nameproduct,
                         price : PriceProduct,
                         size : SizeProduct,
-                        amount : AmounProduct,
+                        amount : AmounProduct.value,
                     })
                     localStorage.setItem("productList",JSON.stringify(listProduct))
                     

@@ -28,32 +28,32 @@ function paynow(){
     }
 
 
-    var provinceDelivery = document.querySelector(".province-delivery").value
-    var warprovince = document.querySelector('.war-province')
-    if(provinceDelivery=="" || !checkprovince.test(provinceDelivery)){
-        warprovince.style.display = 'inline-block'
-    }
-    else{
-        warprovince.style.display = 'none'
-    }
+    // var provinceDelivery = document.querySelector(".province-delivery").value
+    // var warprovince = document.querySelector('.war-province')
+    // if(provinceDelivery=="" || !checkprovince.test(provinceDelivery)){
+    //     warprovince.style.display = 'inline-block'
+    // }
+    // else{
+    //     warprovince.style.display = 'none'
+    // }
 
-    var cityDelivery = document.querySelector(".city-delivery").value
-    var warcity = document.querySelector('.war-city')
-    if(cityDelivery=="" || !checkcity.test(cityDelivery)){
-        warcity.style.display = 'inline-block'
-    }
-    else{
-        warcity.style.display = 'none'
-    }
+    // // var cityDelivery = document.querySelector(".city-delivery").value
+    // var warcity = document.querySelector('.war-city')
+    // if(cityDelivery=="" || !checkcity.test(cityDelivery)){
+    //     warcity.style.display = 'inline-block'
+    // }
+    // else{
+    //     warcity.style.display = 'none'
+    // }
 
-    var communeDelivery = document.querySelector(".input-commune").value
-    var warcommune = document.querySelector('.war-commune')
-    if(communeDelivery=="" || !checkcommune.test(communeDelivery)){
-        warcommune.style.display = 'inline-block'
-    }
-    else{
-        warcommune.style.display = 'none'
-    }
+    // // var communeDelivery = document.querySelector(".input-commune").value
+    // var warcommune = document.querySelector('.war-commune')
+    // if(communeDelivery=="" || !checkcommune.test(communeDelivery)){
+    //     warcommune.style.display = 'inline-block'
+    // }
+    // else{
+    //     warcommune.style.display = 'none'
+    // }
 
     var addresDelivery = document.querySelector(".input-address").value
     var waraddress = document.querySelector('.war-address')
@@ -69,7 +69,7 @@ function paynow(){
 
 var back = document.querySelector('.back')
 back.addEventListener('click',function(){
-    window.location = './home.html'
+    window.location = '#!/'
 })
 
 function ShopAmount(){
@@ -92,7 +92,7 @@ function product(){
     var content = ``
     listProduct.map(function(value,index){
         content += `<tr>
-                        <td style=" display: flex; align-items: center;"><img style="width: 20%;padding: 10px;" src=${value.img} alt=""><span style="font-size: 14px;" class="nameItem">${value.name}</span></td>
+                        <td style=" display: flex; align-items: center;"><img style="width: 20%;padding: 10px;" src="${value.img}" alt=""><a style="text-decoration: none; color:black;" href="#!/product/${value.id}" style="font-size: 14px;" class="nameItem">${value.name}</a></td>
                         <td style="font-size: 14px;">${value.size}</td>
                         <td>
                             <div style="display:flex; justify-content: center;">
@@ -142,7 +142,7 @@ function totalcart(){
     listProduct.map((value,index)=>{
         var pri = value.price
         var amo = value.amount
-        toltal = pri * amo *1000
+        toltal = pri * amo 
         sum+= toltal
         
     })
@@ -195,6 +195,67 @@ function input(index){
 }
 
 
+const host = "https://provinces.open-api.vn/api/";
+
+function callAPI(api, callback) {
+    fetch(api)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            callback(data);
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+callAPI(host,  function (data) {
+    renderData(data, "province");
+    printResult();
+})
+
+function renderData(array, select) {
+    let row = ' <option selected disabled value="">Vui lòng chọn</option>';
+    array.forEach(function (element) {
+        row += `<option value="${element.code}">${element.name}</option>`;
+    });
+    document.querySelector("#" + select).innerHTML = row;
+}
+
+document.querySelector("#province").addEventListener("change", function () {
+    const provinceValue = this.value;
+    callAPI(host + "p/" + provinceValue + "?depth=2", function (data) {
+        renderData(data.districts, "district");
+        printResult();
+    });
+});
+
+document.querySelector("#district").addEventListener("change", function () {
+    const districtValue = this.value;
+    callAPI(host + "d/" + districtValue + "?depth=2", function (data) {
+        renderData(data.wards, "ward");
+        printResult();
+    });
+});
+
+document.querySelector("#ward").addEventListener("change", function () {
+    printResult();
+});
+
+function printResult() {
+    const provinceText = document.querySelector("#province option:checked").textContent;
+    const districtText = document.querySelector("#district option:checked").textContent;
+    const wardText = document.querySelector("#ward option:checked").textContent;
+
+    if (provinceText && districtText && wardText) {
+        let result = provinceText + " | " + districtText + " | " + wardText;
+        console.log(result);
+    }
+}
 
 
 

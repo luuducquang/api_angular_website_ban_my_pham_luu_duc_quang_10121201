@@ -4,9 +4,9 @@ function product(){
     var content = ``
     listProduct.map(function(value,index){
         content += `<tr>
-                        <td style=" height:90px; display: flex; align-items: center;"><img style="width: 90px;padding: 10px;" src=${value.img} alt="">
+                        <td style=" height:90px; display: flex; align-items: center;"><img style="width: 90px;padding: 10px;" src="${value.img}" alt="">
                         <span class="item">
-                            <span style="font-size: 14px;" class="nameItem">${value.name}</span>
+                            <a style="text-decoration: none; color:black;" href="#!/product/${value.id}" style="font-size: 14px;" class="nameItem">${value.name}</a>
                             <div style="margin-top: 3px;text-align: left; display: flex; align-items: center;"><img style="width: 30px;" src="./assets/img/deal hot.jpg" alt=""><img style="width: 20px;" src="./assets/img/shipped.png" alt="">
                                 <span style="margin-left: 10px;font-size: 12px;">Miễn phí đổi trả trong 7 ngày đầu tiên</span>
                             </div>
@@ -153,7 +153,7 @@ goOrder.addEventListener("click",()=>{
         return
     }
     else{
-        window.location = "./order.html"
+        window.location = "#!/order"
     }
 })
 
