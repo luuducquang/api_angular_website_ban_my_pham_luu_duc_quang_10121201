@@ -4,11 +4,18 @@ app.controller ('category', ['$scope', '$routeParams', function($scope, $routePa
 }]);
 
 app.controller("CategoryCtrl", function ($scope, $http) {
-    $scope.ListDanhMuc;
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[5]).addClass('active_option')
 
+    $scope.ListDanhMuc;
+    $scope.pageSize = 10
     var datas = {
         page: $scope.page,
-        pageSize: 10,
+        pageSize: $scope.pageSize,
         TenDanhMuc: $scope.tendanhmucsearch
     }
 
@@ -20,7 +27,7 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         $http({
             method: 'POST',
             data: datas,
-            url: current_url + '/api/DanhMuc/search-danhmuc',
+            url: current_url + '/api-admin/DanhMuc/search-danhmuc',
             headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             $scope.ListDanhMuc = response.data.data; 
@@ -41,14 +48,14 @@ app.controller("CategoryCtrl", function ($scope, $http) {
             $scope.tendanhmucsearch = $scope.timkiem
             var data = {
                 page: 1,
-                pageSize: 10,
+                pageSize: $scope.pageSize,
                 TenDanhMuc: $scope.tendanhmucsearch
             };
             $http({
                 method: 'POST',
                 // headers: { "Authorization": 'Bearer ' + _user.token },
                 data: data,
-                url: current_url + '/api/DanhMuc/search-danhmuc',
+                url: current_url + '/api-admin/DanhMuc/search-danhmuc',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 console.log(response);
@@ -66,66 +73,73 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         }
     }
     //-------------------------------------------------------------------------------//
-    
     $scope.pageIndex = function(total){
-        $('.page-count li').remove()
-            var count = Math.ceil((total) / datas.pageSize)
-            var currentPage = $scope.page;
-            var aItem = [];
-            for (var i = 1; i < count + 1; i++) {
-                let li = document.createElement('li')
-                li.className = 'page-item'
-                let a = document.createElement('a')
-                a.className = 'page-link'
-                li.appendChild(a)
-                a.innerText = i
-                aItem.push(a);
-                $('.page-count').append(li)
-                a.onclick = function () {
-                    $scope.changePage(a.innerHTML)
+        $('#pagination').pagination({
+            dataSource: function(done){
+                var result = [];
+                for(var i = 1; i <= total; i++){
+                    result.push(i);
+                }
+                done(result);
+            },
+            pageSize: $scope.pageSize,
+            pageNumber: $scope.page,
+            showGoInput: true,
+            showGoButton: true,
+            className: 'paginationjs-theme-blue paginationjs-big',
+            afterGoButtonOnClick :function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.tendanhmucsearch){
-                        a.href='#!category/'+a.innerHTML+'/'+$scope.tendanhmucsearch
+                        window.location='#!category/'+pageNumber+'/'+$scope.tendanhmucsearch
                     }
                     else{
-                        a.href='#!category/'+a.innerHTML
+                        window.location='#!category/'+pageNumber
                     }
-                }
-            }    
-
-            aItem[currentPage - 1].classList.add('activePage');
-            
-            prev = function(){
-                if($scope.page<=1){
-                    $scope.page=1
                 }
                 else{
-                    $scope.page--
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterGoInputOnEnter:function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.tendanhmucsearch){
-                        window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+                        window.location='#!category/'+pageNumber+'/'+$scope.tendanhmucsearch
                     }
                     else{
-                        window.location='#!category/'+$scope.page
+                        window.location='#!category/'+pageNumber
                     }
                 }
-            }
-
-            next = function(){
-                if($scope.page<count){
-                    $scope.page++
-                    if($scope.tendanhmucsearch){
-                        window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
-                    }
-                    else{
-                        window.location='#!category/'+$scope.page
-                    }
+                else{
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterNextOnClick:function(event,pageNumber){
+                if($scope.tendanhmucsearch){
+                    window.location='#!category/'+pageNumber+'/'+$scope.tendanhmucsearch
+                }
+                else{
+                    window.location='#!category/'+pageNumber
+                }
+                
+            },
+            afterPreviousOnClick:function(event,pageNumber){
+                if($scope.tendanhmucsearch){
+                    window.location='#!category/'+pageNumber+'/'+$scope.tendanhmucsearch
+                }
+                else{
+                    window.location='#!category/'+pageNumber
+                }
+                
+            },
+            afterPageOnClick : function(event,pageNumber){
+                if($scope.tendanhmucsearch){
+                    window.location='#!category/'+pageNumber+'/'+$scope.tendanhmucsearch
+                }
+                else{
+                    window.location='#!category/'+pageNumber
                 }
             }
-    }
-    
-
-    $scope.changePage=function(i) {
-        datas.page = i
-        $scope.GetDanhMuc()
+        })
     }
 
     $scope.checkCategory =[]
@@ -149,10 +163,9 @@ app.controller("CategoryCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.checkCategory,
-                url: current_url + '/api/DanhMuc/delete-danhmuc',
+                url: current_url + '/api-admin/DanhMuc/delete-danhmuc',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 if($scope.tendanhmucsearch){
                     window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
                 }
@@ -184,7 +197,7 @@ app.controller("CategoryCtrl", function ($scope, $http) {
                 DacBiet: status.value === "true",
                 NoiDung: describe.value
             },
-            url: current_url + '/api/DanhMuc/create-danhmuc',
+            url: current_url + '/api-admin/DanhMuc/create-danhmuc',
             headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {
             alert('Thêm thành công');
@@ -222,28 +235,29 @@ app.controller("CategoryCtrl", function ($scope, $http) {
             return
         }
         else{
-            $http({
-                method: 'PUT',
-                data: {
-                    MaDanhMuc: $scope.maDanhMuc,
-                    TenDanhMuc: categoryName.value,
-                    DacBiet: status.value === "true",
-                    NoiDung: describe.value
-                },
-                url: current_url + '/api/DanhMuc/update-danhmuc',
-                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-            }).then(function (response) { 
-                alert('Sửa thành công')
-                if($scope.tendanhmucsearch){
-                    window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
-                }
-                else{
-                    window.location='#!category/'+$scope.page
-                }
-            })
-            .catch(function (error) {
-                console.error('Lỗi khi sua:', error);
-            });
+            if(confirm("Bạn có muốn sửa thông tin danh mục không !")){
+                $http({
+                    method: 'PUT',
+                    data: {
+                        MaDanhMuc: $scope.maDanhMuc,
+                        TenDanhMuc: categoryName.value,
+                        DacBiet: status.value === "true",
+                        NoiDung: describe.value
+                    },
+                    url: current_url + '/api-admin/DanhMuc/update-danhmuc',
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                }).then(function (response) { 
+                    if($scope.tendanhmucsearch){
+                        window.location='#!category/'+$scope.page+'/'+$scope.tendanhmucsearch
+                    }
+                    else{
+                        window.location='#!category/'+$scope.page
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Lỗi khi sua:', error);
+                });
+            }
         }
     }
 

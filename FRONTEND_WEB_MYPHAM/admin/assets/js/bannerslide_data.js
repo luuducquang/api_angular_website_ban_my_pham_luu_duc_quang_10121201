@@ -3,6 +3,13 @@ app.controller ('bannerslide', ['$scope', '$routeParams', function($scope, $rout
 }]);
 
 app.controller("BannerSlideCtrl", function ($scope, $http) {
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[10]).addClass('active_option')
+    
     $scope.submit = "Thêm mới";
 	$scope.listSlide;	
     $scope.pageSize=10
@@ -17,7 +24,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                 page: $scope.page,
                 pageSize: $scope.pageSize
             },
-            url: current_url + '/api/SlideDetail/search-slide',
+            url: current_url + '/api-admin/SlideDetail/search-slide',
         }).then(function (response) {  
             $scope.listSlide = response.data.data
             $scope.pageIndex(response.data.totalItems)
@@ -28,46 +35,46 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
 	$scope.GetSlide();
 
     $scope.pageIndex = function(total){
-        $('.page-count li').remove()
-            var count = Math.ceil((total) / $scope.pageSize)
-            var currentPage = $scope.page;
-            var aItem = [];
-            for (var i = 1; i < count + 1; i++) {
-                let li = document.createElement('li')
-                li.className = 'page-item'
-                let a = document.createElement('a')
-                a.className = 'page-link'
-                li.appendChild(a)
-                a.innerText = i
-                aItem.push(a);
-                $('.page-count').append(li)
-                a.onclick = function () {
-                    $scope.changePage(a.innerHTML)
-                    a.href='#!bannerslide/'+a.innerHTML
+        $('#pagination').pagination({
+            dataSource: function(done){
+                var result = [];
+                for(var i = 1; i <= total; i++){
+                    result.push(i);
                 }
-            }    
-
-            aItem[currentPage - 1].classList.add('activePage');    
-            prev = function(){
-                if($scope.page<=1){
-                    $scope.page=1
+                done(result);
+            },
+            pageSize: $scope.pageSize,
+            pageNumber: $scope.page,
+            showGoInput: true,
+            showGoButton: true,
+            className: 'paginationjs-theme-blue paginationjs-big',
+            afterGoButtonOnClick :function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
+                    window.location='#!bannerslide/'+pageNumber
                 }
                 else{
-                    $scope.page--
-                    window.location='#!bannerslide/'+$scope.page
+                    $('.J-paginationjs-go-pagenumber').val('')
                 }
-            }
-
-            next = function(){
-                if($scope.page<count){
-                    $scope.page++
-                    window.location='#!bannerslide/'+$scope.page
+            },
+            afterGoInputOnEnter:function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
+                    window.location='#!bannerslide/'+pageNumber
                 }
+                else{
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterNextOnClick:function(event,pageNumber){
+                window.location='#!bannerslide/'+pageNumber
+            },
+            afterPreviousOnClick:function(event,pageNumber){
+                window.location='#!bannerslide/'+pageNumber
+                
+            },
+            afterPageOnClick : function(event,pageNumber){
+                window.location='#!bannerslide/'+pageNumber
             }
-    }
-    
-    $scope.changePage=function(i) {
-        $scope.page = i
+        })
     }
 
     $scope.selected =[]
@@ -92,10 +99,9 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.selected,
-                url: current_url + '/api/SlideDetail/delete-slide_detail',
+                url: current_url + '/api-admin/SlideDetail/delete-slide_detail',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 window.location='#!bannerslide/'+$scope.page
             })
             .catch(function (error) {
@@ -159,7 +165,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                     'Content-Type': undefined
                 },
                 data: formData,
-                url: current_url + '/api/Image/upload',
+                url: current_url + '/api-admin/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
                 preview.src = "../img"+ $scope.Image
@@ -172,7 +178,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                             TieuDe: $scope.tieude,
                             MoTa: $scope.mota
                         },
-                        url: current_url + '/api/SlideDetail/create-slide_detail',
+                        url: current_url + '/api-admin/SlideDetail/create-slide_detail',
                         headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Thêm thành công')
@@ -181,21 +187,23 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                     });
                 }
                 else{
-                    $http({
-                        method: 'PUT',
-                        data: {
-                            MaAnh: $scope.MaSlide,
-                            LinkAnh: "../img"+$scope.Image,
-                            TieuDe: $scope.tieude,
-                            MoTa: $scope.mota
-                        },
-                        url: current_url + '/api/SlideDetail/update-slide_detail',
-                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-                    }).then(function (response) {  
-                        alert('Sửa thành công')
-                    }).catch(function (error) {
-                        console.error('Lỗi khi sửa sản phẩm:', error);
-                    });
+                    if(confirm("Bạn có muốn sửa thông tin slide không !")){
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                MaAnh: $scope.MaSlide,
+                                LinkAnh: "../img"+$scope.Image,
+                                TieuDe: $scope.tieude,
+                                MoTa: $scope.mota
+                            },
+                            url: current_url + '/api-admin/SlideDetail/update-slide_detail',
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                        }).then(function (response) {  
+
+                        }).catch(function (error) {
+                            console.error('Lỗi khi sửa sản phẩm:', error);
+                        });
+                    }
                 }
             });
         }
@@ -208,7 +216,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                         TieuDe: $scope.tieude,
                         MoTa: $scope.mota
                     },
-                    url: current_url + '/api/SlideDetail/create-slide_detail',
+                    url: current_url + '/api-admin/SlideDetail/create-slide_detail',
                     headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
@@ -218,22 +226,23 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
                 });
             }
             else{
-                $http({
-                    method: 'PUT',
-                    data: {
-                        MaAnh: $scope.MaSlide,
-                        LinkAnh: $scope.hinhanh,
-                        TieuDe: $scope.tieude,
-                        MoTa: $scope.mota
-                    },
-                    url: current_url + '/api/SlideDetail/update-slide_detail',
-                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-                }).then(function (response) {  
-                    alert('Sửa thành công')
-                    window.location='#!bannerslide/'+$scope.page
-                }).catch(function (error) {
-                    console.error('Lỗi khi sửa sản phẩm:', error);
-                });
+                if(confirm("Bạn có muốn sửa thông tin slide không !")){
+                    $http({
+                        method: 'PUT',
+                        data: {
+                            MaAnh: $scope.MaSlide,
+                            LinkAnh: $scope.hinhanh,
+                            TieuDe: $scope.tieude,
+                            MoTa: $scope.mota
+                        },
+                        url: current_url + '/api-admin/SlideDetail/update-slide_detail',
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                    }).then(function (response) {  
+                        window.location='#!bannerslide/'+$scope.page
+                    }).catch(function (error) {
+                        console.error('Lỗi khi sửa sản phẩm:', error);
+                    });
+                }
             }
         }
     }

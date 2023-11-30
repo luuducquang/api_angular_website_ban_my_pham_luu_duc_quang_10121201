@@ -1,7 +1,6 @@
 <div  ng-controller="HomeCtrl">
         <!------------- ImageSlider ---------------->
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
-    <script src="./assets/js/slider.js"></script>
     <script src="./assets/js/fast.js"></script>
 
     <div class="image">
@@ -14,10 +13,10 @@
 
     <!-- -----------------Banner----------------- -->
     <div class="banner_left">
-        <img ng-repeat="x in listADSLeft" src="{{x.anhDaiDien}}" alt="">
+        <a ng-repeat="x in listADSLeft" href="{{x.linkQuangCao}}"><img  src="{{x.anhDaiDien}}" alt=""></a>
     </div>
     <div class="banner_right">
-        <img ng-repeat="y in listADSRight" src="{{y.anhDaiDien}}" alt="">
+        <a ng-repeat="y in listADSRight" href="{{y.linkQuangCao}}"><img src="{{y.anhDaiDien}}" alt=""></a>
     </div>
 
     <!-- -----------Content Product-------- -->
@@ -38,17 +37,16 @@
                     <span class="home-product-item_price_old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
                 </div>
                 <div class="home-icon-recommend">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="people-rate">(100)</span>
-                    <span>|</span>
-                    <span class="fa-solid fa-shop"></span>
-                    <span class="amount-product">123</span>
+                    <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                    <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                    <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                    <span title="Đã bán" class="fa-solid fa-shop"></span>
+                    <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
                     <span class="fa-solid fa-truck-fast free-ship"></span>
                 </div>  
+                <div class="view">
+                    <i class="fa-solid fa-eye"></i> {{x.luotXem.toLocaleString('DE-de')}}
+                </div>
                 <div class="country">
                     {{x.xuatXu}}
                 </div>
@@ -64,24 +62,22 @@
                     <span class="decrip-item">{{x.moTa}}
                     </span>
                 </a>
-                <span class="banner-sale">SALE</span>
                 <span class="sale-up">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }} <sup>%</sup><div>Giảm</div></span>
                 <div class="home-product-item_price">
                     <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('DE-de')}}<sup>đ</sup></span>
                     <span class="home-product-item_price_old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
                 </div>
                 <div class="home-icon-recommend">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="people-rate">(100)</span>
-                    <span>|</span>
-                    <span class="fa-solid fa-shop"></span>
-                    <span class="amount-product">123</span>
+                    <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                    <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                    <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                    <span title="Đã bán" class="fa-solid fa-shop"></span>
+                    <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
                     <span class="fa-solid fa-truck-fast free-ship"></span>
                 </div>  
+                <div class="view">
+                    <i class="fa-solid fa-eye"></i> {{x.luotXem.toLocaleString('DE-de')}}
+                </div>
                 <div class="country">
                     {{x.xuatXu}}
                 </div>
@@ -100,24 +96,22 @@
                     <span class="decrip-item">{{x.moTa}}
                     </span>
                 </a>
-                <span class="banner-sale">SALE</span>
                 <span class="sale-up">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }} <sup>%</sup><div>Giảm</div></span>
                 <div class="home-product-item_price">
                     <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('DE-de')}}<sup>đ</sup></span>
                     <span class="home-product-item_price_old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
                 </div>
                 <div class="home-icon-recommend">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="people-rate">(100)</span>
-                    <span>|</span>
-                    <span class="fa-solid fa-shop"></span>
-                    <span class="amount-product">123</span>
+                    <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                    <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                    <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                    <span title="Đã bán" class="fa-solid fa-shop"></span>
+                    <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
                     <span class="fa-solid fa-truck-fast free-ship"></span>
                 </div>  
+                <div class="view">
+                    <i class="fa-solid fa-eye"></i> {{x.luotXem.toLocaleString('DE-de')}}
+                </div>
                 <div class="country">
                     {{x.xuatXu}}
                 </div>
@@ -136,24 +130,22 @@
                     <span class="decrip-item">{{x.moTa}}
                     </span>
                 </a>
-                <span class="banner-sale">SALE</span>
                 <span class="sale-up">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }} <sup>%</sup><div>Giảm</div></span>
                 <div class="home-product-item_price">
                     <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('DE-de')}}<sup>đ</sup></span>
                     <span class="home-product-item_price_old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
                 </div>
                 <div class="home-icon-recommend">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="people-rate">(100)</span>
-                    <span>|</span>
-                    <span class="fa-solid fa-shop"></span>
-                    <span class="amount-product">123</span>
+                    <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                    <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                    <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                    <span title="Đã bán" class="fa-solid fa-shop"></span>
+                    <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
                     <span class="fa-solid fa-truck-fast free-ship"></span>
                 </div>  
+                <div class="view">
+                    <i class="fa-solid fa-eye"></i> {{x.luotXem.toLocaleString('DE-de')}}
+                </div>
                 <div class="country">
                     {{x.xuatXu}}
                 </div>

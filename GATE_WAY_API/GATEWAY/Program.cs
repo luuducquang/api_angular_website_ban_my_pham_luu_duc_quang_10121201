@@ -7,6 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("configocelot.json", optional: false, reloadOnChange: true);
 builder.Services.AddOcelot(builder.Configuration);
 
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("MyCors", build =>
+    {
+        build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +28,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("MyCors");
 
 app.MapControllers();
 await app.UseOcelot();

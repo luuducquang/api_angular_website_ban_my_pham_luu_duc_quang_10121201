@@ -1,0 +1,152 @@
+<div ng-controller="InformationCtrl" style="margin-top: 85px;" id="content">  
+    <div class="cleanser">
+        <div style="margin-top: 10px;" class="type">
+            <a href="#!/">TRANG CHỦ</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/information">THÔNG TIN TÀI KHOẢN</a>
+        </div>
+        <div class="information">
+            <div class="account-info">
+                <div style="display: flex;flex-direction: column;align-content: center;align-items: center;">
+                    <img id="avatar-img" src="{{listTaiKhoanDetail[0].anhDaiDien}}" alt="Ảnh đại diện">
+                    <input style="margin-left: 100px;margin-top: 10px;" type="file" id="avatar-upload" accept="image/*">
+                </div>
+                <table style="text-align: center;">
+                    <tbody>
+                        <tr>
+                            <td><strong>Họ tên:</strong></td>
+                            <td><input ng-model="hoten" type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tên tài khoản:</strong></td>
+                            <td>{{listTaiKhoanDetail[0].tenTaiKhoan}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Loại tài khoản:</strong></td>
+                            <td>{{listTaiKhoanDetail[0].tenLoai}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Số điện thoại:</strong></td>
+                            <td><input onkeypress="return isNumberKey(event)" id="sodienthoai" ng-model="sodienthoai" type="text"></td>
+                        </tr>
+                        <script>
+                            $(document).ready(function() {
+                                $('#sodienthoai').on('input', function() {
+                                    var inputValue = $(this).val();
+                                    if (inputValue.length > 11) {
+                                        inputValue = inputValue.slice(0, 11);
+                                    }
+                                    $(this).val(inputValue);
+                                });
+                            });
+                            function isNumberKey(e) {
+                                var charCode = (e.which) ? e.which : e.keyCode;
+                                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                                    return false;
+                                return true;
+                            }
+                        </script>
+                        <tr>
+                            <td><strong>Email:</strong></td>
+                            <td><input ng-model="email" type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Địa chỉ:</strong></td>
+                            <!-- <td><input ng-model="diachi" type="text"></td> -->
+                            <td>
+                                <textarea ng-model="diachi" name="" id="" cols="30" rows="3"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <style>
+                .account-info {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    margin: 20px auto;
+                }
+
+                .account-info img {
+                    max-width: 150px;
+                    border-radius: 50%;
+                }
+
+                .account-info>table {
+                    text-align: center;
+                    border-collapse: collapse;
+                    width: 100%;
+                    max-width: 600px;
+                }
+
+                .account-info>table, .account-info>table>tbody>tr>td {
+                    border: 1px solid #ccc;
+                }
+
+                th, td {
+                    padding: 10px;
+                }
+
+                strong {
+                    font-weight: bold;
+                    color: #19a48e;
+                }
+
+                .account-info>table tr td input {
+                    width: 100%;
+                    padding: 5px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 16px;
+                }
+
+                strong {
+                    font-weight: bold;
+                }
+
+                .update {
+                    background-color: #337ab7;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                }
+
+                .update:hover {
+                    background-color: #23527c;
+                }
+                textarea {
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    resize: vertical;
+                }
+
+            </style>            
+            <script>
+                $(document).ready(function() {
+                    $('#avatar-upload').on('change', function(e) {
+                        var file = e.target.files[0];
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onload = function(e) {
+                                $('#avatar-img').attr('src', e.target.result);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div style="width: 100%;text-align: center;">
+            <button ng-click="edit()" class="update">Cập nhật</button>
+        </div>
+    </div>
+</div>

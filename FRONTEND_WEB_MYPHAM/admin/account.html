@@ -6,7 +6,7 @@
         <input ng-model="timkiem" style="margin: 0;padding: 10px;" type="text" name="" id=""
             placeholder="Nhập từ khoá cần tìm">
         
-        <select ng-model="luachontimkiem" style="width: 20%;" class="select form-select-lg" aria-label="Default select example">
+        <select ng-model="luachontimkiem" style="width: 12%;" class="select form-select-lg" aria-label="Default select example">
             <option value=""disabled>Tìm kiếm theo</option>
             <option value="TenTaiKhoan">Tên Tài Khoản</option>
             <option value="Email">Email</option>
@@ -45,7 +45,7 @@
                         <input class="form-check-input text-center" ng-model="selected" type="checkbox"
                             ng-click="toggleSelection(x)" value="" id="checkitem">
                     </td>
-                    <td>{{x.maTaiKhoan}}</td>
+                    <td>{{x.maTaiKhoan.toLocaleString('de-DE')}}</td>
                     <td>{{x.tenTaiKhoan}}</td>
                     <td>{{x.email}}</td>
                     <td>
@@ -82,6 +82,27 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <input ng-model="sodienthoai" onkeypress="return isNumberKey(event)" id="sodienthoai" type="text" class="form-control" placeholder="Số điện thoại">
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#sodienthoai').on('input', function() {
+                            var inputValue = $(this).val();
+                            if (inputValue.length > 11) {
+                                inputValue = inputValue.slice(0, 11);
+                            }
+                            $(this).val(inputValue);
+                        });
+                    });
+                    function isNumberKey(e) {
+                        var charCode = (e.which) ? e.which : e.keyCode;
+                        if (charCode > 31 && (charCode < 48 || charCode > 57))
+                            return false;
+                        return true;
+                    }
+                </script>
+                <div class="form-group">
                     <label>Ảnh đại diện:</label>
                     <input ng-model="anhdaidien" id="Image" type="file" class="form-control">
                 </div>
@@ -94,26 +115,22 @@
                     <label>Địa chỉ:</label>
                     <input ng-model="diachi" id="categoryName" type="text" class="form-control" placeholder="Địa chỉ">
                 </div>
-                <div class="form-group">
-                    <label>Số điện thoại:</label>
-                    <input ng-model="sodienthoai" id="categoryName" type="text" class="form-control" placeholder="Số điện thoại">
-                </div>
                 <div class="detail">
                     <div class="icon">
                         <i ng-click="refreshDetail()" class="fa-solid fa-rotate-left"></i>
-                        <i ng-click="addDetail()" class="fa-solid fa-plus"></i>
-                        <i ng-click="editDetail()" class="fa-solid fa-pen-to-square"></i>
-                        <i ng-click="deleteDetail()" class="fa-solid fa-trash"></i>
+                        <i ng-click="addDetail()" class="fa-solid fa-plus addDetailAccount"></i>
+                        <i ng-click="editDetail()" class="fa-solid fa-pen-to-square editDetailAccount"></i>
+                        <i ng-click="deleteDetail()" class="fa-solid fa-trash deleteDetailAccount"></i>
                     </div>
                     <form action="">
                         <table class="table table-product table-hover">
                             <thead>
-                                <th scope="col">ID</th>
-                                <th scope="col">Ảnh</th>
-                                <th scope="col">Loại tài khoản</th>
-                                <th scope="col">Họ tên</th>
-                                <th scope="col">Địa chỉ</th>
-                                <th scope="col">Số điện thoại</th>
+                                <th class="text-center" scope="col">ID</th>
+                                <th class="text-center" scope="col">Ảnh</th>
+                                <th class="text-center" scope="col">Loại tài khoản</th>
+                                <th class="text-center" scope="col">Họ tên</th>
+                                <th class="text-center" scope="col">Địa chỉ</th>
+                                <th class="text-center" scope="col">Số điện thoại</th>
                             </thead>
                             <tbody>
                                 <tr ng-click="clicktoEdit(y)" ng-repeat="y in listTaiKhoanDetail" class="text-center">
@@ -133,19 +150,7 @@
         </div>
     </div>
 </div>
-<nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
-    <ul class="pagination">
-        <li class="page-item prevPage">
-            <p onclick="prev()" class="page-link "><<</p>
-        </li>
-        <div class="page-count" style="display:flex">
-            <!-- <li class="page-item"><p class="page-link">1</p></li> -->
-        </div>
-        <li class="page-item nextPage">
-            <p onclick="next()" class="page-link">>></p>
-        </li>
-    </ul>
-</nav>
+<div id="pagination"></div>
 <div class="notifi">
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>

@@ -23,6 +23,18 @@ namespace BussinessLayer
         {
             return _res.Getallsanpham();
         }
+
+        public void Tang5()
+        {
+            _res.Tang5();
+            return;
+        }
+
+        public void Giam5()
+        {
+            _res.Giam5();
+            return;
+        }
         public SanPhamDetailModel Getbyid(int id)
         {
             return _res.Getbyid(id);

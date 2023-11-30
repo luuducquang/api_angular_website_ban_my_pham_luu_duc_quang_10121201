@@ -10,6 +10,8 @@ namespace DataAccessLayer.Interfaces
     public partial interface ISanPhamResponsitory
     {
         List<SanPhamModel> Getallsanpham();
+        void Tang5();
+        void Giam5();
         SanPhamDetailModel  Getbyid(int id);
         List<AnhSanPhamModel> GetbyidImgdetail(int id);
         bool Create(SanPhamModel model);

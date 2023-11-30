@@ -31,11 +31,13 @@
         <table class="table table-product table-hover">
            <thead>
                 <tr class="text-center">
+                    <!-- <th><input class="form-check-input text-center" type="checkbox" id="masterCheckbox">Chọn</th> -->
                     <th>Chọn</th>
                     <th scope="col">ID</th>
                     <th scope="col">Tên Nhà Phân Phối</th>
                     <th scope="col">Ngày Tạo</th>
                     <th scope="col">Kiểu Thanh Toán</th>
+                    <th scope="col">Tổng Tiền</th>
                     <th scope="col">Tên Tài Khoản</th>
                     <th scope="col">Hành Động</th>
                 </tr>
@@ -43,12 +45,13 @@
            <tbody>
                 <tr ng-repeat="x in listHoaDonNhap" class="text-center">
                     <td>
-                        <input class="form-check-input text-center" ng-model="selected" type="checkbox" ng-click="toggleSelection(x)" value="" id="checkitem">
+                        <input class="form-check-input text-center slaveCheckbox" ng-model="selected" type="checkbox" ng-click="toggleSelection(x)" value="" id="checkitem">
                     </td>
-                    <td>{{x.maHoaDon}}</td>
+                    <td>{{x.maHoaDon.toLocaleString('de-DE')}}</td>
                     <td>{{x.tenNhaPhanPhoi}}</td>
-                    <td>{{x.ngayTao}}</td>
+                    <td>{{ x.ngayTao | date:'HH:mm dd/MM/yyyy' }}</td>
                     <td>{{x.kieuThanhToan}}</td>
+                    <td>{{x.tongTien.toLocaleString('de-DE')}}</td>
                     <td>{{x.tenTaiKhoan}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
@@ -59,6 +62,16 @@
            </tbody>
         </table>
     </form>
+    <!-- <script>
+        $(document).ready(function() {
+            // Bắt sự kiện khi checkbox có id 'masterCheckbox' thay đổi trạng thái
+            $("#masterCheckbox").change(function() {
+                var isChecked = $(this).prop("checked");
+                $(".slaveCheckbox").prop("checked", isChecked);
+                console.log(isChecked);
+            });
+        });
+    </script> -->
     <div class="product-container">
         <div class="add-product container">
             <h4 class="text-center p-2">Thông tin hoá đơn nhập</h4>
@@ -67,19 +80,19 @@
             
             <div class="form-group">
                 <label for="">Tên nhà phân phối:</label>
-                <select ng-model="manhaphanphoi" class="select form-select-lg status">
-                    <option value="" selected disabled>Chọn nhà phân phối</option>
-                    <option ng-repeat="y in NPP" value={{y.maNhaPhanPhoi}} >{{y.tenNhaPhanPhoi}}</option>
+                <select ng-model="manhaphanphoi" id="manhaphanphoi" class="select form-select-lg status">
+                    <option value="" disabled>Chọn nhà phân phối</option>
+                    <option ng-repeat="y in NPP" value="{{y.maNhaPhanPhoi}}" >{{y.tenNhaPhanPhoi}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Ngày tạo:</label>
-                <input  id="party" name="partydate" type="datetime-local" class="form-control" placeholder="Ngày tạo">
+                <input disabled  id="party" name="partydate" type="datetime-local" class="form-control" placeholder="Ngày tạo">
             </div>
             <div class="form-group">
                 <label>Kiểu thanh toán:</label>
-                <select ng-model="kieuthanhtoan" class="select form-select-lg status">
-                    <option value="" selected disabled>Chọn kiểu thanh toán</option>
+                <select ng-model="kieuthanhtoan" id="kieuthanhtoan" class="select form-select-lg status">
+                    <option value="" disabled>Chọn kiểu thanh toán</option>
                     <option value="Tiền Mặt">Tiền Mặt</option>
                     <option value="Thẻ ATM">Thẻ ngân hàng</option>
                     <option value="Thẻ visa">Thẻ visa</option>
@@ -91,24 +104,28 @@
                 </select>
             </div>
             <div class="form-group">
+                <label>Tổng tiền:</label>
+                <input disabled ng-model="tongtien" onkeypress="return isNumberKey(event)" id="PriceTotal" type="text" min="0" value="0" class="form-control tongtien" placeholder="Tổng tiền">
+            </div>
+            <!-- <div class="form-group">
                 <label for="">Tên tài khoản:</label>
                 <select ng-model="mataikhoan" class="select form-select-lg status">
-                    <option value="" selected disabled>Chọn tài khoản</option>
+                    <option value="" disabled>Chọn tài khoản</option>
                     <option ng-repeat="y in NameAcc" value={{y.maTaiKhoan}} >{{y.tenTaiKhoan}}</option>
                 </select>
-            </div>
+            </div> -->
             <div style="border: 1px solid rgb(162, 163, 168); border-radius: 10px; padding: 10px;">
                 <h4>Chi tiết hoá đơn nhập</h4>
                 <div class="form-group">
                     <label for="">Tên sản phẩm:</label>
-                    <select ng-model="masanpham" class="select form-select-lg status">
-                        <option value="" selected disabled>Chọn sản phẩm</option>
+                    <select ng-model="masanpham" id="tensanpham" class="select form-select-lg status">
+                        <option value="" disabled>Chọn sản phẩm</option>
                         <option ng-repeat="y in Product" value={{y.maSanPham}} >{{y.tenSanPham}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Số lượng:</label>
-                    <input ng-model="soluong" ng-model="soluong" id="Quantity" type="number" value="0" class="form-control"
+                    <input ng-change="editAmount()" onkeypress="return isNumberKey(event)" ng-model="soluong" id="Quantity" type="text" min="1" value="0" class="form-control soluong"
                         placeholder="Số lượng">
                 </div>
                 <div class="form-group">
@@ -117,37 +134,58 @@
                 </div>
                 <div class="form-group">
                     <label>Giá nhập:</label>
-                    <input ng-model="gianhap" ng-model="gia" id="Price" type="number" value="0" class="form-control" placeholder="Giá nhập">
+                    <input ng-change="editPrice()" onkeypress="return isNumberKey(event)" ng-model="gianhap" id="Price" type="text" min="0" value="0" class="form-control gianhap" placeholder="Giá nhập">
                 </div>
                 <div class="form-group">
-                    <label>Tổng tiền:</label>
-                    <input ng-model="tongtien" ng-model="gia" id="Price" type="number" value="0" class="form-control" placeholder="Tổng tiền">
+                    <label>Tổng giá:</label>
+                    <input disabled ng-model="tonggia" onkeypress="return isNumberKey(event)" id="Price" type="text" min="0" value="0" class="form-control tonggia" placeholder="Tổng giá">
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $('.tongtien, .soluong, .gianhap, .tonggia').on('input', function() {
+                            $(this).val(function(index, value) {
+                                return value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+                            });
+                            if ($(this).val() !== '') {
+                                $(this).val(parseInt($(this).val()).toLocaleString('de-DE'));
+                            }
+                        });
+                    });
+                    function isNumberKey(e) {
+                        var charCode = (e.which) ? e.which : e.keyCode;
+                        if (charCode > 31 && (charCode < 48 || charCode > 57))
+                            return false;
+                        return true;
+                    }
+                </script>
                 <div class="detail">
                     <div class="icon">
                         <i ng-click="refreshDetail()" class="fa-solid fa-rotate-left"></i>
-                        <i ng-click="addDetail()" class="fa-solid fa-plus"></i>
+                        <i ng-click="addDetail()" class="fa-solid fa-plus addimportBill"></i>
                         <i ng-click="editDetail()" class="fa-solid fa-pen-to-square"></i>
                         <i ng-click="deleteDetail()" class="fa-solid fa-trash"></i>
                     </div>
                     <form action="">
                         <table class="table table-product table-hover">
                             <thead>
-                                <th scope="col">ID</th>
-                                <th scope="col">Tên sản phẩm</th>
-                                <th scope="col">Số lượng</th>
-                                <th scope="col">Đơn vị tính</th>
-                                <th scope="col">Giá nhập</th>
-                                <th scope="col">Tổng tiền</th>
+                                <th class="text-center" scope="col">ID</th>
+                                <th class="text-center" scope="col">Hình Ảnh</th>
+                                <th class="text-center" scope="col">Tên sản phẩm</th>
+                                <th class="text-center" scope="col">Số lượng</th>
+                                <th class="text-center" scope="col">Đơn vị tính</th>
+                                <th class="text-center" scope="col">Giá nhập</th>
+                                <th class="text-center" scope="col">Tổng giá</th>
                             </thead>
                             <tbody>
                                 <tr ng-click="clicktoEdit(y)" ng-repeat="y in listHoaDonNhapDetail" class="text-center">
                                     <td>{{y.id}}</td>
+                                    <td><img style="width: 100px;height: 100px;background-size: cover;" src="{{y.anhDaiDien}}" alt="">
+                                    </td>
                                     <td>{{y.tenSanPham}}</td>
-                                    <td>{{y.soLuong}}</td>
+                                    <td>{{y.soLuong.toLocaleString('de-DE')}}</td>
                                     <td>{{y.donViTinh}}</td>
-                                    <td>{{y.giaNhap}}</td>
-                                    <td>{{y.tongTien}}</td>
+                                    <td>{{y.giaNhap.toLocaleString('de-DE')}}</td>
+                                    <td>{{y.tongGia.toLocaleString('de-DE')}}</td>
                                 </tr>
                            </tbody>
                         </table>
@@ -158,15 +196,7 @@
         </div>
     </div>
 </div>
-<nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
-    <ul class="pagination">
-        <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
-        <div class="page-count" style="display:flex">
-            <!-- <li class="page-item"><p class="page-link">1</p></li> -->
-        </div>
-        <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
-    </ul>
-</nav>
+<div id="pagination"></div>
 <div class="notifi">
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>
@@ -209,4 +239,21 @@
 
     });
 
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#manhaphanphoi').select2({
+            placeholder: "Chọn nhà phân phối",
+        });
+        $('#kieuthanhtoan').select2({
+            placeholder: "Chọn kiểu thanh toán",
+        });
+        $('#tensanpham').select2({
+            placeholder: "Chọn sản phẩm",
+        });
+        $('.select2-container').css('width', '69%');
+        $('.select2-container').css('margin-left', '7px');
+
+    });
 </script>

@@ -9,7 +9,7 @@ body{
     /* background: url('../img/water-drops-abstract-background_23-2148227134.jpg'); */
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: #131929;
+    background-color: #008b8b;
 }
 
 #wrapper{
@@ -17,6 +17,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: darkcyan;
 }
 
 .hidden{
@@ -26,9 +27,10 @@ body{
 #form-login{
     max-width: 500px;
     flex-grow: 1;
-    background-color:#202938;
+    border-radius: 50px;
+    background-color:#18a38d;
     padding: 30px 30px 30px 40px;
-    /* box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8); */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .form-heading{
@@ -76,7 +78,7 @@ input::placeholder{
 }
 
 .form-submit{
-    background-color: #2561ec;
+    background-color: lightseagreen;
     width: 100%;
     height: 40px;
     color: #fff;
@@ -90,10 +92,11 @@ input::placeholder{
     cursor: pointer;
     clear: both;
     border: none;
+    border-radius: 10px;
 }
 
 .form-submit:hover{
-    color: #2561ec;
+    color: lightseagreen;
     background-color: #fff;
 }
 
@@ -105,7 +108,7 @@ input::placeholder{
 }
 
 .forgot-password a:hover{
-    color:#2561ec ;
+    color:rgb(41 41 123) ;
 }
 
 .register{
@@ -120,7 +123,7 @@ input::placeholder{
 }
 
 .register a:hover{
-    color: #2561ec;
+    color: rgb(41 41 123);
     transition: 0.25s ease-in-out;
 
 }
@@ -134,5 +137,5 @@ input::placeholder{
 
 .rule a {
     text-decoration: none;
-    color: rgb(87, 87, 244);
+    color: rgb(41 41 123);
 }

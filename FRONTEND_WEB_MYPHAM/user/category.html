@@ -5,40 +5,72 @@
             <i class="fa-solid fa-arrow-right"></i>
             <a href="#!/category/1/{{tendanhmucsearch}}">{{tendanhmucsearch.toUpperCase()}}</a>
         </div>
+        <div class="searchCategory">
+            <div class="searchPriceAbout">
+                <form action="">
+                    <label style="color: gray;">Khoảng giá</label>
+                    <input ng-model="giamin" class="startPrice" type="text" name="" id="">
+                    <label>-</label>
+                    <input ng-model="giamax" class="endPrice" type="text" name="" id="">
+                    <button ng-click="searchNow()">Tìm kiếm</button>
+                </form>
+                <a href="#!category/1/{{tendanhmucsearch}}" class="Defaut {{price===undefine?'activeSearch':''}}">
+                    Mới nhất
+                </a>
+                <a href="#!category/1/{{tendanhmucsearch}}/selling" ng-click="selling()" class="Defaut {{price==='selling'?'activeSearch':''}}">
+                   Bán chạy
+                </a>
+                <a href="#!category/1/{{tendanhmucsearch}}/view"  class="Defaut {{price==='view'?'activeSearch':''}}">
+                   Lượt xem
+                </a>
+                <a href="#!category/1/{{tendanhmucsearch}}/up" ng-click="upPrice()" class="searchLowToHigh {{price==='up'?'activeSearch':''}}">
+                    Giá từ thấp đến cao
+                </a>
+                <a href="#!category/1/{{tendanhmucsearch}}/down" ng-click="downPrice()" class="searchHighToLow {{price==='down'?'activeSearch':''}}">
+                    Giá từ cao đến thấp
+                </a>
+            </div>
+        </div>
         <div ng-repeat="x in listItem" class="home-product-item">
             <a href="#!/product/{{x.maSanPham}}">
                 <div class="home-product-item_img"><img src="{{x.anhDaiDien}}" alt=""></div>
                 <h4 class="home-product-item_name">{{x.tenSanPham}}</h4>
                 <span class="decrip-item">{{x.moTa}}</span>
-            </a>                    
+            </a>
+            <span class="sale-up">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }} <sup>%</sup><div>Giảm</div></span>                  
             <div class="home-product-item_price">
-                <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('de-DE')}}<sup>đ</sup></span>
-                <button style="display: none;" class=" add-item">Thêm vào giỏ hàng</button>
+                <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('DE-de')}}<sup>đ</sup></span>
+                <span class="home-product-item_price_old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
             </div>
             <div class="home-icon-recommend">
-                <span class="fa-solid fa-star star-gold"></span>
-                <span class="fa-solid fa-star star-gold"></span>
-                <span class="fa-solid fa-star star-gold"></span>
-                <span class="fa-solid fa-star star-gold"></span>
-                <span class="fa-solid fa-star star-gold"></span>
-                <span class="people-rate">(100)</span>
-                <span>|</span>
-                <span class="fa-solid fa-shop"></span>
-                <span class="amount-product">123</span>
+                <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                <span title="Đã bán" class="fa-solid fa-shop"></span>
+                <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
                 <span class="fa-solid fa-truck-fast free-ship"></span>
             </div>  
+            <div class="view">
+                <i class="fa-solid fa-eye"></i> {{x.luotXem.toLocaleString('DE-de')}}
+            </div>
             <div class="country">
                 {{x.xuatXu}}
             </div>
         </div>
     </div>
-    <nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
-        <ul class="pagination">
-            <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
-            <div class="page-count" style="display:flex">
-                <!-- <li class="page-item"><p class="page-link">1</p></li> -->
+    <div class="NonOptionProduct">
+        <div class="nonProduct">
+            <div class="showNonProduct">
+                <i class="fa-regular fa-face-smile"></i>
             </div>
-            <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
-        </ul>
-    </nav>
+        </div>
+        <div class="optionNonProduct">
+            <p>Không có sản phẩm nào phù hợp với điều kiện lọc của bạn.</p>
+            <p>Bạn thử tắt điều kiện lọc và tìm lại nhé!</p>
+            <div class="delOption">
+                <button ng-click="delOption()">Xoá bộ lọc</button>
+            </div>
+        </div>
+    </div>
+    <div id="pagination"></div>
 </div>

@@ -5,6 +5,14 @@ app.controller ('account', ['$scope', '$routeParams', function($scope, $routePar
 }]);
 
 app.controller("AccountCtrl", function ($scope, $http) {
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[12]).addClass('active_option')
+
+
 	$scope.listAccount;	
     $scope.pageSize=10
     $scope.Image
@@ -21,7 +29,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
     datas[$scope.key] = $scope.value
 
     $scope.GetallLoaiTK = function(){
-        $http.get(current_url+'/api/LoaiTaiKhoan/get_all_loaitaikhoan')
+        $http.get(current_url+'/api-admin/LoaiTaiKhoan/get_all_loaitaikhoan')
         .then(function (response) {  
             $scope.listloaitk = response.data; 
         });
@@ -33,7 +41,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
             method: 'POST',
             headers: { "Authorization": 'Bearer ' + _user.token },
             data: datas,
-            url: current_url + '/api/TaiKhoan/search-taikhoansingle',
+            url: current_url + '/api-admin/TaiKhoan/search-taikhoan',
         }).then(function (response) {  
             $scope.listAccount = response.data.data
             $scope.pageIndex(response.data.totalItems)
@@ -47,13 +55,35 @@ app.controller("AccountCtrl", function ($scope, $http) {
     $scope.luachontimkiem = $scope.key
 
     $scope.search = function(){
-        if($scope.luachontimkiem===undefined||
-            $scope.luachontimkiem===''){
-            alert('Vui lòng chọn loại tìm kiếm')
-            return
-        }
-        if($scope.timkiem===undefined||$scope.timkiem===''){
+        if((!$scope.timkiem&&!$scope.luachontimkiem)||(!$scope.timkiem&&$scope.luachontimkiem)){
             window.location='#!account/1'
+        }
+        else if($scope.timkiem&&!$scope.luachontimkiem){
+            $scope.key = 'TenTaiKhoan'
+                $scope.value = $scope.timkiem
+                var data = {
+                    page: 1,
+                    pageSize: 10
+                };
+                data[$scope.key] = $scope.value
+                $http({
+                    method: 'POST',
+                    headers: { "Authorization": 'Bearer ' + _user.token },
+                    data: data,
+                    url: current_url + '/api-admin/TaiKhoan/search-taikhoan',
+                }).then(function (response) {  
+                    if(response.data.totalItems===0){
+                        alert("Không có tài khoản nào")
+                        $scope.key =''
+                        $scope.value =''
+                        return
+                    }
+                    else{
+                        window.location='#!account/1/'+$scope.key+'/'+$scope.value
+                    }
+                }).catch(function (error) {
+                    console.error('Lỗi :', error);
+                });
         }
         else{
             $scope.key = $scope.luachontimkiem
@@ -67,7 +97,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     method: 'POST',
                     headers: { "Authorization": 'Bearer ' + _user.token },
                     data: data,
-                    url: current_url + '/api/TaiKhoan/search-taikhoansingle',
+                    url: current_url + '/api-admin/TaiKhoan/search-taikhoan',
                 }).then(function (response) {  
                     if(response.data.totalItems===0){
                         alert("Không có tài khoản nào")
@@ -85,61 +115,72 @@ app.controller("AccountCtrl", function ($scope, $http) {
     }
     //------------------------------------------------------------------------------//
     $scope.pageIndex = function(total){
-        $('.page-count li').remove()
-            var count = Math.ceil((total) / $scope.pageSize)
-            var currentPage = $scope.page;
-            var aItem = [];
-            for (var i = 1; i < count + 1; i++) {
-                let li = document.createElement('li')
-                li.className = 'page-item'
-                let a = document.createElement('a')
-                a.className = 'page-link'
-                li.appendChild(a)
-                a.innerText = i
-                aItem.push(a);
-                $('.page-count').append(li)
-                a.onclick = function () {
-                    $scope.changePage(a.innerHTML)
+        $('#pagination').pagination({
+            dataSource: function(done){
+                var result = [];
+                for(var i = 1; i <= total; i++){
+                    result.push(i);
+                }
+                done(result);
+            },
+            pageSize: $scope.pageSize,
+            pageNumber: $scope.page,
+            showGoInput: true,
+            showGoButton: true,
+            className: 'paginationjs-theme-blue paginationjs-big',
+            afterGoButtonOnClick :function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.key&&$scope.value){
-                        a.href='#!account/'+a.innerHTML+'/'+$scope.key+'/'+$scope.value
+                        window.location.href='#!account/'+pageNumber+'/'+$scope.key+'/'+$scope.value
                     }
                     else{
-                        a.href='#!account/'+a.innerHTML
+                        window.location.href='#!account/'+pageNumber
                     }
-                }
-            }    
-
-            aItem[currentPage - 1].classList.add('activePage');
-            prev = function(){
-                if($scope.page<=1){
-                    $scope.page=1
                 }
                 else{
-                    $scope.page--
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterGoInputOnEnter:function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.key&&$scope.value){
-                        window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                        window.location.href='#!account/'+pageNumber+'/'+$scope.key+'/'+$scope.value
                     }
                     else{
-                        window.location='#!account/'+$scope.page
+                        window.location.href='#!account/'+pageNumber
                     }
                 }
-            }
-
-            next = function(){
-                if($scope.page<count){
-                    $scope.page++
-                    if($scope.key&&$scope.value){
-                        window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
-                    }
-                    else{
-                        window.location='#!account/'+$scope.page
-                    }
+                else{
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterNextOnClick:function(event,pageNumber){
+                if($scope.key&&$scope.value){
+                    window.location.href='#!account/'+pageNumber+'/'+$scope.key+'/'+$scope.value
+                }
+                else{
+                    window.location.href='#!account/'+pageNumber
+                }
+                
+            },
+            afterPreviousOnClick:function(event,pageNumber){
+                if($scope.key&&$scope.value){
+                    window.location.href='#!account/'+pageNumber+'/'+$scope.key+'/'+$scope.value
+                }
+                else{
+                    window.location.href='#!account/'+pageNumber
+                }
+                
+            },
+            afterPageOnClick : function(event,pageNumber){
+                if($scope.key&&$scope.value){
+                    window.location.href='#!account/'+pageNumber+'/'+$scope.key+'/'+$scope.value
+                }
+                else{
+                    window.location.href='#!account/'+pageNumber
                 }
             }
-    }
-    
-    $scope.changePage=function(i) {
-        $scope.page = i
+        })
     }
 
     $scope.selected =[]
@@ -164,10 +205,9 @@ app.controller("AccountCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.selected,
-                url: current_url + '/api/TaiKhoan/delete-taikhoan',
+                url: current_url + '/api-admin/TaiKhoan/delete-taikhoan',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 if($scope.key&&$scope.value){
                     window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
                 }
@@ -208,16 +248,24 @@ app.controller("AccountCtrl", function ($scope, $http) {
         $(".product-container").toggleClass("hide")
         $(".detail").show()
         $(".saveAdd").hide()
-        $scope.mataikhoan = x.maTaiKhoan
+        $('.addDetailAccount').show()
         $http({
             method: 'GET',
             headers: { "Authorization": 'Bearer ' + _user.token },
-            url: current_url + '/api/TaiKhoan/getbyid-taikhoan-chitiettaikhoan/' + x.maTaiKhoan,
+            url: current_url + '/api-admin/TaiKhoan/getbyid-taikhoan-chitiettaikhoan/' + x.maTaiKhoan,
         }).then(function (response) {
+            if(response.data.length<=1){
+                $('.deleteDetailAccount').hide()
+            }
+            else{
+                $('.deleteDetailAccount').show()
+            }
             $scope.listTaiKhoanDetail=response.data
+            console.log();
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });
+        $scope.mataikhoan = x.maTaiKhoan
         $scope.tentaikhoan = x.tenTaiKhoan
         $scope.matkhau = x.matKhau
         $scope.email = x.email
@@ -226,6 +274,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
         $scope.hoten = ""
         $scope.diachi = ""
         $scope.sodienthoai = ""
+        preview.src=''
     }
 
     $scope.btnAdd=function(){
@@ -237,6 +286,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
         $scope.hoten = ""
         $scope.diachi = ""
         $scope.sodienthoai = ""
+        preview.src=''
         $(".detail").hide()
         $(".saveAdd").show()
     }
@@ -264,7 +314,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     'Content-Type': undefined
                 },
                 data: formData,
-                url: current_url + '/api/Image/upload',
+                url: current_url + '/api-admin/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
                 preview.src = "../img"+ $scope.Image
@@ -282,7 +332,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                             SoDienThoai:$scope.sodienthoai
                         }]
                     },
-                    url: current_url + '/api/TaiKhoan/create-taikhoan',
+                    url: current_url + '/api-admin/TaiKhoan/create-taikhoan',
                     headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
@@ -306,7 +356,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         SoDienThoai:$scope.sodienthoai
                     }]
                 },
-                url: current_url + '/api/TaiKhoan/create-taikhoan',
+                url: current_url + '/api-admin/TaiKhoan/create-taikhoan',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Thêm thành công')
@@ -330,6 +380,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
         $scope.anhdaidien=""
         preview.src=""
         $scope.machitiettaikhoan=undefined
+        $('.addDetailAccount').show()
     }
 
     $scope.addDetail=function(){
@@ -351,7 +402,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     'Content-Type': undefined
                 },
                 data: formData,
-                url: current_url + '/api/Image/upload',
+                url: current_url + '/api-admin/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
                 preview.src = "../img"+ $scope.Image
@@ -371,7 +422,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
                             status:1
                         }]
                     },
-                    url: current_url + '/api/TaiKhoan/update-taikhoan',
+                    url: current_url + '/api-admin/TaiKhoan/update-taikhoan',
                     headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm chi tiết thành công')
@@ -383,7 +434,6 @@ app.controller("AccountCtrl", function ($scope, $http) {
                     }
                 }).catch(function (error) {
                     console.error('Lỗi khi thêm sản phẩm:', error);
-                    console.log($scope.gia);
                 });
             });
         }
@@ -404,10 +454,10 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         status:1
                     }]
                 },
-                url: current_url + '/api/TaiKhoan/update-taikhoan',
+                url: current_url + '/api-admin/TaiKhoan/update-taikhoan',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
-                alert('Thêm chi tiết thành công')
+                alert('Thêm thành công')
                 if($scope.key&&$scope.value){
                     window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
                 }
@@ -416,7 +466,6 @@ app.controller("AccountCtrl", function ($scope, $http) {
                 }
             }).catch(function (error) {
                 console.error('Lỗi khi thêm sản phẩm:', error);
-                console.log($scope.gia);
             });
         }
         
@@ -431,6 +480,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
         $scope.sodienthoai = y.soDienThoai
         $scope.anhdaidien = y.anhDaiDien
         preview.src = y.anhDaiDien
+        $('.addDetailAccount').hide()
     }
 
     $scope.editDetail=function(){
@@ -453,10 +503,46 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         'Content-Type': undefined
                     },
                     data: formData,
-                    url: current_url + '/api/Image/upload',
+                    url: current_url + '/api-admin/Image/upload',
                 }).then(function (res) {
                     $scope.Image = res.data.filePath;
                     preview.src = "../img"+ $scope.Image
+                    if(confirm("Bạn có muốn sửa chi tiết tài khoản không !")){
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                MaTaiKhoan:$scope.mataikhoan,
+                                TenTaiKhoan: $scope.tentaikhoan,
+                                MatKhau: $scope.matkhau,
+                                Email: $scope.email,
+                                list_json_chitiet_taikhoan:[{
+                                    MaChitietTaiKhoan: $scope.machitiettaikhoan,
+                                    MaLoaitaikhoan: $scope.loaitaikhoan,
+                                    AnhDaiDien: "../img"+$scope.Image,
+                                    HoTen:$scope.hoten,
+                                    DiaChi:$scope.diachi,
+                                    SoDienThoai:$scope.sodienthoai,
+                                    status:2
+                                }]
+                            },
+                            url: current_url + '/api-admin/TaiKhoan/update-taikhoan',
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                        }).then(function (response) {  
+                            if($scope.key&&$scope.value){
+                                window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                            }
+                            else{
+                                window.location='#!account/'+$scope.page
+                            }
+                        }).catch(function (error) {
+                            console.error('Lỗi khi thêm sản phẩm:', error);
+                            console.log($scope.gia);
+                        });
+                    }
+                });
+            }
+            else{
+                if(confirm("Bạn có muốn sửa chi tiết tài khoản không !")){
                     $http({
                         method: 'PUT',
                         data: {
@@ -467,17 +553,16 @@ app.controller("AccountCtrl", function ($scope, $http) {
                             list_json_chitiet_taikhoan:[{
                                 MaChitietTaiKhoan: $scope.machitiettaikhoan,
                                 MaLoaitaikhoan: $scope.loaitaikhoan,
-                                AnhDaiDien: "../img"+$scope.Image,
+                                AnhDaiDien: $scope.anhdaidien,
                                 HoTen:$scope.hoten,
                                 DiaChi:$scope.diachi,
                                 SoDienThoai:$scope.sodienthoai,
                                 status:2
                             }]
                         },
-                        url: current_url + '/api/TaiKhoan/update-taikhoan',
+                        url: current_url + '/api-admin/TaiKhoan/update-taikhoan',
                         headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
-                        alert('Sửa chi tiết thành công')
                         if($scope.key&&$scope.value){
                             window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
                         }
@@ -488,9 +573,11 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         console.error('Lỗi khi thêm sản phẩm:', error);
                         console.log($scope.gia);
                     });
-                });
+                }
             }
-            else{
+        }
+        else{
+            if(confirm("Bạn có muốn sửa thông tin tài khoản không !")){
                 $http({
                     method: 'PUT',
                     data: {
@@ -499,19 +586,18 @@ app.controller("AccountCtrl", function ($scope, $http) {
                         MatKhau: $scope.matkhau,
                         Email: $scope.email,
                         list_json_chitiet_taikhoan:[{
-                            MaChitietTaiKhoan: $scope.machitiettaikhoan,
-                            MaLoaitaikhoan: $scope.loaitaikhoan,
-                            AnhDaiDien: $scope.anhdaidien,
-                            HoTen:$scope.hoten,
-                            DiaChi:$scope.diachi,
-                            SoDienThoai:$scope.sodienthoai,
-                            status:2
+                            MaChitietTaiKhoan: 0,
+                            MaLoaitaikhoan: 0,
+                            AnhDaiDien: '',
+                            HoTen:'',
+                            DiaChi:'',
+                            SoDienThoai:'',
+                            status:0
                         }]
                     },
-                    url: current_url + '/api/TaiKhoan/update-taikhoan',
+                    url: current_url + '/api-admin/TaiKhoan/update-taikhoan',
                     headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
-                    alert('Sửa chi tiết thành công')
                     if($scope.key&&$scope.value){
                         window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
                     }
@@ -524,39 +610,6 @@ app.controller("AccountCtrl", function ($scope, $http) {
                 });
             }
         }
-        else{
-            $http({
-                method: 'PUT',
-                data: {
-                    MaTaiKhoan:$scope.mataikhoan,
-                    TenTaiKhoan: $scope.tentaikhoan,
-                    MatKhau: $scope.matkhau,
-                    Email: $scope.email,
-                    list_json_chitiet_taikhoan:[{
-                        MaChitietTaiKhoan: 0,
-                        MaLoaitaikhoan: 0,
-                        AnhDaiDien: '',
-                        HoTen:'',
-                        DiaChi:'',
-                        SoDienThoai:'',
-                        status:0
-                    }]
-                },
-                url: current_url + '/api/TaiKhoan/update-taikhoan',
-                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-            }).then(function (response) {  
-                alert('Sửa chi tiết thành công')
-                if($scope.key&&$scope.value){
-                    window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
-                }
-                else{
-                    window.location='#!account/'+$scope.page
-                }
-            }).catch(function (error) {
-                console.error('Lỗi khi thêm sản phẩm:', error);
-                console.log($scope.gia);
-            });
-        }
     }
 
     $scope.deleteDetail=function(){
@@ -565,36 +618,37 @@ app.controller("AccountCtrl", function ($scope, $http) {
             return
         }
         else{
-            $http({
-                method: 'PUT',
-                data: {
-                    MaTaiKhoan:$scope.mataikhoan,
-                    TenTaiKhoan: $scope.tentaikhoan,
-                    MatKhau: $scope.matkhau,
-                    Email: $scope.email,
-                    list_json_chitiet_taikhoan:[{
-                        MaChitietTaiKhoan: $scope.machitiettaikhoan,
-                        MaLoaitaikhoan: 0,
-                        AnhDaiDien: '',
-                        HoTen:'',
-                        DiaChi:'',
-                        SoDienThoai:'',
-                        status:3
-                    }]
-                },
-                url: current_url + '/api/TaiKhoan/update-taikhoan',
-                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-            }).then(function (response) {  
-                alert('Xoá chi tiết thành công')
-                if($scope.key&&$scope.value){
-                    window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
-                }
-                else{
-                    window.location='#!account/'+$scope.page
-                }
-            }).catch(function (error) {
-                console.error('Lỗi khi xoá', error);
-            });
+            if(confirm("Bạn có muốn xoá chi tiết tài khoản không !")){
+                $http({
+                    method: 'PUT',
+                    data: {
+                        MaTaiKhoan:$scope.mataikhoan,
+                        TenTaiKhoan: $scope.tentaikhoan,
+                        MatKhau: $scope.matkhau,
+                        Email: $scope.email,
+                        list_json_chitiet_taikhoan:[{
+                            MaChitietTaiKhoan: $scope.machitiettaikhoan,
+                            MaLoaitaikhoan: 0,
+                            AnhDaiDien: '',
+                            HoTen:'',
+                            DiaChi:'',
+                            SoDienThoai:'',
+                            status:3
+                        }]
+                    },
+                    url: current_url + '/api-admin/TaiKhoan/update-taikhoan',
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                }).then(function (response) {  
+                    if($scope.key&&$scope.value){
+                        window.location='#!account/'+$scope.page+'/'+$scope.key+'/'+$scope.value
+                    }
+                    else{
+                        window.location='#!account/'+$scope.page
+                    }
+                }).catch(function (error) {
+                    console.error('Lỗi khi xoá', error);
+                });
+            }
         }
     }
 })

@@ -9,19 +9,20 @@
     <link rel="stylesheet" href="./assets/css/login.css">
     <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
+    <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
 </head>
 <body>
     <div id="wrapper">
-        <form action="" id="form-login">
+        <form action="#" id="form-login">
             <h1 class="form-heading">Đăng nhập</h1>
             <div class="form-group">
                 <i class="fa-solid fa-user"></i>
-                <input type="text" class="form-input input-user" onblur="checkinputuser()" placeholder="Tên đăng nhập">
+                <input type="text" class="form-input input-user" onkeydown="checkinputuser()" placeholder="Tên đăng nhập">
                 <span class="warning" style="color: red; display: none;">*</span>
             </div>
             <div class="form-group">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" class="form-input input-pass" onblur="checkinputpass()" placeholder="Mật khẩu">
+                <input type="password" class="form-input input-pass" onkeydown="checkinputpass()" placeholder="Mật khẩu">
                 <span class="eye-close">
                     <i class="fa-solid fa-eye-slash"></i>
                 </span>
@@ -35,15 +36,100 @@
                 <a href="./forgot.html">Quên mật khẩu</a>
             </div>
             <!-- <input type="submit" src="./home.html" value="Đăng nhập" class="form-submit"> -->
-            <a class="form-submit" onclick="login()">Đăng nhập</a>
+            <input type="submit" value="Đăng nhập" class="form-submit" onclick="login(event)"></input>
 
             <div class="register">
                 <ul>Bạn có tài khoản chưa?</ul>
                 <a href="./registry.html">Đăng ký ngay</a>
             </div>
-            
         </form>
+        <div style="display: flex; justify-content: center;align-items: center; position: absolute;bottom: 0;">
+            <div style="color: #fff; font-size: 11px;margin-top: 25px;">Phần mềm quản lý mỹ phẩm <i class="fa-solid fa-copyright"></i> SkinCare 2023 by LuuDucQuang </div>
+        </div> 
     </div>
 </body>
-<script src="../BaiTapLonSkincare/assets/js/login.js"></script>
+<script src="./assets/js/gobal.js"></script>
+<script>
+    var eyeOpen = document.querySelector(".eye-open")
+    var eyeClose = document.querySelector(".eye-close")
+    var inputPass = document.querySelector(".input-pass")
+
+    eyeClose.addEventListener("click",function(){
+        eyeClose.classList.add('hidden')
+        eyeOpen.classList.remove('hidden')
+        inputPass.setAttribute("type","text")
+    })
+
+    eyeOpen.addEventListener("click",function(){
+        eyeOpen.classList.add('hidden')
+        eyeClose.classList.remove('hidden')
+        inputPass.setAttribute("type","password")
+
+    })
+
+    var warning = document.querySelector(".warning")
+    function checkinputuser(){
+        var inputUser = document.querySelector(".input-user").value
+        var check = /^[a-zA-Z]+[a-zA-Z0-9]+$/
+        if(inputUser=="" || check.test(inputUser)===false){
+            warning.style.display= 'block'
+        }
+        else{
+            warning.style.display= 'none'
+        }
+    }
+
+    function checkinputpass(){
+        var warningPass = document.querySelector(".warning-pass")
+        var inputPass = document.querySelector(".input-pass").value
+        var check = /^[a-zA-Z0-9]+[a-zA-Z0-9@_]+$/
+        if(inputPass=="" || check.test(inputPass)===false){
+            warningPass.style.display= 'block'
+        }
+        else{
+            warningPass.style.display= 'none'
+        }
+    }
+
+    function login(event){
+        event.preventDefault();
+        var inputUser = document.querySelector(".input-user")
+        var checkuser = /^[a-zA-Z]+[a-zA-Z0-9]+$/
+        var warningPass = document.querySelector(".warning-pass")
+        var inputPass = document.querySelector(".input-pass")
+        var check = /^[a-zA-Z0-9]+[a-zA-Z0-9@_]+$/
+        if(inputUser.value=="" || checkuser.test(inputUser.value)===false){
+            warning.style.display= 'block'
+            alert("Tài khoản không tồn tại")
+            return
+        }
+        else if(inputPass.value=="" || check.test(inputPass.value)===false){
+            warningPass.style.display= 'block'
+            alert("Mật khẩu không đúng")
+            return
+        }
+        else{
+            var item = {}
+            item.username = $('.input-user').val()
+            item.password = $('.input-pass').val()
+            $.ajax({
+                    type: "POST",
+                    url: current_url+"/api-user/User/login",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify(item)
+                }).done(function (data) {
+                    if (data != null && data.message != null && data.message != 'undefined') {
+                        alert(data.message);
+                    } else {
+                        localStorage.setItem("customer", JSON.stringify(data));
+                        window.location = 'index.html#!/'
+                    }
+                
+                }) .fail(function() {
+                alert('Tài khoản hoặc mật khẩu không chính xác');
+                }); 
+        }
+    }
+</script>
 </html>

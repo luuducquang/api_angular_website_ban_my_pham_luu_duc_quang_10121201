@@ -1,12 +1,18 @@
+if(!customerLocalStorage){
+    window.location.href = './login.html'
+}
+  
+
 function product(){
     var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
     var tbody = document.querySelector(".cart-shop table tbody")
     var content = ``
     listProduct.map(function(value,index){
         content += `<tr>
+                        <td><input type="checkbox" ${value.state===true?'checked':''} class="item-checkbox" /></td>
                         <td style=" height:90px; display: flex; align-items: center;"><img style="width: 90px;padding: 10px;" src="${value.img}" alt="">
                         <span class="item">
-                            <a style="text-decoration: none; color:black;" href="#!/product/${value.id}" style="font-size: 14px;" class="nameItem">${value.name}</a>
+                            <a style="text-decoration: none; " href="#!/product/${value.id}" style="font-size: 14px;" class="nameItem">${value.name}</a>
                             <div style="margin-top: 3px;text-align: left; display: flex; align-items: center;"><img style="width: 30px;" src="./assets/img/deal hot.jpg" alt=""><img style="width: 20px;" src="./assets/img/shipped.png" alt="">
                                 <span style="margin-left: 10px;font-size: 12px;">Miễn phí đổi trả trong 7 ngày đầu tiên</span>
                             </div>
@@ -16,9 +22,9 @@ function product(){
                         <td>${value.countryItem}</td>
                         <td style="font-size: 14px;">${value.size}</td>
                         <td>
-                            <div style="display:flex; justify-content: center;">
-                                <p><span style="font-size: 14px;color:#888888;text-decoration: line-through;" class="price-item">${value.priceOld}</span><sup style="color:#888888;">đ</sup></p>
-                                <p><span style="font-size: 14px; margin-left:5px;" class="price-item">${value.price}</span><sup>đ</sup></p>
+                            <div style="display:flex;flex-direction: column; justify-content: center;">
+                                <p><span style="font-size: 14px;color:#888888;text-decoration: line-through;" class="price-item">${value.priceOld.toLocaleString("DE-de")}</span><sup style="color:#888888;">đ</sup></p>
+                                <p><span style="font-size: 14px; margin-left:5px;" class="price-item">${value.price.toLocaleString("DE-de")}</span><sup>đ</sup></p>
                             </div>
                         </td>
                         <td>
@@ -32,22 +38,72 @@ function product(){
                     </tr>`
     })
     tbody.innerHTML = content
-    
+
+    ItemBuy()
     totalcart()
-    
 }
 
 product()
 
+function ItemBuy(){
+    var listProduct = JSON.parse(localStorage.getItem('productList'))
+    var listCheckBox = document.querySelectorAll('.item-checkbox')
+    var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
+    listCheckBox.forEach(function(e){
+        e.addEventListener('click',function(event){
+            var trElement = event.target.parentElement.parentElement
+            var a = trElement.querySelector('a')
+            var stringa = String(a.href)
+            var idElement = Number(stringa.slice(-2))
+            var item = listProduct.filter(x=>x.id === idElement)
+            var search = listProductBuy.find(x=>x.id === item[0].id)
+            if(event.target.checked===true){
+                if(!search){
+                    listProductBuy.push({
+                        id : item[0].id,
+                        img : item[0].img,
+                        name : item[0].name,
+                        priceOld : item[0].priceOld,
+                        price : item[0].price,
+                        size : item[0].size,
+                        amount : item[0].amount,
+                        countryItem : item[0].countryItem
+                    })
+                }
+                listProduct.map(function(value){
+                    if(value.id === item[0].id){
+                        value.state = true
+                    }
+                    return
+                })
+                localStorage.setItem("productList",JSON.stringify(listProduct))
+                totalcart()  
+
+            }
+            else{
+                var index = listProductBuy.findIndex(function(item) {
+                    return item.id === idElement;
+                });
+                listProductBuy.splice(index,1)
+                listProduct.map(function(value){
+                    if(value.id === item[0].id){
+                        value.state = false
+                    }
+                    return
+                })
+                localStorage.setItem("productList",JSON.stringify(listProduct))
+                totalcart()
+            }
+            localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
+        })
+    })
+
+}
 
 function ShopAmount(){
-    valueShop = localStorage.getItem("ValueShop") ? JSON.parse(localStorage.getItem("ValueShop")) : []
     var shopvalue = document.querySelector(".shopping .shop")
-    var x=``
-    valueShop.map((value,index)=>{
-            x += `<span class="value-cart">${index+1}</span>`
-        
-    })
+    var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
+    x = `<span class="value-cart">${listProduct.length}</span>` 
     shopvalue.innerHTML = x
     
 }
@@ -71,19 +127,15 @@ NullItem()
 
 function deleteCart(index){
     var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
+    var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
+    var idx = listProductBuy.findIndex(function(item){
+        return item.id === listProduct[index].id
+    })
     listProduct.splice(index,1)
+    listProductBuy.splice(idx,1)
     localStorage.setItem("productList",JSON.stringify(listProduct))
+    localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
     product()
-
-    // valueShop = localStorage.getItem("ValueShop") ? JSON.parse(localStorage.getItem("ValueShop")) : []
-    // valueShop.amountCart--
-    // localStorage.setItem("ValueShop",JSON.stringify(valueShop))
-
-
-    
-    valueShop = localStorage.getItem("ValueShop") ? JSON.parse(localStorage.getItem("ValueShop")) : []
-    valueShop.splice(index,1)
-    localStorage.setItem("ValueShop",JSON.stringify(valueShop))
     ShopAmount()
     NullItem()
 
@@ -93,7 +145,9 @@ function deleteCart(index){
 function totalcart(){
     var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
     var sum = 0;
-    listProduct.map((value,index)=>{
+    var listItemTrue = listProduct.filter(x=>x.state===true)
+    
+    listItemTrue.map((value,index)=>{
         var pri = value.price
         var amo = value.amount
         toltal = pri * amo
@@ -106,21 +160,39 @@ function totalcart(){
 
 function plus(index){
     var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
+    var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
     var amount = listProduct[index].amount
     amount++
     listProduct[index].amount = amount
+    listProductBuy.map(function(value){
+        if(value.id === listProduct[index].id){
+            value.amount = amount
+        }
+        return
+    })
     localStorage.setItem("productList" , JSON.stringify(listProduct))
+    localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
     product()
+    totalcart()
 }
 
 function minus(index){
     var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
+    var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
     var amount = listProduct[index].amount
     if(amount>1){
         amount--
         listProduct[index].amount = amount
+        listProductBuy.map(function(value){
+            if(value.id === listProduct[index].id){
+                value.amount = amount
+            }
+            return
+        })
         localStorage.setItem("productList" , JSON.stringify(listProduct))
+        localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
         product()
+        totalcart()
     }
 }
  
@@ -130,6 +202,7 @@ function input(index){
     input.forEach(function(inp){
         inp.addEventListener("input",function(event){
             var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
+            var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
             inputValue = inp.value
             inputValue = parseInt(inputValue)
             if(isNaN(inputValue) || inputValue===0){
@@ -137,9 +210,11 @@ function input(index){
                 inp.value = inputValue
             }
             listProduct[index].amount = inputValue
-            console.log(listProduct[index].amount);
+            listProductBuy[index].amount = inputValue
             localStorage.setItem("productList" , JSON.stringify(listProduct))
+            localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
             product()
+            totalcart()
         })
     })
 
@@ -148,8 +223,9 @@ function input(index){
 
 var goOrder = document.querySelector(".goOrder")
 goOrder.addEventListener("click",()=>{
-    var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
-    if(listProduct.length === 0){
+    var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
+    if(listProductBuy.length === 0){
+        alert('Bạn chưa chọn sản phẩm để mua!')
         return
     }
     else{
@@ -157,298 +233,3 @@ goOrder.addEventListener("click",()=>{
     }
 })
 
-
-
-
-    
-
-
-
-
-
-
-
-
-// function totalcart(){
-//     var tbody = document.querySelectorAll(".cart-shop form tbody tr")  
-//     var totalPrice = 0
-//     for(var i = 0; i < tbody.length; i++){
-//         var priceItem = tbody[i].querySelector(".price-item").innerHTML
-//         var inputValue = tbody[i].querySelector(".amount").value
-//         var price = priceItem * inputValue *1000
-//         totalPrice += price 
-//     }
-//     var totalcartPrice = document.querySelector(".price-total-cart span")
-//     totalcartPrice.innerHTML = totalPrice.toLocaleString("DE-de")
-// }
-
-// totalcart()
-
-// var tbody = document.querySelectorAll(".cart-shop form tbody tr")
-// for (let i = 0; i < tbody.length; i++) {
-//     var a = tbody.length
-//     var del = tbody[i].querySelector(".delete-cart")
-//     var nullProduct = document.querySelector(".null-product")
-//     del.addEventListener("click",function(){
-//         a--
-//         if(a==0){
-//             nullProduct.style.display = 'block'
-//         }
-//         else{
-//             nullProduct.style.display = 'none'
-//         }
-//     })
-    
-// }
-
-
-// var plus = document.querySelectorAll(".plus") 
-// plus.forEach(function(btn){
-//     btn.addEventListener("click",function(event){
-//         btn = event.target
-//         btnplus = btn.parentElement
-//         var amount = btnplus.querySelector(".amount")
-//         valueAmount = amount.value
-//         valueAmount++
-//         amount.value = valueAmount
-//         totalcart()
-//     })
-    
-// })
-
-// var minus = document.querySelectorAll(".minus") 
-// minus.forEach(function(btn){
-//     btn.addEventListener("click",function(event){
-//         btn = event.target
-//         btnminus = btn.parentElement
-//         var amount = btnminus.querySelector(".amount")
-//         valueAmount = amount.value
-//         if(valueAmount>1){
-//             valueAmount--
-//             amount.value = valueAmount
-//         }
-//         totalcart()
-//     })
-// })
-
-
-// var input = document.querySelectorAll(".amount")
-// input.forEach(function(inp){
-//     inp.addEventListener("input",function(event){
-//         inputValue = inp.value
-//         inputValue = parseInt(inputValue)
-//         if(isNaN(inputValue) || inputValue===0){
-//             inputValue = 1
-//             inp.value = inputValue
-//         }
-//         totalcart()
-//     })
-// })
-
-
-
-
-// function deletecart(){
-//     var tbody = document.querySelectorAll(".cart-shop form tbody tr")  
-//     for (let i = 0; i < tbody.length; i++) {
-//         var del = tbody[i].querySelector(".delete-cart")
-//         del.addEventListener("click",function(event){
-//         var del1 = event.target
-//         var del2 = del1.parentElement
-//         var del3 = del2.parentElement
-//         del3.remove()
-//         totalcart()
-//     }) 
-//     totalcart()
-// }
-// }
-
-// deletecart()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function EditAmount(){
-//     var tbody = document.querySelectorAll(".cart-shop form tbody tr")  
-//     for (let i = 0; i < tbody.length; i++) {
-//         var plus = tbody[i].querySelector(".plus")
-//         var minus = tbody[i].querySelector(".minus")
-//         var amount = tbody[i].querySelector(".amount")
-//         var valueAmount = amount.value
-        
-//         function updateAmount(valueAmount){
-//             amount.value = valueAmount
-//         }
-        
-//         plus.addEventListener("click",function(){
-//             valueAmount++
-//             updateAmount(valueAmount)
-//             totalcart()
-//         })
-        
-//         minus.addEventListener("click",function(){
-//             if(valueAmount>1){
-//                 valueAmount--
-//                 updateAmount(valueAmount)
-//                 totalcart()
-    
-//             }
-//         })
-        
-//         amount.addEventListener("input",function(){
-//             valueAmount = amount.value
-//             valueAmount = parseInt(valueAmount)
-//             if(isNaN(valueAmount) || valueAmount===0){
-//                 valueAmount = 1
-//                 updateAmount(valueAmount)
-//             }
-//             totalcart()
-//         })
-//     }
-
-
-// }
-// EditAmount()
-
-
-// var btn = document.querySelectorAll("table tbody .check-item")
-// btn.forEach(function(button){
-    //     button.addEventListener("change",function(event){
-        //         var but = event.target
-//         var check = but.parentElement
-//         var checkItem = check.parentElement
-//         var productPrice = checkItem.querySelector(".price-item").innerHTML
-//         var inputValue = checkItem.querySelector(".amount").value
-//         var editamount = checkItem.querySelector(".buy-amount")
-//         var deletebtn = checkItem.querySelector(".delete-cart")
-//         if(button.checked){
-//             EditAmount()
-//             totalcart(productPrice,inputValue,true)
-//             Delete()
-//             function EditAmount(){
-//                 var plus = editamount.querySelector(".plus")
-//                 var minus = editamount.querySelector(".minus")
-//                 var amount = editamount.querySelector(".amount")
-//                 valueAmount = amount.value
-//                 plus.addEventListener("click",function(){
-//                     valueAmount++
-//                     updateAmount(amount)
-//                     totalcart(productPrice,inputValue,true)
-
-//                 })
-            
-//                 minus.addEventListener("click",function(){
-//                     if(valueAmount>1){
-//                         valueAmount--
-//                         updateAmount(amount)
-//                         totalcart(productPrice,inputValue,false )
-//                     }
-//                 })
-//             }
-
-//             function Delete(){
-//                 deletebtn.addEventListener("click",function(event){
-//                     var btnrev = event.target
-//                     var btndel = btnrev.parentElement
-//                     var btndelete = btndel.parentElement
-//                     btndelete.remove()
-//                     totalcart(productPrice,inputValue,false)
-//                 })
-                
-//             }
-//         }else{
-//             totalcart(productPrice,inputValue,false)
-//         }
-//     })
-// })
-
-
-// var pricetotal = 0
-// function totalcart(productPrice,inputValue,isAdd){
-//     var price = inputValue * productPrice * 1000
-//     if(isAdd)
-//     pricetotal += price
-//     else
-//     pricetotal -= price
-
-//     var priceAll = document.querySelector(".totalPriceCart")
-//     priceAll.innerHTML = pricetotal
-// }
-
-// function updateAmount(amount){
-//     amount.value = valueAmount
-// }
-
-
-
-// EditAmount()
-// function EditAmount(){
-//     var buyAmount = document.querySelectorAll(".buy-amount")
-//     for (let i = 0; i < buyAmount.length; i++) {
-//         var plus = buyAmount[i].querySelector(".plus")
-//         var minus = buyAmount[i].querySelector(".minus")
-//         var amount = buyAmount[i].querySelector(".amount")
-//         var valueAmount = amount.value
-        
-        
-//         function updateAmount(amount){
-//             amount.value = valueAmount
-//         }
-    
-//         plus.addEventListener("click",function(){
-//             valueAmount++
-//             updateAmount(amount)
-//         })
-    
-//         minus.addEventListener("click",function(){
-//             if(valueAmount>1){
-//                 valueAmount--
-//                 updateAmount(amount)
-//             }
-//         })
-    
-//         amount.addEventListener("input",function(){
-//             valueAmount = amount.value
-//             valueAmount = parseInt(valueAmount)
-//             if(isNaN(valueAmount) || valueAmount===0){
-//                 valueAmount = 1
-//             }
-//             updateAmount(amount)
-//         })
-//     }
-
-// }

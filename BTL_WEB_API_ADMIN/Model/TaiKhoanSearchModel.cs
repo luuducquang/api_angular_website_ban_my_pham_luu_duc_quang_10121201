@@ -8,7 +8,9 @@ namespace Model
 {
     public class TaiKhoanSearchModel
     {
+        public int MaTaiKhoan {  get; set; }
         public string TenTaiKhoan {  get; set; }
+        public string MatKhau { get; set; }
         public string Email {  get; set; }
         public string TenLoai {  get; set; }
         public string HoTen {  get; set; }

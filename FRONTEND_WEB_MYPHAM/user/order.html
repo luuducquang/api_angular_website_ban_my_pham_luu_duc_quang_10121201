@@ -7,7 +7,7 @@
 />
 
 
-<div id="content">  
+<div ng-controller="OrderCtrl" id="content">  
     <div class="order-cart-shop">
         <div class="type">
             <a href="#!/">TRANG CHỦ</a>
@@ -25,7 +25,6 @@
                             <td>Dung Tích</td>
                             <td>Đơn Giá</td>
                             <td>Số Lượng</td>
-                            <td>Chọn</td>   
                         </tr>
                     </thead>
                     <tbody>
@@ -64,7 +63,7 @@
                 </tr>
                 <tr>
                     <td>Phí vận chuyển: </td>
-                    <td><span class="transport_oder">15.000</span><sup>đ</sup></td>
+                    <td><span class="transport_oder">30.000</span><sup>đ</sup></td>
                 </tr>
                 <tr>
                     <td>Giảm giá: </td>
@@ -85,53 +84,85 @@
                 <tr>
                     <td>Họ tên: <sup class="war-name">*</sup></td>
                     <td>Điện thoại: <sup class="war-tel">*</sup></td>
+                    <td>Email: <sup class="war-name">*</sup></td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="text" name="" id="" class="name-delivery" >
+                        <input ng-model="nameCustomer" type="text" name="" id="" class="name-delivery" >
                     </td>
                     <td>
-                        <input type="text" name="" id="" class="tel-delivery">
+                        <input ng-model="telCustomer" onkeypress="return isNumberKey(event)" id="sodienthoai" type="text" name="" id="" class="tel-delivery">
+                    </td>
+                    <td>
+                        <input ng-model="emailCustomer" type="text" name="" id="" class="email-delivery">
                     </td>
                 </tr>
+                <script>
+                    $(document).ready(function() {
+                        $('#sodienthoai').on('input', function() {
+                            var inputValue = $(this).val();
+                            if (inputValue.length > 11) {
+                                inputValue = inputValue.slice(0, 11);
+                            }
+                            $(this).val(inputValue);
+                        });
+                    });
+                    function isNumberKey(e) {
+                        var charCode = (e.which) ? e.which : e.keyCode;
+                        if (charCode > 31 && (charCode < 48 || charCode > 57))
+                            return false;
+                        return true;
+                    }
+                </script>
                 <tr>
                     <td>Tỉnh/TP: <sup class="war-city">*</sup></td>
                     <td>Quận/Huyện: <sup class="war-province">*</sup></td>
-                </tr>
-                <tr>
-                    <td>
-                        <select style="width: 90%;height: 30px;" name="" id="province">
-                            <option selected disabled value="">Vui lòng chọn</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select style="width: 90%;height: 30px;" name="" id="district">
-                            <option selected disabled value="">Vui lòng chọn</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
                     <td>Phường/Xã: <sup class="war-commune">*</sup></td>
-                    <td></td>
                 </tr>
-                <tr >
-                    <td colspan="2">
-                        <select style="width: 53.5%;height: 30px;" name="" id="ward">
+                <tr>
+                    <td>
+                        <select ng-model="province" style="width: 90%;height: 30px;" name="" id="province">
+                            <option selected disabled value="">Vui lòng chọn</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select ng-model="district" style="width: 90%;height: 30px;" name="" id="district">
+                            <option selected disabled value="">Vui lòng chọn</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select ng-model="ward" style="width: 90.5%;height: 30px;" name="" id="ward">
                             <option selected disabled  value="">Vui lòng chọn</option>
                         </select>
                     </td>
                 </tr>
+                <script>
+                    $(document).ready(function() {
+                        // $('#province').select2({
+                        //     placeholder: "Vui lòng chọn",
+                        // });
+                        // $('#district').select2({
+                        //     placeholder: "Vui lòng chọn",
+                        // });
+                        // $('#ward').select2({
+                        //     placeholder: "Vui lòng chọn",
+                        // });
+                        // $('.select2-results__option--selectable').css('font-size', '13px');
+                        // $('.select2-container--default .select2-selection--single .select2-selection__placeholder').css('color', '#000');
+                        // $('.select2-container--default .select2-selection--single').css('border', '1px solid #333333');
+                    });
+                </script>
                 <tr>
                     <td>Địa chỉ: <sup class="war-address">*</sup></td>
                 </tr>
                 <tr>
-                    <td colspan="2">
-                        <input type="text" name="" id="" class="input-address">
+                    <td colspan="3">
+                        <input ng-model="AdressDetailCustomer" style="width: 97.5%;" type="text" name="" id="" class="input-address">
                     </td>
                 </tr>
                 <tr class="payment">
                     <td style="padding-top: 20px;" class="back"><div><i class="fa-solid fa-backward"></i>Tiếp tục mua hàng</div></td>
-                    <td style="padding-top: 20px;" class="let-go"><div >Tiến Hành Đặt Hàng</div></td>
+                    <td ng-click="orderNow()" style="padding-top: 20px; float: right;" class="let-go"><div >Thanh toán và giao hàng</div></td>
                 </tr>
             </table>
         </form>

@@ -20,7 +20,17 @@ namespace DataAccessLayer.Interfaces
         List<ThongkeHDNNgayModel> Thongkehdnngay(int Nam, int Thang);
         List<ThongkeKHNamModel> Thongkekhnam(int Nam);
         List<ThongkeKHNgayModel> Thongkekhngay(int Nam, int Thang);
-        List<ThongkespbanchaytrongthangModel> Spbanchaythang();
+        List<ThongkeKHNamModel> Thongkedonhuynam(int Nam);
+        List<ThongkeKHNgayModel> Thongkedonhuyngay(int Nam, int Thang);
+        List<ThongkeKHNamModel> Thongkedonhoantranam(int Nam);
+        List<ThongkeKHNgayModel> Thongkedonhoantrangay(int Nam, int Thang);
+        List<ThongkeKHNamModel> Thongkedonhoantatnam(int Nam);
+        List<ThongkeKHNgayModel> Thongkedonhoantatngay(int Nam, int Thang);
+        List<ThongkespbanchaytrongthangModel> Spbanchaythang(int Ngay);
         List<ThongkespbanchaytrongthangModel> Spsaphet();
+        List<ThongkespbanchaytrongthangModel> Spdabanthang(int Ngay);
+        List<ThongkespbanchaytrongthangModel> Spbancham(int Ngay);
+        List<DoanhThuTheoSanPham> Thongkedoanhthutheosanpham(int Ngay);
+        List<DanhGiaModel> Thongkedanhgia(int Ngay);
     }
 }

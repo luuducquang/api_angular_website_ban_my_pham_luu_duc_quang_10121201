@@ -5,80 +5,106 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
-    <link rel="stylesheet" href="./assets/css/home-admin.css">
     <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular-route.js"></script>
     <link rel="stylesheet" href="./assets/font/cdn.jsdelivr.net_npm_bootstrap@5.3.1_dist_css_bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/css/product.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
-    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>   
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+    <link rel="stylesheet" href="./assets/css/home-admin.css">
+    <script src="./assets/font/pagination.js"></script>
+    <link rel="stylesheet" href="/admin/assets/css/pagination.css">
+    <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
+ 
 
 </head>
 <body onload="time()" ng-app="myApp">
-    <div class="container">
+    <div class="taskbar">
+        <div style="background-color: #FFCC00;width: 50px;float: right;line-height: 55px;margin-right: 20px;">
+            <i onclick="logoutUser()" style="margin-left: 8px; cursor: pointer;padding: 10px;" class="fa-solid fa-right-from-bracket"></i>
+        </div>
+        <!-- <div class="text-center float-end d-flex">
+            <img class="imgUser" style="height: 55px; width: 55px; border-radius: 50%;" src="" alt="">
+            <div style="margin: 0 10px;display: flex;flex-direction: column;align-items: flex-start;" class="h-55">
+                <p class="text-center nameUser" style="font-size: 18px;color: #dbdad4;margin-bottom: -4px;margin-top: 2px;">profile</p>
+                <p class="text-center" style="color: #dbdad4;">Chào mừng bạn quay trở lại</p>
+            </div>
+        </div> -->
+        <div class="text-center float-end d-flex">
+            <i style="color: #fff;font-size: 30px;line-height: 15px;padding: 20px; cursor: pointer;" class="fa-solid fa-gear"></i>
+        </div>
+        <div class="text-center float-end d-flex">
+            <i style="color: #fff;font-size: 30px;line-height: 15px;padding: 20px 0; cursor: pointer;" class="fa-solid fa-bell"></i>
+        </div>
+    </div>
+    <div class="menuOption">
+        <i onclick="hidemenu()" class="fa-solid fa-circle-chevron-left "></i>
+    </div>
+    <div class="">
         <i class="fa-solid fa-bars show_menu" onclick="showmenu()"></i>
         <div class="content-left">
-            <i onclick="hidemenu()" class="fa-solid fa-xmark icon_menu"></i>
+            <!-- <i onclick="hidemenu()" class="fa-solid fa-xmark icon_menu"></i> -->
             <nav class="nav-menu">
                 <div class="text-center p-4">
-                    <img class="imgUser" style="height: 100px; width: 100px; border-radius: 50%;" src="" alt="">
+                    <img class="imgUser" style="height: 100px; width: 100px; border-radius: 50%;border: solid 2px #fff;" src="" alt="">
                 </div>
-                <p class="text-center nameUser" style="font-size: 24px;margin-bottom: 5px;">profile</p>
+                <p class="text-center nameUser" style="font-size: 24px;margin-bottom: 5px;margin-top: -25px;">profile</p>
                 <p class="text-center" style="color: #dbdad4;">Chào mừng bạn quay trở lại</p>
-                <div style="padding: 5px; background-color: #FFCC00; width: 120px;margin: 0 auto;border-radius: 10px;">
-                    <i style="margin-left: 8px;" class="fa-solid fa-right-from-bracket"></i>
-                    <a style="text-decoration: none;color: white;" onclick="logoutUser()" href="./login.html">Đăng xuất</a>
-                </div>
                 <div style="width: 100%; height: 1px;background-color: aliceblue; margin: 10px auto;"></div>
                 <a href="#!/" class="button-item p-3">
                     <i class="fa-solid fa-house-laptop"></i>
                     Tổng quan
                 </a>
                 <a href="#!product/1" class="button-item p-3 productClick">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-shop"></i>
                     Thông tin sản phẩm
                 </a>
                 <a href="#!billSell/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
                     Hoá đơn bán
                 </a>
                 <a href="#!importBill/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-file-lines"></i>
                     Hoá đơn nhập
                 </a>
+                <a href="#!feedback/1" class="button-item p-3">
+                    <i class="fa-solid fa-comments"></i>
+                    Đánh giá
+                </a>
                 <a href="#!category/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-tags"></i>
                     Danh Mục
                 </a>
                 <a href="#!categoryOffer/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-tag"></i>
                     Danh Mục Ưu Đãi
                 </a>
                 <a href="#!manufacturer/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-industry"></i>
                     Hãng Sản Xuất
                 </a>
                 <a href="#!distributor/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-house-chimney-user"></i>
                     Nhà Phân Phối
                 </a>
                 <a href="#!advertisement/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-brands fa-adversal"></i>
                     Quảng Cáo
                 </a>
                 <a href="#!bannerslide/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-thumbtack"></i>
                     Banner Slide
                 </a>
                 <a href="#!typeaccount" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-user-tag"></i>
                     Loại Tài Khoản
                 </a>
                 <a href="#!account/1" class="button-item p-3">
-                    <i class="fa-brands fa-product-hunt"></i>
+                    <i class="fa-solid fa-users-gear"></i>
                     Tài Khoản
                 </a>
             </nav>
@@ -102,4 +128,5 @@
 <script src="./assets/js/billSell_data.js"></script>
 <script src="./assets/js/importBill_data.js"></script>
 <script src="./assets/js/overview_data.js"></script>
+<script src="./assets/js/feedback_data.js"></script>
 </html>

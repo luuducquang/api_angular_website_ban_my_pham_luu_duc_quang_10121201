@@ -1,9 +1,10 @@
 app.controller("HomeCtrl", function ($scope, $http) {
+    $(".OptionUser").hide();
     $scope.GetUuDai= function () {
         $http({
             method: 'POST',
             data: { page: 1, pageSize: 10,Tendanhmucuudai:"FlagSale"},
-            url: current_url + '/api/SanPham/search-sanpham',
+            url: current_url + '/api-user/SanPham/search-sanpham',
         }).then(function (response) {  
             $scope.listUudai = response.data.data; 
         });
@@ -12,11 +13,11 @@ app.controller("HomeCtrl", function ($scope, $http) {
 
     $scope.Getfavourite= function () {
         $http({
-            method: 'POST',
-            data: { page: 1, pageSize: 10,Tendanhmucuudai:"Mục ưa thích"},
-            url: current_url + '/api/SanPham/search-sanpham',
+            method: 'GET',
+            url: current_url + '/api-user/SanPham/sp-uathich',
         }).then(function (response) {  
-            $scope.listUathich = response.data.data; 
+            $scope.listUathich = response.data;     
+            console.log($scope.listUathich);
         });
     };   
 	$scope.Getfavourite();
@@ -25,10 +26,9 @@ app.controller("HomeCtrl", function ($scope, $http) {
         $http({
             method: 'POST',
             data: { page: 1, pageSize: 10,TenDanhMuc:"Serum"},
-            url: current_url + '/api/SanPham/search-sanpham',
+            url: current_url + '/api-user/SanPham/search-sanpham',
         }).then(function (response) {  
             $scope.listSerum = response.data.data; 
-            console.log($scope.listSerum);
         });
     };   
 	$scope.GetSerum();
@@ -37,10 +37,9 @@ app.controller("HomeCtrl", function ($scope, $http) {
         $http({
             method: 'POST',
             data: { page: 1, pageSize: 10,TenDanhMuc:"Sữa rửa mặt"},
-            url: current_url + '/api/SanPham/search-sanpham',
+            url: current_url + '/api-user/SanPham/search-sanpham',
         }).then(function (response) {  
             $scope.listCleanser = response.data.data; 
-            console.log($scope.listSerum);
         });
     };   
 	$scope.GetCleanser();
@@ -49,10 +48,9 @@ app.controller("HomeCtrl", function ($scope, $http) {
         $http({
             method: 'POST',
             data: { page: 1, pageSize: 10,MoTa:"false"},
-            url: current_url + '/api/QuangCao/search-quangcao',
+            url: current_url + '/api-user/QuangCao/search-quangcao',
         }).then(function (response) {  
             $scope.listADSLeft = response.data.data; 
-            console.log($scope.listADSLeft);
         });
     };   
     $scope.GetAdsLeft();
@@ -61,20 +59,18 @@ app.controller("HomeCtrl", function ($scope, $http) {
         $http({
             method: 'POST',
             data: { page: 1, pageSize: 10,MoTa:"true"},
-            url: current_url + '/api/QuangCao/search-quangcao',
+            url: current_url + '/api-user/QuangCao/search-quangcao',
         }).then(function (response) {  
             $scope.listADSRight = response.data.data; 
-            console.log($scope.listADSLeft);
         });
     };   
     $scope.GetAdsRight();
 
-    $http.get(current_url + '/api/SlideDetail/get-all-slide')
+    $http.get(current_url + '/api-user/SlideDetail/get-all-slide')
     .then(function(res){
         $scope.listImgSlider = res.data.map(function(value){
             return value.linkAnh
         })
-        $scope.listImgSlider
 
         // var imgs = ["./assets/img/skincare+banner.jpg",
         // "./assets/img/skincare.png",
@@ -82,7 +78,8 @@ app.controller("HomeCtrl", function ($scope, $http) {
         // "./assets/img/banner3.jpg",
         // "./assets/img/banner2.jpg",
         // "./assets/img/banner1.jpg"];
-        var imgs = $scope.listImgSlider
+        var imgs=[]
+        imgs = $scope.listImgSlider
 
 
         var prevBtn = document.querySelector('.prev')
@@ -139,5 +136,5 @@ app.controller("HomeCtrl", function ($scope, $http) {
                 // image.style.animation='next .5s ease'
             },300)  
         },3000)
-            })
+    })
 });

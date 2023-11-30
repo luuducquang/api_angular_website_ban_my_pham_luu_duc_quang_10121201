@@ -4,11 +4,19 @@ app.controller ('categoryOffer', ['$scope', '$routeParams', function($scope, $ro
 }]);
 
 app.controller("CategoryOfferCtrl", function ($scope, $http) {
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[6]).addClass('active_option')
+    
     $scope.ListDanhMucUuDai;
 
+    $scope.pageSize = 10
     var datas = {
         page: $scope.page,
-        pageSize: 10,
+        pageSize: $scope.pageSize,
         Tendanhmucuudai:$scope.tendanhmucuudaisearch
     }
 
@@ -20,7 +28,7 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
         $http({
             method: 'POST',
             data: datas,
-            url: current_url + '/api/DanhMucUuDai/search-danhmucuudai',
+            url: current_url + '/api-admin/DanhMucUuDai/search-danhmucuudai',
             headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
         }).then(function (response) {  
             $scope.ListDanhMucUuDai = response.data.data; 
@@ -41,14 +49,14 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
             $scope.tendanhmucuudaisearch = $scope.timkiem
             var data = {
                 page: 1,
-                pageSize: 10,
+                pageSize: $scope.pageSize,
                 Tendanhmucuudai: $scope.tendanhmucuudaisearch
             };
             $http({
                 method: 'POST',
                 headers: { "Authorization": 'Bearer ' + _user.token },
                 data: data,
-                url: current_url + '/api/DanhMucUuDai/search-danhmucuudai',
+                url: current_url + '/api-admin/DanhMucUuDai/search-danhmucuudai',
             }).then(function (response) {  
                 console.log(response);
                 if(response.data.totalItems===0){
@@ -65,66 +73,73 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
         }
     }
     //-------------------------------------------------------------------------------//
-    
-    
     $scope.pageIndex = function(total){
-        $('.page-count li').remove()
-            var count = Math.ceil((total) / datas.pageSize)
-            var currentPage = $scope.page;
-            var aItem = [];
-            for (var i = 1; i < count + 1; i++) {
-                let li = document.createElement('li')
-                li.className = 'page-item'
-                let a = document.createElement('a')
-                a.className = 'page-link'
-                li.appendChild(a)
-                a.innerText = i
-                aItem.push(a);
-                $('.page-count').append(li)
-                a.onclick = function () {
-                    $scope.changePage(a.innerHTML)
+        $('#pagination').pagination({
+            dataSource: function(done){
+                var result = [];
+                for(var i = 1; i <= total; i++){
+                    result.push(i);
+                }
+                done(result);
+            },
+            pageSize: $scope.pageSize,
+            pageNumber: $scope.page,
+            showGoInput: true,
+            showGoButton: true,
+            className: 'paginationjs-theme-blue paginationjs-big',
+            afterGoButtonOnClick :function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.tendanhmucuudaisearch){
-                        a.href='#!categoryOffer/'+a.innerHTML+'/'+$scope.tendanhmucuudaisearch
+                        window.location='#!categoryOffer/'+pageNumber+'/'+$scope.tendanhmucuudaisearch
                     }
                     else{
-                        a.href='#!categoryOffer/'+a.innerHTML
+                        window.location='#!categoryOffer/'+pageNumber
                     }
-                }
-            }    
-
-            aItem[currentPage - 1].classList.add('activePage'); 
-            prev = function(){
-                if($scope.page<=1){
-                    $scope.page=1
                 }
                 else{
-                    $scope.page--
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterGoInputOnEnter:function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.tendanhmucuudaisearch){
-                        window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+                        window.location='#!categoryOffer/'+pageNumber+'/'+$scope.tendanhmucuudaisearch
                     }
                     else{
-                        window.location='#!categoryOffer/'+$scope.page
+                        window.location='#!categoryOffer/'+pageNumber
                     }
                 }
-            }
-
-            next = function(){
-                if($scope.page<count){
-                    $scope.page++
-                    if($scope.tendanhmucuudaisearch){
-                        window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
-                    }
-                    else{
-                        window.location='#!categoryOffer/'+$scope.page
-                    }
+                else{
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterNextOnClick:function(event,pageNumber){
+                if($scope.tendanhmucuudaisearch){
+                    window.location='#!categoryOffer/'+pageNumber+'/'+$scope.tendanhmucuudaisearch
+                }
+                else{
+                    window.location='#!categoryOffer/'+pageNumber
+                }
+                
+            },
+            afterPreviousOnClick:function(event,pageNumber){
+                if($scope.tendanhmucuudaisearch){
+                    window.location='#!categoryOffer/'+pageNumber+'/'+$scope.tendanhmucuudaisearch
+                }
+                else{
+                    window.location='#!categoryOffer/'+pageNumber
+                }
+                
+            },
+            afterPageOnClick : function(event,pageNumber){
+                if($scope.tendanhmucuudaisearch){
+                    window.location='#!categoryOffer/'+pageNumber+'/'+$scope.tendanhmucuudaisearch
+                }
+                else{
+                    window.location='#!categoryOffer/'+pageNumber
                 }
             }
-    }
-    
-
-    $scope.changePage=function(i) {
-        datas.page = i
-        $scope.GetDanhMucUuDai()
+        })
     }
 
     $scope.checkBoxItem =[]
@@ -148,10 +163,9 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.checkBoxItem,
-                url: current_url + '/api/DanhMucUuDai/delete-danhmucuudai',
+                url: current_url + '/api-admin/DanhMucUuDai/delete-danhmucuudai',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 if($scope.tendanhmucuudaisearch){
                     window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
                 }
@@ -183,7 +197,7 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
                 DacBiet: status.value==="true",
                 NoiDung: describe.value
             },
-            url: current_url + '/api/DanhMucUuDai/create-danhmucuudai',
+            url: current_url + '/api-admin/DanhMucUuDai/create-danhmucuudai',
             headers: {'Content-Type': 'application/json'}
         }).then(function (response) { 
             alert('Thêm thành công');
@@ -221,28 +235,29 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
             return
         }
         else{
-            $http({
-                method: 'PUT',
-                data: {
-                    Madanhmucuudai: $scope.Madanhmucuudai,
-                    Tendanhmucuudai: categoryName.value,
-                    DacBiet: status.value==="true",
-                    NoiDung: describe.value
-                },
-                url: current_url + '/api/DanhMucUuDai/update-danhmucuudai',
-                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-            }).then(function (response) { 
-                alert('Sửa thành công')
-                if($scope.tendanhmucuudaisearch){
-                    window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
-                }
-                else{
-                    window.location='#!categoryOffer/'+$scope.page
-                }
-            })
-            .catch(function (error) {
-                console.error('Lỗi khi sua:', error);
-            });
+            if(confirm("Bạn có muốn sửa thông tin danh mục ưu đãi không !")){
+                $http({
+                    method: 'PUT',
+                    data: {
+                        Madanhmucuudai: $scope.Madanhmucuudai,
+                        Tendanhmucuudai: categoryName.value,
+                        DacBiet: status.value==="true",
+                        NoiDung: describe.value
+                    },
+                    url: current_url + '/api-admin/DanhMucUuDai/update-danhmucuudai',
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                }).then(function (response) { 
+                    if($scope.tendanhmucuudaisearch){
+                        window.location='#!categoryOffer/'+$scope.page+'/'+$scope.tendanhmucuudaisearch
+                    }
+                    else{
+                        window.location='#!categoryOffer/'+$scope.page
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Lỗi khi sua:', error);
+                });
+            }
         }
     }
 });

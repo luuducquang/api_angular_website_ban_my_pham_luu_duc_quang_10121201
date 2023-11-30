@@ -39,14 +39,14 @@ namespace BussinessLayer
             return _res.Delete(MaHoaDon);
         }
 
-        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
+        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, string TrangThai, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
         {
-            return _res.Search(pageIndex, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, SDT);
+            return _res.Search(pageIndex, pageSize, out total, TenKH, TrangThai, fr_NgayTao, to_NgayTao, SDT);
         }
 
-        public List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
+        public List<HoaDonModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, string TrangThai, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
         {
-            return _res.SearchSingle(pageIndex, pageSize, out total, TenKH, fr_NgayTao, to_NgayTao, SDT);
+            return _res.SearchSingle(pageIndex, pageSize, out total, TenKH, TrangThai, fr_NgayTao, to_NgayTao, SDT);
         }
     }
 }

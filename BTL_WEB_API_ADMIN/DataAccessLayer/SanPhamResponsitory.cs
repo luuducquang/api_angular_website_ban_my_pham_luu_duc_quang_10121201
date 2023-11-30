@@ -35,6 +35,38 @@ namespace DataAccessLayer
                 throw ex;
             }
         }
+
+        public void Tang5()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedure("sp_tang_gia_sp_all_5");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void Giam5()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedure("sp_giam_gia_sp_all_5");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public SanPhamDetailModel Getbyid(int id)
         {
             string msgError = "";
@@ -83,7 +115,6 @@ namespace DataAccessLayer
                     "@GiaGiam", model.GiaGiam,
                     "@SoLuong", model.SoLuong,
                     "@TrangThai", model.TrangThai,
-                    "@LuotXem", model.LuotXem,
                     "@TrongLuong", model.TrongLuong,
                     "@XuatXu", model.XuatXu,
                     "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,
@@ -117,7 +148,6 @@ namespace DataAccessLayer
                     "@GiaGiam", model.GiaGiam,
                     "@SoLuong", model.SoLuong,
                     "@TrangThai", model.TrangThai,
-                    "@LuotXem", model.LuotXem,
                     "@TrongLuong", model.TrongLuong,
                     "@XuatXu", model.XuatXu,
                     "@list_json_chitiet_sanpham", model.list_json_chitiet_sanpham != null ? MessageConvert.SerializeObject(model.list_json_chitiet_sanpham) : null,

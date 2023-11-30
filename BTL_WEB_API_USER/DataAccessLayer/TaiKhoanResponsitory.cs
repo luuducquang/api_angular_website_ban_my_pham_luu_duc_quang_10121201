@@ -19,6 +19,38 @@ namespace DataAccessLayer
             _dbHelper = dbHelper;
         }
 
+        public List<TaiKhoanModel> Getalltaikhoan()
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_getallusername");
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<TaiKhoanModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ChiTietTaiKhoanModelTWO> Getbyids(int id)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_getbyidchitiettaikhoancustomer",
+                     "@MaTaiKhoan", id);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ChiTietTaiKhoanModelTWO>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool Create(TaiKhoanModel model)
         {
             string msgError = "";
@@ -27,6 +59,28 @@ namespace DataAccessLayer
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_create_taikhoan",
                     "@TenTaiKhoan", model.TenTaiKhoan,
                     "@MatKhau", model.MatKhau,
+                    "@Email", model.Email,
+                    "@list_json_chitiet_taikhoan", model.list_json_chitiet_taikhoan != null ? MessageConvert.SerializeObject(model.list_json_chitiet_taikhoan) : null);
+                if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
+                {
+                    throw new Exception(Convert.ToString(result) + msgError);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public bool Update(TaiKhoanModel model)
+        {
+            string msgError = "";
+            try
+            {
+                var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_update_taikhoan",
+                    "@MaTaiKhoan", model.MaTaiKhoan,
                     "@Email", model.Email,
                     "@list_json_chitiet_taikhoan", model.list_json_chitiet_taikhoan != null ? MessageConvert.SerializeObject(model.list_json_chitiet_taikhoan) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))

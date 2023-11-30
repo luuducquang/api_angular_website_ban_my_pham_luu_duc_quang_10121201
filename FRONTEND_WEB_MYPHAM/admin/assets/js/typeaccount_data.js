@@ -1,10 +1,17 @@
 app.controller("TypeAccountCtrl", function ($scope, $http) {
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[11]).addClass('active_option')
+    
     $scope.submit = "Thêm mới";
     $scope.listTypeAcount
     $scope.maloaitk
 
     $scope.GetTypeuser= function () {
-        $http.get(current_url+'/api/LoaiTaiKhoan/get_all_loaitaikhoan')
+        $http.get(current_url+'/api-admin/LoaiTaiKhoan/get_all_loaitaikhoan')
         .then(function (response) {  
             $scope.listTypeAcount = response.data
         }).catch(function (error) {
@@ -35,10 +42,9 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.selected,
-                url: current_url + '/api/LoaiTaiKhoan/delete_loaitaikhoan',
+                url: current_url + '/api-admin/LoaiTaiKhoan/delete_loaitaikhoan',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 window.location='#!typeaccount'
             })
             .catch(function (error) {
@@ -74,7 +80,7 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
                     TenLoai: $scope.tenloai,
                     MoTa: $scope.mota
                 },
-                url: current_url + '/api/LoaiTaiKhoan/create_loaitaikhoan',
+                url: current_url + '/api-admin/LoaiTaiKhoan/create_loaitaikhoan',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) {  
                 alert('Thêm thành công')
@@ -84,21 +90,22 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
             });
         }
         else{
-            $http({
-                method: 'PUT',
-                data: {
-                    MaLoaitaikhoan: $scope.maloaitk,
-                    TenLoai: $scope.tenloai,
-                    MoTa: $scope.mota
-                },
-                url: current_url + '/api/LoaiTaiKhoan/update_loaitaikhoan',
-                headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-            }).then(function (response) {  
-                alert('Sửa thành công')
-                window.location='#!typeaccount'
-            }).catch(function (error) {
-                console.error('Lỗi khi sửa sản phẩm:', error);
-            });
+            if(confirm("Bạn có muốn sửa thông tin loại tài khoản không !")){
+                $http({
+                    method: 'PUT',
+                    data: {
+                        MaLoaitaikhoan: $scope.maloaitk,
+                        TenLoai: $scope.tenloai,
+                        MoTa: $scope.mota
+                    },
+                    url: current_url + '/api-admin/LoaiTaiKhoan/update_loaitaikhoan',
+                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                }).then(function (response) {  
+                    window.location='#!typeaccount'
+                }).catch(function (error) {
+                    console.error('Lỗi khi sửa sản phẩm:', error);
+                });
+            }
         }
     }
 })

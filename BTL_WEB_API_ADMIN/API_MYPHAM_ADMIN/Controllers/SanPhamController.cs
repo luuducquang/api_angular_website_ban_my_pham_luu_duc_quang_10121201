@@ -27,6 +27,20 @@ namespace API_MYPHAM.Controllers
             return _sanPhamBUS.Getallsanpham();
         }
 
+        [Route("tang-5-persen")]
+        [HttpGet]
+        public void Tang5()
+        {
+            _sanPhamBUS.Tang5();
+        }
+        
+        [Route("giam-5-persen")]
+        [HttpGet]
+        public void Giam5()
+        {
+            _sanPhamBUS.Giam5();
+        }
+
         [AllowAnonymous]
         [Route("getbyid-sanpham/{id}")]
         [HttpGet]

@@ -1,0 +1,159 @@
+<link rel="stylesheet" href="./assets/css/main.css" />
+<link rel="stylesheet" href="./assets/css/order.css" />
+<link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css" />
+<link
+  rel="stylesheet"
+  href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css"
+/>
+
+
+<div ng-controller="Order2Ctrl" id="content">  
+    <div class="order-cart-shop">
+        <div class="type">
+            <a href="#!/">TRANG CHỦ</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/cart">GIỎ HÀNG</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/order2">MUA NGAY</a>
+        </div>
+        <div class="order-cart-shop-content">
+            <form action="#">
+                <table>
+                    <thead>
+                        <tr>    
+                            <td>Sản Phẩm</td>
+                            <td>Dung Tích</td>
+                            <td>Đơn Giá</td>
+                            <td>Số Lượng</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td style=" display: flex; align-items: center;"><img style="width: 20%;" src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt=""><span class="nameItem">Sữa Rửa Mặt CeraVe Sạch Sâu Cho Da Thường Đến Da Dầu Foaming Cleanser</span></td>
+                            <td>473ml</td>
+                            <td><p><span class="price-item">399.000</span><sup>đ</sup></p></td>
+                            <td>
+                                <div class="buy-amount" style="display: flex; justify-content: center;">
+                                    <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></span>
+                                    <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
+                                    <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></span>  
+                                </div>
+                            </td>
+                            <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
+                        </tr> -->
+                    </tbody>
+            </table>    
+
+            </form>
+        </div>
+
+        
+    </div>
+
+    <div style="text-decoration: none;" class="total-order">
+        <form action="#">
+            <table>
+                <tr>
+                    <td>Phí tạm tính: </td>
+                    <td><span class="totalPriceCart">100.000</span><sup>đ</sup></td>
+                </tr>
+                <tr>
+                    <td>Phụ phí: </td>
+                    <td><span>0</span><sup>đ</sup></td>
+                </tr>
+                <tr>
+                    <td>Phí vận chuyển: </td>
+                    <td><span class="transport_oder">30.000</span><sup>đ</sup></td>
+                </tr>
+                <tr>
+                    <td>Giảm giá: </td>
+                    <td><span>0</span><sup>đ</sup></td>
+                </tr>
+                <tr>
+                    <td style="border-top: 1px solid #E1E1E1;">Tổng thanh toán:</td>
+                    <td class="total_order" style="border-top: 1px solid #E1E1E1;"><span style="font-family: Arial, Helvetica, sans-serif;font-size: 20px;" class="total_all">100.000</span><sup>đ</sup></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="address-delivery">
+        <h2>Vui lòng chọn địa chỉ giao hàng</h2>
+        <form action="#" onchange="return paynow()">
+            <table>
+                <tr>
+                    <td>Họ tên: <sup class="war-name">*</sup></td>
+                    <td>Điện thoại: <sup class="war-tel">*</sup></td>
+                    <td>Email: <sup class="war-name">*</sup></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input ng-model="nameCustomer" type="text" name="" id="" class="name-delivery" >
+                    </td>
+                    <td>
+                        <input ng-model="telCustomer" onkeypress="return isNumberKey(event)" id="sodienthoai" type="text" name="" id="" class="tel-delivery">
+                    </td>
+                    <td>
+                        <input ng-model="emailCustomer" type="text" name="" id="" class="email-delivery">
+                    </td>
+                </tr>
+                <script>
+                    $(document).ready(function() {
+                        $('#sodienthoai').on('input', function() {
+                            var inputValue = $(this).val();
+                            if (inputValue.length > 11) {
+                                inputValue = inputValue.slice(0, 11);
+                            }
+                            $(this).val(inputValue);
+                        });
+                    });
+                    function isNumberKey(e) {
+                        var charCode = (e.which) ? e.which : e.keyCode;
+                        if (charCode > 31 && (charCode < 48 || charCode > 57))
+                            return false;
+                        return true;
+                    }
+                </script>
+                <tr>
+                    <td>Tỉnh/TP: <sup class="war-city">*</sup></td>
+                    <td>Quận/Huyện: <sup class="war-province">*</sup></td>
+                    <td>Phường/Xã: <sup class="war-commune">*</sup></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select  style="width: 90%;height: 30px;" name="" id="province">
+                            <option selected disabled value="">Vui lòng chọn</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select  style="width: 90%;height: 30px;" name="" id="district">
+                            <option selected disabled value="">Vui lòng chọn</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select style="width: 90.5%;height: 30px;" name="" id="ward">
+                            <option selected disabled  value="">Vui lòng chọn</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ: <sup class="war-address">*</sup></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input ng-model="AdressDetailCustomer" style="width: 97.5%;" type="text" name="" id="" class="input-address">
+                    </td>
+                </tr>
+                <tr class="payment">
+                    <td style="padding-top: 20px;" class="back"><div><i class="fa-solid fa-backward"></i>Tiếp tục mua hàng</div></td>
+                    <td ng-click="orderNow()" style="padding-top: 20px; float: right;" class="let-go"><div >Thanh toán và giao hàng</div></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+</div>
+
+<script src="./assets/js/menulist.js"></script>
+<script src="./assets/js/order2.js"></script>
+<script src="./assets/js/search.js"></script>

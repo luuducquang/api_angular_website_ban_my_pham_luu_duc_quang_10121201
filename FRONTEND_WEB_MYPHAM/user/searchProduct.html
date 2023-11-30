@@ -1,0 +1,76 @@
+<div ng-controller="searchProductCtrl" style="margin-top: 85px;" id="content">  
+    <div class="cleanser">
+        <div style="margin-top: 10px;" class="type">
+            <a href="#!/">TRANG CHỦ</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/searchProduct/1/{{name}}">TÌM KIẾM</a>
+        </div>
+        <div class="searchCategory">
+            <div class="searchPriceAbout">
+                <form action="">
+                    <label style="color: gray;">Khoảng giá</label>
+                    <input ng-model="giamin" class="startPrice" type="text" name="" id="">
+                    <label>-</label>
+                    <input ng-model="giamax" class="endPrice" type="text" name="" id="">
+                    <button ng-click="searchNow()">Tìm kiếm</button>
+                </form>
+                <a href="#!searchProduct/1/{{name}}"  class="Defaut {{price===undefine?'activeSearch':''}}">
+                    Mới nhất
+                </a>
+                <a href="#!searchProduct/1/{{name}}/selling"  class="Defaut {{price==='selling'?'activeSearch':''}}">
+                   Bán chạy
+                </a>
+                <a href="#!searchProduct/1/{{name}}/view"  class="Defaut {{price==='view'?'activeSearch':''}}">
+                   Lượt xem
+                </a>
+                <a href="#!searchProduct/1/{{name}}/up"  class="searchLowToHigh {{price==='up'?'activeSearch':''}}">
+                    Giá từ thấp đến cao
+                </a>
+                <a href="#!searchProduct/1/{{name}}/down"  class="searchHighToLow {{price==='down'?'activeSearch':''}}">
+                    Giá từ cao đến thấp
+                </a>
+            </div>
+        </div>
+        <div ng-repeat="x in listItem" class="home-product-item">
+            <a href="#!/product/{{x.maSanPham}}">
+                <div class="home-product-item_img"><img src="{{x.anhDaiDien}}" alt=""></div>
+                <h4 class="home-product-item_name">{{x.tenSanPham}}</h4>
+                <span class="decrip-item">{{x.moTa}}</span>
+            </a>
+            <span class="sale-up">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }} <sup>%</sup><div>Giảm</div></span>                
+            <div class="home-product-item_price">
+                <span class="home-product-item_price_current">{{x.giaGiam.toLocaleString('DE-de')}}<sup>đ</sup></span>
+                <span class="home-product-item_price_old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
+            </div>
+            <div class="home-icon-recommend">
+                <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                <span title="Đã bán" class="fa-solid fa-shop"></span>
+                <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
+                <span class="fa-solid fa-truck-fast free-ship"></span>
+            </div>  
+            <div class="view">
+                <i class="fa-solid fa-eye"></i> {{x.luotXem.toLocaleString('DE-de')}}
+            </div>
+            <div class="country">
+                {{x.xuatXu}}
+            </div>
+        </div>
+    </div>
+    <div class="NonOptionProduct">
+        <div class="nonProduct">
+            <div class="showNonProduct">
+                <i class="fa-regular fa-face-smile"></i>
+            </div>
+        </div>
+        <div class="optionNonProduct">
+            <p>Không có sản phẩm nào phù hợp với điều kiện lọc của bạn.</p>
+            <p>Bạn thử tắt điều kiện lọc và tìm lại nhé!</p>
+            <div class="delOption">
+                <button ng-click="delOption()">Xoá bộ lọc</button>
+            </div>
+        </div>
+    </div>
+    <div id="pagination"></div>
+</div>

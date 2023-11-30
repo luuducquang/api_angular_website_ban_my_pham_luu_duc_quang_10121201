@@ -18,9 +18,23 @@ namespace BussinessLayer
         {
             _res = taiKhoanResponsitory;
         }
+
+        public List<TaiKhoanModel> Getalltaikhoan()
+        {
+            return _res.Getalltaikhoan();
+        }
+        public List<ChiTietTaiKhoanModelTWO> Getbyids(int id)
+        {
+            return _res.Getbyids(id);
+        }
         public bool Create(TaiKhoanModel model)
         {
             return _res.Create(model);
+        }
+
+        public bool Update(TaiKhoanModel model)
+        {
+            return _res.Update(model);
         }
 
         public bool Doimk(DoimkModel model)

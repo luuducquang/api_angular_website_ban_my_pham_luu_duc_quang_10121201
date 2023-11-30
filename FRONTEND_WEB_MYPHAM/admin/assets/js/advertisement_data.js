@@ -3,6 +3,13 @@ app.controller ('advertisement', ['$scope', '$routeParams', function($scope, $ro
 }]);
 
 app.controller("AdvertisementCtrl", function ($scope, $http) {
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[9]).addClass('active_option')
+    
     $scope.submit = "Thêm mới";
 	$scope.listADS;	
     $scope.pageSize=10
@@ -17,7 +24,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                 page: $scope.page,
                 pageSize: $scope.pageSize
             },
-            url: current_url + '/api/QuangCao/search-quangcao',
+            url: current_url + '/api-admin/QuangCao/search-quangcao',
         }).then(function (response) {  
             $scope.listADS = response.data.data
             $scope.pageIndex(response.data.totalItems)
@@ -28,46 +35,47 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
 	$scope.GetADS();
 
     $scope.pageIndex = function(total){
-        $('.page-count li').remove()
-            var count = Math.ceil((total) / $scope.pageSize)
-            var currentPage = $scope.page;
-            var aItem = [];
-            for (var i = 1; i < count + 1; i++) {
-                let li = document.createElement('li')
-                li.className = 'page-item'
-                let a = document.createElement('a')
-                a.className = 'page-link'
-                li.appendChild(a)
-                a.innerText = i
-                aItem.push(a);
-                $('.page-count').append(li)
-                a.onclick = function () {
-                    $scope.changePage(a.innerHTML)
-                    a.href='#!advertisement/'+a.innerHTML
+        $('#pagination').pagination({
+            dataSource: function(done){
+                var result = [];
+                for(var i = 1; i <= total; i++){
+                    result.push(i);
                 }
-            }    
-
-            aItem[currentPage - 1].classList.add('activePage');
-            prev = function(){
-                if($scope.page<=1){
-                    $scope.page=1
+                done(result);
+            },
+            pageSize: $scope.pageSize,
+            pageNumber: $scope.page,
+            showGoInput: true,
+            showGoButton: true,
+            className: 'paginationjs-theme-blue paginationjs-big',
+            afterGoButtonOnClick :function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
+                    window.location='#!advertisement/'+pageNumber
                 }
                 else{
-                    $scope.page--
-                    window.location='#!advertisement/'+$scope.page
+                    $('.J-paginationjs-go-pagenumber').val('')
                 }
-            }
-
-            next = function(){
-                if($scope.page<count){
-                    $scope.page++
-                    window.location='#!advertisement/'+$scope.page
+            },
+            afterGoInputOnEnter:function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
+                    window.location='#!advertisement/'+pageNumber
                 }
+                else{
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterNextOnClick:function(event,pageNumber){
+                window.location='#!advertisement/'+pageNumber
+                
+            },
+            afterPreviousOnClick:function(event,pageNumber){
+                window.location='#!advertisement/'+pageNumber
+                
+            },
+            afterPageOnClick : function(event,pageNumber){
+                window.location='#!advertisement/'+pageNumber
             }
-    }
-    
-    $scope.changePage=function(i) {
-        $scope.page = i
+        })
     }
 
     $scope.selected =[]
@@ -92,10 +100,9 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.selected,
-                url: current_url + '/api/QuangCao/delete-quangcao2',
+                url: current_url + '/api-admin/QuangCao/delete-quangcao2',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 window.location='#!advertisement/'+$scope.page
             })
             .catch(function (error) {
@@ -149,7 +156,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                     'Content-Type': undefined
                 },
                 data: formData,
-                url: current_url + '/api/Image/upload',
+                url: current_url + '/api-admin/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
                 preview.src = "../img"+ $scope.Image
@@ -162,7 +169,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                             LinkQuangCao: $scope.link,
                             MoTa: $scope.mota
                         },
-                        url: current_url + '/api/QuangCao/create-quangcao',
+                        url: current_url + '/api-admin/QuangCao/create-quangcao',
                         headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Thêm thành công')
@@ -171,21 +178,22 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                     });
                 }
                 else{
-                    $http({
-                        method: 'PUT',
-                        data: {
-                            Id: $scope.IdQuangCao,
-                            AnhDaiDien: "../img"+$scope.Image,
-                            LinkQuangCao: $scope.link,
-                            MoTa: $scope.mota
-                        },
-                        url: current_url + '/api/QuangCao/update-quangcao',
-                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-                    }).then(function (response) {  
-                        alert('Sửa thành công')
-                    }).catch(function (error) {
-                        console.error('Lỗi khi sửa sản phẩm:', error);
-                    });
+                    if(confirm("Bạn có muốn sửa thông tin quảng cáo không !")){
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                Id: $scope.IdQuangCao,
+                                AnhDaiDien: "../img"+$scope.Image,
+                                LinkQuangCao: $scope.link,
+                                MoTa: $scope.mota
+                            },
+                            url: current_url + '/api-admin/QuangCao/update-quangcao',
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                        }).then(function (response) {  
+                        }).catch(function (error) {
+                            console.error('Lỗi khi sửa sản phẩm:', error);
+                        });
+                    }
                 }
             });
         }
@@ -198,7 +206,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                         LinkQuangCao: $scope.link,
                         MoTa: $scope.mota
                     },
-                    url: current_url + '/api/QuangCao/create-quangcao',
+                    url: current_url + '/api-admin/QuangCao/create-quangcao',
                     headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
@@ -208,22 +216,23 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
                 });
             }
             else{
-                $http({
-                    method: 'PUT',
-                    data: {
-                        Id: $scope.IdQuangCao,
-                        AnhDaiDien: $scope.hinhanh,
-                        LinkQuangCao: $scope.link,
-                        MoTa: $scope.mota
-                    },
-                    url: current_url + '/api/QuangCao/update-quangcao',
-                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-                }).then(function (response) {  
-                    alert('Sửa thành công')
-                    window.location='#!advertisement/'+$scope.page
-                }).catch(function (error) {
-                    console.error('Lỗi khi sửa sản phẩm:', error);
-                });
+                if(confirm("Bạn có muốn sửa thông tin quảng cáo không !")){
+                    $http({
+                        method: 'PUT',
+                        data: {
+                            Id: $scope.IdQuangCao,
+                            AnhDaiDien: $scope.hinhanh,
+                            LinkQuangCao: $scope.link,
+                            MoTa: $scope.mota
+                        },
+                        url: current_url + '/api-admin/QuangCao/update-quangcao',
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                    }).then(function (response) {  
+                        window.location='#!advertisement/'+$scope.page
+                    }).catch(function (error) {
+                        console.error('Lỗi khi sửa sản phẩm:', error);
+                    });
+                }
             }
         }
     }

@@ -13,10 +13,10 @@
                 <div class="miror"></div>
                 <div class="but">
                     <span>
-                        <i onclick="Prev()" class="fa-solid fa-angle-left"></i>
+                        <i ng-click="Prev()" class="fa-solid fa-angle-left"></i>
                     </span>
                     <span>
-                        <i onclick="Next()" class="fa-solid fa-angle-right"></i>
+                        <i ng-click="Next()" class="fa-solid fa-angle-right"></i>
                     </span>
                 </div>
                 <div class="img-slider">
@@ -36,7 +36,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>
                             <div class="prouct-item-star-rating">
                                 <span class="fa-solid fa-star star-gold"></span>
@@ -47,7 +47,7 @@
                                 <a href="">99 đánh giá</a>
                             </div>
                         </td>
-                    </tr>
+                    </tr> -->
 
                     <tr> 
                         <td>
@@ -62,8 +62,20 @@
                     <tr>
                         <td>
                             <div class="status">
-                                Tình trạng : <span class="still">Còn hàng</span>
+                                Tình trạng : <span ng-style="{'color': ProductByid.soLuong === 0 ? '#FF3300' : '#33CC00'}">{{ProductByid.soLuong===0?'Hết hàng': 'Còn hàng'}}</span>
                             </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Lượt xem : {{ProductByid.luotXem.toLocaleString('de-DE')}}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            Đã bán : {{ProductByid.luotBan.toLocaleString('de-DE')}}
                         </td>
                     </tr>
 
@@ -143,16 +155,17 @@
     <!-- ------------Information------------- -->
     <div class="information">
         <div class="information-left">
-            <ul class="menu-inf">
+            <!-- <ul class="menu-inf">
                 <li class="color-menu " data-scroll="520">Thông tin sản phẩm</li>
                 <li class="color-menu" data-scroll="1186">Thông số sản phẩm</li>
                 <li class="color-menu" data-scroll="1484">Thành phần sản phẩm</li>
                 <li  class="color-menu" data-scroll="1900">Hướng dẫn sử dụng</li>
                 <li class="color-menu" data-scroll="2050">Đánh giá</li>
-            </ul>
+            </ul> -->
 
-            <div id= "information-product">
-                <p><strong>Sữa rửa mặt Cerave sạch sâu </strong>&nbspHiện sản phẩm đã có mặt tại <strong>SkinCare</strong></p>
+            <div id="information-product" ng-bind-html="ProductByid.chiTiet">   
+                <!-- {{ProductByid.chiTiet}} -->
+                <!-- <p><strong>Sữa rửa mặt Cerave sạch sâu </strong>&nbspHiện sản phẩm đã có mặt tại <strong>SkinCare</strong></p>
                 <ul>
                     <li><strong>Sữa Rửa Mặt Cerave Sạch Sâu Cho Da Thường Đến Da Dầu </strong></li>
                     <li><strong>Sữa Rửa Mặt Cerave Sạch Sâu Cho Da Thường Đến Da Khô</strong></li>
@@ -239,64 +252,83 @@
                         <li>Mát xa sữa rửa mặt theo chuyển động tròn.</li>
                         <li>Nhẹ nhàng rửa sạch lại với nước.</li>
                     </ul>
-                </div>
+                </div> -->
             </div>
 
             
 
             <div id="rate">
-                <h2>Đánh giá</h2>
-                <div class="personrate">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="user">Lưu Đức Quang</span>
-                    <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
-                    <span class="fa-solid fa-check"></span>
-                    <span class="check-buy">Đã mua hàng online</span>
-                    <span class="time-comment">07:21 | 04/10/2022</span>
-                    <p>Sản phầm rất tốt</p>
+                <h2>Đánh giá ({{amountlistRating}})</h2>
+                <div class="ratingheder">
+                    <p>Đánh giá trung bình:</p>
+                    <h1 style="font-size: 50px;">{{ProductByid.danhGia.toFixed(1)}} <i style="font-size: 20px ;color: #ff9c1a; margin-left: -7px;" class="fa-solid fa-star"></i></h1>
+                </div>
+                <div class="ratingUser">
+                    <p>Đánh giá sản phẩm này:</p>
+                    <div style="display: flex;">
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div style="margin-left: 30px; line-height: 40px;" class="textStar"></div>
+                    </div>
+                    <p>Mô tả nhận xét:</p>
+                    <textarea ng-model="comment" name="" id="" cols="10" rows="3"></textarea>
+                    <span>Chọn ảnh:</span>
+                    <input type="file" name="" id="ratingIMG">
+                    <div class="previewRating">
+                        <img style="width: 100px;height: 100px;margin-top: 5px;background-size: cover;" src="" alt="">
+                    </div>
+                    <div class="sendRating">
+                        <button ng-click="sendrate()">Viết đánh giá</button>
+                    </div>
+                </div>
+                <div class="stars2">
+                    <p style="margin-bottom: 10px;">Bạn đã đánh giá:</p>
+                    <div style="display: flex;">
+                        <div>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div style="margin-left: 30px; line-height: 40px;" class="textStar"></div>
+                    </div>
+                    <p class="commentRated" style="margin-left: 7px;padding-top: 3px;"></p>
+                    <img class="imgRated" style="width: 20%;margin-left: 7px;padding-top: 7px;background-size: cover;" src="" alt="">
+                </div>
+                <div class="btnNextRate">
+                    <h2>Bình luận cho sản phẩm này</h2>
+                    <span>
+                        <button ng-click="prevRate()" class="prevRate">Trang trước</button>
+                        <span>|</span>
+                        <button ng-click="nextRate()" class="nextRate">Trang Sau</button>
+                    </span>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <p class="nonRate" style="margin-top: 20px;">Chưa có đánh giá nào</p>
                 </div>
                 <div class="personrate">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="user">Lưu Đức Thắng</span>
-                    <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
-                    <span class="fa-solid fa-check"></span>
-                    <span class="check-buy">Đã mua hàng online</span>
-                    <span class="time-comment">07:21 | 04/10/2022</span>
-                    <p>Sản phầm chất lượng</p>
-                </div>
-                <div class="personrate">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="user">Lưu Đức Thắng</span>
-                    <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
-                    <span class="fa-solid fa-check"></span>
-                    <span class="check-buy">Đã mua hàng online</span>
-                    <span class="time-comment">07:21 | 04/10/2022</span>
-                    <p>Sản phầm chất lượng</p>
-                </div>
-                <div class="personrate">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="user">Lưu Đức Thắng</span>
-                    <span class="product-item-user">Sữa rửa mặt Cerave Renewing SA Cleanser</span>
-                    <span class="fa-solid fa-check"></span>
-                    <span class="check-buy">Đã mua hàng online</span>
-                    <span class="time-comment">07:21 | 04/10/2022</span>
-                    <p>Sản phầm chất lượng</p>
+                    <div ng-repeat="x in listRating" class="rate">
+                        <span class="stars-rate">
+                            <i ng-repeat="st in getStarsArray(5)" class="fa-solid fa-star" ng-class="{ 'activeStar': st <= x.chatLuong }"></i>
+                        </span>
+                        <span class="user">{{x.hoTen}}</span>
+                        <span class="product-item-user">{{x.tenSanPham}}</span>
+                        <div>
+                            <!-- <span class="fa-solid fa-check"></span> -->
+                            <span ng-style="{'color': x.trangThai === false ? '#FF0000' : '#00CC00'}" class="check-buy">{{x.trangThai===true?'Đã mua hàng online':'Chưa mua hàng'}}</span>
+                        </div>
+                        <span class="time-comment">{{ x.thoiGian | date:'HH:mm dd/MM/yyyy' }}</span>
+                        <p>{{x.noiDung}}</p>
+                        <div>
+                            <img style="width: 100px;height: 100px;margin-top: 5px;" src="{{x.anhDanhGia}}" alt="">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -305,22 +337,18 @@
             <div class="recommend">
                 <h2>Sản phẩm liên quan</h2>
                 <div ng-repeat="x in listConnect" class="product-recommend">
-                    <a href="#!/product/{{x.maSanPham}}">
+                    <a ng-click="reloadPage(x)" href="#!/product/{{x.maSanPham}}">
                         <div class="product-recommend-img"><img src="{{x.anhDaiDien}}" alt=""></div>
                         <span class="product-recommend-price">{{x.giaGiam.toLocaleString('de-DE')}}<sup>đ</sup></span>
                         <span class="product-recommend-price-old">{{x.gia.toLocaleString('de-DE')}}<sup>đ</sup></span>
-                        <div class="sale-off">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }}<sup>%</sup></div>
+                        <div style="display: block;" class="sale-off">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }}<sup>%</sup></div>
                         <div class="product-recommend-name">{{x.tenSanPham}}
                         </div>
                     </a>
                         <div class="icon-recommend">
-                            <span class="fa-solid fa-star star-gold"></span>
-                            <span class="fa-solid fa-star star-gold"></span>
-                            <span class="fa-solid fa-star star-gold"></span>
-                            <span class="fa-solid fa-star star-gold"></span>
-                            <span class="fa-solid fa-star star-gold"></span>
-                            <span class="people-rate">(10)</span>
-                            <span>|</span>
+                            <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                            <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                            <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
                             <span class="fa-solid fa-shop"></span>
                             <span class="amount-product">123</span>
                         </div>  
@@ -329,5 +357,3 @@
         </div>
     </div>
 </div>
-
-<script src="./assets/js/product.js"></script>

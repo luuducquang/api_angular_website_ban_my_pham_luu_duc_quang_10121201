@@ -210,12 +210,119 @@ namespace DataAccessLayer
             }
         }
 
-        public List<ThongkespbanchaytrongthangModel> Spbanchaythang()
+        public List<ThongkeKHNamModel> Thongkedonhuynam(int nam)
         {
             string msgError = "";
             try
             {
-                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_sanphambanchaytrongthang");
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_ThongKeDonHuyNam",
+                     "@Nam", nam);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkeKHNamModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ThongkeKHNgayModel> Thongkedonhuyngay(int Nam, int Thang)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_ThongKeDonHuyNgay",
+                     "@Nam", Nam,
+                     "@Thang", Thang);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkeKHNgayModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ThongkeKHNamModel> Thongkedonhoantranam(int nam)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_ThongKeDonHoanTraNam",
+                     "@Nam", nam);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkeKHNamModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ThongkeKHNgayModel> Thongkedonhoantrangay(int Nam, int Thang)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_ThongKeDonHoanTraNgay",
+                     "@Nam", Nam,
+                     "@Thang", Thang);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkeKHNgayModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public List<ThongkeKHNamModel> Thongkedonhoantatnam(int nam)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_ThongKeDonHoanTatNam",
+                     "@Nam", nam);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkeKHNamModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ThongkeKHNgayModel> Thongkedonhoantatngay(int Nam, int Thang)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_ThongKeDonHoanTatNgay",
+                     "@Nam", Nam,
+                     "@Thang", Thang);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkeKHNgayModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<ThongkespbanchaytrongthangModel> Spbanchaythang(int Ngay)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_sanphambanchaytrong",
+                    "@Ngay",Ngay);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 return dt.ConvertTo<ThongkespbanchaytrongthangModel>().ToList();
@@ -235,6 +342,72 @@ namespace DataAccessLayer
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 return dt.ConvertTo<ThongkespbanchaytrongthangModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ThongkespbanchaytrongthangModel> Spdabanthang(int Ngay)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_sanphamdabantrong",
+                    "@Ngay", Ngay);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkespbanchaytrongthangModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<ThongkespbanchaytrongthangModel> Spbancham(int Ngay)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_sanphambanchamtrong",
+                    "@Ngay", Ngay);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<ThongkespbanchaytrongthangModel>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<DoanhThuTheoSanPham> Thongkedoanhthutheosanpham(int Ngay)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_Thongkedoanhthutheosanpham",
+                    "@Ngay", Ngay);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<DoanhThuTheoSanPham>().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<DanhGiaModel> Thongkedanhgia(int Ngay)
+        {
+            string msgError = "";
+            try
+            {
+                var dt = _dbHelper.ExecuteSProcedureReturnDataTable(out msgError, "sp_danhgiatrong",
+                    "@Ngay", Ngay);
+                if (!string.IsNullOrEmpty(msgError))
+                    throw new Exception(msgError);
+                return dt.ConvertTo<DanhGiaModel>().ToList();
             }
             catch (Exception ex)
             {

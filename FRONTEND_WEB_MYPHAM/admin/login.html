@@ -14,7 +14,7 @@
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular-route.js"></script>
     <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
 </head>
-<body>
+<body style="background-color: #001c41;">
     <div id="wrapper">
         <form action="#" id="form-login">
             <h1 class="form-heading">Đăng nhập ADMIN</h1>
@@ -39,8 +39,10 @@
                 <a href="./forgot.html">Quên mật khẩu</a>
             </div>
             <!-- <input type="submit" src="./home.html" value="Đăng nhập" class="form-submit"> -->
-            <button class="form-submit" onclick="login()">Đăng nhập</button>
-
+            <button class="form-submit" onclick="login(event)">Đăng nhập</button>
+            <div style="display: flex; justify-content: center;align-items: center;">
+                <div style="color: #fff; font-size: 11px;margin-top: 25px;">Phần mềm quản lý mỹ phẩm <i class="fa-solid fa-copyright"></i> SkinCare 2023 by LuuDucQuang </div>
+            </div>
         </form>
     </div>
 </body>
@@ -86,7 +88,8 @@ function checkinputpass(){
     }
 }
 
-function login(){
+function login(event){
+    event.preventDefault();
     // var inputUser = document.querySelector(".input-user").value
     // var check = /^[a-zA-Z]+[a-zA-Z0-9]+$/
     // var warningPass = document.querySelector(".warning-pass")
@@ -104,7 +107,7 @@ function login(){
         item.password = $('.input-pass').val()
         $.ajax({
                 type: "POST",
-                url: current_url+"/api/User/login",
+                url: current_url+"/api-admin/User/login",
                 dataType: "json",
                 contentType: 'application/json',
                 data: JSON.stringify(item)
@@ -112,14 +115,19 @@ function login(){
                 if (data != null && data.message != null && data.message != 'undefined') {
                     alert(data.message);
                 } else {
-                    localStorage.setItem("user", JSON.stringify(data));
-                    window.location = 'home.html#!/'
+                    if(data.maLoaitaikhoan===1){
+                        localStorage.setItem("user", JSON.stringify(data));
+                        window.location = 'home.html#!/'
+                    }
+                    else{
+                        alert("Tài khoản khách hàng không thể vào đây!")
+                    }
                 }
                
             }) .fail(function() {
               alert('Tài khoản hoặc mật khẩu không chính xác');
             }); 
-        return
+        // return
     // }
 }
 </script>

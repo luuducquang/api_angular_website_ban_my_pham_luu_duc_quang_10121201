@@ -17,7 +17,9 @@ namespace Model
         public Decimal GiaGiam { get; set; }
         public int SoLuong { get; set; }
         public bool TrangThai { get; set; }
-        public int LuotXem { get; set; }
+        public int? LuotXem { get; set; }
+        public int? LuotBan { get; set; }
+        public int? DanhGia { get; set; }
         public string TrongLuong { get; set; }
         public string XuatXu { get; set; }
         public List<ChiTietSanPhamModel> list_json_chitiet_sanpham { get; set; }

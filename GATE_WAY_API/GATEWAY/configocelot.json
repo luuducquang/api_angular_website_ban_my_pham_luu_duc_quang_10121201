@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/ChiTietTaiKoan/{everything}",
+      "DownstreamPathTemplate": "/api/ChiTietTaiKhoan/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,12 +9,24 @@
           "Port": 44340
         }
       ],
-      "UpstreamPathTemplate": "/api-admin/ChiTietTaiKoan/{everything}",
+      "UpstreamPathTemplate": "/api-admin/ChiTietTaiKhoan/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
       //"AuthenticationOptions": {
       //  "AuthenticationProviderKey": "Bearer",
       //  "AllowedScopes": []
       //}
+    },
+    {
+      "DownstreamPathTemplate": "/api/DanhGia/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44340
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/DanhGia/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/DanhMuc/{everything}",
@@ -77,6 +89,18 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
+      "DownstreamPathTemplate": "/api/Image/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44340
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Image/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/LoaiTaiKhoan/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -98,6 +122,18 @@
         }
       ],
       "UpstreamPathTemplate": "/api-admin/NhaPhanPhoi/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Overview/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44340
+        }
+      ],
+      "UpstreamPathTemplate": "/api-admin/Overview/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
@@ -161,18 +197,6 @@
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Image/{everything}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 44340
-        }
-      ],
-      "UpstreamPathTemplate": "/api-admin/Image/{everything}",
-      "UpstreamHttpMethod": [ "POST" ]
-    },
-    {
       "DownstreamPathTemplate": "/api/ChiTietTaiKhoan/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -182,7 +206,19 @@
         }
       ],
       "UpstreamPathTemplate": "/api-user/ChiTietTaiKhoan/{everything}",
-      "UpstreamHttpMethod": [ "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/DanhGia/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44365
+        }
+      ],
+      "UpstreamPathTemplate": "/api-user/DanhGia/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/DanhMuc/{everything}",
@@ -194,7 +230,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api-user/DanhMuc/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/DanhMucUuDai/{everything}",
@@ -209,6 +245,18 @@
       "UpstreamHttpMethod": [ "GET", "POST" ]
     },
     {
+      "DownstreamPathTemplate": "/api/HoaDon/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44365
+        }
+      ],
+      "UpstreamPathTemplate": "/api-user/HoaDon/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/QuangCao/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -218,7 +266,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api-user/QuangCao/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/SanPham/{everything}",
@@ -230,7 +278,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api-user/SanPham/{everything}",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/SlideDetail/{everything}",
@@ -242,7 +290,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api-user/SlideDetail/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/TaiKhoan/{everything}",
@@ -254,7 +302,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api-user/TaiKhoan/{everything}",
-      "UpstreamHttpMethod": [ "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
     },
     {
       "DownstreamPathTemplate": "/api/User/{everything}",
@@ -281,7 +329,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     }
   ],
-  "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:23668"
-  }
+  //"GlobalConfiguration": {
+  //  "BaseUrl": "http://localhost:23669"
+  //}
 }

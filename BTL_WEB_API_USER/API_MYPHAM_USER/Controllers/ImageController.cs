@@ -40,7 +40,7 @@ namespace API_MYPHAM_USER.Controllers
             {
                 if (file.Length > 0)
                 {
-                    string filePath = $"upload/{file.FileName}";
+                    string filePath = $"/{file.FileName}";
                     var fullPath = CreatePathFile(filePath);
                     using (var fileStream = new FileStream(fullPath, FileMode.Create))
                     {

@@ -20,7 +20,7 @@
                     <th>ID</th>
                     <th scope="col">Hình Ảnh</th>
                     <th scope="col">Link</th>
-                    <th scope="col">Mô Tả</th>
+                    <th scope="col">Trạng Thái</th>
                     <th scope="col">Hành Động</th>
                 </tr>
            </thead>
@@ -30,10 +30,10 @@
                         <input class="form-check-input text-center" ng-model="selected" type="checkbox"
                             ng-click="toggleSelection(x)" value="" id="checkitem">
                     </td>
-                    <td>{{x.id}}</td>
+                    <td>{{x.id.toLocaleString('de-DE')}}</td>
                     <td><img style="width: 100px;height: 100px;background-size: cover;" src={{x.anhDaiDien}} alt=""></td>
-                    <td>{{x.linkQuangCao}}</td>
-                    <td>{{x.moTa === "true" ? 'Bên Phải':'Bên trái'}}</td>
+                    <td><a href="{{x.linkQuangCao}}" target="_blank">Link</a></td>
+                    <td>{{x.moTa === "true" ? 'Bên Phải': x.moTa === "false" ? 'Bên trái':'Ẩn'}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
                             <i ng-click="edit(x)"  class="fa-solid fa-pen-to-square"></i>
@@ -61,25 +61,14 @@
                     <option value="" disabled>Chọn vị trí</option>
                     <option value="true" >Bên Phải</option>
                     <option value="false">Bên Trái</option>
+                    <option value="non">Ẩn</option>
                 </select>
             </div>
             <button ng-click="save()" type="button" class="btn btn-success" style="margin: 0 0 10px 46%;">{{submit}}</button>
         </div>
     </div>
 </div>
-<nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
-    <ul class="pagination">
-        <li class="page-item prevPage">
-            <p onclick="prev()" class="page-link "><<</p>
-        </li>
-        <div class="page-count" style="display:flex">
-            <!-- <li class="page-item"><p class="page-link">1</p></li> -->
-        </div>
-        <li class="page-item nextPage">
-            <p onclick="next()" class="page-link">>></p>
-        </li>
-    </ul>
-</nav>
+<div id="pagination"></div>
 <div class="notifi">
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>

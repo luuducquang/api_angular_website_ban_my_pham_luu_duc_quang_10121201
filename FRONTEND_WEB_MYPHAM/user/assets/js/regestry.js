@@ -10,6 +10,18 @@ function checkname(){
     }
 }
 
+function checktel() {
+    var phoneNumber = document.querySelector(".tel").value;
+    var warning = document.querySelector(".warning-tel");
+    var check = /^[0-9]{10,}$/;
+    if (check.test(phoneNumber) === false || phoneNumber === "") {
+        warning.style.display = "block";
+    } else {
+        warning.style.display = "none";
+    }
+}
+
+
 function checkemail(){
     var email = document.querySelector(".email").value
     var warning = document.querySelector(".warning-email")

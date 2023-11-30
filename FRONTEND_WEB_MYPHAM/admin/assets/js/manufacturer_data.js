@@ -4,6 +4,13 @@ app.controller ('manufacturer', ['$scope', '$routeParams', function($scope, $rou
 }]);
 
 app.controller("ManufacturerCtrl", function ($scope, $http) {
+    var btnOption = $('.button-item')
+    var classbtn = $('.button-item.active_option')
+    if(classbtn){
+        $(classbtn).removeClass('active_option')
+    }
+    $(btnOption[7]).addClass('active_option')
+    
     $scope.submit = "Thêm mới";
 	$scope.listManufacturer;	
     $scope.pageSize=10
@@ -19,7 +26,7 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
                 pageSize: $scope.pageSize,
                 TenHang: $scope.tenhangsearch
             },
-            url: current_url + '/api/HangSanXuat/search-hangsanxuat',
+            url: current_url + '/api-admin/HangSanXuat/search-hangsanxuat',
         }).then(function (response) {  
             $scope.listManufacturer = response.data.data
             $scope.pageIndex(response.data.totalItems)
@@ -46,7 +53,7 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
                 method: 'POST',
                 headers: { "Authorization": 'Bearer ' + _user.token },
                 data: data,
-                url: current_url + '/api/HangSanXuat/search-hangsanxuat',
+                url: current_url + '/api-admin/HangSanXuat/search-hangsanxuat',
             }).then(function (response) {  
                 console.log(response);
                 if(response.data.totalItems===0){
@@ -63,64 +70,73 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
         }
     }
     //-------------------------------------------------------------------------------------//
-
     $scope.pageIndex = function(total){
-        $('.page-count li').remove()
-            var count = Math.ceil((total) / $scope.pageSize)
-            var currentPage = $scope.page;
-            var aItem = [];
-            for (var i = 1; i < count + 1; i++) {
-                let li = document.createElement('li')
-                li.className = 'page-item'
-                let a = document.createElement('a')
-                a.className = 'page-link'
-                li.appendChild(a)
-                a.innerText = i
-                aItem.push(a);
-                $('.page-count').append(li)
-                a.onclick = function () {
-                    $scope.changePage(a.innerHTML)
+        $('#pagination').pagination({
+            dataSource: function(done){
+                var result = [];
+                for(var i = 1; i <= total; i++){
+                    result.push(i);
+                }
+                done(result);
+            },
+            pageSize: $scope.pageSize,
+            pageNumber: $scope.page,
+            showGoInput: true,
+            showGoButton: true,
+            className: 'paginationjs-theme-blue paginationjs-big',
+            afterGoButtonOnClick :function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.tenhangsearch){
-                        a.href='#!manufacturer/'+a.innerHTML+'/'+$scope.tenhangsearch
+                        window.location='#!manufacturer/'+pageNumber+'/'+$scope.tenhangsearch
                     }
                     else{
-                        a.href='#!manufacturer/'+a.innerHTML
+                        window.location='#!manufacturer/'+pageNumber
                     }
-                }
-            }    
-
-            aItem[currentPage - 1].classList.add('activePage');
-
-            prev = function(){
-                if($scope.page<=1){
-                    $scope.page=1
                 }
                 else{
-                    $scope.page--
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterGoInputOnEnter:function(event,pageNumber){
+                if(pageNumber!=""&&pageNumber>0&&pageNumber<=Number(Math.ceil((total) / $scope.pageSize))){
                     if($scope.tenhangsearch){
-                        window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
+                        window.location='#!manufacturer/'+pageNumber+'/'+$scope.tenhangsearch
                     }
                     else{
-                        window.location='#!manufacturer/'+$scope.page
+                        window.location='#!manufacturer/'+pageNumber
                     }
                 }
-            }
-
-            next = function(){
-                if($scope.page<count){
-                    $scope.page++
-                    if($scope.tenhangsearch){
-                        window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
-                    }
-                    else{
-                        window.location='#!manufacturer/'+$scope.page
-                    }
+                else{
+                    $('.J-paginationjs-go-pagenumber').val('')
+                }
+            },
+            afterNextOnClick:function(event,pageNumber){
+                if($scope.tenhangsearch){
+                    window.location='#!manufacturer/'+pageNumber+'/'+$scope.tenhangsearch
+                }
+                else{
+                    window.location='#!manufacturer/'+pageNumber
+                }
+                
+            },
+            afterPreviousOnClick:function(event,pageNumber){
+                if($scope.tenhangsearch){
+                    window.location='#!manufacturer/'+pageNumber+'/'+$scope.tenhangsearch
+                }
+                else{
+                    window.location='#!manufacturer/'+pageNumber
+                }
+                
+            },
+            afterPageOnClick : function(event,pageNumber){
+                if($scope.tenhangsearch){
+                    window.location='#!manufacturer/'+pageNumber+'/'+$scope.tenhangsearch
+                }
+                else{
+                    window.location='#!manufacturer/'+pageNumber
                 }
             }
-    }
-    
-    $scope.changePage=function(i) {
-        $scope.page = i
+        })
     }
 
     $scope.selected =[]
@@ -145,10 +161,9 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
             $http({
                 method: 'DELETE',
                 data: $scope.selected,
-                url: current_url + '/api/HangSanXuat/delete-hangsanxuat',
+                url: current_url + '/api-admin/HangSanXuat/delete-hangsanxuat',
                 headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
             }).then(function (response) { 
-                alert('Xoá thành công')
                 if($scope.tenhangsearch){
                     window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
                 }
@@ -207,7 +222,7 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
                     'Content-Type': undefined
                 },
                 data: formData,
-                url: current_url + '/api/Image/upload',
+                url: current_url + '/api-admin/Image/upload',
             }).then(function (res) {
                 $scope.Image = res.data.filePath;
                 preview.src = "../img"+ $scope.Image
@@ -220,30 +235,43 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
                             LinkWeb: $scope.linkweb,
                             AnhDaiDien: "../img"+$scope.Image
                         },
-                        url: current_url + '/api/HangSanXuat/create-hangsanxuat',
+                        url: current_url + '/api-admin/HangSanXuat/create-hangsanxuat',
                         headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                     }).then(function (response) {  
                         alert('Thêm thành công')
+                        if($scope.tenhangsearch){
+                            window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
+                        }
+                        else{
+                            window.location='#!manufacturer/'+$scope.page
+                        }
                     }).catch(function (error) {
                         console.error('Lỗi khi thêm sản phẩm:', error);
                     });
                 }
                 else{
-                    $http({
-                        method: 'PUT',
-                        data: {
-                            MaNhaSanXuat: $scope.MaNhaSanXuat,
-                            TenHang: $scope.tenhang,
-                            LinkWeb: $scope.linkweb,
-                            AnhDaiDien: "../img"+$scope.Image
-                        },
-                        url: current_url + '/api/HangSanXuat/update-hangsanxuat',
-                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-                    }).then(function (response) {  
-                        alert('Sửa thành công')
-                    }).catch(function (error) {
-                        console.error('Lỗi khi sửa sản phẩm:', error);
-                    });
+                    if(confirm("Bạn có muốn sửa thông tin hãng sản xuất không !")){
+                        $http({
+                            method: 'PUT',
+                            data: {
+                                MaNhaSanXuat: $scope.MaNhaSanXuat,
+                                TenHang: $scope.tenhang,
+                                LinkWeb: $scope.linkweb,
+                                AnhDaiDien: "../img"+$scope.Image
+                            },
+                            url: current_url + '/api-admin/HangSanXuat/update-hangsanxuat',
+                            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                        }).then(function (response) {  
+                            if($scope.tenhangsearch){
+                                window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
+                            }
+                            else{
+                                window.location='#!manufacturer/'+$scope.page
+                            }
+                        }).catch(function (error) {
+                            console.error('Lỗi khi sửa sản phẩm:', error);
+                        });
+                    }
                 }
             });
         }
@@ -256,7 +284,7 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
                         LinkWeb: $scope.linkweb,
                         AnhDaiDien: "../img"+$scope.Image
                     },
-                    url: current_url + '/api/HangSanXuat/create-hangsanxuat',
+                    url: current_url + '/api-admin/HangSanXuat/create-hangsanxuat',
                     headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
                 }).then(function (response) {  
                     alert('Thêm thành công')
@@ -271,27 +299,28 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
                 });
             }
             else{
-                $http({
-                    method: 'PUT',
-                    data: {
-                        MaNhaSanXuat: $scope.MaNhaSanXuat,
-                        TenHang: $scope.tenhang,
-                        LinkWeb: $scope.linkweb,
-                        AnhDaiDien: $scope.anhhang
-                    },
-                    url: current_url + '/api/HangSanXuat/update-hangsanxuat',
-                    headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
-                }).then(function (response) {  
-                    alert('Sửa thành công')
-                    if($scope.tenhangsearch){
-                        window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
-                    }
-                    else{
-                        window.location='#!manufacturer/'+$scope.page
-                    }
-                }).catch(function (error) {
-                    console.error('Lỗi khi sửa sản phẩm:', error);
-                });
+                if(confirm("Bạn có muốn sửa thông tin hãng sản xuất không !")){
+                    $http({
+                        method: 'PUT',
+                        data: {
+                            MaNhaSanXuat: $scope.MaNhaSanXuat,
+                            TenHang: $scope.tenhang,
+                            LinkWeb: $scope.linkweb,
+                            AnhDaiDien: $scope.anhhang
+                        },
+                        url: current_url + '/api-admin/HangSanXuat/update-hangsanxuat',
+                        headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+                    }).then(function (response) {  
+                        if($scope.tenhangsearch){
+                            window.location='#!manufacturer/'+$scope.page+'/'+$scope.tenhangsearch
+                        }
+                        else{
+                            window.location='#!manufacturer/'+$scope.page
+                        }
+                    }).catch(function (error) {
+                        console.error('Lỗi khi sửa sản phẩm:', error);
+                    });
+                }
             }
         }
     }

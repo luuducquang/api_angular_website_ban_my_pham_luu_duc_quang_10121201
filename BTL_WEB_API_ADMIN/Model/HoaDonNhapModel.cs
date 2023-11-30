@@ -13,6 +13,7 @@ namespace Model
         public DateTime NgayTao {  get; set; }
         public string KieuThanhToan {  get; set; }
         public int MaTaiKhoan {  get; set; }
+        public Decimal TongTien {  get; set; }
 
         public List<ChiTietHoaDonNhapModel> list_json_chitiethoadonnhap {  get; set; }
     }
@@ -24,6 +25,7 @@ namespace Model
         public string TenNhaPhanPhoi { get; set; }
         public DateTime NgayTao { get; set; }
         public string KieuThanhToan { get; set; }
+        public Decimal TongTien { get; set; }
         public int MaTaiKhoan { get; set; }
         public string TenTaiKhoan { get; set; }
     }

@@ -37,7 +37,7 @@
                     <td>
                         <input class="form-check-input text-center" ng-model="selected" type="checkbox" ng-click="toggleSelection(x)" value="" id="checkitem">
                     </td>
-                    <td>{{x.madanhmucuudai}}</td>
+                    <td>{{x.madanhmucuudai.toLocaleString('de-DE')}}</td>
                     <td>{{x.tendanhmucuudai}}</td>
                     <td>{{x.noiDung}}</td>
                     <td ng-style="{'color': x.dacBiet === true ? '#33CC00' : '#FF3300'}">{{x.dacBiet===true?'Hoạt động':'Tắt'}}</td>
@@ -74,15 +74,7 @@
         </div>
     </div>
 </div>
-<nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
-    <ul class="pagination">
-        <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
-        <div class="page-count" style="display:flex">
-            <!-- <li class="page-item"><p class="page-link">1</p></li> -->
-        </div>
-        <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
-    </ul>
-</nav>
+<div id="pagination"></div>
 <div class="notifi">
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>

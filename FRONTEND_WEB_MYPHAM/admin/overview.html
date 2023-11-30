@@ -5,16 +5,56 @@
   <div class="container total-overview">
     <div class="row">
       <div class="col">
-        <div class="amount">{{DataOverview.soluongHoaDonNhap}}</div>
-        <div class="title_overview">Hoá đơn nhập</div>
+        <div class="amount">{{DataOverview.soluongHoaDonNhap.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Tổng đơn hàng nhập</div>
       </div>
       <div class="col">
-        <div class="amount">{{DataOverview.soluongHoaDonBan}}</div>
-        <div class="title_overview">Hoá đơn bán </div>
+        <div class="amount">{{DataOverview.soluongHoaDonBan.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Tổng đơn hàng bán</div>
       </div>
       <div class="col">
-        <div class="amount">{{DataOverview.khachHangMua}}</div>
-        <div class="title_overview">Khách hàng đã mua</div>
+        <div class="amount">{{DataOverview.khachHangMua.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Tổng khách hàng</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.khachHangMoi.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Khách hàng mới trong tháng</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{tileradon.toFixed(2)}}%</div>
+        <div class="title_overview">Tỉ lệ ra đơn</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{tilehuydon.toFixed(2)}}%</div>
+        <div class="title_overview">Tỉ lệ huỷ đơn</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="amount">{{DataOverview.soLuongHoaDonHuy.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Đơn hàng bị huỷ</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.soLuongHoaDonCho.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Đơn hàng chờ</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.soLuongHoaDonDangGiao.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Đơn hàng đang giao</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.soLuongHoaDonDaGiao.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Đơn hàng hoàn tất</div>
+      </div>
+      <div class="col">
+        <div class="amount">{{DataOverview.soLuongHoaDonDoiTra.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Đơn hàng đổi trả</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="amount">{{DataOverview.luotXem.toLocaleString('de-DE')}}</div>
+        <div class="title_overview">Tổng lượt xem sản phẩm</div>
       </div>
       <div class="col">
         <div class="amount">{{Tienchi}}</div>
@@ -28,83 +68,248 @@
   </div>
   
   <div class="container statistic_product">
-    <div style="display: flex;">
+    <!-- <div style="display: flex;"> -->
       <div>
-        <h3 style="color: #00CC00;">Sản phẩm bán chạy trong tháng</h3>
-        <form action="">
-          <table style="margin: 0;" class="table table-product table-hover">
-             <thead>
-                  <tr class="text-center">
-                      <th scope="col">Tên Sản Phẩm</th>
-                      <th scope="col">Hình Ảnh</th>
-                      <th scope="col">Giá</th>
-                      <th scope="col">Trọng Lượng</th>
-                      <th scope="col">Số Lượng</th>
-                  </tr>
-             </thead>
-             <tbody>
-                  <tr ng-repeat="x in Spbanchaythang" class="text-center">
-                      <td>{{x.tenSanPham}}</td>
-                      <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
-                      <td>{{x.giaGiam}}</td>
-                      <td>{{x.trongLuong}}</td>
-                      <td>{{x.soluong}}</td>
-                  </tr>
-             </tbody>
-          </table>
-        </form>
-      </div>
-      <div>
-        <h3 style="color: #FF9933;">Sản phẩm sắp hết</h3>
-        <form action="">
+        <h3 style="color: #FF9933; margin-left: 10px;">Sản phẩm sắp hết</h3>
+        <form action="" style="border-radius: 20px;">
           <table style="margin: 0;" class="table table-product table-hover">
             <thead>
                   <tr class="text-center">
-                      <th scope="col">Tên Sản Phẩm</th>
-                      <th scope="col">Hình Ảnh</th>
+                    <th scope="col">STT</th>
+                    <th scope="col">Hình Ảnh</th>
+                    <th scope="col">Tên Sản Phẩm</th>
                       <th scope="col">Giá</th>
                       <th scope="col">Trọng Lượng</th>
-                      <th scope="col">Số Lượng</th>
+                      <th scope="col">Chất lượng</th>
+                      <th scope="col">Đã bán</th>
+                      <th scope="col">Còn lại</th>
                   </tr>
             </thead>
-            <tbody>
+            <tbody style="cursor: all-scroll;">
                   <tr ng-repeat="x in Spsaphet" class="text-center">
+                    <td>{{x.stt}}</td>
+                    <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
                       <td>{{x.tenSanPham}}</td>
-                      <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
-                      <td>{{x.giaGiam}}</td>
+                      <td>{{x.giaGiam.toLocaleString('de-DE')}}</td>
                       <td>{{x.trongLuong}}</td>
-                      <td>{{x.soluong}}</td>
+                      <td>{{x.danhGia}} <i style="color: #ff9c1a;" class="fa-solid fa-star"></i></td>
+                      <td>{{x.luotBan}}</td>
+                      <td>{{x.soluong.toLocaleString('de-DE')}}</td>
                   </tr>
             </tbody>
           </table>
         </form>
       </div>
+      <div  style="margin-top: 10px;">
+        <div style="display: flex;justify-content: space-between; width: 100%;">
+          <h3 style="color: #0066FF;">Sản phẩm bán chạy</h3>
+          <select ng-model="SellingValue" ng-change="changeSelling()" style="width: 110px; margin-right: 5px; height: 35px;" class="form-select" >
+            <option value="0">Hôm nay</option>
+            <option value="1">1 ngày</option>
+            <option selected value="7">7 ngày</option>
+            <option value="14">14 ngày</option>
+            <option value="30">30 ngày</option>
+            <option value="60">60 ngày</option>
+            <option value="90">90 ngày</option>
+            <option value="180">180 ngày</option>
+            <option value="360">360 ngày</option>
+          </select>
+        </div>
+        <form action="" style="border-radius: 20px;">
+          <table style="margin: 0;" class="table table-product table-hover">
+             <thead>
+                  <tr class="text-center">
+                      <th scope="col">STT</th>
+                      <th scope="col">Hình Ảnh</th>
+                      <th scope="col">Tên Sản Phẩm</th>
+                      <th scope="col">Giá</th>
+                      <th scope="col">Trọng Lượng</th>
+                      <th scope="col">Chất lượng</th>
+                      <th scope="col">Đã Bán</th>
+                      <th scope="col">Còn lại</th>
+                  </tr>
+             </thead>
+             <tbody style="cursor: all-scroll;">
+                  <tr ng-repeat="x in Spbanchaythang" class="text-center">
+                    <td>{{x.stt}}</td>
+                    <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
+                      <td>{{x.tenSanPham}}</td>
+                      <td>{{x.giaGiam.toLocaleString('de-DE')}}</td>
+                      <td>{{x.trongLuong}}</td>
+                      <td>{{x.danhGia}} <i style="color: #ff9c1a;" class="fa-solid fa-star"></i></td>
+                      <td>{{x.luotBan.toLocaleString('de-DE')}}</td>
+                      <td>{{x.soluong.toLocaleString('de-DE')}}</td>
+                  </tr>
+             </tbody>
+          </table>
+        </form>
+      </div>
+    <!-- </div> -->
+    <!-- <div style="display: flex; margin-top: 20px;"> -->
+      <div style="margin-top: 10px;">
+        <div style="display: flex; justify-content: space-between; width:100%">
+          <h3 style="color: #00DD00;">Sản phẩm đã bán</h3>
+          <select ng-model="SoldValue" ng-change="changeSold()" style="width: 110px; margin-right: 5px; height: 35px;" class="form-select" >
+            <option value="0">Hôm nay</option>
+            <option value="1">1 ngày</option>
+            <option selected value="7">7 ngày</option>
+            <option value="14">14 ngày</option>
+            <option value="30">30 ngày</option>
+            <option value="60">60 ngày</option>
+            <option value="90">90 ngày</option>
+            <option value="180">180 ngày</option>
+            <option value="360">360 ngày</option>
+          </select>
+        </div>
+        <form action="" style="border-radius: 20px;">
+          <table style="margin: 0;" class="table table-product table-hover">
+             <thead>
+                  <tr class="text-center">
+                    <th scope="col">STT</th>
+                    <th scope="col">Hình Ảnh</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                      <th scope="col">Giá</th>
+                      <th scope="col">Trọng Lượng</th>
+                      <th scope="col">Chất Lượng</th>
+                      <th scope="col">Đã Bán</th>
+                      <th scope="col">Còn Lại</th>
+                  </tr>
+             </thead>
+             <tbody style="cursor: all-scroll;">
+                  <tr ng-repeat="x in Spbantrongthang" class="text-center">
+                    <td>{{x.stt}}</td>
+                    <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
+                      <td>{{x.tenSanPham}}</td>
+                      <td>{{x.giaGiam.toLocaleString('de-DE')}}</td>
+                      <td>{{x.trongLuong}}</td>
+                      <td>{{x.danhGia}} <i style="color: #ff9c1a;" class="fa-solid fa-star"></i></td>
+                      <td>{{x.luotBan.toLocaleString('de-DE')}}</td>
+                      <td>{{x.soluong.toLocaleString('de-DE')}}</td>
+                  </tr>
+             </tbody>
+          </table>
+        </form>
+      </div>
+      <div style="margin-top: 10px;">
+        <div style="display: flex; justify-content: space-between; width:100%">
+          <h3 style="color: #DC143C;">Sản phẩm bán chậm</h3>
+          <select ng-model="SellSlowlyValue" ng-change="changeSellSlowly()" style="width: 110px; margin-right: 5px; height: 35px;" class="form-select" >
+            <option value="1">1 ngày</option>
+            <option selected value="7">7 ngày</option>
+            <option value="14">14 ngày</option>
+            <option value="30">30 ngày</option>
+            <option value="60">60 ngày</option>
+            <option value="90">90 ngày</option>
+            <option value="180">180 ngày</option>
+            <option value="360">360 ngày</option>
+          </select>
+        </div>
+        <form action="" style="border-radius: 20px;">
+          <table style="margin: 0;" class="table table-product table-hover">
+             <thead>
+                  <tr class="text-center">
+                    <th scope="col">STT</th>
+                    <th scope="col">Hình Ảnh</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                      <th scope="col">Giá</th>
+                      <th scope="col">Trọng Lượng</th>
+                      <th scope="col">Chất Lượng</th>
+                      <th scope="col">Đã Bán</th>
+                      <th scope="col">Còn Lại</th>
+                  </tr>
+             </thead>
+             <tbody style="cursor: all-scroll;">
+                  <tr ng-repeat="x in Spbancham" class="text-center">
+                    <td>{{x.stt}}</td>
+                    <td><img style="width: 50px;height: 50px;background-size: cover;" src={{x.anhDaiDien}} alt="">
+                      <td>{{x.tenSanPham}}</td>
+                      <td>{{x.giaGiam.toLocaleString('de-DE')}}</td>
+                      <td>{{x.trongLuong}}</td>
+                      <td>{{x.danhGia}} <i style="color: #ff9c1a;" class="fa-solid fa-star"></i></td>
+                      <td>{{x.luotBan.toLocaleString('de-DE')}}</td>
+                      <td>{{x.soluong.toLocaleString('de-DE')}}</td>
+                  </tr>
+             </tbody>
+          </table>
+        </form>
+      </div>
+    <!-- </div> -->
+    <div style="margin-top: 10px;">
+      <div style="display: flex;justify-content: space-between; width: 100%;">
+        <h3 style="color: #FF6600; margin-right: 20px;">Đánh giá khách hàng</h3>
+        <select ng-model="FeedbackValue" ng-change="changeFeedback()" style="width: 110px; margin-right: 5px; height: 35px;" class="form-select" >
+          <option selected value="0">Hôm nay</option>
+          <option value="1">1 ngày</option>
+          <option value="7">7 ngày</option>
+          <option value="14">14 ngày</option>
+          <option value="30">30 ngày</option>
+          <option value="60">60 ngày</option>
+          <option value="90">90 ngày</option>
+          <option value="180">180 ngày</option>
+          <option value="360">360 ngày</option>
+        </select>
+      </div>
+      <form style="margin-top: -10px;" action="">
+        <table class="table table-product table-hover">
+           <thead>
+                <tr class="text-center">
+                    <th scope="col">STT</th>
+                    <th scope="col">Tên người dùng</th>
+                    <th scope="col">Tên đăng nhập</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Chất lượng</th>
+                    <th scope="col">Nội dung</th>
+                    <th scope="col">Thời gian</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Ghi chú</th>
+                </tr>
+           </thead>
+           <tbody>
+                <tr ng-repeat="x in listFeedBack" class="text-center">
+                    <td>{{x.stt}}</td>
+                    <td>{{x.hoTen}}</td>
+                    <td>{{x.tenTaiKhoan}}</td>
+                    <td>{{x.soDienThoai}}</td>
+                    <td>{{x.tenSanPham}}</td>
+                    <td>{{x.chatLuong}} <i style="color: #ff9c1a;" class="fa-solid fa-star"></i></td>
+                    <td>{{x.noiDung}}</td>
+                    <td>{{ x.thoiGian | date:'HH:mm dd/MM/yyyy' }}</td>
+                    <td ng-style="{'color': x.trangThai === false ? '#FF0000' : '#00CC00'}">{{x.trangThai===true ? 'Đã mua hàng':'Chưa mua hàng'}}</td>
+                    <td>{{x.ghiChu}}</td>
+                </tr>
+           </tbody>
+        </table>
+      </form>
     </div>
   </div>
 
   <div class="container statistic">
-    <select class="form-select choiseYear" aria-label="Default select example">
-      <option disabled>Chọn năm muốn thống kê</option>
-      <option value="2020">2020</option>
-      <option value="2021">2021</option>
-      <option value="2022">2022</option>
-      <option selected value="2023">2023</option>
-      <option value="2024">2024</option>
-      <option value="2025">2025</option>
+    <select ng-model="revenueProduct" ng-change="changerevenueProduct()" class="form-select choiseDay" aria-label="Default select example">
+      <option disabled>Chọn số ngày muốn thống kê</option>
+      <option value="1">1 ngày</option>
+      <option selected value="7">7 ngày</option>
+      <option value="14">14 ngày</option>
+      <option value="30">30 ngày</option>
+      <option value="60">60 ngày</option>
+      <option value="90">90 ngày</option>
+      <option value="180">180 ngày</option>
+      <option value="360">360 ngày</option>
     </select>
-    <canvas id="myChart"></canvas>
-    <select class="form-select choiseYeartoDay" aria-label="Default select example">
+    <canvas id="myChart3"></canvas>
+
+    <select style="margin-top: 100px;" class="form-select choiseYeartoDay" aria-label="Default select example">
       <option disabled>Chọn năm muốn thống kê</option>
       <option value="2020">2020</option>
       <option value="2021">2021</option>
       <option value="2022">2022</option>
-      <option selected value="2023">2023</option>
+      <option value="2023">2023</option>
       <option value="2024">2024</option>
       <option value="2025">2025</option>
     </select>
     <select class="form-select choiseMonthtoDay" aria-label="Default select example">
       <option disabled>Chọn tháng muốn thống kê</option>
-      <option selected value="1">1</option>
+      <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
@@ -118,6 +323,17 @@
       <option value="12">12</option>
     </select>
     <canvas id="myChart2"></canvas>
+
+    <select style="margin-top: 100px;"  class="form-select choiseYear" aria-label="Default select example">
+      <option disabled>Chọn năm muốn thống kê</option>
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+    </select>
+    <canvas id="myChart"></canvas>
   </div>
 
 </div>

@@ -12,9 +12,17 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options =>
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//});
+
+builder.Services.AddCors(option =>
 {
-    options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    option.AddPolicy("MyCors", build =>
+    {
+        build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+    });
 });
 
 builder.Services.AddTransient<IDatabaseHelper, DatabaseHelper>();
@@ -24,14 +32,18 @@ builder.Services.AddTransient<ITaiKhoanBUS, TaiKhoanBUS>();
 builder.Services.AddTransient<IChiTietTaiKhoanBUS, ChiTietTaiKhoanBUS>();
 builder.Services.AddTransient<IDanhMucBUS, DanhMucBUS>();
 builder.Services.AddTransient<ISanPhamBUS, SanPhamBUS>();
-builder.Services.AddTransient<IUserBUS, UserBUS>();
+builder.Services.AddTransient<IUserBusiness, UserBusiness>();
+builder.Services.AddTransient<IHoaDonBUS, HoaDonBUS>();
+builder.Services.AddTransient<IDanhGiaBUS, DanhGiaBUS>();
 builder.Services.AddTransient<IQuangCaoResponsitory, QuangCaoResponsitory>();
 builder.Services.AddTransient<ISlideDetailResponsitory, SlideDetailResponsitory>();
 builder.Services.AddTransient<ITaiKhoanResponsitory, TaiKhoanResponsitory>();
 builder.Services.AddTransient<IChiTietTaiKhoanResponsitory, ChiTietTaiKhoanResponsitory>();
 builder.Services.AddTransient<IDanhMucResponsitory, DanhMucResponsitory>();
 builder.Services.AddTransient<ISanPhamResponsitory, SanPhamResponsitory>();
-builder.Services.AddTransient<IUserResponsitory, UserResponsitory>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IHoaDonResponsitory, HoaDonResponsitory>();
+builder.Services.AddTransient<IDanhGiaResponsitory, DanhGiaResponsitory>();
 
 
 // configure strongly typed settings objects
@@ -78,11 +90,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseRouting();
-app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+
+
+app.UseCors("MyCors");
+
+//app.UseCors(x => x
+//    .AllowAnyOrigin()
+//    .AllowAnyMethod()
+//    .AllowAnyHeader());
+//app.UseRouting();
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
 app.MapControllers();
+
 app.Run();

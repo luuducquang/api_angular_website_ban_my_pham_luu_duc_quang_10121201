@@ -91,6 +91,22 @@ app.config(function($routeProvider) {
     templateUrl : "importBill.html",
     controller: "importBill"
   })
+  .when("/feedback/:page", {
+    templateUrl : "feedback.html",
+    controller: "feedback"
+  })
+  .when("/feedback/:page/:start/:valuestart/:end/:valueend", {
+    templateUrl : "feedback.html",
+    controller: "feedback"
+  })
+  .when("/feedback/:page/:start/:valuestart/:end/:valueend/:noidung", {
+    templateUrl : "feedback.html",
+    controller: "feedback"
+  })
+  .when("/feedback/:page/:start/:valuestart/:end/:valueend/:noidung/:chatluong", {
+    templateUrl : "feedback.html",
+    controller: "feedback"
+  })
 });
 
 const VND = new Intl.NumberFormat('vi-VN', {
@@ -110,6 +126,7 @@ if(!userLocalStorage){
 }
 
 logoutUser = function(){
+  window.location.href='./login.html'
   localStorage.setItem("user",null)
 }
 
@@ -160,21 +177,32 @@ var gmt7ISODate = gmt7Time.toISOString().slice(0, 16);
 
 var contentLeft = document.querySelector('.content-left')
 var contentRight = document.querySelector('.container-right')
+var iconCircleRight = document.querySelector('.menuOption')
+var iconCircleRightI = document.querySelector('.menuOption i')
 
 
 if(JSON.parse(localStorage.getItem('menu')) === false){
   contentLeft.style.marginLeft = "-250px";
   contentRight.style.marginLeft = "0px";
+  iconCircleRight.style.marginLeft = "-35px";
+}
+else{
+  iconCircleRight.style.marginLeft = "228px";
 }
 
 
 hidemenu=function(){
   contentLeft.style.animation=''
+  iconCircleRight.style.animation=''
   contentRight.style.animation = 'leftTorightMargin linear .3s'
   contentLeft.style.animation = 'leftToright linear .3s'
+  iconCircleRight.style.animation = 'leftTorightMargin2 linear .32s'
+  iconCircleRightI.style.animation = 'rotateto180 linear .32s'
   setTimeout(function(){
     contentLeft.style.marginLeft = "-250px";
+    iconCircleRight.style.marginLeft = "-35px";
     contentRight.style.marginLeft = "0px";
+    iconCircleRightI.style.transform = "rotate(180deg)";
   },300)
   isMenu = false
   localStorage.setItem('menu',isMenu)
@@ -182,13 +210,17 @@ hidemenu=function(){
 
 showmenu=function(){
   contentLeft.style.animation=''
+  iconCircleRight.style.animation=''
   contentRight.style.animation = 'rightToleftMargin linear .3s'
   contentLeft.style.animation = 'rightToleft linear .3s'
+  iconCircleRight.style.animation = 'rightToleftMargin2 linear .3s'
+  iconCircleRightI.style.animation = 'rotateto0 linear .32s'
   setTimeout(function(){
     contentLeft.style.marginLeft = "0px";
+    iconCircleRight.style.marginLeft = "228px";
     contentRight.style.marginLeft = "250px";
+    iconCircleRightI.style.transform = "rotate(0deg)";
   },300)
   isMenu =true
   localStorage.setItem('menu',isMenu)
 }
-

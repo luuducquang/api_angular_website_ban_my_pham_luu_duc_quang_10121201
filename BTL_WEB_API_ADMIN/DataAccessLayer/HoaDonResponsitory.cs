@@ -44,13 +44,13 @@ namespace DataAccessLayer
                 var result = _dbHelper.ExecuteScalarSProcedureWithTransaction(out msgError, "sp_create_hoadon",
                     "@TrangThai", model.TrangThai,
                     "@NgayTao", model.NgayTao,
-                    "@NgayDuyet", model.NgayDuyet,
                     "@TongGia", model.TongGia,
                     "@TenKH", model.TenKH,
                     "@Diachi", model.Diachi,
                     "@Email", model.Email,
                     "@SDT", model.SDT,
                     "@DiaChiGiaoHang", model.DiaChiGiaoHang,
+                    "@MaTaiKhoan", model.MaTaiKhoan,
                     "@list_json_chitiet_hoadon", model.list_json_chitiet_hoadon != null ? MessageConvert.SerializeObject(model.list_json_chitiet_hoadon) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
@@ -74,7 +74,6 @@ namespace DataAccessLayer
                     "@MaHoaDon", model.MaHoaDon,
                     "@TrangThai", model.TrangThai,
                     "@NgayTao", model.NgayTao,
-                    "@NgayDuyet", model.NgayDuyet,
                     "@TongGia", model.TongGia,
                     "@TenKH", model.TenKH,
                     "@Diachi", model.Diachi,
@@ -115,7 +114,7 @@ namespace DataAccessLayer
 
         }
 
-        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao,string SDT)
+        public List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, string TrangThai, DateTime? fr_NgayTao, DateTime? to_NgayTao,string SDT)
         {
             string msgError = "";
             total = 0;
@@ -126,6 +125,7 @@ namespace DataAccessLayer
                     "@page_size", pageSize,
                     "@TenKH", TenKH,
                     "@SDT", SDT,
+                    "@TrangThai",TrangThai,
                     "@fr_ngaytao", fr_NgayTao,
                     "@to_ngaytao", to_NgayTao);
                 if (!string.IsNullOrEmpty(msgError))
@@ -139,7 +139,7 @@ namespace DataAccessLayer
             }
         }
 
-        public List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
+        public List<HoaDonModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, string TrangThai, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT)
         {
             string msgError = "";
             total = 0;
@@ -150,12 +150,13 @@ namespace DataAccessLayer
                     "@page_size", pageSize,
                     "@TenKH", TenKH,
                     "@SDT", SDT,
+                    "@TrangThai", TrangThai,
                     "@fr_ngaytao", fr_NgayTao,
                     "@to_ngaytao", to_NgayTao);
                 if (!string.IsNullOrEmpty(msgError))
                     throw new Exception(msgError);
                 if (dt.Rows.Count > 0) total = (long)dt.Rows[0]["RecordCount"];
-                return dt.ConvertTo<HoaDonModel>().ToList();
+                return dt.ConvertTo<HoaDonModelTWO>().ToList();
             }
             catch (Exception ex)
             {

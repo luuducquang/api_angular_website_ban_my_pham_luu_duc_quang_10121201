@@ -13,8 +13,8 @@ namespace BussinessLayer.Interfaces
         public bool Create(HoaDonModel model);
         public bool Update(HoaDonModel model);
         bool Delete(int MaHoaDon);
-        List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT);
-        List<HoaDonModel> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT);
+        List<ThongkeHoaDonModel> Search(int pageIndex, int pageSize, out long total, string TenKH, string TrangThai, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT);
+        List<HoaDonModelTWO> SearchSingle(int pageIndex, int pageSize, out long total, string TenKH, string TrangThai, DateTime? fr_NgayTao, DateTime? to_NgayTao, string SDT);
 
     }
 }

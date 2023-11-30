@@ -3,32 +3,29 @@ app.controller ('product', ['$scope', '$routeParams', function($scope, $routePar
 }]);
 
 app.controller("ProductCtrl", function ($scope, $http) {
-
     $scope.ProductByid
     $scope.listImgDetail
-    
 
-    $http.get(current_url+'/api/SanPham/getbyid-sanpham/'+$scope.id)
+    $http.get(current_url+'/api-user/SanPham/getbyid-sanpham/'+$scope.id)
     .then(function (response) {  
         $scope.ProductByid = response.data; 
-        console.log();
         $http({
             method: 'GET',
             // headers: { "Authorization": 'Bearer ' + _user.token },
-            url: current_url + '/api/SanPham/getbyid-anhsanphamdetail/' + response.data.maSanPham,
+            url: current_url + '/api-user/SanPham/getbyid-anhsanphamdetail/' + response.data.maSanPham,
         }).then(function(response){
             $scope.listImgDetail = response.data
 
-            var menuInf = document.querySelector(".menu-inf")
-            window.addEventListener("scroll",function(){
-                var x = window.pageYOffset
-                if(x>550){
-                    menuInf.classList.add("menu-inf-fix")
-                }
-                else{
-                    menuInf.classList.remove("menu-inf-fix")
-                }
-            })
+            // var menuInf = document.querySelector(".menu-inf")
+            // window.addEventListener("scroll",function(){
+            //     var x = window.pageYOffset
+            //     if(x>550){
+            //         menuInf.classList.add("menu-inf-fix")
+            //     }
+            //     else{
+            //         menuInf.classList.remove("menu-inf-fix")
+            //     }
+            // })
 
 
 
@@ -73,7 +70,13 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
             var buy = document.querySelector(".buy-now")
             buy.addEventListener("click",function(){
-                window.location = '#!/order'
+                if(!customerLocalStorage){
+                    window.location.href = './login.html'
+                    return
+                }
+                else{
+                    window.location = '#!/order2'
+                }
             })
 
 
@@ -128,23 +131,31 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
 
             function ShopAmount(){
-                valueShop = localStorage.getItem("ValueShop") ? JSON.parse(localStorage.getItem("ValueShop")) : []
                 var shopvalue = document.querySelector(".shopping .shop")
-                var x=``
-                valueShop.map((value,index)=>{
-                    x += `<span class="value-cart">${index+1}</span>`
-                })
-                shopvalue.innerHTML = x
-            }
-
-
-            var z = 0
-            addItem.addEventListener("click",function(){
                 var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
-                var search = listProduct.find(x => x.name === $scope.ProductByid.tenSanPham)
+                x = `<span class="value-cart">${listProduct.length}</span>` 
+                shopvalue.innerHTML = x
+                
+            }
+            
+            ShopAmount()
+
+            addItem.addEventListener("click",function(){
+                if(!customerLocalStorage){
+                    window.location.href = './login.html'
+                    return
+                }
+                var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
+                var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
+                var search = listProduct.find(x => x.name === $scope.ProductByid.tenSanPham)   
+                var search2 =  listProductBuy.find(x => x.name === $scope.ProductByid.tenSanPham)   
                 if(search){
                     search.amount = Number(search.amount) + Number(AmounProduct.value)
                     localStorage.setItem("productList",JSON.stringify(listProduct))
+                    if(search2){
+                        search2.amount = Number(search2.amount) + Number(AmounProduct.value)
+                        localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
+                    }
                     productLast('Sản phẩm đã có trong giỏ hàng','block')
                     return
                 }
@@ -157,15 +168,10 @@ app.controller("ProductCtrl", function ($scope, $http) {
                         price : $scope.ProductByid.giaGiam,
                         size : $scope.ProductByid.trongLuong,
                         amount : AmounProduct.value,
-                        countryItem :$scope.ProductByid.xuatXu
+                        countryItem :$scope.ProductByid.xuatXu,
+                        state: false
                     })
                     localStorage.setItem("productList",JSON.stringify(listProduct))
-                    
-                    valueShop = localStorage.getItem("ValueShop") ? JSON.parse(localStorage.getItem("ValueShop")) : []
-                    valueShop.push({
-                        amountCart : 0
-                    })
-                    localStorage.setItem("ValueShop",JSON.stringify(valueShop))
                     
                     ShopAmount()
 
@@ -204,35 +210,18 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
 
             buyNow.addEventListener("click",function(){
-                var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
-                var search = listProduct.find(x => x.name === Nameproduct)
-                if(search){
-                    listProduct.map((value,index)=>{
-                        value.amount++
-                    })
-                    localStorage.setItem("productList",JSON.stringify(listProduct))
-
-                    return
+                var buyNowProduct =  localStorage.getItem("buyNowProduct") ? JSON.parse(localStorage.getItem("buyNowProduct")) : []
+                buyNowProduct={  
+                    id : Number($scope.ProductByid.maSanPham),
+                    img : $scope.ProductByid.anhDaiDien,
+                    name : $scope.ProductByid.tenSanPham,
+                    priceOld : $scope.ProductByid.gia,
+                    price : $scope.ProductByid.giaGiam,
+                    size : $scope.ProductByid.trongLuong,
+                    amount : Number(AmounProduct.value),
+                    countryItem :$scope.ProductByid.xuatXu
                 }
-                else{
-                    listProduct.push({  
-                        img : Imgproduct,
-                        name : Nameproduct,
-                        price : PriceProduct,
-                        size : SizeProduct,
-                        amount : AmounProduct.value,
-                    })
-                    localStorage.setItem("productList",JSON.stringify(listProduct))
-                    
-                    valueShop = localStorage.getItem("ValueShop") ? JSON.parse(localStorage.getItem("ValueShop")) : []
-                    valueShop.push({
-                        amountCart : 0
-                    })
-                    localStorage.setItem("ValueShop",JSON.stringify(valueShop))
-                    ShopAmount()
-
-                    
-                }
+                localStorage.setItem("buyNowProduct",JSON.stringify(buyNowProduct))
             })
 
 
@@ -290,16 +279,19 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 listImg[i].classList.add('opacity1')
             }
 
-
-            var images = [];
-            images = $scope.listImgDetail.map(function(value){
+            $scope.images = [];
+            $scope.images.push(`<img src="${$scope.ProductByid.anhDaiDien}" alt="">`)
+            $scope.imageslist = $scope.listImgDetail.map(function(value){
                 return `<img src="${value.linkAnh}" alt="">`;
             });
+            $scope.images.push($scope.imageslist)
+            
+            $scope.listImgShow = [].concat(...$scope.images)
 
             var imgSlider = document.querySelector(".img-slider");
             
             imgSlider.innerHTML=''
-            images.forEach(function(image) {
+            $scope.listImgShow.forEach(function(image) {
                 imgSlider.innerHTML += image;
             });
             
@@ -322,7 +314,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
 
             index  = 0
 
-            function Next(){
+            $scope.Next = function(){
                 imgP.style.opacity = '0'
                 setTimeout(function(){
                     index++
@@ -337,7 +329,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 
             }
 
-            function Prev(){
+            $scope.Prev = function(){
                 imgP.style.opacity = '0'
                 setTimeout(function(){
                     index--
@@ -349,7 +341,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
                     imgP.style.opacity = '1'
                 },100)
             }
-
+            updateActive(0)
 
             var icon = document.querySelector('.but')
 
@@ -362,15 +354,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
                 icon.style.display = 'none'
             })
 
-            setInterval(function(){
-                Next()
-            },3000)
+            // setInterval(function(){
+            //     $scope.Next()
+            // },3000)
 
             $scope.GetProductConnect= function () {
                 $http({
                     method: 'POST',
                     data: { page: 1, pageSize: 5,TenDanhMuc:$scope.ProductByid.tenDanhMuc},
-                    url: current_url + '/api/SanPham/search-sanpham',
+                    url: current_url + '/api-user/SanPham/search-sanpham',
                 }).then(function (response) {  
                     $scope.listConnect = response.data.data; 
                 });
@@ -381,8 +373,222 @@ app.controller("ProductCtrl", function ($scope, $http) {
             console.error('Lỗi:', error);
         });
     });
-    
-    $scope.reloadPage = function() {
-        window.location.reload();
+
+    $scope.getStarsArray = function(num) {
+        return Array.from({ length: num }, (_, index) => index + 1);
     };
+    
+    var listTextStar = ['Rất không hài lòng','Không hài lòng','Bình thường','Khá hài lòng/Hài lòng','Rất hài lòng']
+    var listStar = document.querySelectorAll('.stars i')
+    listStar.forEach((star,index1)=>{
+        star.addEventListener('click',()=>{
+            listStar.forEach((star,index2)=>{
+                index1 >= index2 ? star.classList.add("activeStar") : star.classList.remove("activeStar")
+            })
+            $scope.rating = index1+1
+            $('.textStar').html(listTextStar[index1])
+        })
+    })
+
+    function UpdateStar(value){
+        var listStar = document.querySelectorAll('.stars2 i')
+        listStar.forEach((star,index)=>{
+            if (index < value) {
+                star.classList.add("activeStar");
+            } else {
+                star.classList.remove("activeStar");
+            }
+        })
+    }
+
+    document.querySelector('.previewRating img').style.display = 'none';
+
+    var previewRate = document.querySelector('.previewRating img');
+
+    $scope.getFilePathProduct=function(){
+        $('#ratingIMG').change(function () {
+            if (previewRate && previewRate.src && previewRate.src.trim() !== 'http://127.0.0.1:5500/user/') {
+                document.querySelector('.previewRating img').style.display = 'block';
+                console.log(previewRate.src);
+            } else {
+                document.querySelector('.previewRating img').style.display = 'none';
+                console.log(previewRate.src);
+            }
+            var file = this.files[0]
+            if(!file){
+                return
+            }
+            if(file.size / (1024*1024)>5){
+                alert("File không được quá 5MB")
+            }
+            if (file) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+
+                reader.onload = function(e){
+                    previewRate.src = e.target.result
+                }
+            }
+        });
+    }
+    $scope.getFilePathProduct()
+
+    var datarating = {
+        page:1,
+        pageSize: 10,
+        MaSanPham: $scope.id
+    }
+
+    $scope.GetRatingUser = function(datarating){
+        $http({
+            method: 'POST',
+            // headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
+            data: datarating,
+            url: current_url + '/api-user/DanhGia/search-danhgia',
+        }).then(function (response) {  
+            $scope.listRating = response.data.data; 
+            $scope.amountlistRating = response.data.totalItems
+            if(customerLocalStorage){
+                $scope.searchTurnComment = $scope.listRating.find(x => Number(x.maTaiKhoan) === Number(customerLocalStorage.mataikhoan))
+            }
+            if($scope.searchTurnComment){
+                $('.ratingUser').hide()
+                $('.stars2').show()
+                UpdateStar($scope.searchTurnComment.chatLuong)
+                $('.commentRated').html($scope.searchTurnComment.noiDung)
+                $('.imgRated').attr("src",$scope.searchTurnComment.anhDanhGia)
+                $('.textStar').html(listTextStar[$scope.searchTurnComment.chatLuong - 1])
+            }
+            else if(!customerLocalStorage){
+                $('.stars2').hide()
+                $('.ratingUser').hide()
+            }
+            else{
+                $('.ratingUser').show()
+                $('.stars2').hide()
+            }
+            response.data.data.length === 0 ? $('.nonRate').show() : $('.nonRate').hide()
+
+            if(datarating.page===1){
+                $('.prevRate').addClass('opacityBtnRate')
+            }
+            if(datarating.page===Math.ceil($scope.amountlistRating/datarating.pageSize)){
+                $('.nextRate').addClass('opacityBtnRate')
+            }
+            if(Math.ceil($scope.amountlistRating/datarating.pageSize)===1){
+                $('.nextRate').addClass('opacityBtnRate')
+            }
+        }).catch(function (error) {
+            console.error('Lỗi :', error);
+        });
+    }
+    $scope.GetRatingUser(datarating)
+
+    console.log(Math.ceil($scope.amountlistRating/datarating.pageSize));
+
+    $scope.nextRate=function(){
+        if(datarating.page < Math.ceil($scope.amountlistRating/datarating.pageSize)){
+            datarating.page++
+            $scope.GetRatingUser(datarating)
+            $('.nextRate').removeClass('opacityBtnRate')
+            $('.prevRate').removeClass('opacityBtnRate')
+        }
+        if(datarating.page===Math.ceil($scope.amountlistRating/datarating.pageSize)){
+            $('.nextRate').addClass('opacityBtnRate')
+        }
+    }
+
+    $scope.prevRate = function(){
+        if(datarating.page > 1){
+            datarating.page--
+            $scope.GetRatingUser(datarating)
+            $('.prevRate').removeClass('opacityBtnRate')
+            $('.nextRate').removeClass('opacityBtnRate')
+        }
+        if(datarating.page===1){
+            $('.prevRate').addClass('opacityBtnRate')
+        }
+    }
+    
+    if(customerLocalStorage){
+        $scope.sendrate=function(){
+            if($scope.rating&&$scope.comment){
+                $http({
+                    method: 'GET',
+                    headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
+                    url: current_url + '/api-user/HoaDon/getbytaikhoan-mahoadon-chitiethoadon-product/' + customerLocalStorage.mataikhoan,
+                }).then(function (response) {
+                    $scope.listIdProduct = response.data.map(function(value){
+                        return value.maSanPham
+                    })
+                    $scope.search = $scope.listIdProduct.find(x => x === Number($scope.id))
+    
+                    var file = document.getElementById('ratingIMG').files[0];
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        $http({
+                            method: 'POST',
+                            headers: {
+                                "Authorization": 'Bearer ' + customerLocalStorage.token,
+                                'Content-Type': undefined
+                            },
+                            data: formData,
+                            url: current_url + '/api-user/Image/upload',
+                        }).then(function (res) {
+                            $scope.Image = res.data.filePath;
+                            previewRate.src = "../img"+ $scope.Image
+                            $http({
+                                method: 'POST',
+                                headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
+                                data: {
+                                    MaSanPham: $scope.id,
+                                    MaTaiKhoan: customerLocalStorage.mataikhoan,
+                                    ChatLuong: $scope.rating,
+                                    NoiDung:$scope.comment,
+                                    TrangThai: Number($scope.id) === Number($scope.search),
+                                    ThoiGian: gmt7ISODate,
+                                    AnhDanhGia:  "../img"+$scope.Image,
+                                    GhiChu:''
+                                  },
+                                url: current_url + '/api-user/DanhGia/create-danhgia',
+                            }).then(function (response) {  
+    
+                            }).catch(function (error) {
+                                console.error('Lỗi :', error);
+                            });
+                        });
+                    }
+                    else{
+                        $http({
+                            method: 'POST',
+                            headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
+                            data: {
+                                MaSanPham: $scope.id,
+                                MaTaiKhoan: customerLocalStorage.mataikhoan,
+                                ChatLuong: $scope.rating,
+                                NoiDung:$scope.comment,
+                                TrangThai: Number($scope.id) === Number($scope.search),
+                                ThoiGian: gmt7ISODate,
+                                AnhDanhGia: '',
+                                GhiChu:''
+                              },
+                            url: current_url + '/api-user/DanhGia/create-danhgia',
+                        }).then(function (response) {  
+                            window.location.reload()
+                        }).catch(function (error) {
+                            console.error('Lỗi :', error);
+                        });
+                    }
+                    
+                }).catch(function (error) {
+                    console.error('Lỗi:', error);
+                });
+                
+            }
+            else{
+                alert('Vui lòng chọn đánh giá và nhập nội dung đánh giá !')
+            }
+        }
+    }
 })

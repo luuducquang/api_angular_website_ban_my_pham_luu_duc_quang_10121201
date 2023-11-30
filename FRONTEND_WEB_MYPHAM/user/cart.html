@@ -6,12 +6,12 @@
 <script src="./assets/js/menulist.js"></script>
 <script src="./assets/js/search.js"></script>
 
-<div id="content">  
+<div ng-controller="CartCtrl" id="content">  
     <div class="cart-shop">
         <div class="type">
-            <a href="./home.html">TRANG CHỦ</a>
+            <a href="#!/">TRANG CHỦ</a>
             <i class="fa-solid fa-arrow-right"></i>
-            <a href="./cart.html">GIỎ HÀNG</a>
+            <a href="#!/cart">GIỎ HÀNG</a>
         </div>
 
         <form  action="#">
@@ -21,6 +21,7 @@
                         <!-- <th>
                             <input type="checkbox" name="" id="">
                         </th> -->
+                        <td>Chọn</td>
                         <td>Sản Phẩm</td>
                         <td>Xuất Xứ</td>
                         <td>Dung Tích</td>
@@ -57,63 +58,11 @@
                         <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
                     </tr> -->
                     
-                    <!-- <tr>
-                        <td style=" display: flex; align-items: center;"><img style="width: 20%;" src="./assets/img/Cleanser/cerave.jpg" alt=""><span class="nameItem">Sữa rửa mặt Cerave Foaming Facial Cleanser</span></td>
-                        <td>473ml</td>
-                        <td><p><span class="price-item">280.000</span><sup>đ</sup></p></td>
-                        <td>
-                            <div class="buy-amount" style="display: flex; justify-content: center;">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></span>
-                                <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></span>  
-                            </div>
-                        </td>
-                        <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
-                    </tr>
-                    <tr>
-                        <td style=" display: flex; align-items: center;"><img style="width: 20%;" src="./assets/img/Lotion/marti derm.webp" alt=""><span class="nameItem">Kem Dưỡng MartiDerm Skin Repair Cicra-Vass Crema Cream 30ml</span></td>
-                        <td>50g</td>
-                        <td><p><span class="price-item">620.000</span><sup>đ</sup></p></td>
-                        <td>
-                            <div class="buy-amount" style="display: flex; justify-content: center;">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></span>
-                                <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></span>  
-                            </div>
-                        </td>
-                        <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
-                    </tr>
-                    <tr>
-                        <td style=" display: flex; align-items: center;"><img style="width: 20%;" src="./assets/img/Sunscreen/laroche spf50+.jpg" alt=""><span class="nameItem">Kem chống nắng LarochePosay Spf50+</span></td>
-                        <td>50g</td>
-                        <td><p><span class="price-item">299.000</span><sup>đ</sup></p></td>
-                        <td>
-                            <div class="buy-amount" style="display: flex; justify-content: center;">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></span>
-                                <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></span>  
-                            </div>
-                        </td>
-                        <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
-                    </tr>
-                    <tr>
-                        <td style=" display: flex; align-items: center;"><img style="width: 20%;" src="./assets/img/Tonner/klairs.jpg" alt=""><span class="nameItem">Toner cấp ẩm Klairs</span></td>
-                        <td>180ml</td>
-                        <td><p><span class="price-item">209.000</span><sup>đ</sup></p></td>
-                        <td>
-                            <div class="buy-amount" style="display: flex; justify-content: center;">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-minus minus"></span>
-                                <input style="width: 30px; height: 30px; text-align: center;border:none; " type="text" value="1" min="1" class="amount">
-                                <span style="height: 30px; width: 30px;display: flex;justify-content: center;align-items: center; outline: none; background-color: #ddd;border: none; cursor: pointer;" class="ti-plus plus"></span>  
-                            </div>
-                        </td>
-                        <td style="cursor: pointer;"><span class="delete-cart">Xoá</span> </td>
-                    </tr> -->
                 </tbody>
                 
             </table>
             
-            <div style="text-align: center;padding: 20px; display: none;" class="null-product">
+            <div style="text-align: center;padding: 20px 0 10px; display: none;" class="null-product">
                 Không có sản phẩm nào trong giỏ hàng
             </div>
 
@@ -127,30 +76,29 @@
     </div>
 
     <div class="suggest-shop">
-        <h2>Có thể bạn cũng thích</h2>
-        <div class="cart-product-recommend">
-            <a href="">
-                <div class="product-recommend-img"><img src="./assets/img/Cleanser/cetaphil.jpg" alt=""></div>
-                <span class="product-recommend-price">223.000<sup>đ</sup></span>
-                <span class="product-recommend-price-old">300.000<sup>đ</sup></span>
-                <div class="sale-off">40<sup>%</sup></div>
-                <div class="product-recommend-name">Sữa Tắm Gội Cetaphil Dịu Lành Cho Bé 400ml
-                    Baby Wash & Shampoo with Organic Calendula
+        <h2 style="margin-bottom: 5px; margin-left: 3px;">Có thể bạn cũng thích</h2>
+        <div ng-repeat="x in listRelate" class="cart-product-recommend">
+            <a href="#!/product/{{x.maSanPham}}">
+                <div class="product-recommend-img"><img src="{{x.anhDaiDien}}" alt=""></div>
+                <span class="product-recommend-price">{{x.giaGiam.toLocaleString('DE-de')}}<sup>đ</sup></span>
+                <span class="product-recommend-price-old">{{x.gia.toLocaleString('DE-de')}}<sup>đ</sup></span>
+                <div class="sale-off">{{ (100 - x.giaGiam / x.gia * 100) | roundUp }}%<Giảm>Giảm</span></div>
+                <div class="product-recommend-name">{{x.tenSanPham}}
                 </div>
             </a>
                 <div class="icon-recommend">
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="fa-solid fa-star star-gold"></span>
-                    <span class="people-rate">(10)</span>
-                    <span>|</span>
-                    <span class="fa-solid fa-shop"></span>
-                    <span class="amount-product">123</span>
+                    <span>{{x.danhGia > 0 ? x.danhGia.toFixed(1):''}}</span>
+                    <i ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}" class="fa-solid fa-star star-gold"></i>
+                    <span ng-style="{'display': x.danhGia > 0 ? 'inline-block':'none'}">|</span>
+                    <span title="Đã bán" class="fa-solid fa-shop"></span>
+                    <span title="Đã bán" class="amount-product">{{x.luotBan}}</span>
+                    <span class="fa-solid fa-truck-fast free-ship"></span>
                 </div>  
+                <div style=" margin-bottom: -8px;" class="country">
+                    {{x.xuatXu}}
+                </div> 
         </div>
-        <div class="cart-product-recommend">
+        <!-- <div class="cart-product-recommend">
             <a href="">
                 <div class="product-recommend-img"><img src="./assets/img/Lotion/demacos.jpg" alt=""></div>
                 <span class="product-recommend-price">209.000<sup>đ</sup></span>
@@ -338,6 +286,6 @@
                     <span class="fa-solid fa-shop"></span>
                     <span class="amount-product">123</span>
                 </div>  
-        </div>
+        </div> -->
     </div>
 </div>

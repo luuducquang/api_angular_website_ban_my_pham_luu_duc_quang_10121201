@@ -44,6 +44,7 @@ namespace DataAccessLayer
                     "@MaNhaPhanPhoi", model.MaNhaPhanPhoi,
                     "@NgayTao", model.NgayTao,
                     "@KieuThanhToan", model.KieuThanhToan,
+                    "@TongTien", model.TongTien,
                     "@MaTaiKhoan", model.MaTaiKhoan,
                     "@list_json_chitiethoadonnhap", model.list_json_chitiethoadonnhap != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadonnhap) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
@@ -69,7 +70,7 @@ namespace DataAccessLayer
                     "@MaNhaPhanPhoi", model.MaNhaPhanPhoi,
                     "@NgayTao", model.NgayTao,
                     "@KieuThanhToan", model.KieuThanhToan,
-                    "@MaTaiKhoan", model.MaTaiKhoan,
+                    "@TongTien", model.TongTien,
                     "@list_json_chitiethoadonnhap", model.list_json_chitiethoadonnhap != null ? MessageConvert.SerializeObject(model.list_json_chitiethoadonnhap) : null);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {

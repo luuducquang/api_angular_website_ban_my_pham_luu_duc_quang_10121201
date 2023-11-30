@@ -1,17 +1,18 @@
 ﻿using BussinessLayer.Interfaces;
+using Model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Model;
 
-namespace API_MYPHAM_USER.Controllers
+namespace Api.BanHang.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserBUS _userBusiness;
-        public UserController(IUserBUS userBusiness)
+        private IUserBusiness _userBusiness;
+        public UserController(IUserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
         }
@@ -22,7 +23,7 @@ namespace API_MYPHAM_USER.Controllers
             var user = _userBusiness.Login(model.Username, model.Password);
             if (user == null)
                 return BadRequest(new { message = "Tài khoản hoặc mật khẩu không đúng!" });
-            return Ok(new { taikhoan = user.TenTaiKhoan, email = user.Email, token = user.token });
+            return Ok(new {mataikhoan = user.MaTaiKhoan, taikhoan = user.TenTaiKhoan, email = user.Email, hoten = user.HoTen, sodienthoai = user.SoDienThoai , anhdaidien = user.AnhDaiDien, token = user.token });
         }
     }
 }

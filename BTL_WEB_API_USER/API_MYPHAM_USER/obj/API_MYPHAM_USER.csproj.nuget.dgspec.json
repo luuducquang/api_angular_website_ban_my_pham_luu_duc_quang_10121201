@@ -59,6 +59,10 @@
               "target": "Package",
               "version": "[6.5.0, )"
             },
+            "System.IO.FileSystem.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.0.0, )"
@@ -134,17 +138,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Microsoft.IdentityModel.JsonWebTokens": {
-              "target": "Package",
-              "version": "[6.32.3, )"
-            },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[6.32.3, )"
+              "version": "[7.0.0, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.32.3, )"
+              "version": "[7.0.0, )"
             }
           },
           "imports": [

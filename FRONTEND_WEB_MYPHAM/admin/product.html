@@ -6,7 +6,7 @@
         <input ng-model="timkiem" style="margin: 0;padding: 10px;" type="text" name="" id=""
             placeholder="Nhập từ khoá cần tìm">
         
-        <select ng-model="luachontimkiem" style="width: 20%;" class="select form-select-lg" aria-label="Default select example">
+        <select ng-model="luachontimkiem" style="width: 12%;" class="select form-select-lg" aria-label="Default select example">
             <option value=""disabled>Tìm kiếm theo</option>
             <option value="TenSanPham">Tên Sản Phẩm</option>
             <option value="TenDanhMuc">Tên Danh Mục</option>
@@ -15,24 +15,26 @@
             <option value="TenHang">Tên Hãng Sản Xuất</option>
             <option value="XuatXu">Xuất Xứ</option>
         </select>
+        <button style="height: 30px;" ng-click="search()">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Tìm kiếm
+        </button>
 
+        
         <div style="width: 50%; margin-left: 3px;">
             <div class="range-container">
                 <label style="width: 100px;" for="giaMin" class="range-label">Giá Min:</label>
-                <input type="range" id="giaMin" class="range-input" min="0" max="999999" step="1" value="0">
+                <input type="range" id="giaMin" class="range-input" min="0" max="4999999" step="1" value="0">
                 <span style="width: 50px; padding-left: 10px;" id="giaMinValue">0</span>
             </div>
         
             <div class="range-container">
                 <label style="width: 100px;" for="giaMax" class="range-label">Giá Max:</label>
-                <input type="range" id="giaMax" class="range-input" min="0" max="999999" step="1" value="999999">
-                <span style="width: 50px; padding-left: 10px;" id="giaMaxValue">999999</span>
+                <input type="range" id="giaMax" class="range-input" min="0" max="4999999" step="1" value="4999999">
+                <span style="width: 50px; padding-left: 10px;" id="giaMaxValue">4999999</span>
             </div>
         </div>
-        <button style="margin: 5px 0;height: 35px;" ng-click="search()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            Tìm kiếm
-        </button>
+        
         <style>
             .range-container {
                 display: flex;
@@ -57,6 +59,14 @@
             <i class="fa-solid fa-trash"></i>
             Xoá sản phẩm
         </button>
+        <button ng-click="up5persen()" type="button" class="btn btn-primary btn-up5">
+            <i class="fa-solid fa-circle-up"></i>
+            Tăng 5% giá bán
+        </button>
+        <button ng-click="down5persen()" type="button" class="btn btn-secondary btn-down5">
+            <i class="fa-solid fa-circle-down"></i>
+            Giảm 5% giá bán
+        </button>
     </div>
     <form action="">
         <table class="table table-product table-hover">
@@ -68,6 +78,8 @@
                     <th scope="col">Hình Ảnh</th>
                     <th scope="col">Giá Bán</th>
                     <th scope="col">Số Lượng</th>
+                    <th scope="col">Đã Bán</th>
+                    <th scope="col">Đánh giá</th>
                     <th scope="col">Trọng Lượng</th>
                     <th scope="col">Danh mục</th>
                     <th scope="col">Danh mục ưu đãi</th>
@@ -82,12 +94,14 @@
                         <input class="form-check-input text-center" ng-model="selected" type="checkbox"
                             ng-click="toggleSelection(x)" value="" id="checkitem">
                     </td>
-                    <td class="id-item">{{x.maSanPham}}</td>
+                    <td class="id-item">{{x.maSanPham.toLocaleString('de-DE')}}</td>
                     <td>{{x.tenSanPham}}</td>
                     <td><img style="width: 100px;height: 100px;background-size: cover;" src={{x.anhDaiDien}} alt="">
                     </td>
-                    <td>{{x.giaGiam}}</td>
-                    <td>{{x.soLuong}}</td>
+                    <td>{{x.giaGiam.toLocaleString('de-DE')}}</td>
+                    <td>{{x.soLuong.toLocaleString('de-DE')}}</td>
+                    <td>{{x.luotBan.toLocaleString('de-DE')}}</td>
+                    <td>{{x.danhGia}} <i style="color: #ff9c1a;" class="fa-solid fa-star"></i></td>
                     <td>{{x.trongLuong}}</td>
                     <td>{{x.tenDanhMuc}}</td>
                     <td>{{x.tendanhmucuudai}}</td>
@@ -95,7 +109,7 @@
                     <td ng-style="{'color': x.trangThai === true ? '#33CC00' : '#FF3300'}">{{x.trangThai===true?'Hoạt động':'Tắt'}}</td>
                     <td>
                         <a style="cursor: pointer;" class="edit text-decoration-none">
-                            <i ng-click="edit(x.maSanPham)"  class="fa-solid fa-pen-to-square"></i>
+                            <i ng-click="edit(x.maSanPham)"  class="fa-solid fa-circle-info"></i>
                         </a>
                     </td>
                 </tr>
@@ -121,7 +135,8 @@
                 </div>
                 <div class="form-group">
                     <label>Tên sản phẩm:</label>
-                    <input ng-model="tensanpham" id="ItemName" type="text" class="form-control" placeholder="Tên sản phẩm">
+                    <!-- <input ng-model="tensanpham" id="ItemName" type="text" class="form-control" placeholder="Tên sản phẩm"> -->
+                    <textarea ng-model="tensanpham" name="" id="ItemName" class="form-control" placeholder="Tên sản phẩm" cols="30" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Ảnh sản phẩm:</label>
@@ -144,19 +159,37 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Giá:</label>
-                    <input ng-model="gia" id="Price" type="number" value="0" class="form-control" placeholder="Giá">
+                    <label>Giá( Giá nhập = {{gianhap.toLocaleString('de-DE')}}):</label>
+                    <input disabled ng-model="gia" onkeypress="return isNumberKey(event)" id="Price" type="text" min="0" value="0" class="form-control price" placeholder="Giá">
                 </div>
-                <div class="form-group">
+                <div class="form-group">    
                     <label>Giá giảm:</label>
-                    <input ng-model="giagiam" id="Price-down" type="number" value="0" class="form-control"
+                    <input ng-change="inputVal()" onkeypress="return isNumberKey(event)" ng-model="giagiam" id="Price-down" type="text" min="0" value="0" class="form-control price-old"
                         placeholder="Giá giảm">
                 </div>
                 <div class="form-group">
                     <label>Số lượng:</label>
-                    <input ng-model="soluong" id="Quantity" type="number" value="0" class="form-control"
+                    <input disabled ng-model="soluong" onkeypress="return isNumberKey(event)" id="Quantity" type="text" min="0" value="0" class="form-control quantity"
                         placeholder="Số lượng">
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $('.price-old, .price, .quantity').on('input', function() {
+                            $(this).val(function(index, value) {
+                                return value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+                            });
+                            if ($(this).val() !== '') {
+                                $(this).val(parseInt($(this).val()).toLocaleString('de-DE'));
+                            }
+                        });
+                    });
+                    function isNumberKey(e) {
+                        var charCode = (e.which) ? e.which : e.keyCode;
+                        if (charCode > 31 && (charCode < 48 || charCode > 57))
+                            return false;
+                        return true;
+                    }
+                </script>
                 <div class="form-group">
                     <label>Trọng lượng:</label>
                     <input ng-model="trongluong" id="Weigh" type="text" class="form-control" placeholder="Trọng lượng">
@@ -208,15 +241,7 @@
         </div>
     </div>
 </div>
-<nav aria-label="Page navigation example" style="display: flex; justify-content: center;z-index: 0;">
-    <ul class="pagination">
-        <li class="page-item prevPage"><p onclick="prev()" class="page-link " ><<</p></li>
-        <div class="page-count" style="display:flex">
-            <!-- <li class="page-item"><p class="page-link">1</p></li> -->
-        </div>
-        <li  class="page-item nextPage"><p onclick="next()" class="page-link" >>></p></li>
-    </ul>
-</nav>
+<div id="pagination"></div>
 <div class="notifi">
     <div class="notifi-btn">
         <p class="text-center p-3" style="margin-bottom: 0;">Bạn có chắc chắn muốn xoá không ?</p>
@@ -262,4 +287,24 @@
 
     }); 
 
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#mySelect-danhmuc').select2({
+            placeholder: "Chọn danh mục",
+        });
+        $('#mySelect-danhmucuudai').select2({
+            placeholder: "Chọn danh mục ưu đãi",
+        });
+        $('#mySelect-producer').select2({
+            placeholder: "Chọn nhà sản xuất",
+        });
+        $('#mySelect-distributor').select2({
+            placeholder: "Chọn nhà phân phối",
+        });
+        $('.select2-container').css('width', '69%');
+        $('.select2-container').css('margin-left', '7px');
+
+    });
 </script>

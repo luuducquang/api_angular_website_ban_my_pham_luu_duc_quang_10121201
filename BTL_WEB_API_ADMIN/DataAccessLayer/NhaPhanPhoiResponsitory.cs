@@ -39,7 +39,7 @@ namespace DataAccessLayer
                 "@TenNhaPhanPhoi", model.TenNhaPhanPhoi,
                 "@DiaChi", model.DiaChi,
                 "@SoDienThoai", model.SoDienThoai,
-                "@Fax", model.Fax,
+                "@LinkWeb", model.LinkWeb,
                 "@MoTa", model.MoTa);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
@@ -63,7 +63,7 @@ namespace DataAccessLayer
                 "@TenNhaPhanPhoi", model.TenNhaPhanPhoi,
                 "@DiaChi", model.DiaChi,
                 "@SoDienThoai", model.SoDienThoai,
-                "@Fax", model.Fax,
+                "@LinkWeb", model.LinkWeb,
                 "@MoTa", model.MoTa);
                 if ((result != null && !string.IsNullOrEmpty(result.ToString())) || !string.IsNullOrEmpty(msgError))
                 {
