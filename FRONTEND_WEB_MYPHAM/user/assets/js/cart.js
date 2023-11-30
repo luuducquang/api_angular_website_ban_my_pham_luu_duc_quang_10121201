@@ -2,14 +2,13 @@ if(!customerLocalStorage){
     window.location.href = './login.html'
 }
   
-
 function product(){
     var listProduct =  localStorage.getItem("productList") ? JSON.parse(localStorage.getItem("productList")) : []
     var tbody = document.querySelector(".cart-shop table tbody")
     var content = ``
     listProduct.map(function(value,index){
         content += `<tr>
-                        <td><input type="checkbox" ${value.state===true?'checked':''} class="item-checkbox" /></td>
+                        <td><input type="checkbox" ${value.state===true?'checked':''} data="${value.id}" class="item-checkbox" /></td>
                         <td style=" height:90px; display: flex; align-items: center;"><img style="width: 90px;padding: 10px;" src="${value.img}" alt="">
                         <span class="item">
                             <a style="text-decoration: none; " href="#!/product/${value.id}" style="font-size: 14px;" class="nameItem">${value.name}</a>
@@ -51,11 +50,9 @@ function ItemBuy(){
     var listProductBuy =  localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
     listCheckBox.forEach(function(e){
         e.addEventListener('click',function(event){
+            const dataValue = event.target.getAttribute('data');
             var trElement = event.target.parentElement.parentElement
-            var a = trElement.querySelector('a')
-            var stringa = String(a.href)
-            var idElement = Number(stringa.slice(-2))
-            var item = listProduct.filter(x=>x.id === idElement)
+            var item = listProduct.filter(x=>x.id === Number(dataValue))
             var search = listProductBuy.find(x=>x.id === item[0].id)
             if(event.target.checked===true){
                 if(!search){
@@ -82,7 +79,7 @@ function ItemBuy(){
             }
             else{
                 var index = listProductBuy.findIndex(function(item) {
-                    return item.id === idElement;
+                    return item.id === Number(dataValue);
                 });
                 listProductBuy.splice(index,1)
                 listProduct.map(function(value){
@@ -232,4 +229,3 @@ goOrder.addEventListener("click",()=>{
         window.location = "#!/order"
     }
 })
-

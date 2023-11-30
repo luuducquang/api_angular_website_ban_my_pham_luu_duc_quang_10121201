@@ -92,7 +92,7 @@ namespace Model
         public string TrongLuong { get; set; }
         public string Tendanhmucuudai { get; set; }
         public string TenDanhMuc { get; set; }
-        public int soluong { get; set; }
+        public int SoLuong { get; set; }
         public int LuotBan { get; set; }
         public float DanhGia { get; set; }
     }

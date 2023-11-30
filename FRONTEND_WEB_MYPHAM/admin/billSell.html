@@ -44,7 +44,7 @@
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Tên Khách Hàng</th>
-                    <th scope="col">Tên Tài Khoản</th>
+                    <th scope="col">Tài Khoản Tạo</th>
                     <th scope="col">Tổng Giá</th>
                     <th scope="col">Địa chỉ giao</th>
                     <th scope="col">Số điện thoại</th>
@@ -67,9 +67,9 @@
                     <td>{{ x.ngayTao | date:'HH:mm dd/MM/yyyy' }}</td>
                     <td ng-style="{'color': x.trangThai === 'Đang xử lý' ? '#FFCC00' : (x.trangThai === 'Huỷ đơn' ? '#FF3300' : '#33CC00')}">{{x.trangThai}}</td>
                     <td>
-                        <a style="cursor: pointer;" class="edit text-decoration-none">
-                            <i ng-click="edit(x)"  class="fa-solid fa-circle-info"></i>
-                            <i ng-click="export(x)"  class="fa-solid fa-file-export"></i>
+                        <a class="edit text-decoration-none">
+                            <i title="Chi tiết" ng-click="edit(x)"  class="fa-solid fa-circle-info"></i>
+                            <a title="Kiết xuất" target="_blank" href="./exportInvoiceToPdf.html"><i style="margin-left: 15px;" ng-click="export(x)"  class="fa-solid fa-file-export"></i></a>
                         </a>
                     </td>
                 </tr>

@@ -9,4 +9,5 @@ app.controller("CartCtrl", function ($scope, $http) {
         });
     };   
 	$scope.GetProductRelate();
+    
 })

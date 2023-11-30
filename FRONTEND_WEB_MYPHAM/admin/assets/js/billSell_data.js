@@ -375,110 +375,113 @@ app.controller("billSellCtrl", function ($scope, $http) {
             headers: { "Authorization": 'Bearer ' + _user.token },
             url: current_url + '/api-admin/HoaDon/getbyid-mahoadon-chitiethoadon/' + x.maHoaDon,
         }).then(function (response) {
-            $scope.listexport=response.data.map(function(value){
-                return Object.values({
-                    MaChiTietHoaDon: value.maChiTietHoaDon,
-                    TenSanPham: value.tenSanPham,
-                    SoLuong: value.soLuong.toLocaleString('De-de'),
-                    DonGia: value.donGia.toLocaleString('De-de'),
-                    TongGia: value.tongGia.toLocaleString('De-de')
-                })
-            })
-            console.log($scope.listexport);
-            var props = {
-                outputType: jsPDFInvoiceTemplate.OutputType.Save,
-                returnJsPDFDocObject: true,
-                fileName: "Invoice 2021",
-                orientationLandscape: false,
-                compress: true,
-                logo: {
-                    src: "",
-                    type: 'PNG', //optional, when src= data:uri (nodejs case)
-                    width: 53.33, //aspect ratio = width/height
-                    height: 26.66,
-                    margin: {
-                        top: 0, //negative or positive num, from the current position
-                        left: 0 //negative or positive num, from the current position
-                    }
-                },
-                stamp: {
-                    inAllPages: true, //by default = false, just in the last page
-                    src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
-                    type: 'JPG', //optional, when src= data:uri (nodejs case)
-                    width: 20, //aspect ratio = width/height
-                    height: 20,
-                    margin: {
-                        top: 0, //negative or positive num, from the current position
-                        left: 0 //negative or positive num, from the current position
-                    }
-                },
-                business: {
-                    name: "SkinCareComestic",
-                    address: "HungYen,TienLu,HungDao",
-                    phone: "0123456789",
-                    email: "luuquang203@gmail.com",
-                    email_1: "skincare.com.vn",
-                },
-                contact: {
-                    label: "Ten khach hang : "+x.tenKH,
-                    name: "Dia chi : "+x.diaChiGiaoHang,
-                    address: "So dien thoai : "+x.sdt,
-                    phone: "Tong gia : "+x.tongGia.toLocaleString('De-de')
-                },
-                invoice: {
-                    label: "Hoa Don: ",
-                    num: x.maHoaDon,
-                    invGenDate: 'Ngay Tao : '+x.ngayTao,
-                    headerBorder: false,
-                    tableBodyBorder: false,
-                    header: [
-                    {
-                        title: "Ma san pham"
-                    }, 
-                    { 
-                        title: "Ten san pham"
-                    }, 
-                    { 
-                        title: "So luong"
-                    }, 
-                    { title: "Don Gia"},
-                    { title: "TongGia"}
-                    ],
-                    table: $scope.listexport,
-                    additionalRows: [{
-                        col1: 'Total:',
-                        col2: '145,250.50',
-                        col3: 'ALL',
-                        style: {
-                            fontSize: 14 //optional, default 12
-                        }
-                    },
-                    {
-                        col1: 'VAT:',
-                        col2: '20',
-                        col3: '%',
-                        style: {
-                            fontSize: 10 //optional, default 12
-                        }
-                    },
-                    {
-                        col1: 'SubTotal:',
-                        col2: '116,199.90',
-                        col3: 'ALL',
-                        style: {
-                            fontSize: 10 //optional, default 12
-                        }
-                    }]
-                },
-                footer: {
-                    text: "Thank you for buy.",
-                },
-                pageEnable: false,
-                pageLabel: "Page",
-            };
-            if(confirm('Bạn có muốn xuất hoá đơn không')){
-                var pdfObject = jsPDFInvoiceTemplate.default(props);
-            }
+            $scope.listexport = response.data.map((value)=>({...value}))
+            const listExportInvoice = localStorage.getItem('listExportInvoice') ? JSON.parse(localStorage.getItem('listExportInvoice')) : {}
+
+            listExportInvoice.ngaymua = x.ngayTao;
+            listExportInvoice.mahoadon = x.maHoaDon;
+            listExportInvoice.tenkhachhang = x.tenKH;
+            listExportInvoice.sdt = x.sdt;
+            listExportInvoice.diachi2 = x.diachi;
+            listExportInvoice.tongtien = x.tongGia;
+            listExportInvoice.diachi1 = x.diaChiGiaoHang;
+            listExportInvoice.listitem = $scope.listexport;
+
+            localStorage.setItem('listExportInvoice',JSON.stringify(listExportInvoice))
+            // var props = {
+            //     outputType: jsPDFInvoiceTemplate.OutputType.Save,
+            //     returnJsPDFDocObject: true,
+            //     fileName: "Invoice 2021",
+            //     orientationLandscape: false,
+            //     compress: true,
+            //     logo: {
+            //         src: "",
+            //         type: 'PNG', //optional, when src= data:uri (nodejs case)
+            //         width: 53.33, //aspect ratio = width/height
+            //         height: 26.66,
+            //         margin: {
+            //             top: 0, //negative or positive num, from the current position
+            //             left: 0 //negative or positive num, from the current position
+            //         }
+            //     },
+            //     stamp: {
+            //         inAllPages: true, //by default = false, just in the last page
+            //         src: "https://raw.githubusercontent.com/edisonneza/jspdf-invoice-template/demo/images/qr_code.jpg",
+            //         type: 'JPG', //optional, when src= data:uri (nodejs case)
+            //         width: 20, //aspect ratio = width/height
+            //         height: 20,
+            //         margin: {
+            //             top: 0, //negative or positive num, from the current position
+            //             left: 0 //negative or positive num, from the current position
+            //         }
+            //     },
+            //     business: {
+            //         name: "SkinCareComestic",
+            //         address: "HungYen,TienLu,HungDao",
+            //         phone: "0123456789",
+            //         email: "luuquang203@gmail.com",
+            //         email_1: "skincare.com.vn",
+            //     },
+            //     contact: {
+            //         label: "Ten khach hang : "+x.tenKH,
+            //         name: "Dia chi : "+x.diaChiGiaoHang,
+            //         address: "So dien thoai : "+x.sdt,
+            //         phone: "Tong gia : "+x.tongGia.toLocaleString('De-de')
+            //     },
+            //     invoice: {
+            //         label: "Hoa Don: ",
+            //         num: x.maHoaDon,
+            //         invGenDate: 'Ngay Tao : '+x.ngayTao,
+            //         headerBorder: false,
+            //         tableBodyBorder: false,
+            //         header: [
+            //         {
+            //             title: "Ma san pham"
+            //         }, 
+            //         { 
+            //             title: "Ten san pham"
+            //         }, 
+            //         { 
+            //             title: "So luong"
+            //         }, 
+            //         { title: "Don Gia"},
+            //         { title: "TongGia"}
+            //         ],
+            //         table: $scope.listexport,
+            //         additionalRows: [{
+            //             col1: 'Total:',
+            //             col2: '145,250.50',
+            //             col3: 'ALL',
+            //             style: {
+            //                 fontSize: 14 //optional, default 12
+            //             }
+            //         },
+            //         {
+            //             col1: 'VAT:',
+            //             col2: '20',
+            //             col3: '%',
+            //             style: {
+            //                 fontSize: 10 //optional, default 12
+            //             }
+            //         },
+            //         {
+            //             col1: 'SubTotal:',
+            //             col2: '116,199.90',
+            //             col3: 'ALL',
+            //             style: {
+            //                 fontSize: 10 //optional, default 12
+            //             }
+            //         }]
+            //     },
+            //     footer: {
+            //         text: "Thank you for buy.",
+            //     },
+            //     pageEnable: false,
+            //     pageLabel: "Page",
+            // };
+            // if(confirm('Bạn có muốn xuất hoá đơn không')){
+            //     var pdfObject = jsPDFInvoiceTemplate.default(props);
+            // }
         }).catch(function (error) {
             console.error('Lỗi:', error);
         });

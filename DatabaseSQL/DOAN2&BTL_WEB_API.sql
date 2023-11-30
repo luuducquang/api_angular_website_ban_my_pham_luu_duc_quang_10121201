@@ -2940,7 +2940,7 @@ exec sp_overview
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_ThongKeDoanhThuNam(@Nam INT)
+alter proc sp_ThongKeDoanhThuNam(@Nam INT)
 AS
 BEGIN
     DECLARE @Thang INT = 1;
@@ -2953,7 +2953,7 @@ BEGIN
 
         SELECT @DoanhThu = SUM(TongGia)
         FROM HoaDons
-        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang AND TrangThai != N'Huỷ đơn'
 
         INSERT INTO #ThongKeDoanhThu (Thang, DoanhThu)
         VALUES (@Thang, @DoanhThu);
@@ -2969,21 +2969,21 @@ END;
 exec sp_ThongKeDoanhThuNam 2023
 
 -------------------------------------------------------------------------------------------------------------------------------
-create proc sp_ThongKeTienChiNam(@Nam INT)
+alter proc sp_ThongKeTienChiNam(@Nam INT)
 AS
 BEGIN
     DECLARE @Thang INT = 1;
-    DECLARE @TienChi FLOAT;
     
     CREATE TABLE #ThongKeTienChi(Thang INT, TienChi FLOAT);
 
     WHILE @Thang <= 12
     BEGIN
+		DECLARE @TienChi FLOAT;
 
-        SELECT @TienChi = SUM(TongTien)
-        FROM ChiTietHoaDonNhaps ct
-		inner join HoaDonNhaps hdn on hdn.MaHoaDon = ct.MaHoaDon
-        WHERE YEAR(NgayTao) = @Nam AND MONTH(NgayTao) = @Thang;
+        SELECT @TienChi = SUM(ct.TongGia)
+        FROM HoaDonNhaps hdn
+		inner join ChiTietHoaDonNhaps ct on hdn.MaHoaDon = ct.MaHoaDon
+        WHERE YEAR(hdn.NgayTao) = @Nam AND MONTH(hdn.NgayTao) = @Thang;
 
         INSERT INTO #ThongKeTienChi (Thang, TienChi)
         VALUES (@Thang, @TienChi);
@@ -2999,7 +2999,7 @@ END;
 exec sp_ThongKeTienChiNam 2023
 
 -------------------------------------------------------------------------------------------------------------------------------
-create PROCEDURE sp_ThongKeDoanhThuTrongThang
+alter PROCEDURE sp_ThongKeDoanhThuTrongThang
     @Nam INT,
     @Thang INT
 AS
@@ -3016,7 +3016,7 @@ BEGIN
         INSERT INTO #DoanhThuTheoNgay (Ngay, DoanhThu)
         SELECT @NgayHienTai, SUM(TongGia)
         FROM HoaDons
-        WHERE CAST(NgayTao AS DATE) = @NgayHienTai;
+        WHERE CAST(NgayTao AS DATE) = @NgayHienTai AND TrangThai != N'Huỷ đơn'
 
         SET @NgayHienTai = DATEADD(DAY, 1, @NgayHienTai);
     END;
@@ -3393,7 +3393,7 @@ begin
 	from HoaDons hd
 	inner join ChiTietHoaDons ct on hd.MaHoaDon = ct.MaHoaDon
 	inner join SanPhams sp on sp.MaSanPham = ct.MaSanPham
-	WHERE hd.NgayTao BETWEEN @StartDate AND @CurrentDate
+	WHERE hd.NgayTao BETWEEN @StartDate AND @CurrentDate AND hd.TrangThai != N'Huỷ đơn'
 	group by sp.TenSanPham,ct.SoLuong
 end
 
@@ -3454,19 +3454,19 @@ begin
            sp.TrongLuong,
            dmu.Tendanhmucuudai,
            dm.TenDanhMuc,
-           SUM(ct.SoLuong) AS soluong
+           sp.SoLuong
     FROM HoaDons hd
         INNER JOIN ChiTietHoaDons ct ON ct.MaHoaDon = hd.MaHoaDon
         INNER JOIN SanPhams sp ON sp.MaSanPham = ct.MaSanPham
         INNER JOIN DanhMucs dm ON dm.MaDanhMuc = sp.MaDanhMuc
         INNER JOIN DanhMucUudais dmu ON dmu.Madanhmucuudai = sp.Madanhmucuudai
     WHERE hd.NgayTao >= @StartDate AND hd.NgayTao <= GETDATE()
-    GROUP BY ct.MaSanPham, sp.TenSanPham, sp.AnhDaiDien, sp.Gia, sp.GiaGiam, sp.TrongLuong, dmu.Tendanhmucuudai, dm.TenDanhMuc,sp.LuotBan,sp.DanhGia
+    GROUP BY ct.MaSanPham, sp.TenSanPham, sp.AnhDaiDien, sp.Gia, sp.GiaGiam, sp.TrongLuong, dmu.Tendanhmucuudai, dm.TenDanhMuc,sp.LuotBan,sp.DanhGia,sp.SoLuong
     HAVING SUM(ct.SoLuong) > 10
     ORDER BY soluong DESC;
 end
 
-exec sp_sanphambanchaytrong 0
+exec sp_sanphambanchaytrong 7
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_sanphambanchamtrong(@Ngay int)
@@ -3485,14 +3485,14 @@ begin
            sp.TrongLuong,
            dmu.Tendanhmucuudai,
            dm.TenDanhMuc,
-           SUM(ct.SoLuong) AS soluong
+           sp.SoLuong
     FROM HoaDons hd
         INNER JOIN ChiTietHoaDons ct ON ct.MaHoaDon = hd.MaHoaDon
         INNER JOIN SanPhams sp ON sp.MaSanPham = ct.MaSanPham
         INNER JOIN DanhMucs dm ON dm.MaDanhMuc = sp.MaDanhMuc
         INNER JOIN DanhMucUudais dmu ON dmu.Madanhmucuudai = sp.Madanhmucuudai
     WHERE hd.NgayTao >= @StartDate AND hd.NgayTao <= GETDATE()
-    GROUP BY ct.MaSanPham, sp.TenSanPham, sp.AnhDaiDien, sp.Gia, sp.GiaGiam, sp.TrongLuong, dmu.Tendanhmucuudai, dm.TenDanhMuc,sp.LuotBan,sp.DanhGia
+    GROUP BY ct.MaSanPham, sp.TenSanPham, sp.AnhDaiDien, sp.Gia, sp.GiaGiam, sp.TrongLuong, dmu.Tendanhmucuudai, dm.TenDanhMuc,sp.LuotBan,sp.DanhGia,sp.SoLuong
     HAVING SUM(ct.SoLuong) < 5
     ORDER BY soluong DESC;
 end
@@ -3544,29 +3544,29 @@ begin
            sp.Gia,
            sp.GiaGiam,
 		   sp.LuotBan,
+		   sp.SoLuong,
 		   sp.DanhGia,
            sp.TrongLuong,
            dmu.Tendanhmucuudai,
-           dm.TenDanhMuc,
-           SUM(ct.SoLuong) AS soluong
+           dm.TenDanhMuc
     FROM HoaDons hd
         INNER JOIN ChiTietHoaDons ct ON ct.MaHoaDon = hd.MaHoaDon
         INNER JOIN SanPhams sp ON sp.MaSanPham = ct.MaSanPham
         INNER JOIN DanhMucs dm ON dm.MaDanhMuc = sp.MaDanhMuc
         INNER JOIN DanhMucUudais dmu ON dmu.Madanhmucuudai = sp.Madanhmucuudai
    WHERE hd.NgayTao >= @StartDate AND hd.NgayTao <= GETDATE()
-    GROUP BY ct.MaSanPham, sp.TenSanPham, sp.AnhDaiDien, sp.Gia, sp.GiaGiam, sp.TrongLuong, dmu.Tendanhmucuudai, dm.TenDanhMuc,sp.LuotBan,sp.DanhGia
+    GROUP BY ct.MaSanPham, sp.TenSanPham, sp.AnhDaiDien, sp.Gia, sp.GiaGiam, sp.TrongLuong, dmu.Tendanhmucuudai, dm.TenDanhMuc,sp.LuotBan,sp.DanhGia,sp.SoLuong
     ORDER BY soluong DESC;
 end
 
-exec sp_sanphamdabantrong 0
+exec sp_sanphamdabantrong 7
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 alter proc sp_sanphamsaphet
 as
 begin
-	select top(100) sp.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.LuotBan,sp.DanhGia,sp.TrongLuong,dm.TenDanhMuc,dmu.Tendanhmucuudai,sp.SoLuong as soluong
+	select top(100) sp.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.LuotBan,sp.DanhGia,sp.TrongLuong,dm.TenDanhMuc,dmu.Tendanhmucuudai,sp.SoLuong
 	from SanPhams sp
 	inner join DanhMucs dm on dm.MaDanhMuc = sp.MaDanhMuc
 	inner join DanhMucUudais dmu on dmu.Madanhmucuudai = sp.Madanhmucuudai
@@ -3579,7 +3579,7 @@ exec sp_sanphamsaphet
 alter proc sp_sanphamuathich
 as
 begin
-	SELECT Top(10) ctsp.MoTa,sp.LuotBan,sp.XuatXu,ct.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.LuotXem,sp.DanhGia,sp.TrongLuong,dmu.Tendanhmucuudai,dm.TenDanhMuc, SUM(ct.SoLuong) AS soluong
+	SELECT Top(10) ctsp.MoTa,sp.LuotBan,sp.XuatXu,ct.MaSanPham,sp.TenSanPham,sp.AnhDaiDien,sp.Gia,sp.GiaGiam,sp.LuotXem,sp.DanhGia,sp.TrongLuong,dmu.Tendanhmucuudai,dm.TenDanhMuc, SUM(ct.SoLuong) AS SoLuong
 	FROM HoaDons hd
 	inner join ChiTietHoaDons ct on ct.MaHoaDon = hd.MaHoaDon
 	inner join SanPhams sp on sp.MaSanPham = ct.MaSanPham

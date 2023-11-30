@@ -28,7 +28,7 @@ app.controller("OverviewCtrl", function ($scope, $http) {
   $scope.GetOverview();
 
   /*------------------------------------------------------------------------------------------*/
-  $scope.SellingValue='7'
+  $scope.SellingValue='360'
   $scope.Getspbanchaythang = function (ngay) {
       $http({
         method: 'POST',
@@ -64,7 +64,7 @@ app.controller("OverviewCtrl", function ($scope, $http) {
   $scope.Getspsaphet()
 /*------------------------------------------------------------------------------------------*/
 
-  $scope.SoldValue = '0'
+  $scope.SoldValue = '360'
   $scope.Getspbantrongthang = function (ngay) {
       $http({
         method: 'POST',
@@ -88,7 +88,7 @@ app.controller("OverviewCtrl", function ($scope, $http) {
 
 /*------------------------------------------------------------------------------------------*/
 
-$scope.FeedbackValue = '0'
+$scope.FeedbackValue = '360'
 $scope.Getdanhgia = function (ngay) {
     $http({
       method: 'GET',
@@ -109,7 +109,7 @@ $scope.changeFeedback = function(){
   $scope.Getdanhgia($scope.FeedbackValue)
 }
   /*------------------------------------------------------------------------------------------*/
-  $scope.SellSlowlyValue = '60'
+  $scope.SellSlowlyValue = '360'
   $scope.Getspbancham = function (ngay) {
       $http({
         method: 'POST',
