@@ -14,8 +14,7 @@ app.controller("feedbackCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[4]).addClass('active_option')
-
+    $(btnOption[5]).addClass('active_option')
     var ngaybatdau = document.getElementById("startdate")
     var ngayketthuc = document.getElementById("enddate")
     

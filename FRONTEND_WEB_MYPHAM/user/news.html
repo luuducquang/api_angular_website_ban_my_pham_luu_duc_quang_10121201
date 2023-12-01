@@ -1,0 +1,20 @@
+<div ng-controller="NewsCtrl" style="margin-top: 85px;" id="content">  
+    <div class="cleanser">
+        <div style="margin-top: 10px;" class="type">
+            <a href="#!/">TRANG CHỦ</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/news/1">TIN TỨC</a>
+        </div>
+    <div class="news">
+        <div ng-repeat="x in listNew" class="news_content">
+            <a ng-click="showDetailNews(x)">
+                <img src="{{x.hinhAnh}}" alt="">
+                <div class="title_news">{{x.tieuDe}}</div>
+                <div class="view_news"><i style="margin-right: 2px;" class="fa-solid fa-eye"></i>{{x.luotXem.toLocaleString('de-DE')}}</div>
+                <div class="author">Người đăng: {{x.hoTen}}</div>
+            </a>
+        </div>
+    </div>
+    </div>
+    <div id="pagination"></div>
+</div>

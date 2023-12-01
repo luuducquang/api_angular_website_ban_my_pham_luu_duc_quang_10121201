@@ -8,7 +8,7 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[9]).addClass('active_option')
+    $(btnOption[10]).addClass('active_option')
     
     $scope.submit = "Thêm mới";
 	$scope.listADS;	

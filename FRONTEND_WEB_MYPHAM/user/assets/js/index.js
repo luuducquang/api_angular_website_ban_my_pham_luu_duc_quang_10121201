@@ -80,6 +80,16 @@ app.config(function($routeProvider) {
     .when("/changepassword", {
         templateUrl : "changepassword.html"
     })
+    
+    .when("/news/:page", {
+        templateUrl : "news.html",
+        controller:"news"
+    })
+    
+    .when("/newsDetail/:id", {
+        templateUrl : "newsDetail.html",
+        controller:"newsDetail"
+    })
 });
 
 app.controller("IndexCtrl", function ($scope, $http) {

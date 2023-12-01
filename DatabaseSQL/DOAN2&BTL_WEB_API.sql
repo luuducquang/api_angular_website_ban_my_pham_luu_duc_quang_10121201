@@ -41,6 +41,15 @@ CREATE TABLE TaiKhoans(
     Email NVARCHAR(150)
 );
 
+CREATE TABLE TinTucs(
+	MaTinTuc INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	TieuDe nvarchar(max),
+	NoiDung nvarchar(max),
+	HinhAnh nvarchar(max),
+    MaTaiKhoan INT foreign key (MaTaiKhoan) references TaiKhoans(MaTaiKhoan) on delete cascade on update cascade,
+	LuotXem int default 0,
+	TrangThai nvarchar(50))
+
 
 CREATE TABLE ChiTietTaiKhoans(
     MaChitietTaiKhoan INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -358,6 +367,110 @@ VALUES
 (2, 2, 50, N'Cái', 3000, 150000),
 (2, 2, 50, N'Cái', 3000, 150000)
 
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_gettintucbyid(@MaTinTuc int)
+as
+begin
+	select *,ctk.HoTen
+	FROM TinTucs AS K
+						inner join TaiKhoans tk on k.MaTaiKhoan = tk.MaTaiKhoan
+						inner join ChiTietTaiKhoans ctk on ctk.MaTaiKhoan = tk.MaTaiKhoan
+	where MaTinTuc = @MaTinTuc
+
+	update TinTucs
+	set LuotXem = LuotXem +1
+	where MaTinTuc = @MaTinTuc
+end
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_themtintuc(@TieuDe nvarchar(max),
+							@NoiDung nvarchar(max),
+							@HinhAnh nvarchar(max),
+							@MaTaiKhoan int,
+							@TrangThai nvarchar(50))
+as
+begin
+	insert into TinTucs(TieuDe,NoiDung,HinhAnh,MaTaiKhoan,TrangThai)
+	values(@TieuDe,@NoiDung,@HinhAnh,@MaTaiKhoan,@TrangThai)
+end
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter proc sp_suatintuc(@MaTinTuc int,
+							@TieuDe nvarchar(max),
+							@NoiDung nvarchar(max),
+							@HinhAnh nvarchar(max),
+							@TrangThai nvarchar(50))
+as
+begin
+	update TinTucs
+	set TieuDe = @TieuDe,
+		NoiDung = @NoiDung,
+		HinhAnh = @HinhAnh,
+		TrangThai = @TrangThai
+		where MaTinTuc = @MaTinTuc
+end
+
+-------------------------------------------------------------------------------------------------------------------------------
+create proc sp_xoatintuc(@MaTinTuc int)
+as
+begin
+	delete from TinTucs
+	where MaTinTuc = @MaTinTuc
+end
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+alter PROCEDURE sp_tin_tuc_search (@page_index  INT, 
+                                       @page_size   INT,
+									   @TieuDe  Nvarchar(max),
+									   @TrangThai nvarchar(50))
+AS
+    BEGIN
+        DECLARE @RecordCount BIGINT;
+        IF(@page_size <> 0)
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY K.MaTinTuc DESC)) AS RowNumber, 
+                              K.*,
+							  ctk.HoTen
+                        INTO #Results1
+                        FROM TinTucs AS K
+						inner join TaiKhoans tk on k.MaTaiKhoan = tk.MaTaiKhoan
+						inner join ChiTietTaiKhoans ctk on ctk.MaTaiKhoan = tk.MaTaiKhoan
+					    WHERE (@TieuDe = '' or k.TieuDe like N'%'+@TieuDe +'%')
+						and (@TrangThai = '' or k.TrangThai like N'%'+@TrangThai +'%')
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results1;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results1
+                        WHERE ROWNUMBER BETWEEN(@page_index - 1) * @page_size + 1 AND(((@page_index - 1) * @page_size + 1) + @page_size) - 1
+                              OR @page_index = -1;
+                        DROP TABLE #Results1; 
+            END;
+            ELSE
+            BEGIN
+                SET NOCOUNT ON;
+                        SELECT(ROW_NUMBER() OVER(
+                              ORDER BY K.MaTinTuc DESC)) AS RowNumber, 
+                              K.*,
+							  ctk.HoTen
+                        INTO #Results2
+                        FROM TinTucs AS K
+						inner join TaiKhoans tk on k.MaTaiKhoan = tk.MaTaiKhoan
+						inner join ChiTietTaiKhoans ctk on ctk.MaTaiKhoan = tk.MaTaiKhoan
+					    WHERE (@TieuDe = '' or k.TieuDe like N'%'+@TieuDe +'%')
+						and (@TrangThai = '' or k.TrangThai like N'%'+@TrangThai +'%')
+                        SELECT @RecordCount = COUNT(*)
+                        FROM #Results2;
+                        SELECT *, 
+                               @RecordCount AS RecordCount
+                        FROM #Results2
+                        DROP TABLE #Results2; 
+        END;
+    END;
 
 -------------------------------------------------------------------------------------------------------------------------------
 create proc sp_get_all_quang_cao

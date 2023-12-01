@@ -1,4 +1,4 @@
-var app = angular.module("myApp", ["ngRoute"]);
+var app = angular.module("myApp", ["ngRoute","ngSanitize"]);
 app.config(function($routeProvider) {
   $routeProvider
   .when("/", {
@@ -106,6 +106,14 @@ app.config(function($routeProvider) {
   .when("/feedback/:page/:start/:valuestart/:end/:valueend/:noidung/:chatluong", {
     templateUrl : "feedback.html",
     controller: "feedback"
+  })
+  .when("/news/:page", {
+    templateUrl : "news.html",
+    controller: "news"
+  })
+  .when("/news/:page/:tieudesearch", {
+    templateUrl : "news.html",
+    controller: "news"
   })
 });
 

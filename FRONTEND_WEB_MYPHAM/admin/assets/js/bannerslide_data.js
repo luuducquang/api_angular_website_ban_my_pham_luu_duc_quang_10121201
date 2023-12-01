@@ -8,7 +8,7 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[10]).addClass('active_option')
+    $(btnOption[11]).addClass('active_option')
     
     $scope.submit = "Thêm mới";
 	$scope.listSlide;	

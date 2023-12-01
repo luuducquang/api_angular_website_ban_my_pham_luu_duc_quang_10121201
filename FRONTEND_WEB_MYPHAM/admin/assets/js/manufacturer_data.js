@@ -9,7 +9,7 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[7]).addClass('active_option')
+    $(btnOption[8]).addClass('active_option')
     
     $scope.submit = "Thêm mới";
 	$scope.listManufacturer;	

@@ -9,7 +9,7 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[6]).addClass('active_option')
+    $(btnOption[7]).addClass('active_option')
     
     $scope.ListDanhMucUuDai;
 

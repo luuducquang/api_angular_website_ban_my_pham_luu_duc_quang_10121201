@@ -10,7 +10,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[12]).addClass('active_option')
+    $(btnOption[13]).addClass('active_option')
 
 
 	$scope.listAccount;	

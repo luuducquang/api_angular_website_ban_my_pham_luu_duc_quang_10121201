@@ -36,6 +36,7 @@ builder.Services.AddTransient<IHoaDonNhapBUS, HoaDonNhapBUS>();
 builder.Services.AddTransient<IUserBusiness, UserBusiness>();
 builder.Services.AddTransient<IOverviewBUS, OverviewBUS>();
 builder.Services.AddTransient<IDanhGiaBUS, DanhGiaBUS>();
+builder.Services.AddTransient<ITinTucBUS, TinTucBUS>();
 builder.Services.AddTransient<IQuangCaoResponsitory, QuangCaoResponsitory>();
 builder.Services.AddTransient<ISlideDetailResponsitory, SlideDetailResponsitory>();
 builder.Services.AddTransient<ITaiKhoanResponsitory, TaiKhoanResponsitory>();
@@ -51,6 +52,7 @@ builder.Services.AddTransient<IHoaDonNhapResponsitory, HoaDonNhapResponsitory>()
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IOverviewResponsitory, OverviewResponsitory>();
 builder.Services.AddTransient<IDanhGiaResponsitory, DanhGiaResponsitory>();
+builder.Services.AddTransient<ITinTucResponsitory, TinTucResponsitory>();
 
 
 // configure strongly typed settings objects

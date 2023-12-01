@@ -10,7 +10,7 @@ app.controller("DistributorCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[8]).addClass('active_option')
+    $(btnOption[9]).addClass('active_option')
     
     $scope.submit = "Thêm mới";
 	$scope.listDistributor;	

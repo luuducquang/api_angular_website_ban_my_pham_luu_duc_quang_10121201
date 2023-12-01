@@ -1,0 +1,25 @@
+<div ng-controller="newsDetailCtrl" style="margin-top: 85px;" id="content">  
+    <div class="cleanser">
+        <div style="margin-top: 10px;" class="type">
+            <a href="#!/">TRANG CHỦ</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/news/1">TIN TỨC</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="#!/newsDetail/{{listNewDetail.maTinTuc}}">{{listNewDetail.tieuDe}}</a>
+        </div>
+    <div class="newsDetail">
+        <h1 class="titleDetail">
+            {{listNewDetail.tieuDe}}
+        </h1>
+        <div class="content_detail" ng-bind-html="listNewDetail.noiDung">
+        </div>
+        <div class="view_detail">
+            {{listNewDetail.luotXem}} lượt xem
+        </div>
+        <div class="view_detail">
+            Người đăng: {{listNewDetail.hoTen}}
+        </div>
+    </div>
+    </div>
+    <div id="pagination"></div>
+</div>

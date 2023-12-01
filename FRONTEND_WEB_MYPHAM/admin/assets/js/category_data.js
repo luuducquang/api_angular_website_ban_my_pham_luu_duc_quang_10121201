@@ -9,8 +9,7 @@ app.controller("CategoryCtrl", function ($scope, $http) {
     if(classbtn){
         $(classbtn).removeClass('active_option')
     }
-    $(btnOption[5]).addClass('active_option')
-
+    $(btnOption[6]).addClass('active_option')
     $scope.ListDanhMuc;
     $scope.pageSize = 10
     var datas = {
