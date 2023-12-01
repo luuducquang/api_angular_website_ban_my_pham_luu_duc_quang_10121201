@@ -115,7 +115,7 @@ function login(event){
                 if (data != null && data.message != null && data.message != 'undefined') {
                     alert(data.message);
                 } else {
-                    if(data.maLoaitaikhoan===1){
+                    if(data.maLoaitaikhoan===1||data.maLoaitaikhoan===8){
                         localStorage.setItem("user", JSON.stringify(data));
                         window.location = 'home.html#!/'
                     }

@@ -7,7 +7,7 @@ using Model;
 
 namespace API_MYPHAM.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "8")]
     [Route("api/[controller]")]
     [ApiController]
     public class LoaiTaiKhoanController : ControllerBase
@@ -19,7 +19,6 @@ namespace API_MYPHAM.Controllers
             _loaiTaiKhoanBUS = loaiTaiKhoanBUS;
         }
 
-        [AllowAnonymous]
         [Route("get_all_loaitaikhoan")]
         [HttpGet]
         public IActionResult GetallLoaiTaiKhoan()

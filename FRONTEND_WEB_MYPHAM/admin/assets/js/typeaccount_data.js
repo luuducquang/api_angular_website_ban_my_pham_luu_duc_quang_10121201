@@ -11,7 +11,11 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
     $scope.maloaitk
 
     $scope.GetTypeuser= function () {
-        $http.get(current_url+'/api-admin/LoaiTaiKhoan/get_all_loaitaikhoan')
+        $http({
+            method: 'GET',
+            url:current_url+'/api-admin/LoaiTaiKhoan/get_all_loaitaikhoan',
+            headers: {'Content-Type': 'application/json',"Authorization": 'Bearer ' + _user.token }
+        })
         .then(function (response) {  
             $scope.listTypeAcount = response.data
         }).catch(function (error) {

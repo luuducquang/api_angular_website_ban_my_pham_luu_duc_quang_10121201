@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace API_MYPHAM.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "8")]
     [Route("api/[controller]")]
     [ApiController]
     public class TaiKhoanController : ControllerBase

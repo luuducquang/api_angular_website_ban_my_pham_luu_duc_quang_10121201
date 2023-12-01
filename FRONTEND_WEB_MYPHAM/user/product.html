@@ -62,7 +62,7 @@
                     <tr>
                         <td>
                             <div class="status">
-                                Tình trạng : <span ng-style="{'color': ProductByid.soLuong === 0 ? '#FF3300' : '#33CC00'}">{{ProductByid.soLuong===0?'Hết hàng': 'Còn hàng'}}</span>
+                                Tình trạng : <span ng-style="{'color': ProductByid.soLuong < 5 ? '#FF3300' : '#33CC00'}">{{ProductByid.soLuong < 5?'Hết hàng': 'Còn hàng'}}</span>
                             </div>
                         </td>
                     </tr>

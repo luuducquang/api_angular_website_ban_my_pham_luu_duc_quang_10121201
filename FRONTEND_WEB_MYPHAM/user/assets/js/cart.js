@@ -206,8 +206,13 @@ function input(index){
                 inputValue = 1
                 inp.value = inputValue
             }
+            listProductBuy.map(function(value){
+                if(value.id === listProduct[index].id){
+                    value.amount = inputValue
+                }
+                return
+            })
             listProduct[index].amount = inputValue
-            listProductBuy[index].amount = inputValue
             localStorage.setItem("productList" , JSON.stringify(listProduct))
             localStorage.setItem("listProductBuy",JSON.stringify(listProductBuy))
             product()

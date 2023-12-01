@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_MYPHAM_ADMIN.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "1,8")]
     [Route("api/[controller]")]
     [ApiController]
     public class ImageController : ControllerBase

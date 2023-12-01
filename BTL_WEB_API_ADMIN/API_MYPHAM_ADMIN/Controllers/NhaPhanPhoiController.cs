@@ -8,7 +8,7 @@ using Model;
 
 namespace API_MYPHAM.Controllers
 {
-    [Authorize(Roles = "1")]
+    [Authorize(Roles = "1,8")]
     [Route("api/[controller]")]
     [ApiController]
     public class NhaPhanPhoiController : ControllerBase

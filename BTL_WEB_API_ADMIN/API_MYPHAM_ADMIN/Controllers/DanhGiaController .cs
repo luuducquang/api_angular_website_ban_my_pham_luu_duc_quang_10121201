@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace API_MYPHAM.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="1,8")]
     [Route("api/[controller]")]
     [ApiController]
     public class DanhGiaController : ControllerBase
@@ -20,7 +20,6 @@ namespace API_MYPHAM.Controllers
             _danhGiaBUS = danhGiaBUS;
         }
 
-        [AllowAnonymous]
         [Route("search-danhgia")]
         [HttpPost]
         public IActionResult Search([FromBody] Dictionary<string, object> formData)
