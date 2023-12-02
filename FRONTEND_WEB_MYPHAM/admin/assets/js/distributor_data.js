@@ -11,6 +11,8 @@ app.controller("DistributorCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[9]).addClass('active_option')
+
+    document.title = 'Nhà phân phối'
     
     $scope.submit = "Thêm mới";
 	$scope.listDistributor;	

@@ -8,5 +8,7 @@ function ShopAmount(){
 
 ShopAmount()
 
+document.title = 'Trang chủ'
+
 
 

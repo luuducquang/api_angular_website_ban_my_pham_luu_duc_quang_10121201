@@ -7,7 +7,7 @@ app.controller("newsDetailCtrl", function ($scope, $http) {
         $http.get(current_url+'/api-admin/TinTuc/getbyid-tintuc/'+$scope.id)
         .then(function (response) {  
             $scope.listNewDetail = response.data
-            console.log($scope.listNewDetail);
+            document.title= $scope.listNewDetail.tieuDe
         }).catch(function (error) {
             console.error('Lỗi :', error);
         });

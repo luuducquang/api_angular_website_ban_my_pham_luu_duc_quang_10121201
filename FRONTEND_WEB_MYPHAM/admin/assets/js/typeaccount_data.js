@@ -5,6 +5,8 @@ app.controller("TypeAccountCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[12]).addClass('active_option')
+
+    document.title = 'Loại tài khoản'
     
     $scope.submit = "Thêm mới";
     $scope.listTypeAcount

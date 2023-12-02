@@ -24,6 +24,7 @@ app.controller("RegistryCtrl", function ($scope, $http) {
         var warningRePass = document.querySelector(".warning-repass")
         var check = /^[a-zA-Z0-9]+[a-zA-Z0-9@_]+$/
 
+
         if(check_name.test(name)===false || name ===""){
             warning_name.style.display = "block"
             return

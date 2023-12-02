@@ -15,6 +15,8 @@ app.controller("billSellCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[2]).addClass('active_option')
+
+    document.title = 'Hoá đơn bán'
     
     $scope.listHoaDonBan
     $scope.listHoaDonBanDetail

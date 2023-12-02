@@ -13,6 +13,8 @@ app.controller("Order2Ctrl", function ($scope, $http) {
         window.location.href='#!/'
     }
 
+    document.title = 'Đặt hàng'
+
     $http({
         method: 'GET',
         headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },

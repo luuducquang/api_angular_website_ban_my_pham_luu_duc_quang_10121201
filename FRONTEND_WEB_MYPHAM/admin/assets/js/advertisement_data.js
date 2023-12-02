@@ -9,6 +9,8 @@ app.controller("AdvertisementCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[10]).addClass('active_option')
+
+    document.title = 'Quảng cáo'
     
     $scope.submit = "Thêm mới";
 	$scope.listADS;	

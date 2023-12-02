@@ -11,6 +11,9 @@ app.controller("NewsCtrl", function ($scope, $http) {
     }
     $(btnOption[4]).addClass('active_option')
 
+    document.title = 'Tin tức'
+
+
     var editorData
     ClassicEditor
         .create( document.querySelector( '#editor' ) )

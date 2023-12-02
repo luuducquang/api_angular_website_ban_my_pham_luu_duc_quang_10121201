@@ -16,6 +16,7 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         GiaMax:$scope.end
     }
 
+    document.title = $scope.tendanhmucsearch
     
     $('.optionNonProduct').hide()
 

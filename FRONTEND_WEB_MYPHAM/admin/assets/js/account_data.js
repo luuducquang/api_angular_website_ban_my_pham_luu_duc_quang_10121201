@@ -12,6 +12,7 @@ app.controller("AccountCtrl", function ($scope, $http) {
     }
     $(btnOption[13]).addClass('active_option')
 
+    document.title = 'Tài khoản'
 
 	$scope.listAccount;	
     $scope.pageSize=10

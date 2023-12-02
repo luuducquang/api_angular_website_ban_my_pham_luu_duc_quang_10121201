@@ -10,6 +10,9 @@ app.controller("CategoryCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[6]).addClass('active_option')
+
+    document.title = 'Danh mục'
+
     $scope.ListDanhMuc;
     $scope.pageSize = 10
     var datas = {

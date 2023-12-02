@@ -10,6 +10,8 @@ app.controller("ManufacturerCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[8]).addClass('active_option')
+
+    document.title = 'Hãng sản xuất'
     
     $scope.submit = "Thêm mới";
 	$scope.listManufacturer;	

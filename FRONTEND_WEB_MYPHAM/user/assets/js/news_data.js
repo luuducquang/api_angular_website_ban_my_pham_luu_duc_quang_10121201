@@ -6,6 +6,7 @@ app.controller ('news', ['$scope', '$routeParams', function($scope, $routeParams
 app.controller("NewsCtrl", function ($scope, $http) {
     $scope.pageSize=10
 
+    document.title = 'Tin tức'
     var datas = {
         page: $scope.page,
         pageSize: $scope.pageSize,
@@ -14,7 +15,7 @@ app.controller("NewsCtrl", function ($scope, $http) {
     $scope.GetListNews= function () {
         $http({
             method: 'POST',
-            headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
+            // headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
             data: datas,
             url: current_url + '/api-admin/TinTuc/search-tintuc',
         }).then(function (response) {  

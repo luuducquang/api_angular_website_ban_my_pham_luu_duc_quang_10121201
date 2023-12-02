@@ -10,6 +10,8 @@ app.controller("CategoryOfferCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[7]).addClass('active_option')
+
+    document.title = 'Danh mục ưu đãi'
     
     $scope.ListDanhMucUuDai;
 

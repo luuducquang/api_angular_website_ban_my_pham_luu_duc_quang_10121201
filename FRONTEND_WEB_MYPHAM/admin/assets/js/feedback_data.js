@@ -15,6 +15,9 @@ app.controller("feedbackCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[5]).addClass('active_option')
+
+    document.title = 'Đánh giá'
+
     var ngaybatdau = document.getElementById("startdate")
     var ngayketthuc = document.getElementById("enddate")
     

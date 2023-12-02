@@ -8,7 +8,6 @@ using Model;
 
 namespace API_MYPHAM.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TinTucController : ControllerBase
@@ -28,6 +27,7 @@ namespace API_MYPHAM.Controllers
             return _tinTucBUS.Getbyid(id);
         }
 
+        [Authorize]
         [Route("create-tintuc")]
         [HttpPost]
         public IActionResult Createtintuc([FromBody]TinTucsModel tintuc)
@@ -35,6 +35,7 @@ namespace API_MYPHAM.Controllers
             return Ok(_tinTucBUS.Create(tintuc));
         }
 
+        [Authorize]
         [Route("update-tintuc")]
         [HttpPut]
         public IActionResult UpdateTin([FromBody] TinTucsModel tintuc)

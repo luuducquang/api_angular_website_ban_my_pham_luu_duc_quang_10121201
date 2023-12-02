@@ -71,3 +71,5 @@ function checkinputpass(){
         warningRePass.style.display= 'block'
     }
 }
+
+document.title = 'Đăng ký tài khoản'

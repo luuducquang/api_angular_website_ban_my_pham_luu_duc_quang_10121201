@@ -17,6 +17,7 @@ app.controller("ProductCtrl", function ($scope, $http) {
     }
     $(btnOption[1]).addClass('active_option')
 
+    document.title = 'Thông tin sản phẩm'
 
     var editorData
     ClassicEditor

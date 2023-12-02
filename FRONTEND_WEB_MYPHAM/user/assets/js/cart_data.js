@@ -10,4 +10,5 @@ app.controller("CartCtrl", function ($scope, $http) {
     };   
 	$scope.GetProductRelate();
     
+    document.title = 'Giỏ hàng'
 })

@@ -9,12 +9,16 @@ app.controller("ProductCtrl", function ($scope, $http) {
     $http.get(current_url+'/api-user/SanPham/getbyid-sanpham/'+$scope.id)
     .then(function (response) {  
         $scope.ProductByid = response.data; 
+
+        document.title = $scope.ProductByid.tenSanPham
+
         $http({
             method: 'GET',
             // headers: { "Authorization": 'Bearer ' + _user.token },
             url: current_url + '/api-user/SanPham/getbyid-anhsanphamdetail/' + response.data.maSanPham,
         }).then(function(response){
             $scope.listImgDetail = response.data
+            
 
             // var menuInf = document.querySelector(".menu-inf")
             // window.addEventListener("scroll",function(){
@@ -374,8 +378,15 @@ app.controller("ProductCtrl", function ($scope, $http) {
         });
     });
 
+    // $scope.getStarsArray = function(num) {
+    //     return Array.from({ length: num }, (_, index) => index + 1);
+    // };
     $scope.getStarsArray = function(num) {
-        return Array.from({ length: num }, (_, index) => index + 1);
+        var starsArray = [];
+        for (var i = 1; i <= num; i++) {
+            starsArray.push(i);
+        }
+        return starsArray;
     };
     
     var listTextStar = ['Rất không hài lòng','Không hài lòng','Bình thường','Khá hài lòng/Hài lòng','Rất hài lòng']

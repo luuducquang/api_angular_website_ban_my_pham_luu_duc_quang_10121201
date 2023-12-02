@@ -16,6 +16,8 @@ app.controller("searchProductCtrl", function ($scope, $http) {
         GiaMax:$scope.end
     }
 
+    document.title = $scope.name
+
     $scope.$on('$destroy', function() {
         inputSearch.value = '';
     });

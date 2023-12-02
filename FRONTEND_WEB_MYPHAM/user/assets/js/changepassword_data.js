@@ -3,6 +3,8 @@ app.controller("ChangepasswordCtrl", function ($scope, $http) {
         window.location.href = './login.html'
     }
 
+    document.title = 'Đổi mật khẩu'
+
     $http({
         method: 'GET',
         headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },

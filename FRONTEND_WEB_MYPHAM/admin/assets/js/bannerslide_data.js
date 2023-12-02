@@ -9,6 +9,8 @@ app.controller("BannerSlideCtrl", function ($scope, $http) {
         $(classbtn).removeClass('active_option')
     }
     $(btnOption[11]).addClass('active_option')
+
+    document.title = 'Banner Slide'
     
     $scope.submit = "Thêm mới";
 	$scope.listSlide;	

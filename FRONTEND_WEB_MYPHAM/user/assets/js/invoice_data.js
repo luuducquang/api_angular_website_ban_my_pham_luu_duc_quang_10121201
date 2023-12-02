@@ -2,6 +2,8 @@ app.controller("InvoiceCtrl", function ($scope, $http) {
     if(!customerLocalStorage){
         window.location.href = './login.html'
     }
+
+    document.title = 'Đơn hàng của tôi'
       
     $(".nonBill").hide()
     $http({

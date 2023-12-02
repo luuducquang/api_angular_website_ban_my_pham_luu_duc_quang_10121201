@@ -15,6 +15,8 @@ app.controller("importBillCtrl", function ($scope, $http) {
     }
     $(btnOption[3]).addClass('active_option')
     
+    document.title = 'Hoá đơn nhập'
+
     $scope.pageSize=10
     $scope.listHoaDonNhap
     $scope.NPP

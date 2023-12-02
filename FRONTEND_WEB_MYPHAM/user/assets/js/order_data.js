@@ -1,4 +1,7 @@
 app.controller("OrderCtrl", function ($scope, $http) {
+
+    document.title = 'Đặt hàng'
+
     $scope.customer = customerLocalStorage
     $scope.productList = localStorage.getItem("listProductBuy") ? JSON.parse(localStorage.getItem("listProductBuy")) : []
 

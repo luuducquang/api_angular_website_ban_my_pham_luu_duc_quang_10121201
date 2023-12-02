@@ -6,6 +6,8 @@ app.controller("OverviewCtrl", function ($scope, $http) {
   }
   $(btnOption[0]).addClass('active_option')
 
+  document.title = 'Tổng quan'
+
   var date = new Date()
   $scope.year = date.getFullYear()
   $scope.month = date.getMonth()

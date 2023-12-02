@@ -101,6 +101,8 @@ app.controller("IndexCtrl", function ($scope, $http) {
     }
     $scope.GetDanhMuc();
 
+    document.title='Trang chủ'
+
     $('.imgUser').hide()
     $scope.customer = customerLocalStorage
     if(customerLocalStorage){

@@ -3,6 +3,8 @@ app.controller("InformationCtrl", function ($scope, $http) {
         window.location.href = './login.html'
     }
 
+    document.title = 'Thông tin cá nhân'
+
     $http({
         method: 'GET',
         headers: { "Authorization": 'Bearer ' + customerLocalStorage.token },
