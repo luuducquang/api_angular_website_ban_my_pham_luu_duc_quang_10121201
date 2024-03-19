@@ -1,57 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkinCare</title>
-    <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="stylesheet" href="./assets/font/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css">
-    <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
-    <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
-    <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular-route.js"></script>
-    <script src="./assets/font/angular-sanitize.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
-    <script src="./assets/font/pagination.js"></script>
-    <link rel="stylesheet" href="./assets/css/pagination.css">
-    <link rel="stylesheet" href="./assets/css/rating.css">
-    <link rel="stylesheet" href="./assets/css/news.css">
-</head>
-<body ng-app="Home" ng-controller="IndexCtrl">
-    
-    <div id="frame">
-        <!-- -------------------------------------------Header--------------------------------- -->
-        <div id="header">
-            <div class="ti-menu list"></div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SkinCare</title>
+        <link
+            rel="shortcut icon"
+            href="./assets/img/logo.jpg"
+            type="image/x-icon"
+        />
+        <link rel="stylesheet" href="./assets/css/main.css" />
+        <link
+            rel="stylesheet"
+            href="./assets/font/themify-icons/themify-icons.css"
+        />
+        <link
+            rel="stylesheet"
+            href="./assets/font/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.css"
+        />
+        <script src="./assets/font/ajax.googleapis.com_ajax_libs_jquery_3.6.4_jquery.min.js"></script>
+        <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
+        <script src="./assets/font/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular-route.js"></script>
+        <script src="./assets/font/angular-sanitize.js"></script>
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+        <script src="./assets/font/pagination.js"></script>
+        <link rel="stylesheet" href="./assets/css/pagination.css" />
+        <link rel="stylesheet" href="./assets/css/rating.css" />
+        <link rel="stylesheet" href="./assets/css/news.css" />
+    </head>
+    <body ng-app="Home" ng-controller="IndexCtrl">
+        <div id="frame">
+            <!-- -------------------------------------------Header--------------------------------- -->
+            <div id="header">
+                <div class="ti-menu list"></div>
 
-            <div class="banner">
-                <a href="#!/"><img src="./assets/img/logo1.png" alt=""></a>
-            </div>
+                <div class="banner">
+                    <a href="#!/"
+                        ><img src="./assets/img/logo1.png" alt=""
+                    /></a>
+                </div>
 
-            <!-- --------------Search------------------- -->
-            <div class="wrap">
-                <form ng-submit="searchProduct()" class="search" method="post" id="searchForm">
-                    <input type="text" ng-model="name" class="searchTerm" placeholder="Bạn muốn tìm gì?">
-                    <button type="submit" class="searchButton" id="searchButton">
-                        <div class="ti-search"></div>
-                    </button>
-                </form>
-                
-                
-                <span class="suggest">
-                    <a href="#!/searchProduct/1/Sữa rửa mặt">Sữa rửa mặt</a>
-                    <a href="#!/searchProduct/1/Serum">Serum</a>
-                    <a href="#!/searchProduct/1/Kem chống nắng">Kem chống nắng</a>
-                    <a href="#!/searchProduct/1/Tẩy trang">Tẩy trang</a>
-                    <a href="#!/searchProduct/1/Xịt khoáng">Xịt khoáng</a>
-                </span>
+                <!-- --------------Search------------------- -->
+                <div class="wrap">
+                    <form
+                        ng-submit="searchProduct()"
+                        class="search"
+                        method="post"
+                        id="searchForm"
+                    >
+                        <input
+                            type="text"
+                            ng-model="name"
+                            class="searchTerm"
+                            placeholder="Bạn muốn tìm gì?"
+                        />
+                        <button
+                            type="submit"
+                            class="searchButton"
+                            id="searchButton"
+                        >
+                            <div class="ti-search"></div>
+                        </button>
+                    </form>
 
-                <span class="home-search"> 
-                    <div class="content-search">
-                        <!-- <a href="">
+                    <span class="suggest">
+                        <a href="#!/searchProduct/1/Sữa rửa mặt">Sữa rửa mặt</a>
+                        <a href="#!/searchProduct/1/Serum">Serum</a>
+                        <a href="#!/searchProduct/1/Kem chống nắng"
+                            >Kem chống nắng</a
+                        >
+                        <a href="#!/searchProduct/1/Tẩy trang">Tẩy trang</a>
+                        <a href="#!/searchProduct/1/Xịt khoáng">Xịt khoáng</a>
+                    </span>
+
+                    <span class="home-search">
+                        <div class="content-search">
+                            <!-- <a href="">
                             <div class="products-search">
                                 <img src="./assets/img/Cleanser/cerave-renewing-sa-face-cleanser-for-normal-skin.png" alt="">
                                 <div class="info">
@@ -62,210 +91,278 @@
                                 </div>
                             </div>
                         </a> -->
-                    </div>
-              </span>
-             </div>
+                        </div>
+                    </span>
+                </div>
 
-             <!-- ---------------------Shop--------------- -->
-            <div class="shopping">
-                <a ng-href="{{customer ? '#!/cart' : './login.html'}}" class="fa-solid fa-cart-shopping shop">
-                    <!-- <span class="value-cart">0</span> -->
-                </a>
-                
-
-            </div>
-            <!-- <div style="display: flex;height: 100%;justify-content: center;align-items: center;">
+                <!-- ---------------------Shop--------------- -->
+                <div class="shopping">
+                    <a
+                        ng-href="{{customer ? '#!/cart' : './login.html'}}"
+                        class="fa-solid fa-cart-shopping shop"
+                    >
+                        <!-- <span class="value-cart">0</span> -->
+                    </a>
+                </div>
+                <!-- <div style="display: flex;height: 100%;justify-content: center;align-items: center;">
                 <i style="font-size: 25px;" class="fa-solid fa-bell"></i>
             </div> -->
 
-            <!------------------ Login, Registry ------------->
-            <div class="User">
-                <ul class="Login">
-                    <li style="display: flex;"><a href="./login.html">Đăng nhập</a></li>
-                </ul>
-                <ul class="Registry">
-                    <li style="display: flex;"><a href="./registry.html">Đăng ký</a></li>
-                </ul>
-                <div class="imgUser">
-                    <i title="Thông báo" class="fa-regular fa-bell"></i>
-                    <div>
-                        <img class="imgCustomer" title="{{customer.taikhoan}}" src="{{customer.anhdaidien}}" alt="">
-                        <ul class="OptionUser">
-                            <li><a href="#!/invoice">Đơn hàng của bạn</a></li>
-                            <li><a href="#!/information">Thông tin tài khoản</a></li>
-                            <li><a href="#!/changepassword">Đổi mật khẩu</a></li>
-                            <li><a onclick="logoutUser()" href="./login.html">Đăng xuất</a></li>
-                        </ul>
-                    </div>
-                    <div class="helloUser">
-                        <p>Xin chào,</p>
-                        <p>{{customer.hoten}}</p>
+                <!------------------ Login, Registry ------------->
+                <div class="User">
+                    <ul class="Login">
+                        <li style="display: flex">
+                            <a href="./login.html">Đăng nhập</a>
+                        </li>
+                    </ul>
+                    <ul class="Registry">
+                        <li style="display: flex">
+                            <a href="./registry.html">Đăng ký</a>
+                        </li>
+                    </ul>
+                    <div class="imgUser">
+                        <i title="Thông báo" class="fa-regular fa-bell"></i>
+                        <div>
+                            <img
+                                class="imgCustomer"
+                                title="{{customer.taikhoan}}"
+                                src="{{customer.anhdaidien}}"
+                                alt=""
+                            />
+                            <ul class="OptionUser">
+                                <li>
+                                    <a href="#!/invoice">Đơn hàng của bạn</a>
+                                </li>
+                                <li>
+                                    <a href="#!/information"
+                                        >Thông tin tài khoản</a
+                                    >
+                                </li>
+                                <li>
+                                    <a href="#!/changepassword">Đổi mật khẩu</a>
+                                </li>
+                                <li>
+                                    <a
+                                        onclick="logoutUser()"
+                                        href="./login.html"
+                                        >Đăng xuất</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="helloUser">
+                            <p>Xin chào,</p>
+                            <p>{{customer.hoten}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
                 <script>
-                    $(document).ready(function() {
-                    $(".OptionUser").hide();
-                    $(".imgCustomer").click(function(event) {
-                        $(".OptionUser").toggle();
-                        event.stopPropagation();
-                    });
-                    $(".OptionUser").click(function(event) {
+                    $(document).ready(function () {
                         $(".OptionUser").hide();
-                    });
-                    $(document).click(function(event) {
-                        if (!$(event.target).closest(".OptionUser").length) {
+                        $(".imgCustomer").click(function (event) {
+                            $(".OptionUser").toggle();
+                            event.stopPropagation();
+                        });
+                        $(".OptionUser").click(function (event) {
                             $(".OptionUser").hide();
-                        }
+                        });
+                        $(document).click(function (event) {
+                            if (
+                                !$(event.target).closest(".OptionUser").length
+                            ) {
+                                $(".OptionUser").hide();
+                            }
+                        });
                     });
-                });
                 </script>
+            </div>
 
-        </div>
-        
-        <div ng-view></div>
-        
+            <div ng-view></div>
 
-        <!-- ------------Footer------------ -->
+            <!-- ------------Footer------------ -->
 
-        <div id="footer">
-            <div class="footer-transport">
-                <div class="transport">
-                    <div class="policy">
-                        <div class="ti-truck truck"></div>
-                        <h3 class="policy-name">
-                            CHÍNH SÁCH HỖ TRỢ
-                        </h3>
-                        <div class="policy-content">
-                            Giảm 50% phí vận chuyển ngoại tỉnh
+            <div id="footer">
+                <div class="footer-transport">
+                    <div class="transport">
+                        <div class="policy">
+                            <div class="ti-truck truck"></div>
+                            <h3 class="policy-name">CHÍNH SÁCH HỖ TRỢ</h3>
+                            <div class="policy-content">
+                                Giảm 50% phí vận chuyển ngoại tỉnh
+                            </div>
                         </div>
-                    </div>
-    
-                    <div class="policy">
-                        <div class="ti-gift truck"></div>
-                        <h3 class="policy-name">
-                            GIÁ CẠNH TRANH
-                        </h3>
-                        <div class="policy-content">
-                            Cạnh tranh, chi phí phát sinh thấp
+
+                        <div class="policy">
+                            <div class="ti-gift truck"></div>
+                            <h3 class="policy-name">GIÁ CẠNH TRANH</h3>
+                            <div class="policy-content">
+                                Cạnh tranh, chi phí phát sinh thấp
+                            </div>
                         </div>
-                    </div>
-    
-                    
-                    <div class="policy">
-                        <div class="ti-home truck"></div>
-                        <h3 class="policy-name">
-                            MIỄN PHÍ KHẢO SÁT
-                        </h3>
-                        <div class="policy-content">
-                            Tư vấn khảo sát tại nhà không cần đặt cọc (Duy nhất)
+
+                        <div class="policy">
+                            <div class="ti-home truck"></div>
+                            <h3 class="policy-name">MIỄN PHÍ KHẢO SÁT</h3>
+                            <div class="policy-content">
+                                Tư vấn khảo sát tại nhà không cần đặt cọc (Duy
+                                nhất)
+                            </div>
                         </div>
-                    </div>
-    
-                    
-                    <div class="policy">
-                        <div class="ti-settings truck"></div>
-                        <h3 class="policy-name">
-                            BẢO HÀNH VƯỢT TRỘI
-                        </h3>
-                        <div class="policy-content">
-                            Hỗ trợ 1 năm bảo hành kèm gói bảo trì 6 tháng/1 lần
+
+                        <div class="policy">
+                            <div class="ti-settings truck"></div>
+                            <h3 class="policy-name">BẢO HÀNH VƯỢT TRỘI</h3>
+                            <div class="policy-content">
+                                Hỗ trợ 1 năm bảo hành kèm gói bảo trì 6 tháng/1
+                                lần
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="footer-suport">
-                <div class="suport">
-                    <table>
-                        <tr>
-                            <td class="title-footer">HỖ TRỢ KHÁCH HÀNG</td>
-                            <td class="title-footer">VỀ CHÚNG TÔI</td>
-                            <td class="title-footer">MẠNG XÃ HỘI</td>
-                            <td class="title-footer">FANPAGE</td>
-                        </tr>
+                <div class="footer-suport">
+                    <div class="suport">
+                        <table>
+                            <tr>
+                                <td class="title-footer">HỖ TRỢ KHÁCH HÀNG</td>
+                                <td class="title-footer">VỀ CHÚNG TÔI</td>
+                                <td class="title-footer">MẠNG XÃ HỘI</td>
+                                <td class="title-footer">FANPAGE</td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Hướng dẫn mua hàng</a></span>
-                            </td>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Sứ mệnh và tầm nhìn</a></span>
-                            </td>
-                            <td rowspan="2">
-                                <a href="https://www.facebook.com/luuducquang"><span class="fa-brands fa-square-facebook"></span></a>
-                                <a href="https://www.instagram.com/kuanq_ne/"><span class="fa-brands fa-instagram"></span></a>
-                            </td>
-                            <td class="img-fanpage" rowspan="5">
-                                <a target="_blank" href="https://www.facebook.com/luuducquang"><img  src="./assets/img/fapage.png" alt=""></a>
-                            </td>
-                            
-                            
-                        </tr>
+                            <tr>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href="">Hướng dẫn mua hàng</a></span
+                                    >
+                                </td>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href=""
+                                            >Sứ mệnh và tầm nhìn</a
+                                        ></span
+                                    >
+                                </td>
+                                <td rowspan="2">
+                                    <a
+                                        href="https://www.facebook.com/luuducquang"
+                                        ><span
+                                            class="fa-brands fa-square-facebook"
+                                        ></span
+                                    ></a>
+                                    <a
+                                        href="https://www.instagram.com/kuanq_ne/"
+                                        ><span
+                                            class="fa-brands fa-instagram"
+                                        ></span
+                                    ></a>
+                                </td>
+                                <td class="img-fanpage" rowspan="5">
+                                    <a
+                                        target="_blank"
+                                        href="https://www.facebook.com/luuducquang"
+                                        ><img
+                                            src="./assets/img/fapage.png"
+                                            alt=""
+                                    /></a>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Chính sách vận chuyển</a></span>
-                            </td>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Giới thiệu công ty</a></span>
-                            </td>
-                            
-                        </tr>
+                            <tr>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href=""
+                                            >Chính sách vận chuyển</a
+                                        ></span
+                                    >
+                                </td>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href="">Giới thiệu công ty</a></span
+                                    >
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Chính sách bảo hành</a></span>
-                            </td>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Blog</a></span>
-                            </td>
-                            
-                            <td class="title-footer">    
-                                THANH TOÁN
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href=""
+                                            >Chính sách bảo hành</a
+                                        ></span
+                                    >
+                                </td>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span><a href="">Blog</a></span>
+                                </td>
 
-                        <tr>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Chính sách bảo mật thông tin</a></span>
-                            </td>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Liên hệ</a></span>
-                            </td>
-                            <td rowspan="2">
-                                <span class="fa-brands fa-cc-visa"></span>
-                                <span class="fa-brands fa-cc-paypal"></span>
-                                <span class="fa-regular fa-credit-card"></span>
-                                <span class="fa-brands fa-cc-mastercard"></span>
-                            </td>
-                        </tr>
+                                <td class="title-footer">THANH TOÁN</td>
+                            </tr>
 
-                        <tr>
-                            <td>
-                                <span class="fa-sharp fa-solid fa-play"></span>
-                                <span><a href="">Chính sách đổi trả</a></span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                            <tr>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href=""
+                                            >Chính sách bảo mật thông tin</a
+                                        ></span
+                                    >
+                                </td>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span><a href="">Liên hệ</a></span>
+                                </td>
+                                <td rowspan="2">
+                                    <span class="fa-brands fa-cc-visa"></span>
+                                    <span class="fa-brands fa-cc-paypal"></span>
+                                    <span
+                                        class="fa-regular fa-credit-card"
+                                    ></span>
+                                    <span
+                                        class="fa-brands fa-cc-mastercard"
+                                    ></span>
+                                </td>
+                            </tr>
 
-            <div class="footer">
-                <div class="footer-contact">
-
-                    <div class="copyright">
-                        Copyright © SkinCare
+                            <tr>
+                                <td>
+                                    <span
+                                        class="fa-sharp fa-solid fa-play"
+                                    ></span>
+                                    <span
+                                        ><a href="">Chính sách đổi trả</a></span
+                                    >
+                                </td>
+                            </tr>
+                        </table>
                     </div>
-                    <!-- <div class="socials-list">
+                </div>
+
+                <div class="footer">
+                    <div class="footer-contact">
+                        <div class="copyright">Copyright © SkinCare</div>
+                        <!-- <div class="socials-list">
                         <a href=""><i class="ti-facebook social-color"></i></a>
                         <a href=""><i class="ti-instagram social-color"></i></a>
                         <a href=""><i class="ti-youtube social-color"></i></a>
@@ -273,57 +370,60 @@
                         <a href=""><i class="ti-twitter social-color"></i></a>
                         <a href=""><i class="ti-linkedin social-color"></i></a>
                     </div> -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <!-- --------------GO TO TOP------------------ -->
-    <div class="go-to-top">
-        <i class="fa-solid fa-circle-up"></i>
-    </div>
 
-    <!-- ------------Menu--------------- -->
-    <div id="menu">
-        <div onclick="hide()" class="menu-left">
-            <ul class="menu-list">
-                <li><a href="#!/">Trang chủ</a></li>
-            </ul>
-            <ul class="menu-list">
-                <li><a href="#!/news/1">Tin Tức</a></li>
-            </ul>
-            <ul class="menu-list">
-                <li><a href="#">Danh mục</a>
-                    <ul class="menu-nav">
-                        <li ng-repeat="x in ListDanhMuc" ><a href="#!/category/1/{{x.tenDanhMuc}}">{{x.tenDanhMuc}}</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <!-- <ul class="menu-list">
+        <!-- --------------GO TO TOP------------------ -->
+        <div class="go-to-top">
+            <i class="fa-solid fa-circle-up"></i>
+        </div>
+
+        <!-- ------------Menu--------------- -->
+        <div id="menu">
+            <div onclick="hide()" class="menu-left">
+                <ul class="menu-list">
+                    <li><a href="#!/">Trang chủ</a></li>
+                </ul>
+                <ul class="menu-list">
+                    <li><a href="#!/news/1">Tin Tức</a></li>
+                </ul>
+                <ul class="menu-list">
+                    <li>
+                        <a href="#">Danh mục</a>
+                        <ul class="menu-nav">
+                            <li ng-repeat="x in ListDanhMuc">
+                                <a href="#!/category/1/{{x.tenDanhMuc}}"
+                                    >{{x.tenDanhMuc}}</a
+                                >
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- <ul class="menu-list">
                 <li><a href="#">Liên hệ</a></li>
             </ul> -->
+            </div>
+            <div class="ti-close close-menu"></div>
         </div>
-        <div class="ti-close close-menu"></div>
-    </div>
-
-
-</body>
-<script src="./assets/js/home.js"></script>
-<script src="./assets/js/menulist.js"></script>
-<script src="./assets/js/gototop.js"></script>
-<script src="./assets/js/search.js"></script>
-<script src="./assets/js/gobal.js"></script>
-<script src="./assets/js/index.js"></script>
-<script src="./assets/js/home_data.js"></script>
-<script src="./assets/js/product_data.js"></script>
-<script src="./assets/js/category_data.js"></script>
-<script src="./assets/js/order_data.js"></script>
-<script src="./assets/js/invoice_data.js"></script>
-<script src="./assets/js/information_data.js"></script>
-<script src="./assets/js/changepassword_data.js"></script>
-<script src="./assets/js/order_data2.js"></script>
-<script src="./assets/js/searchProduct_data.js"></script>
-<script src="./assets/js/cart_data.js"></script>
-<script src="./assets/js/news_data.js"></script>
-<script src="./assets/js/newsDetail.js"></script>
+    </body>
+    <script src="./assets/js/home.js"></script>
+    <script src="./assets/js/menulist.js"></script>
+    <script src="./assets/js/gototop.js"></script>
+    <script src="./assets/js/search.js"></script>
+    <script src="./assets/js/gobal.js"></script>
+    <script src="./assets/js/index.js"></script>
+    <script src="./assets/js/home_data.js"></script>
+    <script src="./assets/js/product_data.js"></script>
+    <script src="./assets/js/category_data.js"></script>
+    <script src="./assets/js/order_data.js"></script>
+    <script src="./assets/js/invoice_data.js"></script>
+    <script src="./assets/js/information_data.js"></script>
+    <script src="./assets/js/changepassword_data.js"></script>
+    <script src="./assets/js/order_data2.js"></script>
+    <script src="./assets/js/searchProduct_data.js"></script>
+    <script src="./assets/js/cart_data.js"></script>
+    <script src="./assets/js/news_data.js"></script>
+    <script src="./assets/js/newsDetail.js"></script>
 </html>
